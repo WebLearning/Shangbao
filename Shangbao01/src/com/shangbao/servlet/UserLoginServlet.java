@@ -12,7 +12,11 @@ import com.shangbao.control.Imp.LogInControlImp;
 //import com.uestc1010.user.main.UserService;
 
 
+
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,12 +46,13 @@ public class UserLoginServlet extends HttpServlet {
         context = new ClassPathXmlApplicationContext("applicationContext.xml");        
         LogInControl logIn = (LogInControl)context.getBean("logInControl");        
         responseString=logIn.logIn(UserName, Password).toString();
-//        System.out.println(responseString);
+//        System.out.println(responseString);  
         
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-        response.getWriter().write(responseString);
-        response.flushBuffer();
+        if(responseString=="true"){
+            request.getRequestDispatcher("/WEB-SRC/index.html").forward(request, response);
+        }else{
+            request.getRequestDispatcher("/WEB-SRC/fail.jsp").forward(request, response);
+        }           
 
     }
 

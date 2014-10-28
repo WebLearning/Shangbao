@@ -34,16 +34,14 @@
 
     <div class="container">
 
-      <form class="form-signin" role="form">
+      <form class="form-signin" action="/Shangbao01/login" method="post" role="form">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <input id="userName" type="text" class="form-control" placeholder="User name" required autofocus>
-        <input id="password" type="password" class="form-control" placeholder="Password" required>
-        <!-- <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="submitLogin()">Sign in</button> -->
+        <input name="userName" type="text" class="form-control" placeholder="User name" required autofocus>
+        <input name="password" type="password" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>                
       </form>
-      <div  style="margin-left:40%">
-      	<button class="btn btn-lg btn-success" data-toggle="modal" data-target="#myModalRegisterUser">Register</button>
-      	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
-      	<button class="btn btn-lg btn-primary" onclick="submitLogin()">Sign in</button>
+      <div  style="margin-left:37%;width:300px" >      	
+      	<button class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#myModalRegisterUser">Register</button>
       </div>
 
     </div> <!-- /container -->

@@ -24,9 +24,13 @@ function submitLogin(){
         if (xmlhttp.readyState==4 && xmlhttp.status==200)
         {
             var res = xmlhttp.responseText;
-//            console.log(res);
+            console.log(res);
             if(res=="true"){
-            	window.location.href="index.html";
+//            	window.location="xj.jsp";
+//            	window.navigate("xj.jsp");
+//            	window.location.replace("xj.jsp");
+//            	self.location='xj.jsp';
+//            	top.location='xj.jsp';
             }
             else{
             	alert("Wrong password OR No such user!");
