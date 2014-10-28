@@ -8,6 +8,7 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
+  
    <servlet>
         <servlet-name>UserLoginServlet</servlet-name>
         <servlet-class>com.shangbao.servlet.UserLoginServlet</servlet-class>
@@ -15,5 +16,14 @@
     <servlet-mapping>
         <servlet-name>UserLoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>UserRegisterServlet</servlet-name>
+        <servlet-class>com.shangbao.servlet.UserRegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserRegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
     </servlet-mapping>
 </web-app>

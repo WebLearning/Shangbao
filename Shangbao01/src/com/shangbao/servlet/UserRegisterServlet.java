@@ -1,7 +1,7 @@
 package com.shangbao.servlet;
 
-import com.shangbao.control.LogInControl;
-import com.shangbao.control.Imp.LogInControlImp;
+import com.shangbao.control.RejisterControl;
+import com.shangbao.control.Imp.RejisterControlImp;
 //import com.google.gson.JsonObject;
 //import com.google.gson.JsonArray;
 //import com.uestc1010.user.mongo.User;
@@ -10,6 +10,7 @@ import com.shangbao.control.Imp.LogInControlImp;
 //import com.uestc1010.user.session.SessionManagement;
 //import com.uestc1010.user.operate.UserDBManager;
 //import com.uestc1010.user.main.UserService;
+
 
 
 import javax.servlet.ServletException;
@@ -29,7 +30,7 @@ import java.io.IOException;
 /**
  * Created by QK on 2014/10/27.
  */
-public class UserLoginServlet extends HttpServlet {
+public class UserRegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
         String responseString="";
@@ -40,10 +41,10 @@ public class UserLoginServlet extends HttpServlet {
         
         ConfigurableApplicationContext context = null;  
         context = new ClassPathXmlApplicationContext("applicationContext.xml");        
-        LogInControl logIn = (LogInControl)context.getBean("logInControl");        
-        responseString=logIn.logIn(UserName, Password).toString();
+        RejisterControl rejist = (RejisterControl)context.getBean("rejisterControl");
+        responseString=rejist.rejister(UserName, Password).toString();
 //        System.out.println(responseString);
-        
+                
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         response.getWriter().write(responseString);

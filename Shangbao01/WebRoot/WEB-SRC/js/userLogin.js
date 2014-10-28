@@ -20,14 +20,17 @@ function submitLogin(){
     xmlhttp.send();
 
     xmlhttp.onreadystatechange=function()
-    {
-        console.log("enter here0");
-    
+    {  
         if (xmlhttp.readyState==4 && xmlhttp.status==200)
         {
             var res = xmlhttp.responseText;
-            alert(res);
-            console.log("enter here2");
+//            console.log(res);
+            if(res=="true"){
+            	window.location.href="index.html";
+            }
+            else{
+            	alert("Wrong password OR No such user!");
+            }
         }
     };
 }
