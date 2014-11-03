@@ -185,10 +185,10 @@ public class UserDaoImp implements UserDao {
             criteriaUser = new User();  
         }  
         Query query = new Query();  
-//        if (criteriaUser.getId() > 0) {  
-//            Criteria criteria = Criteria.where("id").is(criteriaUser.getId());  
-//            query.addCriteria(criteria);  
-//        }  
+        if (criteriaUser.getId() != null) {  
+            Criteria criteria = Criteria.where("id").is(criteriaUser.getId());  
+            query.addCriteria(criteria);  
+        }  
         if (criteriaUser.getName() != null) {  
             Criteria criteria = Criteria.where("name").is(criteriaUser.getName());  
             query.addCriteria(criteria);  

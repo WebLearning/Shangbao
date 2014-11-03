@@ -1,5 +1,7 @@
 package com.shangbao.model;
 
+import java.math.BigInteger;
+
 import javax.persistence.GeneratedValue;
 
 import org.springframework.data.annotation.Id;
@@ -7,15 +9,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "user")
 public class User {
-//	private int id;
+	@Id
+	private BigInteger id;
 	private String name;
 	private String passwd;
-//	public int getId() {
-//		return id;
-//	}
-//	public void setId(int id) {
-//		this.id = id;
-//	}
+	
+	public BigInteger getId() {
+		return id;
+	}
+	public void setId(BigInteger id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
