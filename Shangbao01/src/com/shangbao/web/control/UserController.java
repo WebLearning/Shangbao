@@ -38,23 +38,23 @@ public class UserController {
 	public String login(){
 		return "user/login";
 	}
-	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(String username, String password, Model model){
-		User user = new User();
-		System.out.println(username + "  " + password);
-		user.setName(username);
-		user.setPasswd(password);
-		List<User> ulist = userDao.find(user);
-		if(ulist.isEmpty()){
-			model.addAttribute("login", false);
-		}else{
-			for(User u : ulist){
-				System.out.println(u);
-			}
-			model.addAttribute("login", true);
-		}
-		return "user/login";
-	}
+//	
+//	@RequestMapping(value="/login", method=RequestMethod.POST)
+//	public String login(String username, String password, Model model){
+//		User user = new User();
+//		System.out.println(username + "  " + password);
+//		user.setName(username);
+//		user.setPasswd(password);
+//		List<User> ulist = userDao.find(user);
+//		if(ulist.isEmpty()){
+//			model.addAttribute("login", false);
+//		}else{
+//			for(User u : ulist){
+//				System.out.println(u);
+//			}
+//			model.addAttribute("login", true);
+//		}
+//		return "user/login";
+//	}
 
 }

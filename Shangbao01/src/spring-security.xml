@@ -5,8 +5,11 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<http auto-config='true'>
-		<intercept-url pattern="/**" access="ROLE_USER" />
+	<http auto-config='true' use-expressions="false">
+		<!-- <intercept-url pattern="/**" access="ROLE_USER" /> -->
+		<form-login login-processing-url="/static/j_spring_security_check"
+					login-page="/login.jsp"
+					authentication-failure-url="/login?login_error=t"/>
 	</http>
 
 	<authentication-manager>
