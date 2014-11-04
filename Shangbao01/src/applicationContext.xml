@@ -10,9 +10,9 @@
 	http://www.springframework.org/schema/data/mongo   
     http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
 
-	<bean id="dao" class="com.shangbao.dao.Imp.UserDaoImp">
+	<!-- <bean id="dao" class="com.shangbao.dao.Imp.UserDaoImp">
 		<property name="mongoTemplate" ref="mongoTemplate"></property>
-	</bean>
+	</bean> -->
 	
 	<mongo:mongo id="mongo"  host="127.0.0.1" port="27017"   />  
       
@@ -27,13 +27,13 @@
         <!-- <constructor-arg ref="userCredentials" /> -->
     </bean> 
     
-    <bean id="logInControl" class="com.shangbao.control.Imp.LogInControlImp">
+    <!-- <bean id="logInControl" class="com.shangbao.control.Imp.LogInControlImp">
     	<property name="userDao" ref="dao"></property>
     </bean>
     
     <bean id="rejisterControl" class="com.shangbao.control.Imp.RejisterControlImp">
     	<property name="userDao" ref="dao"></property>
-    </bean>
+    </bean> -->
     
 	<context:annotation-config/>
 	<context:component-scan base-package="com.shangbao"></context:component-scan>

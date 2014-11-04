@@ -22,6 +22,7 @@ public class UserTest {
         User user = new User();
         user.setName("tom4");
         user.setPasswd("tom21010");
+        user.setRole("ROLE_USER");
         
         //User u = userDao.findById(1);
         userDao.insert(user);

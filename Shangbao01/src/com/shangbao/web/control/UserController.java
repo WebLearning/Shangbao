@@ -2,6 +2,8 @@ package com.shangbao.web.control;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,13 +16,13 @@ import com.shangbao.model.User;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	@Resource
 	private UserDao userDao;
 	
 	public UserDao getUserDaoImp() {
 		return userDao;
 	}
 
-	@Autowired
 	public void setUserDaoImp(UserDao userDao) {
 		this.userDao = userDao;
 	}
