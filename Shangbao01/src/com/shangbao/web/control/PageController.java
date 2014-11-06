@@ -8,6 +8,6 @@ public class PageController {
 	
 	@RequestMapping(value="/")
 	public String MainPage(){
-		return"MyHome.jsp";
+		return"MyHome";
 	}
 }
