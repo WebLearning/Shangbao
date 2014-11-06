@@ -5,20 +5,19 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<http auto-config='true' use-expressions="false">
-		<!-- <intercept-url pattern="/**" access="ROLE_USER" /> -->
-		<form-login login-processing-url="/static/j_spring_security_check"
+	<!--<http auto-config='true'>
+		<intercept-url pattern="/**" access="ROLE_USER" />
+	</http> -->
+	
+	<http auto-config="true" use-expressions="false">
+		<intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/**" access="ROLE_USER" />
+		<form-login login-processing-url="/j_spring_security_check"
 					login-page="/login.jsp"
-					authentication-failure-url="/login?login_error=t"/>
+					authentication-failure-url="/login.jsp"/> 
 	</http>
 
 	<authentication-manager>
-		<authentication-provider user-service-ref="myUserDetailService"/>
-			<!-- <user-service>
-				<user name="jimi" password="123" authorities="ROLE_USER, ROLE_ADMIN" />
-				<user name="bob" password="bobspassword" authorities="ROLE_USER" />
-			</user-service>
-			
-		</authentication-provider> -->
+		<authentication-provider user-service-ref="myUserDetailService" />
 	</authentication-manager>
 </beans:beans>

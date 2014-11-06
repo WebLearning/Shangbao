@@ -2,19 +2,22 @@ package com.shangbao.dao.Imp;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import com.shangbao.dao.UserDao;
 import com.shangbao.model.User;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;  
 import org.springframework.data.mongodb.core.query.Query;  
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-
+@Component
 public class UserDaoImp implements UserDao {
 	
+	@Resource
 	private MongoTemplate mongoTemplate;
 	
 	public MongoTemplate getMongoTemplate() {
