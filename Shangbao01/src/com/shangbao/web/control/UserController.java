@@ -29,7 +29,6 @@ public class UserController {
 	
 	@RequestMapping(value="/users", method=RequestMethod.GET)
 	public String list(Model model){
-		System.out.println("---------------------tst----------------");
 		List<User> userList = userDao.findAll();
 		model.addAttribute("users", userList);
 		return "user/list";
