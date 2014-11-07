@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>                
       </form>
       <div  style="margin-left:37%;width:300px" >      	
-      	<button class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#myModalRegisterUser">Register</button>
+      	<button class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#myModalRegisterUser" disabled="disabled">Register</button>
       </div>
 
     </div> <!-- /container -->
