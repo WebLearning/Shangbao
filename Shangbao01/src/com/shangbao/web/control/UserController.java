@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.shangbao.dao.UserDao;
 import com.shangbao.model.User;
 
@@ -32,14 +32,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/users", method=RequestMethod.GET)
-	public void list(HttpServletResponse response){
+	@ResponseBody
+	public List<User> list(){
 		List<User> userList = userDao.findAll();
-		try {
-			response.getWriter().write(new Gson().toJson(userList.toArray()));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		return userList;
 	}
 	
 	

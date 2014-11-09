@@ -2,15 +2,24 @@ package com.shangbao.model;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Document(collection="article")
 public class Article {
+	@Id
+	private long id;
 	private String author;
-	private String context;
+	private String content;
 	private String title;
 	private Date time;
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -29,10 +38,10 @@ public class Article {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public String getContext() {
-		return context;
+	public String getContent() {
+		return content;
 	}
-	public void setContext(String context) {
-		this.context = context;
+	public void setContent(String content) {
+		this.content = content;
 	}
 }
