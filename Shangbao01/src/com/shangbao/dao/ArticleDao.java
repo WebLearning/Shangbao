@@ -62,7 +62,7 @@ public interface ArticleDao {
      * @param id 
      * @return 
      */  
-    Article findById(int id);  
+    Article findById(long id);  
       
     /** 
      * 查询全部 

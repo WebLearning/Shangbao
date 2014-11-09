@@ -12,12 +12,14 @@ public class ArticleDaoTest {
 	public static void main(String[] args) {
 		BeanFactory applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 		ArticleDao dao = (ArticleDao)applicationContext.getBean("articleDaoImp");
-		Article article = new Article();
-		article.setTitle("TestTile2");
-		article.setAuthor("yy");
-		article.setTime(new Date());
-		article.setContent("This is a test context2222");
-		dao.insert(article);
+//		Article article = new Article();
+//		article.setTitle("TestTile2");
+//		article.setAuthor("yy");
+//		article.setTime(new Date());
+//		article.setContent("This is a test context2222");
+//		dao.insert(article);
+		Article article = dao.findById(2);
+		System.out.println(article.getTitle());
 	}
 
 }

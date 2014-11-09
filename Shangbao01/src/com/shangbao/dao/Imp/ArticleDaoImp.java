@@ -84,9 +84,9 @@ public class ArticleDaoImp implements ArticleDao {
 	}
 
 	@Override
-	public Article findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Article findById(long id) {
+		Criteria criteria = Criteria.where("id").is(id);
+		return mongoTemplate.findOne(new Query().addCriteria(criteria), Article.class);
 	}
 
 	@Override
@@ -124,6 +124,10 @@ public class ArticleDaoImp implements ArticleDao {
         	criteriaArticle = new Article();  
         }  
         Query query = new Query();  
+        if(criteriaArticle.getId() > 0){
+        	Criteria criteria = Criteria.where("id").is(criteriaArticle.getId());
+        	query.addCriteria(criteria);
+        }
         if (criteriaArticle.getTitle() != null) {  
             Criteria criteria = Criteria.where("title").is(criteriaArticle.getTitle());  
             query.addCriteria(criteria);  
