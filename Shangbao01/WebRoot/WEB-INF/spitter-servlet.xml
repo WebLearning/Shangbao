@@ -27,7 +27,7 @@
 		/> -->
 
 	<!-- 使用xml配置，映射到Controller -->
-	<bean name="/welcome.html" class="com.shangbao.control.MvcControl"></bean>
+	
 
 	<!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
 	<bean
