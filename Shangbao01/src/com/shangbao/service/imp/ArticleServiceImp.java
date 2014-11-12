@@ -6,10 +6,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.dao.ArticleDao;
 import com.shangbao.model.Article;
+import com.shangbao.model.Page;
+import com.shangbao.model.TitleList;
 import com.shangbao.service.ArticleService;
 
 @Service
@@ -52,6 +55,29 @@ public class ArticleServiceImp implements ArticleService {
 			}
 		}
 		return titleMap;
+	}
+
+	@Override
+	public void update(Article article) {
+		
+	}
+
+	@Override
+	public Page<Article> getPage(int pageNo) {
+		Page<Article> page = articleDao.getPage(pageNo, 20, new Query());
+		return page;
+	}
+
+	@Override
+	public TitleList getTiltList(int pageNo) {
+		TitleList titleList = new TitleList();
+		Page<Article> page = articleDao.getPage(pageNo, 20, new Query());
+		titleList.setCurrentNo(pageNo);
+		titleList.setPageCount(page.getTotalPage());
+		for(Article article : page.getDatas()){
+			titleList.addTitle(article.getTitle(), article.getAuthor(), article.getTime(), article.getInroduction(), article.getId());
+		}
+		return titleList;
 	}
 
 }

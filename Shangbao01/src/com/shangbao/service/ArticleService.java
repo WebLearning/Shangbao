@@ -3,6 +3,8 @@ package com.shangbao.service;
 import java.util.Map;
 
 import com.shangbao.model.Article;
+import com.shangbao.model.Page;
+import com.shangbao.model.TitleList;
 
 public interface ArticleService {
 	/**
@@ -22,9 +24,28 @@ public interface ArticleService {
 	 * @param id
 	 */
 	public Article findOne(Long id);
+	
+	/**
+	 * 更新一篇文章
+	 * @param article
+	 */
+	public void update(Article article);
+	
 	/**
 	 * 删除一篇文章
 	 * @param id
 	 */
 	public void deleteOne(Article article);
+	
+	/**
+	 * 获得分页
+	 * @return
+	 */
+	public Page<Article> getPage(int pageNo);
+	
+	/**
+	 * 获得标题列表
+	 * @return
+	 */
+	public TitleList getTiltList(int pageNo);
 }

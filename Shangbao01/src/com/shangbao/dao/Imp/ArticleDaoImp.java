@@ -1,5 +1,6 @@
 package com.shangbao.dao.Imp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.shangbao.dao.ArticleDao;
 import com.shangbao.dao.SequenceDao;
 import com.shangbao.model.Article;
+import com.shangbao.model.Page;
 
 @Component
 public class ArticleDaoImp implements ArticleDao {
@@ -67,15 +69,14 @@ public class ArticleDaoImp implements ArticleDao {
 	}
 
 	@Override
-	public void updateById(Article article) {
+	public void updateById(long id) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void update(Article criteriaArticle, Article article) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -142,5 +143,16 @@ public class ArticleDaoImp implements ArticleDao {
         }  
         return query;  
     }
+
+	@Override
+	public Page<Article> getPage(int pageNo, int pageSize, Query query) {
+		long totalCount = mongoTemplate.count(query, Article.class);
+		Page<Article> page = new Page<Article>(pageNo, pageSize, totalCount);
+		query.skip(page.getFirstResult());// skip相当于从那条记录开始
+		query.limit(pageSize);
+		List<Article> datas = mongoTemplate.find(query, Article.class);
+		page.setDatas(datas);
+		return page;
+	}
 
 }

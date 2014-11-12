@@ -2,7 +2,10 @@ package com.shangbao.dao;
 
 import java.util.List;
 
+import org.springframework.data.mongodb.core.query.Query;
+
 import com.shangbao.model.Article;
+import com.shangbao.model.Page;
 
 public interface ArticleDao {
 	/** 
@@ -44,7 +47,7 @@ public interface ArticleDao {
      * <br>------------------------------<br> 
      * @param user 
      */  
-    void updateById(Article article);  
+    void updateById(long id);  
       
     /** 
      * 更新多条 
@@ -98,6 +101,9 @@ public interface ArticleDao {
      */  
     Article findAndRemove(Article criteriaArticle);  
       
+    
+    Page<Article> getPage(int pageNo, int pageSize, Query query);
+    
     /** 
      * count 
      * <br>------------------------------<br> 

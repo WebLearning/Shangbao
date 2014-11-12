@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.shangbao.dao.UserDao;
 import com.shangbao.model.User;
 import com.shangbao.service.UserService;
 

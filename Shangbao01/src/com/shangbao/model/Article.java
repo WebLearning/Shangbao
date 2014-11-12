@@ -11,9 +11,11 @@ public class Article {
 	@Id
 	private long id;
 	private String author;
+	private String inroduction;
 	private String content;
 	private String title;
 	private Date time;
+	private String[] picturesUrl;
 	public long getId() {
 		return id;
 	}
@@ -38,10 +40,22 @@ public class Article {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
+	public String getInroduction() {
+		return inroduction;
+	}
+	public void setInroduction(String inroduction) {
+		this.inroduction = inroduction;
+	}
 	public String getContent() {
 		return content;
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String[] getPicturesUrl() {
+		return picturesUrl;
+	}
+	public void setPicturesUrl(String[] picturesUrl) {
+		this.picturesUrl = picturesUrl;
 	}
 }
