@@ -35,7 +35,7 @@
     	<property name="userDao" ref="dao"></property>
     </bean> -->
 
-	<!-- <mvc:resources mapping="/WEB-SRC/**" location="/WEB-SRC/" />-->
+	<bean class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" id="passwordEncoder"/>
 
 	<context:annotation-config/>
 	<context:component-scan base-package="com.shangbao"></context:component-scan>
