@@ -5,7 +5,6 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
 @Document(collection="article")
 public class Article {
 	@Id
@@ -15,7 +14,9 @@ public class Article {
 	private String content;
 	private String title;
 	private Date time;
+	private String titlePicUrl;
 	private String[] picturesUrl;
+	private ArticleState state;
 	public long getId() {
 		return id;
 	}
@@ -33,6 +34,12 @@ public class Article {
 	}
 	public void setTime(Date time) {
 		this.time = time;
+	}
+	public String getTitlePicUrl() {
+		return titlePicUrl;
+	}
+	public void setTitlePicUrl(String titlePicUrl) {
+		this.titlePicUrl = titlePicUrl;
 	}
 	public String getAuthor() {
 		return author;
@@ -57,5 +64,11 @@ public class Article {
 	}
 	public void setPicturesUrl(String[] picturesUrl) {
 		this.picturesUrl = picturesUrl;
+	}
+	public ArticleState getState() {
+		return state;
+	}
+	public void setState(ArticleState state) {
+		this.state = state;
 	}
 }

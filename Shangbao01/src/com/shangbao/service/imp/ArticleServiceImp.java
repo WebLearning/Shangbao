@@ -75,9 +75,8 @@ public class ArticleServiceImp implements ArticleService {
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
 		for(Article article : page.getDatas()){
-			titleList.addTitle(article.getTitle(), article.getAuthor(), article.getTime(), article.getInroduction(), article.getId());
+			titleList.addTitle(article.getTitle(), article.getAuthor(), article.getTime(), article.getInroduction(), article.getTitlePicUrl(), article.getId());
 		}
 		return titleList;
 	}
-
 }

@@ -37,12 +37,14 @@ public class TitleList {
 						 String author,
 						 Date time,
 						 String introduction,
+						 String pictureUrl,
 						 long articleId){
 		Title title2 = new Title();
 		title2.setTitle(title);
 		title2.setAuthor(author);
 		title2.setTime(time);
 		title2.setIntroduction(introduction);
+		title2.setPictureUrl(pictureUrl);
 		title2.setArticleId(articleId);
 		this.titleList.add(title2);
 	}

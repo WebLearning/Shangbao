@@ -7,6 +7,7 @@ public class Title {
 	private String author;
 	private Date time;
 	private String introduction;
+	private String pictureUrl;
 	private long articleId;
 	
 	public String getTitle() {
@@ -32,6 +33,12 @@ public class Title {
 	}
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
+	}
+	public String getPictureUrl() {
+		return pictureUrl;
+	}
+	public void setPictureUrl(String pictureUrl) {
+		this.pictureUrl = pictureUrl;
 	}
 	public long getArticleId() {
 		return articleId;
