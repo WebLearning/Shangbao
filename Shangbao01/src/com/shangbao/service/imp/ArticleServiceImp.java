@@ -10,9 +10,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.dao.ArticleDao;
-import com.shangbao.model.Article;
-import com.shangbao.model.Page;
-import com.shangbao.model.TitleList;
+import com.shangbao.model.persistence.Article;
+import com.shangbao.model.show.Page;
+import com.shangbao.model.show.TitleList;
 import com.shangbao.service.ArticleService;
 
 @Service
@@ -75,7 +75,7 @@ public class ArticleServiceImp implements ArticleService {
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
 		for(Article article : page.getDatas()){
-			titleList.addTitle(article.getTitle(), article.getAuthor(), article.getTime(), article.getInroduction(), article.getTitlePicUrl(), article.getId());
+			titleList.addTitle(article);
 		}
 		return titleList;
 	}

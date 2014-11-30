@@ -1,4 +1,4 @@
-package com.shangbao.model;
+package com.shangbao.model.persistence;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

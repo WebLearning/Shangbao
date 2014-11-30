@@ -5,7 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.shangbao.dao.UserDao;
-import com.shangbao.model.User;
+import com.shangbao.model.persistence.User;
+import com.shangbao.model.show.Page;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;  
@@ -14,7 +15,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class UserDaoImp implements UserDao {
 	
 	@Resource
@@ -202,5 +203,16 @@ public class UserDaoImp implements UserDao {
         }  
         return query;  
     }
+
+	@Override
+	public User findById(long id) {
+		return mongoTemplate.findById(id, User.class);
+	}
+
+	@Override
+	public Page<User> getPage(int pageNo, int pageSize, Query query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -1,6 +1,8 @@
-package com.shangbao.model;
+package com.shangbao.model.show;
 
 import java.util.List;
+
+import com.shangbao.model.persistence.Article;
 
 public class Page<T> {
 	/*

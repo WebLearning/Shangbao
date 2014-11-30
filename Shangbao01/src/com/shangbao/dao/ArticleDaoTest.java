@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.shangbao.model.Article;
+import com.shangbao.model.persistence.Article;
 
 public class ArticleDaoTest {
 
@@ -16,7 +16,7 @@ public class ArticleDaoTest {
 		article.setTitle("TestTile7ohfjdhjdfhjopmfjdgoidfjpo");
 		article.setAuthor("small4kmgjbfidgjh09dfj0h-t0h-rhkidfgjihjdihji");
 		article.setTime(new Date());
-		article.setInroduction("this is a introduction4");
+		article.setSummary("this is a introduction4");
 		article.setContent("This is a test context22224");
 		dao.insert(article);
 //		Article article = dao.findById(2);

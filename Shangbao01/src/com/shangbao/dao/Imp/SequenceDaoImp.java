@@ -7,12 +7,12 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.shangbao.dao.SequenceDao;
-import com.shangbao.model.SequenceId;
+import com.shangbao.model.persistence.SequenceId;
 
-@Component
+@Repository
 public class SequenceDaoImp implements SequenceDao {
 	@Resource
 	private MongoTemplate mongoTemplate;

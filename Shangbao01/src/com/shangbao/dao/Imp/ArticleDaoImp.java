@@ -1,6 +1,5 @@
 package com.shangbao.dao.Imp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,14 +7,15 @@ import javax.annotation.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.shangbao.dao.ArticleDao;
 import com.shangbao.dao.SequenceDao;
-import com.shangbao.model.Article;
-import com.shangbao.model.Page;
+import com.shangbao.model.persistence.Article;
+import com.shangbao.model.persistence.Commend;
+import com.shangbao.model.show.Page;
 
-@Component
+@Repository
 public class ArticleDaoImp implements ArticleDao {
 
 	@Resource
@@ -52,11 +52,6 @@ public class ArticleDaoImp implements ArticleDao {
 		}
 	}
 
-	@Override
-	public void deleteById(String id) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void delete(Article criteriaArticle) {
@@ -69,12 +64,6 @@ public class ArticleDaoImp implements ArticleDao {
 	}
 
 	@Override
-	public void updateById(long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void update(Article criteriaArticle, Article article) {
 		
 	}
@@ -83,11 +72,10 @@ public class ArticleDaoImp implements ArticleDao {
 	public List<Article> find(Article article) {
 		return mongoTemplate.find(getQuery(article), Article.class);
 	}
-
+	
 	@Override
 	public Article findById(long id) {
-		Criteria criteria = Criteria.where("id").is(id);
-		return mongoTemplate.findOne(new Query().addCriteria(criteria), Article.class);
+		return mongoTemplate.findById(id, Article.class);
 	}
 
 	@Override
@@ -154,5 +142,4 @@ public class ArticleDaoImp implements ArticleDao {
 		page.setDatas(datas);
 		return page;
 	}
-
 }

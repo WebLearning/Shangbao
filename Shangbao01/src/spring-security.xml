@@ -24,4 +24,6 @@
 			<password-encoder ref="passwordEncoder"/>
 		</authentication-provider>
 	</authentication-manager>
+	
+	<global-method-security secured-annotations="enabled"/>
 </beans:beans>

@@ -2,9 +2,9 @@ package com.shangbao.service;
 
 import java.util.Map;
 
-import com.shangbao.model.Article;
-import com.shangbao.model.Page;
-import com.shangbao.model.TitleList;
+import com.shangbao.model.persistence.Article;
+import com.shangbao.model.show.Page;
+import com.shangbao.model.show.TitleList;
 
 public interface ArticleService {
 	/**

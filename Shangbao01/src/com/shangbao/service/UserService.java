@@ -2,7 +2,7 @@ package com.shangbao.service;
 
 import java.util.List;
 
-import com.shangbao.model.User;
+import com.shangbao.model.persistence.User;
 
 public interface UserService {
 	/**

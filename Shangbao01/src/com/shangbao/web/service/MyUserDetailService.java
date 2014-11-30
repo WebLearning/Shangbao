@@ -10,21 +10,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.dao.UserDao;
-import com.shangbao.model.User;
+import com.shangbao.model.persistence.User;
 
 
 @Service
 public class MyUserDetailService implements UserDetailsService {
 
 	@Resource
-	private UserDao userDao;
+	private UserDao userDaoImp;
 	
 	@Override
 	public UserDetails loadUserByUsername(String userName)
 			throws UsernameNotFoundException {
 		User user = new User();
 		user.setName(userName);
-		List<User>ulist = userDao.find(user);
+		List<User>ulist = userDaoImp.find(user);
 		if(ulist.size() == 1){
 			return (UserDetails) (ulist.toArray())[0];
 		}

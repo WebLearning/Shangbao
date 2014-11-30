@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.dao.UserDao;
-import com.shangbao.model.User;
+import com.shangbao.model.persistence.User;
 import com.shangbao.service.UserService;
 
 @Service
