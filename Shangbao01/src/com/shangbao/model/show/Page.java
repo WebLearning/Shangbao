@@ -38,7 +38,7 @@ public class Page<T> {
 	/*
 	 * 数据集合
 	 */
-	private List<Article> datas;
+	private List<T> datas;
 	
 	/*
 	 * 分页的URL
@@ -121,11 +121,11 @@ public class Page<T> {
 		this.totalCount = totalCount2;
 	}
 
-	public List<Article> getDatas() {
+	public List<T> getDatas() {
 		return datas;
 	}
 
-	public void setDatas(List<Article> datas) {
+	public void setDatas(List<T> datas) {
 		this.datas = datas;
 	}
 

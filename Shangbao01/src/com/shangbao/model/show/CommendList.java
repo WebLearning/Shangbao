@@ -3,7 +3,6 @@ package com.shangbao.model.show;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.shangbao.model.persistence.Commend;
 
 /**
  * 一篇文章的评论页面类

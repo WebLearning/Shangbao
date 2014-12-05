@@ -7,12 +7,13 @@ import javax.annotation.Resource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.shangbao.dao.ArticleDao;
 import com.shangbao.dao.SequenceDao;
+import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
-import com.shangbao.model.persistence.Commend;
 import com.shangbao.model.show.Page;
 
 @Repository
@@ -64,8 +65,12 @@ public class ArticleDaoImp implements ArticleDao {
 	}
 
 	@Override
+	public void update(Article article){
+		mongoTemplate.save(article);
+	}
+	
+	@Override
 	public void update(Article criteriaArticle, Article article) {
-		
 	}
 
 	@Override
@@ -141,5 +146,13 @@ public class ArticleDaoImp implements ArticleDao {
 		List<Article> datas = mongoTemplate.find(query, Article.class);
 		page.setDatas(datas);
 		return page;
+	}
+
+	@Override
+	public void setState(ArticleState state, Article criteriaArticle) {
+		Query query = getQuery(criteriaArticle);
+		Update update = new Update();
+		update.set("state", state);
+		mongoTemplate.updateFirst(query, update, Article.class);
 	}
 }

@@ -6,10 +6,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.dao.ArticleDao;
+import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.Page;
 import com.shangbao.model.show.TitleList;
@@ -59,7 +62,7 @@ public class ArticleServiceImp implements ArticleService {
 
 	@Override
 	public void update(Article article) {
-		
+		articleDao.update(article);
 	}
 
 	@Override
@@ -69,14 +72,88 @@ public class ArticleServiceImp implements ArticleService {
 	}
 
 	@Override
-	public TitleList getTiltList(int pageNo) {
+	public TitleList getTiltList(ArticleState articleState, int pageNo) {
 		TitleList titleList = new TitleList();
-		Page<Article> page = articleDao.getPage(pageNo, 20, new Query());
+		Query query = new Query();
+		query.addCriteria(new Criteria().where("state").is(articleState));
+		Page<Article> page = articleDao.getPage(pageNo, 20, query);
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
 		for(Article article : page.getDatas()){
 			titleList.addTitle(article);
 		}
 		return titleList;
+	}
+
+	@Override
+	public TitleList getOrderedList(ArticleState articleState, int pageNo,
+			String order) {
+		TitleList titleList = new TitleList();
+		Query query = new Query();
+		query.addCriteria(new Criteria().where("state").is(articleState));
+		query.with(new Sort(order));
+		Page<Article> page = articleDao.getPage(pageNo, 20, query);
+		titleList.setCurrentNo(pageNo);
+		titleList.setPageCount(page.getTotalPage());
+		for(Article article : page.getDatas()){
+			titleList.addTitle(article);
+		}
+		return titleList;
+	}
+
+	@Override
+	public void setPutState(ArticleState articleState, List<Long> idList) {
+		ArticleState targetState = articleState;
+		switch (articleState) {
+		case Temp:
+			targetState = ArticleState.Pending;
+			break;
+		case Pending:
+			targetState = ArticleState.Published;
+			break;
+		case Revocation:
+			targetState = ArticleState.Temp;
+			break;
+		case Crawler:
+			targetState = ArticleState.Temp;
+			break;
+		default:
+			break;
+		}
+		for(Long id : idList){
+			Article criteriaArticle = new Article();
+			criteriaArticle.setId(id);
+			articleDao.setState(targetState, criteriaArticle);
+		}
+	}
+	
+	@Override
+	public void setDeleteState(ArticleState articleState, List<Long> idList){
+		ArticleState targetState = articleState;
+		switch (articleState) {
+		case Crawler:
+			targetState = ArticleState.Deleted;
+			break;
+		case Temp:
+			targetState = ArticleState.Revocation;
+			break;
+		case Pending:
+			targetState = ArticleState.Revocation;
+			break;
+		case Published:
+			targetState = ArticleState.Revocation;
+			break;
+		case Revocation:
+			targetState = ArticleState.Deleted;	
+			break;
+
+		default:
+			break;
+		}
+		for(Long id : idList){
+			Article criteriaArticle = new Article();
+			criteriaArticle.setId(id);
+			articleDao.setState(targetState, criteriaArticle);
+		}
 	}
 }
