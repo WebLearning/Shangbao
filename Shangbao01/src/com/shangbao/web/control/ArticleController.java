@@ -137,7 +137,7 @@ public class ArticleController {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
 		for (String idString : idsString) {
-			idList.add(Long.valueOf(idString));
+			idList.add(Long.parseLong(idString));
 		}
 		articleService.setPutState(articleState, idList);
 		return articleService.getTiltList(articleState, pageNo);
@@ -153,7 +153,7 @@ public class ArticleController {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
 		for (String idString : idsString) {
-			idList.add(Long.valueOf(idString));
+			idList.add(Long.parseLong(idString));
 		}
 		articleService.setPutState(articleState, idList);
 		return articleService.getOrderedList(articleState, pageNo, order);
@@ -168,7 +168,7 @@ public class ArticleController {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
 		for (String idString : idsString) {
-			idList.add(Long.valueOf(idString));
+			idList.add(Long.parseLong(idString));
 		}
 		articleService.setDeleteState(articleState, idList);
 		return articleService.getTiltList(articleState, pageNo);
@@ -184,7 +184,7 @@ public class ArticleController {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
 		for (String idString : idsString) {
-			idList.add(Long.valueOf(idString));
+			idList.add(Long.parseLong(idString));
 		}
 		articleService.setDeleteState(articleState, idList);
 		return articleService.getOrderedList(articleState, pageNo, order);

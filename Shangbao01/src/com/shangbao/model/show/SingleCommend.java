@@ -10,6 +10,7 @@ import com.shangbao.model.CommendState;
  *
  */
 public class SingleCommend {
+	private String commendId;
 	private String userName;//评论者名字
 	private long userId;//评论者ID
 	private Date timeDate;//评论时间
@@ -19,6 +20,12 @@ public class SingleCommend {
 	private String content;//评论内容
 	private String reply;//回复
 	
+	public String getCommendId() {
+		return commendId;
+	}
+	public void setCommendId(String commendId) {
+		this.commendId = commendId;
+	}
 	public String getUserName() {
 		return userName;
 	}

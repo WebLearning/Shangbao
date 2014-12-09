@@ -76,13 +76,4 @@ public interface MongoDao<T> {
 	 * @return
 	 */
 	long count(T criteriaElement);
-	/**
-	 * 获取分页信息
-	 * @param pageNo
-	 * @param pageSize
-	 * @param query
-	 * @return
-	 */
-	Page<T> getPage(int pageNo, int pageSize, Query query);
-	
 }
