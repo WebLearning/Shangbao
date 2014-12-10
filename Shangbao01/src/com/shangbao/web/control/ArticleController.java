@@ -2,6 +2,7 @@ package com.shangbao.web.control;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -198,9 +199,10 @@ public class ArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public String uploadPicture(@RequestParam("file") MultipartFile file) {
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
 		if (!file.isEmpty()) {
 			byte[] bytes;
-			String fileName = new Date().toString() + file.getSize();
+			String fileName = sdf.format(new Date()) + file.getSize();
 			try {
 				bytes = file.getBytes();
 				FileOutputStream fos = new FileOutputStream("/WEB-SRC/IMG/"
