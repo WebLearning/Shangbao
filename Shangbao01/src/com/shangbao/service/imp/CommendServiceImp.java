@@ -1,5 +1,6 @@
 package com.shangbao.service.imp;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,7 +9,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.taglibs.standard.tag.el.sql.QueryTag;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -77,7 +77,7 @@ public class CommendServiceImp implements CommendService {
 	@Override
 	public void add(Commend commend, SingleCommend singleCommend) {
 		Update updateElement = new Update();
-		singleCommend.setCommendId(new Date().toString());
+		singleCommend.setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()));
 		updateElement.push("commendList", singleCommend);
 		commendDaoImp.update(commend, updateElement);
 	}

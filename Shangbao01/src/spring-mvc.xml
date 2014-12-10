@@ -32,9 +32,14 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
 
-	<bean id="multipartResolver"
+	<!-- <bean id="multipartResolver"
 		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
-	</bean>
+	</bean>-->
+	
+	<bean id="multipartResolver"    
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">    
+        <!-- one of the properties available; the maximum file size in bytes -->        
+    </bean>
 	<!-- 处理对静态资源的请求 -->
 	<mvc:resources mapping="/WEB-SRC/**" location="/WEB-SRC/" />
 	<!-- 若是有上面这个配置，必须要配置Annotation-driven -->

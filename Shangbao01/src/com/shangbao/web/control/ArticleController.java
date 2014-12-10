@@ -1,5 +1,6 @@
 package com.shangbao.web.control;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -198,23 +199,29 @@ public class ArticleController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public String uploadPicture(@RequestParam("file") MultipartFile file) {
+	public String uploadPicture(@RequestParam(value = "file", required = true) MultipartFile file) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
+		System.out.println("uplaod done!");
 		if (!file.isEmpty()) {
 			byte[] bytes;
 			String fileName = sdf.format(new Date()) + file.getSize();
 			try {
 				bytes = file.getBytes();
-				FileOutputStream fos = new FileOutputStream("/WEB-SRC/IMG/"
-						+ fileName); // 上传到写死的上传路径
+				FileOutputStream fos = new FileOutputStream("../webapps/Shangbao01/WEB-SRC/picture/"
+						+ fileName + file.getOriginalFilename()); // 上传到写死的上传路径
 				fos.write(bytes); // 写入文件
 				fos.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return "/WEB-SRC/IMG/" + fileName;
+			return "/WEB-SRC/picture/" + fileName + file.getOriginalFilename();
 		}
 		return null;
+	}
+	
+	@RequestMapping(value ="/upload", method = RequestMethod.GET)
+	public String uploadPage(){
+		return "upload";
 	}
 }
