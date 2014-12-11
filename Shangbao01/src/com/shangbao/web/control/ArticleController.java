@@ -201,7 +201,7 @@ public class ArticleController {
 	@ResponseBody
 	public String uploadPicture(@RequestParam(value = "file", required = true) MultipartFile file) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
-		System.out.println("uplaod done!");
+		System.out.println("upload done!");
 		if (!file.isEmpty()) {
 			byte[] bytes;
 			String fileName = sdf.format(new Date()) + file.getSize();
