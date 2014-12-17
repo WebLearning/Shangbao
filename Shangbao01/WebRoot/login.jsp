@@ -8,11 +8,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head> 
     <title>Log In</title>
-	<link href="/Shangbao01/WEB-SRC/css/bootstrap.css" rel="stylesheet">
-    <link href="/Shangbao01/WEB-SRC/css/signin.css" rel="stylesheet">   
+	<link href="/Shangbao01/WEB-SRC/src/css/bootstrap.css" rel="stylesheet">
+    <link href="/Shangbao01/WEB-SRC/src/css/signin.css" rel="stylesheet">
            
-    <script src="/Shangbao01/WEB-SRC/js/jquery-1.11.0.js"></script>                 
-    <script src="/Shangbao01/WEB-SRC/js/bootstrap.min.js"></script>
+    <script src="/Shangbao01/WEB-SRC/src/js/jquery-1.11.0.js"></script>
+    <script src="/Shangbao01/WEB-SRC/src/js/bootstrap.js"></script>
   </head>
   
   <body>

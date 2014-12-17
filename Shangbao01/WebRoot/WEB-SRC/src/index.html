@@ -190,6 +190,11 @@
 		
 		<div class="row tab-content" ng-controller="tabContentCtrl">
 			<div role="tabpanel" class="tab-pane active" id="generalView" ng-controller="generalViewCtrl">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <button type="button" class="btn btn-success" ng-click="testData()">test</button>
+                    </div>
+                </div>
 				<div class="row">
 					<div class="col-lg-4" ng-repeat="section in generalViewSections">
 						<div class="widget">
@@ -805,7 +810,21 @@
                 </div>
 
 			</div>
-			<div role="tabpanel" class="tab-pane" id="settings">settings</div>
+			<div role="tabpanel" class="tab-pane" id="settings">
+                <embed src="video/abc.mp4" width="320" height="240" />
+                <video width="320" height="240" controls="controls">
+                    <source src="http://localhost:8080/Shangbao01/WEB-SRC/src/video/abc.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <video width="320" height="240" controls="controls">
+                    <source src="http://www.w3school.com.cn/i/movie.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <video width="320" height="240" controls="controls">
+                    <source src="http://localhost:8080/Shangbao01/WEB-SRC/src/video/bang.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
 		</div>
 
 		<!-- End Main Content -->

@@ -9,15 +9,15 @@
 
 <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
 
-<script src="/Shangbao01/WEB-SRC/js/angular.js"></script>
-<script src="/Shangbao01/WEB-SRC/js/controller.js"></script>
+<script src="/Shangbao01/WEB-SRC/src/js/angular.js"></script>
+<script src="/Shangbao01/WEB-SRC/src/js/loginSuccess-ctrl.js"></script>
 
 </head>
 
 <body>
 	<div ng-controller="usersCtrl">
 		<div>
-		This is my HOME page. <a
+		Login success! <a
 			href="http://localhost:8080/Shangbao01/login.jsp">login</a> <a
 			href="" ng-click="showAllUsers()">show all users</a>
 		</div>
