@@ -8,10 +8,12 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Repository;
 
 import com.shangbao.dao.ChannelDao;
 import com.shangbao.model.persistence.Channel;
 
+@Repository
 public class ChannelDaoImp implements ChannelDao{
 
 	@Resource
