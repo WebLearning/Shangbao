@@ -29,7 +29,7 @@ public class ArticleDaoTest {
 		article.setAuthor("yangyi");
 		article.setContent("MapTest");
 		article.setTitle("Test title");
-		article.setChannelMap(channelMap);
+		//article.setChannelMap(channelMap);
 		article.setFrom("Sina");
 		article.setTime(new Date());
 		article.setState(ArticleState.Crawler);

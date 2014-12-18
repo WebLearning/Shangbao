@@ -1,6 +1,5 @@
 package com.shangbao.web.control;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -67,10 +66,10 @@ public class ArticleController {
 	 */
 	@RequestMapping(value = "/{articleState}/{pageId}", method = RequestMethod.GET)
 	@ResponseBody
-	public TitleList pageTest(@PathVariable ArticleState articleState,
+	public void pageTest(@PathVariable ArticleState articleState,
 			@PathVariable int pageId) {
 		TitleList titleList = articleService.getTiltList(articleState, pageId);
-		return titleList;
+		//return titleList;
 	}
 
 	/**
@@ -105,9 +104,8 @@ public class ArticleController {
 
 	/**
 	 * 修改一篇文章
-	 * 
+	 * 只有暂存，已发布，撤销的文章能够修改
 	 * @param state
-	 *            只有暂存，已发布，撤销的文章能够修改
 	 * @param id
 	 * @param article
 	 */

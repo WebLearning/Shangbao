@@ -1,5 +1,6 @@
 package com.shangbao.model.persistence;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,15 +14,19 @@ import com.shangbao.model.ArticleState;
 public class Article {
 	@Id
 	private long id;
+	private boolean tag = false;//是否属于图片新闻
 	private String author;//作者
 	private String summary;//摘要
 	private String content;//内容
 	private String title;//标题
+	private String subTitle;//副标题
+	private List<String> keyWord = new ArrayList<String>();//关键字
 	private Date time;//时间
 	private String titlePicUrl;//标题图片url
-	private List<String> picturesUrl;//图片url
+	private List<String> picturesUrl = new ArrayList<String>();//图片url
 	private ArticleState state;//状态
-	private Map<String, Integer> channelMap;//所属栏目
+	private List<String> channel = new ArrayList<String>();//所属栏目
+	private String activity; //所属活动
 	private String level;//等级
 	private int words;//字数
 	private int newsCommends;//商报评论数
@@ -29,13 +34,21 @@ public class Article {
 	private int crawlerCommends;//爬虫评论数
 	private int crawlerCommendsPublish;//爬虫评论发表数
 	private int clicks;//点击数
+	private int likes;//点赞数
 	private String from;//来源
+	
 	
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
+	}
+	public boolean isTag() {
+		return tag;
+	}
+	public void setTag(boolean tag) {
+		this.tag = tag;
 	}
 	public String getAuthor() {
 		return author;
@@ -61,6 +74,18 @@ public class Article {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	public String getSubTitle() {
+		return subTitle;
+	}
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
+	}
+	public List<String> getKeyWord() {
+		return keyWord;
+	}
+	public void setKeyWord(List<String> keyWord) {
+		this.keyWord = keyWord;
+	}
 	public Date getTime() {
 		return time;
 	}
@@ -85,11 +110,17 @@ public class Article {
 	public void setState(ArticleState state) {
 		this.state = state;
 	}
-	public Map<String, Integer> getChannelMap() {
-		return channelMap;
+	public List<String> getChannel() {
+		return channel;
 	}
-	public void setChannelMap(Map<String, Integer> channelMap) {
-		this.channelMap = channelMap;
+	public void setChannel(List<String> channel) {
+		this.channel = channel;
+	}
+	public String getActivity() {
+		return activity;
+	}
+	public void setActivity(String activity) {
+		this.activity = activity;
 	}
 	public String getLevel() {
 		return level;
@@ -139,23 +170,61 @@ public class Article {
 	public void setFrom(String from) {
 		this.from = from;
 	}
+	public int getLikes() {
+		return likes;
+	}
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
 	
+	/**
+	 * 添加关键字
+	 * @param keyWord
+	 */
+	public void addKeyWord(String keyWord){
+		if(!this.keyWord.contains(keyWord))
+			this.keyWord.add(keyWord);
+	}
+	/**
+	 * 删除关键字
+	 * @param keyWord
+	 */
+	public void deleteKeyWord(String keyWord){
+		if(this.keyWord.contains(keyWord))
+			this.keyWord.remove(keyWord);
+	}
 	
+	/**
+	 * 添加图片
+	 * @param url
+	 */
 	public void addPicture(String url){
 		this.picturesUrl.add(url);
 	}
+	/**
+	 * 删除图片
+	 * @param url
+	 */
 	public void deletePicture(String url){
 		if(this.picturesUrl.contains(url)){
 			this.picturesUrl.remove(this.picturesUrl.indexOf(url));
 		}
 	}
 	
-	public void addChannel(String channelName, int channelId){
-		this.channelMap.put(channelName, channelId);
+	/**
+	 * 添加一个所属类别
+	 * @param channelName
+	 */
+	public void addChannel(String channelName){
+		if(!this.channel.contains(channelName))
+			this.channel.add(channelName);
 	}
+	/**
+	 * 删除一个所属类别
+	 * @param channelName
+	 */
 	public void deleteChannel(String channelName){
-		if(this.channelMap.containsKey(channelName)){
-			this.channelMap.remove(channelName);
-		}
+		if(this.channel.contains(channelName))
+			this.channel.remove(channelName);
 	}
 }
