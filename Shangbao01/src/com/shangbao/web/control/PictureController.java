@@ -16,8 +16,7 @@ import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.PictureService;
 
-@Controller
-@RequestMapping("/picture")
+
 public class PictureController {
 	@Resource
 	private PictureService pictureServiceImp;
