@@ -32,4 +32,8 @@ public class CommendList {
 	public void setCommendList(List<SingleCommend> commendList) {
 		this.commendList = commendList;
 	}
+	
+	public void addSingleComment(SingleCommend commend){
+		this.commendList.add(commend);
+	}
 }
