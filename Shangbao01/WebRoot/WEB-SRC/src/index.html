@@ -244,27 +244,27 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">标题</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章标题" ng-model="recvData.mainHeading">
+                                    <input type="text" class="form-control" placeholder="请输入文章标题" ng-model="articleData.title">
                                 </div>
                                 <label class="col-md-1 control-label">副标题</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章副标题" ng-model="recvData.subHeading">
+                                    <input type="text" class="form-control" placeholder="请输入文章副标题" ng-model="articleData.subTitle">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">来源</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="自动填充" ng-model="recvData.source">
+                                    <input type="text" class="form-control" placeholder="自动填充" ng-model="articleData.from">
                                 </div>
                                 <label class="col-md-1 control-label">关键字</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="关键字" ng-model="recvData.keyWords">
+                                    <input type="text" class="form-control" placeholder="关键字" ng-model="articleData.keyWord">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <label class="checkbox col-md-1 col-md-offset-1" ng-repeat="(sortName,sortValue) in recvData.sorts">
+                                    <label class="checkbox col-md-1 col-md-offset-1" ng-repeat="(sortName,sortValue) in articleData.channel">
                                         <input type="checkbox" ng-model="sortValue" ng-click="changeSort(sortName)"> {{sortName}}
                                     </label>
                                 </div>
@@ -277,20 +277,23 @@
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_addIMG">添加图片</button>
                                         </div>
+                                        <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl">
+                                            <img ng-src="{{picUrl}}">
+                                        </div>
                                         <div class="col-md-2" id="viewFrame"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel panel-success">
                                 <div class="panel-body">
-                                    <div class="ueditor" ng-model="recvData.textContent" ></div>
+                                    <div class="ueditor" ng-model="articleData.content" ></div>
                                     <br>
-                                    <textarea class="form-control" rows="5" ng-model="recvData.textContent"></textarea>
+                                    <textarea class="form-control" rows="5" ng-model="articleData.content"></textarea>
                                 </div>
                             </div>
                             <div class="pull-right">
-                                <!--<button type="button" class="btn btn-default">保存</button>-->
-                                <button type="button" class="btn btn-info">提交审核</button>
+                                <button type="button" class="btn btn-default" ng-click="saveArticle()">保存</button>
+                                <button type="button" class="btn btn-info" ng-click="putArticle()">提交审核</button>
                                 <!--<button type="button" class="btn btn-default">预览</button>-->
                             </div>
                         </form>
@@ -813,7 +816,7 @@
 			<div role="tabpanel" class="tab-pane" id="settings">
                 <!--<embed src="video/abc.mp4" width="320" height="240" />-->
                 <video width="320" height="240" controls="controls">
-                    <source src="http://192.168.1.116:8080/Shangbao01/WEB-SRC/src/video/abc.mp4" type="video/mp4">
+                    <source src="http://localhost:8080/Shangbao01/WEB-SRC/src/video/abc.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <video width="320" height="240" controls="controls">
@@ -821,11 +824,11 @@
                     Your browser does not support the video tag.
                 </video>
                 <video width="320" height="240" controls="controls">
-                    <source src="http://192.168.1.116:8080/Shangbao01/WEB-SRC/src/video/movie.mp4" type="video/mp4">
+                    <source src="http://localhost:8080/Shangbao01/WEB-SRC/src/video/movie.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <video width="320" height="240" controls="controls">
-                    <source src="http://192.168.1.116:8080/Shangbao01/WEB-SRC/src/video/bang.mp4" type="video/mp4">
+                    <source src="http://localhost:8080/Shangbao01/WEB-SRC/src/video/bang.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
