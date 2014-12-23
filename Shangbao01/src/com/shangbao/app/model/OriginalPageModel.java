@@ -3,7 +3,6 @@ package com.shangbao.app.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.shangbao.model.show.SingleCommend;
 
 public class OriginalPageModel {
 	private int pageCount;//总页数

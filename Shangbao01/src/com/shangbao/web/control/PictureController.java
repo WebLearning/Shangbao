@@ -1,22 +1,29 @@
 package com.shangbao.web.control;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.shangbao.model.ArticleState;
+import com.shangbao.model.ChannelState;
 import com.shangbao.model.persistence.Article;
+import com.shangbao.model.persistence.Channel;
+import com.shangbao.model.show.ChannelList;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.PictureService;
 
-
+@Controller
+@RequestMapping("/picture")
 public class PictureController {
 	@Resource
 	private PictureService pictureServiceImp;
@@ -53,11 +60,10 @@ public class PictureController {
 	 * @param pageId
 	 * @return
 	 */
-	@RequestMapping(value="/{articleState}/{pageId}", method=RequestMethod.GET)
+	@RequestMapping(value="/{articleState}/{pageNo}", method=RequestMethod.GET)
 	public TitleList getTitleList(@PathVariable ArticleState articleState,
-			@PathVariable int pageId){
-		
-		return null;
+			@PathVariable int pageNo){
+		return this.pictureServiceImp.getTiltList(articleState, pageNo);
 	}
 	
 	/**
@@ -70,48 +76,141 @@ public class PictureController {
 	@RequestMapping(value="/{articleState}/{pageId}/{order:[a-z,A-Z]+}", method=RequestMethod.GET)
 	public TitleList getOrderedTitleList(@PathVariable ArticleState articleState,
 			@PathVariable int pageNo, @PathVariable String order){
-		return null;
+		return this.pictureServiceImp.getOrderedList(articleState, pageNo, order);
 	}
 	
 	/**
-	 * 状态转移：转移到上一个状态
+	 * 获取一篇图片文章
+	 * 
+	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="/{articleState}/{pageId}/{}")
-	public TitleList stateChangeUp(){
-		
-		return null;
+	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}", method = RequestMethod.GET)
+	@ResponseBody
+	public Article findOne(@PathVariable("id") Long id) {
+		Article article = pictureServiceImp.findOne(id);
+		return article;
+	}
+
+	/**
+	 * 修改一篇图片文章
+	 * 
+	 * @param state 只有暂存，已发布，撤销的文章能够修改
+	 * @param id
+	 * @param article
+	 */
+	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public void modifyOne(@PathVariable("articleState") ArticleState state,
+			@PathVariable("id") Long id, @RequestBody Article article) {
+		if (state.equals(ArticleState.Published)
+				|| state.equals(ArticleState.Revocation)
+				|| state.equals(ArticleState.Pending)) {
+			article.setId(id);
+			pictureServiceImp.update(article);
+		}
 	}
 	
 	/**
-	 * 状态转移：转移到下一个状态
+	 * 状态转换
+	 * 
+	 * @param articleState
+	 * @param pageNo
+	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="/{articleState}/{pageId}/{}")
-	public TitleList stateChangeDown(){
-		
-		return null;
+	@RequestMapping(value = "/{articleState}/{pageNo}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public TitleList stateTranslatePut(
+			@PathVariable("articleState") ArticleState articleState,
+			@PathVariable("pageNo") int pageNo, @PathVariable("ids") String id) {
+		String[] idsString = id.split("_");
+		List<Long> idList = new ArrayList<Long>();
+		for (String idString : idsString) {
+			idList.add(Long.parseLong(idString));
+		}
+		pictureServiceImp.setPutState(articleState, idList);
+		return pictureServiceImp.getTiltList(articleState, pageNo);
+	}
+
+	@RequestMapping(value = "/{articleState}/{pageNo}/{order:[a-z,A-Z]+}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public TitleList stateTranslatePut(
+			@PathVariable("articleState") ArticleState articleState,
+			@PathVariable("pageNo") int pageNo,
+			@PathVariable("order") String order, @PathVariable("ids") String id) {
+		String[] idsString = id.split("_");
+		List<Long> idList = new ArrayList<Long>();
+		for (String idString : idsString) {
+			idList.add(Long.parseLong(idString));
+		}
+		pictureServiceImp.setPutState(articleState, idList);
+		return pictureServiceImp.getOrderedList(articleState, pageNo, order);
+	}
+
+	@RequestMapping(value = "/{articleState}/{pageNo}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public TitleList stateTranslateDelete(
+			@PathVariable("articleState") ArticleState articleState,
+			@PathVariable("pageNo") int pageNo, @PathVariable("ids") String id) {
+		String[] idsString = id.split("_");
+		List<Long> idList = new ArrayList<Long>();
+		for (String idString : idsString) {
+			idList.add(Long.parseLong(idString));
+		}
+		pictureServiceImp.setDeleteState(articleState, idList);
+		return pictureServiceImp.getTiltList(articleState, pageNo);
+	}
+
+	@RequestMapping(value = "/{articleState}/{pageNo}/{order:[a-z,A-Z]+}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public TitleList stateTranslateDelete(
+			@PathVariable("articleState") ArticleState articleState,
+			@PathVariable("pageNo") int pageNo,
+			@PathVariable("order") String order, @PathVariable("ids") String id) {
+		String[] idsString = id.split("_");
+		List<Long> idList = new ArrayList<Long>();
+		for (String idString : idsString) {
+			idList.add(Long.parseLong(idString));
+		}
+		pictureServiceImp.setDeleteState(articleState, idList);
+		return pictureServiceImp.getOrderedList(articleState, pageNo, order);
 	}
 	
 	/**
 	 * 显示活动
 	 */
-	@RequestMapping(value="/activity", method=RequestMethod.GET)
-	public void showActivity(){
-		
+	@RequestMapping(value="/activity/{pageNo:[\\d]+}", method=RequestMethod.GET)
+	@ResponseBody
+	public ChannelList showActivity(@PathVariable("pageNo") int pageNo){
+		return this.pictureServiceImp.getActivity(pageNo, 20);
+	}
+	
+	@RequestMapping(value="/activity/{pageNo:[\\d]+}/{order:[a-z,A-Z]+}", method=RequestMethod.GET)
+	@ResponseBody
+	public ChannelList showOderedActivity(@PathVariable("pageNo") int pageNo, @PathVariable("order") String order){
+		return this.pictureServiceImp.getActivity(pageNo, 20);
 	}
 	
 	/**
 	 * 新建活动
 	 */
-	public void addActivity(){
-		
+	@RequestMapping(value="/activity", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public void addActivity(@RequestBody Channel activity){
+		activity.setState(ChannelState.Activity);
+		pictureServiceImp.add(activity);
 	}
 	
 	/**
 	 * 删除活动
 	 */
-	public void deleteActivity(){
-		
+	@RequestMapping(value="/activity", method=RequestMethod.DELETE)
+	public void deleteActivity(@RequestBody List<Channel> channels){
+		pictureServiceImp.delete(channels);
 	}
 }

@@ -10,7 +10,14 @@ public class Channel {
 	private String summary;//栏目介绍
 	private ChannelState state;//栏目状态
 	private String related;//相关栏目(父栏目，子栏目)
+	private String englishName;//栏目英文名(用于生产URI)
 	
+	public String getEnglishName() {
+		return englishName;
+	}
+	public void setEnglishName(String englishName) {
+		this.englishName = englishName;
+	}
 	public String getChannelName() {
 		return channelName;
 	}
