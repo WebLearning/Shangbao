@@ -40,12 +40,6 @@ public interface ArticleService {
 	public void deleteOne(Article article);
 	
 	/**
-	 * 获得分页
-	 * @return
-	 */
-	public Page<Article> getPage(int pageNo);
-	
-	/**
 	 * 获得标题列表
 	 * @return
 	 */

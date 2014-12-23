@@ -11,7 +11,9 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.shangbao.dao.ChannelDao;
+import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Channel;
+import com.shangbao.model.show.Page;
 
 @Repository
 public class ChannelDaoImp implements ChannelDao{
@@ -86,19 +88,28 @@ public class ChannelDaoImp implements ChannelDao{
 	public long count(Channel criteriaElement) {
 		return this.mongoTemplate.count(getQuery(criteriaElement), Channel.class);
 	}
+	
+	public Page<Channel> getPage(int pageNo, int pageSize, Query query){
+		Page<Channel> page = new Page<Channel>(pageNo, pageSize, mongoTemplate.count(query, Channel.class));
+		query.skip(page.getFirstResult());// skip相当于从那条记录开始
+		query.limit(pageSize);
+		List<Channel> datas = mongoTemplate.find(query, Channel.class);
+		page.setDatas(datas);
+		return page;
+	}
 
 	private Query getQuery(Channel criteriaChannel){
 		Query query = new Query();
-		if(!criteriaChannel.getChannelName().isEmpty()){
+		if(criteriaChannel.getChannelName() != null && (!criteriaChannel.getChannelName().isEmpty())){
 			query.addCriteria(new Criteria().where("channelName").is(criteriaChannel.getChannelName()));
 		}
-		if(!criteriaChannel.getSummary().isEmpty()){
+		if((criteriaChannel.getSummary() != null) && (!criteriaChannel.getSummary().isEmpty())){
 			query.addCriteria(new Criteria().where("summary").is(criteriaChannel.getSummary()));
 		}
-		if(!criteriaChannel.getRelated().isEmpty()){
+		if((criteriaChannel.getRelated() != null) && (!criteriaChannel.getRelated().isEmpty())){
 			query.addCriteria(new Criteria().where("related").is(criteriaChannel.getRelated()));
 		}
-		if(criteriaChannel.getState() != null){
+		if((criteriaChannel.getState() != null) && (criteriaChannel.getState() != null)){
 			query.addCriteria(new Criteria().where("state").is(criteriaChannel.getState()));
 		}
 		return query;

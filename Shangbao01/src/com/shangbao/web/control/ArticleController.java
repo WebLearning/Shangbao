@@ -29,7 +29,7 @@ import com.shangbao.service.ArticleService;
 @RequestMapping("/article")
 public class ArticleController {
 	@Resource
-	private ArticleService articleService;
+	private ArticleService articleServiceImp;
 
 	/**
 	 * 新建文章
@@ -40,7 +40,7 @@ public class ArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	public void add(@RequestBody Article article) {
 		article.setState(ArticleState.Temp);
-		articleService.add(article);
+		articleServiceImp.add(article);
 		System.out.println("newArticle");
 		System.out.println(article.getTitle());
 	}
@@ -54,7 +54,7 @@ public class ArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	public void addPending(@RequestBody Article article){
 		article.setState(ArticleState.Pending);
-		articleService.add(article);
+		articleServiceImp.add(article);
 	}
 	
 	/**
@@ -66,10 +66,10 @@ public class ArticleController {
 	 */
 	@RequestMapping(value = "/{articleState}/{pageId}", method = RequestMethod.GET)
 	@ResponseBody
-	public void pageTest(@PathVariable ArticleState articleState,
+	public TitleList pageTest(@PathVariable ArticleState articleState,
 			@PathVariable int pageId) {
-		TitleList titleList = articleService.getTiltList(articleState, pageId);
-		//return titleList;
+		TitleList titleList = articleServiceImp.getTiltList(articleState, pageId);
+		return titleList;
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class ArticleController {
 	@ResponseBody
 	public TitleList order(@PathVariable ArticleState articleState,
 			@PathVariable int pageNo, @PathVariable String order) {
-		TitleList titleList = articleService.getOrderedList(articleState,
+		TitleList titleList = articleServiceImp.getOrderedList(articleState,
 				pageNo, order);
 		return titleList;
 	}
@@ -98,14 +98,15 @@ public class ArticleController {
 	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}", method = RequestMethod.GET)
 	@ResponseBody
 	public Article findOne(@PathVariable("id") Long id) {
-		Article article = articleService.findOne(id);
+		Article article = articleServiceImp.findOne(id);
 		return article;
 	}
 
 	/**
 	 * 修改一篇文章
-	 * 只有暂存，已发布，撤销的文章能够修改
+	 * 
 	 * @param state
+	 *            只有暂存，已发布，撤销的文章能够修改
 	 * @param id
 	 * @param article
 	 */
@@ -116,7 +117,8 @@ public class ArticleController {
 		if (state.equals(ArticleState.Published)
 				|| state.equals(ArticleState.Revocation)
 				|| state.equals(ArticleState.Pending)) {
-			articleService.update(article);
+			article.setId(id);
+			articleServiceImp.update(article);
 		}
 	}
 
@@ -139,8 +141,8 @@ public class ArticleController {
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		articleService.setPutState(articleState, idList);
-		return articleService.getTiltList(articleState, pageNo);
+		articleServiceImp.setPutState(articleState, idList);
+		return articleServiceImp.getTiltList(articleState, pageNo);
 	}
 
 	@RequestMapping(value = "/{articleState}/{pageNo}/{order:[a-z,A-Z]+}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
@@ -155,8 +157,8 @@ public class ArticleController {
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		articleService.setPutState(articleState, idList);
-		return articleService.getOrderedList(articleState, pageNo, order);
+		articleServiceImp.setPutState(articleState, idList);
+		return articleServiceImp.getOrderedList(articleState, pageNo, order);
 	}
 
 	@RequestMapping(value = "/{articleState}/{pageNo}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
@@ -170,8 +172,8 @@ public class ArticleController {
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		articleService.setDeleteState(articleState, idList);
-		return articleService.getTiltList(articleState, pageNo);
+		articleServiceImp.setDeleteState(articleState, idList);
+		return articleServiceImp.getTiltList(articleState, pageNo);
 	}
 
 	@RequestMapping(value = "/{articleState}/{pageNo}/{order:[a-z,A-Z]+}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
@@ -186,8 +188,8 @@ public class ArticleController {
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		articleService.setDeleteState(articleState, idList);
-		return articleService.getOrderedList(articleState, pageNo, order);
+		articleServiceImp.setDeleteState(articleState, idList);
+		return articleServiceImp.getOrderedList(articleState, pageNo, order);
 	}
 
 	/**

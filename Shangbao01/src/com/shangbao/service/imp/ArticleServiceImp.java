@@ -22,36 +22,36 @@ import com.shangbao.service.ArticleService;
 public class ArticleServiceImp implements ArticleService {
 
 	@Resource
-	private ArticleDao articleDao;
+	private ArticleDao articleDaoImp;
 	
-	public ArticleDao getArticleDao() {
-		return articleDao;
+	public ArticleDao getArticleDaoImp() {
+		return articleDaoImp;
 	}
 
-	public void setArticleDao(ArticleDao articleDao) {
-		this.articleDao = articleDao;
+	public void setArticleDao(ArticleDao articleDaoImp) {
+		this.articleDaoImp = articleDaoImp;
 	}
 
 	@Override
 	public void add(Article article) {
-		articleDao.insert(article);
+		articleDaoImp.insert(article);
 	}
 
 	@Override
 	public Article findOne(Long id) {
-		Article article = articleDao.findById(id);
+		Article article = articleDaoImp.findById(id);
 		return article;
 	}
 
 	@Override
 	public void deleteOne(Article article) {
-		articleDao.delete(article);
+		articleDaoImp.delete(article);
 	}
 
 	@Override
 	public Map<Long, String> showTitles() {
 		Map<Long, String> titleMap = new HashMap<Long, String>();
-		List<Article> articles = articleDao.findAll();
+		List<Article> articles = articleDaoImp.findAll();
 		if(!articles.isEmpty()){
 			for(Article article : articles){
 				titleMap.put(article.getId(), article.getTitle());
@@ -62,13 +62,7 @@ public class ArticleServiceImp implements ArticleService {
 
 	@Override
 	public void update(Article article) {
-		articleDao.update(article);
-	}
-
-	@Override
-	public Page<Article> getPage(int pageNo) {
-		Page<Article> page = articleDao.getPage(pageNo, 20, new Query());
-		return page;
+		articleDaoImp.update(article);
 	}
 
 	@Override
@@ -76,7 +70,7 @@ public class ArticleServiceImp implements ArticleService {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
 		query.addCriteria(new Criteria().where("state").is(articleState));
-		Page<Article> page = articleDao.getPage(pageNo, 20, query);
+		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
 		for(Article article : page.getDatas()){
@@ -92,7 +86,7 @@ public class ArticleServiceImp implements ArticleService {
 		Query query = new Query();
 		query.addCriteria(new Criteria().where("state").is(articleState));
 		query.with(new Sort(order));
-		Page<Article> page = articleDao.getPage(pageNo, 20, query);
+		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
 		for(Article article : page.getDatas()){
@@ -123,7 +117,7 @@ public class ArticleServiceImp implements ArticleService {
 		for(Long id : idList){
 			Article criteriaArticle = new Article();
 			criteriaArticle.setId(id);
-			articleDao.setState(targetState, criteriaArticle);
+			articleDaoImp.setState(targetState, criteriaArticle);
 		}
 	}
 	
@@ -153,7 +147,7 @@ public class ArticleServiceImp implements ArticleService {
 		for(Long id : idList){
 			Article criteriaArticle = new Article();
 			criteriaArticle.setId(id);
-			articleDao.setState(targetState, criteriaArticle);
+			articleDaoImp.setState(targetState, criteriaArticle);
 		}
 	}
 }

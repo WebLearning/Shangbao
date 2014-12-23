@@ -1,6 +1,8 @@
 package com.shangbao.model.show;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.shangbao.model.persistence.Article;
 
@@ -11,10 +13,13 @@ public class Title {
 	private int words;//字数
 	private int commends;//评论数
 	private int clicks;//点击数
+	private int likes;//点赞数
 	private String from;//来源
 	private String summary;//摘要
 	private Date time;//时间
 	private String titleUrl;//标题图片
+	private List<String> channel = new ArrayList<String>();//所属栏目
+	private String activity; //所属活动
 	private long articleId;//文章ID
 	
 	public Title(){	
@@ -33,6 +38,9 @@ public class Title {
 		setTime(article.getTime());
 		setTitleUrl(article.getTitlePicUrl());
 		setArticleId(article.getId());
+		setChannel(article.getChannel());
+		setActivity(article.getActivity());
+		setClicks(article.getClicks());
 	}
 
 	public String getTitle() {
@@ -83,6 +91,14 @@ public class Title {
 		this.clicks = clicks;
 	}
 
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+
 	public String getFrom() {
 		return from;
 	}
@@ -113,6 +129,22 @@ public class Title {
 
 	public void setTitleUrl(String titleUrl) {
 		this.titleUrl = titleUrl;
+	}
+
+	public List<String> getChannel() {
+		return channel;
+	}
+
+	public void setChannel(List<String> channel) {
+		this.channel = channel;
+	}
+
+	public String getActivity() {
+		return activity;
+	}
+
+	public void setActivity(String activity) {
+		this.activity = activity;
 	}
 
 	public long getArticleId() {

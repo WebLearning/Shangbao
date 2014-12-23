@@ -30,14 +30,22 @@ import com.shangbao.app.model.CommentModel;
 import com.shangbao.app.model.CommentPageModel;
 import com.shangbao.app.model.FrontPageModel;
 import com.shangbao.app.model.OriginalPageModel;
+import com.shangbao.app.service.AppService;
 import com.shangbao.model.persistence.Article;
 
+/**
+ * 手机app获取数据的Controller
+ * @author Administrator
+ *
+ */
 @Controller
 @RequestMapping("/app")
 public class AppController {
 	
 	@Resource
-	private Producer captchaProducer;
+	private Producer captchaProducer;//用于生产验证码
+	@Resource
+	private AppService appService;
 
 	/**
 	 * 获取宣传图片，首页信息

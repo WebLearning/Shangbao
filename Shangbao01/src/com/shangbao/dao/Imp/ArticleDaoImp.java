@@ -133,7 +133,18 @@ public class ArticleDaoImp implements ArticleDao {
         if (criteriaArticle.getTime() != null) {  
             Criteria criteria = Criteria.where("time").is(criteriaArticle.getTime());  
             query.addCriteria(criteria);  
-        }  
+        }
+        if (criteriaArticle.getChannel() != null && !criteriaArticle.getChannel().isEmpty()) {
+        	
+        }
+        if (criteriaArticle.getActivity() != null && !criteriaArticle.getActivity().isEmpty()){
+        	Criteria criteria = Criteria.where("activity").is(criteriaArticle.getActivity());
+        	query.addCriteria(criteria);
+        }
+        if (criteriaArticle.isTag()){
+        	Criteria criteria = Criteria.where("tag").is(true);
+        	query.addCriteria(criteria);
+        }
         return query;  
     }
 
