@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.shangbao.model.persistence.Article;
+
 /**
  * 手机图片详细页面
  * @author Administrator
@@ -16,6 +18,19 @@ public class AppPictureModel {
 	private Date time;
 	private String activeName;
 	private String content;
+	
+	public AppPictureModel(){
+		
+	}
+	
+	public AppPictureModel(Article article){
+		title = article.getTitle();
+		pictureUrl = article.getPicturesUrl();
+		author = article.getAuthor();
+		time = article.getTime();
+		activeName = article.getActivity();
+		content = article.getContent();
+	}
 	
 	public String getTitle() {
 		return title;

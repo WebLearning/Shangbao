@@ -65,6 +65,15 @@ public class CommendDaoImp implements CommendDao {
 				commendList.add(commend);
 			}
 		}
+		else{
+			List<NewsCommend> newsList = mongoTemplate.find(getQuery(criteriaElement), NewsCommend.class);
+			for(Commend commend : newsList){
+				commendList.add(commend);
+			}
+			for(Commend commend : mongoTemplate.find(getQuery(criteriaElement), CrawlerCommend.class)){
+				commendList.add(commend);
+			}
+		}
 		return commendList;
 	}
 

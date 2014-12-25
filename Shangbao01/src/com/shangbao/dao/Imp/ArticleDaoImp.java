@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -97,6 +99,13 @@ public class ArticleDaoImp implements ArticleDao {
 	}
 
 	@Override
+	public List<Article> find(Article criteriaArticle, Direction direction, String property){
+		Query query = getQuery(criteriaArticle);
+		query.with(new Sort(direction, property));
+		return mongoTemplate.find(query, Article.class);
+	}
+	
+	@Override
 	public Article findAndModify(Article criteriaArticle, Article updateArticle) {
 		// TODO Auto-generated method stub
 		return null;
@@ -139,6 +148,10 @@ public class ArticleDaoImp implements ArticleDao {
         }
         if (criteriaArticle.getActivity() != null && !criteriaArticle.getActivity().isEmpty()){
         	Criteria criteria = Criteria.where("activity").is(criteriaArticle.getActivity());
+        	query.addCriteria(criteria);
+        }
+        if(criteriaArticle.getState() != null){
+        	Criteria criteria = Criteria.where("state").is(criteriaArticle.getState());
         	query.addCriteria(criteria);
         }
         if (criteriaArticle.isTag()){

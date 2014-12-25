@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.shangbao.dao.ChannelDao;
-import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.show.Page;
 
