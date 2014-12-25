@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.shangbao.model.persistence.Article;
+
 public class ColumnPageModel {
 	private int PageCount;//页数
 	private int currentNo;//当前页码
@@ -37,6 +39,11 @@ public class ColumnPageModel {
 		NewsTitle newsTitle = new NewsTitle(title, pictureUrl, summary, time, clicks, newsId);
 		this.content.add(newsTitle);
 	}
+	
+	public void addNewsTitle(Article article){
+		NewsTitle newsTitle = new NewsTitle(article);
+		this.content.add(newsTitle);
+	}
 
 	class NewsTitle{
 		public String title;
@@ -49,6 +56,16 @@ public class ColumnPageModel {
 		public NewsTitle(){
 			
 		}
+		
+		public NewsTitle(Article article){
+			this.title = article.getTitle();
+			this.pictureUrl = article.getPicturesUrl();
+			this.summary = article.getSummary();
+			this.time = article.getTime();
+			this.clicks = article.getClicks();
+			this.newsId = article.getId();
+		}
+		
 		public NewsTitle(String title, List<String> pictureUrl, String summary, Date time, int clicks, Long newsId){
 			this.title = title;
 			this.pictureUrl = pictureUrl;

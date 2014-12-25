@@ -46,7 +46,8 @@ public class AppController {
 	private Producer captchaProducer;//用于生产验证码
 	@Resource
 	private AppService appService;
-
+	
+	
 	/**
 	 * 获取宣传图片，首页信息
 	 */

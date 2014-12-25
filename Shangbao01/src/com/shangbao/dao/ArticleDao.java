@@ -1,5 +1,8 @@
 package com.shangbao.dao;
 
+import java.util.List;
+
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.shangbao.model.ArticleState;
@@ -10,4 +13,5 @@ public interface ArticleDao extends MongoDao<Article> {
 	void update(Article article);
 	void setState(ArticleState state, Article criteriaArticle);
 	Page<Article> getPage(int pageNo, int pageSize, Query query);
+	List<Article> find(Article criteriaArticle, Direction direction, String property);
 }
