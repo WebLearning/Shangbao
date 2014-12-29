@@ -1,12 +1,5 @@
 
-
-//, ["ng.ueditor"]
 angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", function ($scope,$http) {
-
-    /* $http.get('http://localhost:8080/Shangbao01/user/users')
-     .success(function(data) {
-     $scope.editorContent = data;
-     }); */
 
     $scope.recvData={
         title:"成绵乐客专“蓄势待发” 应急救援演练10天",
@@ -22,24 +15,10 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         from:"成都商报"
     };
 
-    $scope.articleData={
-        title:"",
-        subTitle:"",
-        keyWord:[],
-        author:"",
-        summary:"",
-        content:'',
-        time:new Date(),
-        channel:[],
-        picturesUrl:[],
-        level:"",
-        from:""
-        };
-
     $scope.getEditorContent=function()
     {
         //导入数据
-        for(p in $scope.recvData){
+        for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
                 for(i in $scope.recvData[p]){
                     $scope.articleData[p][i]=$scope.recvData[p][i];
@@ -56,14 +35,15 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         console.log($scope.articleData);
     };
 
+    //刷新时间
     $scope.getCurrentDatetime=function()
     {
         $scope.articleData.time=new Date();
     };
 
+    //删除关键词 分类 和 图片数组的操作
     $scope.deleteKeyword=function(index)
     {
-//        console.log(index);
         $scope.articleData.keyWord.splice(index,1);
     };
 
@@ -77,17 +57,30 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         $scope.articleData.picturesUrl.splice(index,1);
     };
 
+    //footer的3个按钮的操作
+
+    $scope.clearArticle=function()
+    {
+        for(p in $scope.articleData){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+                $scope.articleData[p]=[];
+            }else{
+                $scope.articleData[p]="";
+            }
+        }
+    };
+
     $scope.saveArticle=function(){
         var jsonString=JSON.stringify($scope.articleData);
-        $http.post('http://localhost:8080/Shangbao01/article/newArticle',jsonString).success(function(data) {
-            console.log("success save testData");
+        $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
+            alert("保存文章成功");
         });
     };
 
     $scope.putArticle=function(){
         var jsonString=JSON.stringify($scope.articleData);
-        $http.put('http://localhost:8080/Shangbao01/article/newArticle',jsonString).success(function(data) {
-            console.log("success put testData");
+        $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
+            alert("提交审核文章成功");
         });
     };
 
@@ -214,7 +207,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     {
         var url = document.getElementById("myIFrameID").contentWindow.document.body.innerText;
         url=url.substr(8);
-        url="http://localhost:8080/Shangbao01/WEB-SRC"+url;
+        url=$scope.projectName+"/WEB-SRC"+url;
 
         return url;
     };
@@ -244,10 +237,6 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
 
 }]);
 
-
-
-
-//$('#intro').submit();
 
 
 

@@ -5,6 +5,7 @@ angular.module('Dashboard', ["ng.ueditor"]).controller('MasterCtrl', ['$scope', 
 
 function MasterCtrl($scope) {
 
+    //菜单的伸缩
     $scope.toggle=true;
 
     $scope.toggleSidebar = function()
@@ -12,27 +13,45 @@ function MasterCtrl($scope) {
         $scope.toggle = ! $scope.toggle;
     };
 
+    //IP和projectName的全局变量
+    $scope.projectName="http://localhost:8080/Shangbao01";
 
-    //设置当前内容的header
+    //文章数据
+    $scope.articleData={
+        title:"",
+        subTitle:"",
+        keyWord:[],
+        author:"",
+        summary:"",
+        content:'',
+        time:"",
+        channel:[],
+        picturesUrl:[],
+        level:"",
+        from:""
+    };
 
+    //初始化header
     $scope.curPage = "一览";
 
+    //点击sidebar之后改变header
     $scope.changeCurPage = function(str)
     {
         $scope.curPage=str;
-    }
+        //如果是点击新建文章就清除文章里的数据
+        if(str=="文章/新建"){
+            clearArticleData();
+        }
+    };
 
-    //导航条
-//    $scope.sidebars=[
-//        {name:"一览",href:"generalView",icon:"menu-icon glyphicon glyphicon-eye-open",content:[]},
-//        {name:"文章",href:"article",icon:"menu-icon glyphicon glyphicon-file",content:[
-//            {name:"新建",href:"newArticle"},
-//            {name:"爬虫文章",href:"crawlerArticle"},
-//            {name:"待审",href:"pendingTrial"},
-//        ]},
-//        {name:"评论",href:"comment",icon:"menu-icon glyphicon glyphicon-list-alt",content:[]},
-//        {name:"管理",href:"management",icon:"menu-icon glyphicon glyphicon-folder-open",content:[]},
-//        {name:"设置",href:"settings",icon:"menu-icon glyphicon glyphicon-cog",content:[]}
-//    ];
+    function clearArticleData(){
+        for(p in $scope.articleData){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+                $scope.articleData[p]=[];
+            }else{
+                $scope.articleData[p]="";
+            }
+        }
+    }
 
 }

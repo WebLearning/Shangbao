@@ -31,10 +31,11 @@
     <script type="text/javascript" src="js/dashboard/controllers/tabContent-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/generalView-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/article-ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/crawler-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/comment-ctrl.js"></script>
 
-    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet">
-    <script src="js/bootstrap-datetimepicker.js"></script>
+    <!--<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">-->
+    <!--<script src="js/bootstrap-datetimepicker.js"></script>-->
 
 
 </head>
@@ -67,7 +68,7 @@
                 <li role="presentation" class="sidebar-list">
                     <a href="#newArticle" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/新建')">新建 <span class="menu-icon glyphicon glyphicon-file"></span></a>
                 </li>
-                <li role="presentation" class="sidebar-list">
+                <li role="presentation" class="sidebar-list" id="crawlerSidebarID">
                     <a href="#crawlerArticle" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/爬虫文章')">爬虫文章 <span class="menu-icon glyphicon glyphicon-save"></span></a>
                 </li>
                 <li role="presentation" class="sidebar-list">
@@ -236,10 +237,10 @@
 			<div role="tabpanel" class="tab-pane" id="newArticle" ng-controller="articleCtrl">
                 <div class="row">
                     <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-lg btn-success" ng-click="getEditorContent()"> get Content</button>
+                        <button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>
                     </div>
                     <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-lg btn-success" ng-click="testLog()"> test</button>
+                        <button type="button" class="btn btn-success" ng-click="testLog()"> test</button>
                     </div>
                 </div>
                 <div class="row">
@@ -304,7 +305,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-lg btn-success" data-toggle="modal" data-target="#myModal_addKeyword">添加关键词</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addKeyword">添加关键词</button>
                                     </div>
                                 </div>
                             </div>
@@ -320,7 +321,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-lg btn-success" data-toggle="modal" data-target="#myModal_addChannel">添加分类</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addChannel">添加分类</button>
                                     </div>
                                 </div>
                             </div>
@@ -334,7 +335,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-lg btn-success" data-toggle="modal" data-target="#myModal_addIMG">添加图片</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addIMG">添加图片</button>
                                     </div>
                                 </div>
                             </div>
@@ -346,7 +347,8 @@
                                 </div>
                             </div>
                             <div class="pull-right">
-                                <button type="button" class="btn btn-default" ng-click="saveArticle()">保存</button>
+                                <button type="button" class="btn btn-default" ng-click="clearArticle()">清除所有内容</button>
+                                <button type="button" class="btn btn-success" ng-click="saveArticle()">保存</button>
                                 <button type="button" class="btn btn-info" ng-click="putArticle()">提交审核</button>
                                 <!--<button type="button" class="btn btn-default">预览</button>-->
                             </div>
@@ -419,7 +421,15 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="crawlerArticle">
+            <div role="tabpanel" class="tab-pane" id="crawlerArticle" ng-controller="crawlerCtrl">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                    </div>
+                    <div class="col-md-1 col-md-offset-7">
+                        <button type="button" class="btn btn-success" ng-click="refreshCrawler()"><span class="glyphicon glyphicon-refresh"></span></button>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="panel panel-success">
@@ -427,42 +437,41 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>等级</th>
-                                        <th>字数</th>
-                                        <th>图数</th>
-                                        <th>评论数</th>
-                                        <th>点击数</th>
+                                        <th>标题</th>
+                                        <th>标题Url</th>
+                                        <th>文章ID</th>
+                                        <th>作者</th>
+                                        <th><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th>来源</th>
-                                        <th>日期</th>
-                                        <th>选择</th>
+                                        <th>分类</th>
+                                        <th>等级</th>
+                                        <th>点击数</th>
+                                        <th>评论数</th>
+                                        <th>赞数</th>
+                                        <th>摘要</th>
+                                        <th>字数</th>
+                                        <th>活动</th>
+                                        <th><a href="" ng-click="selectAll()">当前页全选</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>文章1111</td>
-                                        <td>一级</td>
-                                        <td>1000</td>
-                                        <td>3</td>
-                                        <td>100</td>
-                                        <td>300</td>
-                                        <td>腾讯</td>
-                                        <td>2014/11/11</td>
+                                    <tr ng-repeat="tileObj in crawlerData.tileList">
+                                        <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
+                                        <td>{{checkIfNull(tileObj.titleUrl)}}</td>
+                                        <td>{{checkIfNull(tileObj.articleId)}}</td>
+                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td>{{dateStringToDate(tileObj.time)}}</td>
+                                        <td>{{checkIfNull(tileObj.from)}}</td>
+                                        <td>{{checkIfEmpty(tileObj.channel)}}</td>
+                                        <td>{{checkIfNull(tileObj.level)}}</td>
+                                        <td>{{checkIfNull(tileObj.clicks)}}</td>
+                                        <td>{{checkIfNull(tileObj.commends)}}</td>
+                                        <td>{{checkIfNull(tileObj.likes)}}</td>
+                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkIfNull(tileObj.words)}}</td>
+                                        <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
-                                            <input type="checkbox" value="">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>文章2222</td>
-                                        <td>一级</td>
-                                        <td>500</td>
-                                        <td>0</td>
-                                        <td>30</td>
-                                        <td>300</td>
-                                        <td>新浪</td>
-                                        <td>2014/11/11</td>
-                                        <td>
-                                            <input type="checkbox" value="">
+                                            <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
                                         </td>
                                     </tr>
                                     </tbody>
@@ -471,16 +480,14 @@
                         </div>
                         <nav>
                             <ul class="pagination">
-                                <li class="disabled"><a href="#">&laquo;</a></li>
-                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">&raquo;</a></li>
+                                <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <!--<li><a href="#">&raquo;</a></li>-->
                             </ul>
                         </nav>
                         <div class="pull-right">
-                            <button type="button" class="btn btn-info">删除</button>
-                            <button type="button" class="btn btn-info">转暂存</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">删除</button>
+                            <button type="button" class="btn btn-success" ng-click="saveArticleSelections()">转暂存</button>
                         </div>
                     </div>
                 </div>
@@ -936,16 +943,17 @@
   <script>
       //load bootstrap tool tip
       $(function () { $("[data-toggle='tooltip']").tooltip(); });
-      function enableTimepicker() {
-          $(".form_datetime").datetimepicker({
-              format: "yyyy-mm-dd hh:ii",
-              autoclose: true,
-              todayBtn: true,
-              startDate: "2013-02-14 10:00",
-              minuteStep: 1
-          });
-      }
-      enableTimepicker();
+      //enable time picker css
+//      function enableTimepicker() {
+//          $(".form_datetime").datetimepicker({
+//              format: "yyyy-mm-dd hh:ii",
+//              autoclose: true,
+//              todayBtn: true,
+//              startDate: "2013-02-14 10:00",
+//              minuteStep: 1
+//          });
+//      }
+//      enableTimepicker();
   </script>
 
 </body></html>
