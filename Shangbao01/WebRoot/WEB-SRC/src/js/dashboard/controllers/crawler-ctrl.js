@@ -8,13 +8,17 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
     };
 
     $scope.crawlerData=null;
+    $scope.orderCondition="";
 
     //初始化页面，获取爬虫第一页的数据,返回的是一个titleList-------------------------------------------------------------------
     $scope.getCrawlerData=function(pageID)
     {
-        $http.get($scope.projectName+'/article/Crawler/'+pageID.toString()).success(function(data){
+        var url=$scope.projectName+'/article/Crawler/'+pageID.toString()+$scope.orderCondition;
+        console.log(url);
+        $http.get(url).success(function(data){
             $scope.crawlerData=data;
             $scope.pageNums=getPageNums($scope.crawlerData.pageCount);
+            console.log("成功获取数据");
         });
     };
     $scope.getCrawlerData(1);//会在生成页面的时候直接运行!
@@ -22,6 +26,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
     $scope.refreshCrawler=function()
     {
         clearArticleSelections();
+        $scope.orderCondition="";
         $scope.getCrawlerData(1);
     };
 
@@ -223,12 +228,22 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
     };
 
     //排序---------------------------------------------------------------------------------------------------------------
-    $scope.orderByTime=function(){
-        console.log("order by time");
-        $http.get($scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/"+"orderTime").success(function(data){
-            console.log(data);
-        });
+    $scope.orderByTitle=function(){
+        $scope.orderCondition="/orderTitle";
+        $scope.getCrawlerData(1)
     };
+
+    $scope.orderByArticleId=function(){
+        $scope.orderCondition="/orderArticleId";
+        $scope.getCrawlerData(1)
+    };
+
+    $scope.orderByTime=function(){
+        $scope.orderCondition="/orderTime";
+        $scope.getCrawlerData(1)
+    };
+
+
 
 
 }]);
