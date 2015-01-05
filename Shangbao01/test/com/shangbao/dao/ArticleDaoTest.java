@@ -2,8 +2,10 @@ package com.shangbao.dao;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -21,45 +23,54 @@ public class ArticleDaoTest {
 
 	@Test
 	public void test() {
-//		BeanFactory applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-//		ArticleDao dao = (ArticleDao)applicationContext.getBean("articleDaoImp");
-//		Article article = new Article();
-//		Map channelMap = new HashMap<String, Integer>();
-//		channelMap.put("channelA", 21);
-//		channelMap.put("channel122", 12);
-//		article.setAuthor("yangyi");
-//		article.setContent("MapTest");
-//		article.setTitle("Test title");
-//		//article.setChannelMap(channelMap);
-//		article.setFrom("Sina");
-//		article.setTime(new Date());
-//		article.setState(ArticleState.Crawler);
-//		dao.insert(article);
-//		Criteria criteria = new Criteria().where("Title").is("Test title");
-//		Query query = new Query().addCriteria(criteria);
-//		Page<Article> page = dao.getPage(1, 5, query);
-//		System.out.println(page.getPageSize());
-//		for(Article article : page.getDatas()){
-//			article.setContent("I have a drean");
-//			dao.update(article, article);
-//		}
 		addArticle();
 	}
 	
 	public void addArticle(){
 		BeanFactory applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 		ArticleDao dao = (ArticleDao)applicationContext.getBean("articleDaoImp");
-		for(int i = 1; i < 10; i ++){
+		List<Article> articles = new ArrayList<Article>();
+		for(int i = 1; i < 150; i ++){
 			Article article = new Article();
-			article.setTitle("Title" + i);
-			article.setAuthor("yy");
-			article.setState(ArticleState.Crawler);
-			article.setFrom("sina");
-			article.setContent("This is content" + i);
-			article.setSummary("This is summary" + i);
-			article.setSubTitle("SubTitle" + i);
-			dao.insert(article);
+			switch (i % 5) {
+			case 0:
+				article.setState(ArticleState.Crawler);
+				break;
+			case 1:
+				article.setState(ArticleState.Pending);
+				break;
+			case 2:
+				article.setState(ArticleState.Deleted);
+				break;
+			case 3:
+				article.setState(ArticleState.Revocation);
+				break;
+			case 4:
+				article.setState(ArticleState.Temp);
+				break;
+			default:
+				break;
+			}
+			article.setAuthor("yangyi");
+			article.setClicks(i * 3);
+			article.setContent("文章的内容" + i);
+			article.setCrawlerCommends(i * 2 + 1);
+			article.setCrawlerCommendsPublish(i + 1);
+			article.setLevel("level" + (i % 3 + 1));
+			article.setWords(i * 5 + 1);
+			article.setLikes(i + 10);
+			article.setNewsCommends(i + 14);
+			article.setNewsCommendsPublish(i + 12);
+			article.setSubTitle("副标题" + i);
+			article.setTitle("标题" + i);
+			articles.add(article);
 		}
+		if(articles == null || articles.isEmpty())
+		{
+			System.out.println("empty");
+			return;
+		}
+		dao.insertAll(articles);
 	}
 
 }

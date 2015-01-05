@@ -47,6 +47,7 @@ public class ChannelController {
 	@RequestMapping(value="/{fatherChannelName}/channels", method=RequestMethod.GET)
 	@ResponseBody
 	public List<Channel> getSonChannel(@PathVariable("fatherChannelName") String fatherChannelName){
+		System.out.println(fatherChannelName);
 		return channelServiceImp.findAllSonChannels(fatherChannelName);
 	}
 	

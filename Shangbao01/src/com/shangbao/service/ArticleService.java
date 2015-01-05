@@ -15,6 +15,7 @@ public interface ArticleService {
 	 */
 	public void add(Article article);
 	
+	public Long addGetId(Article article);
 	/**
 	 * 列出文章标题
 	 * @return

@@ -37,6 +37,11 @@ public class ArticleServiceImp implements ArticleService {
 	public void add(Article article) {
 		articleDaoImp.insert(article);
 	}
+	
+	@Override
+	public Long addGetId(Article article){
+		return articleDaoImp.insertAndGetId(article);
+	}
 
 	@Override
 	public Article findOne(Long id) {
@@ -85,13 +90,14 @@ public class ArticleServiceImp implements ArticleService {
 			String order, String direction) {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
-		query.addCriteria(new Criteria().where("state").is(articleState));
+		query.addCriteria(new Criteria().where("state").is(articleState.toString()));
 		if(direction.equals("asc")){
 			query.with(new Sort(Direction.ASC, order));
 		}else{
 			query.with(new Sort(Direction.DESC, order));
 		}
 		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
+		//System.out.println(query.getSortObject());
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
 		for(Article article : page.getDatas()){

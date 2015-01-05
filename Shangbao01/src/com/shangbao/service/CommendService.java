@@ -8,6 +8,8 @@ import com.shangbao.model.show.CommendPage;
 import com.shangbao.model.show.SingleCommend;
 
 public interface CommendService {
+	
+	void add(Commend commend);
 	/**
 	 * 查找一篇文章的所有评论
 	 * @param articleId
