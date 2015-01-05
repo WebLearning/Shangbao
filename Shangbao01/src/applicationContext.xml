@@ -74,7 +74,7 @@
         <property name="readTimeout"  value="1000"/>
 	</bean>
 
-	<!--RestTemplate -->
+	
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 		<constructor-arg ref="httpClientFactory" />
 	</bean>

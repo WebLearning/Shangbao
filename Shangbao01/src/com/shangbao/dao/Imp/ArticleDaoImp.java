@@ -188,8 +188,8 @@ public class ArticleDaoImp implements ArticleDao {
 		Page<Article> page = new Page<Article>(pageNo, pageSize, totalCount);
 		query.skip(page.getFirstResult());// skip相当于从那条记录开始
 		query.limit(pageSize);
-		System.out.println(query.getQueryObject());
-		System.out.println(query.getSortObject());
+		//System.out.println(query.getQueryObject());
+		//System.out.println(query.getSortObject());
 		List<Article> datas = mongoTemplate.find(query, Article.class);
 		page.setDatas(datas);
 		return page;

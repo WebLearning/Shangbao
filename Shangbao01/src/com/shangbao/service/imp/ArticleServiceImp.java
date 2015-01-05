@@ -75,7 +75,7 @@ public class ArticleServiceImp implements ArticleService {
 	public TitleList getTiltList(ArticleState articleState, int pageNo) {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
-		query.addCriteria(new Criteria().where("state").is(articleState));
+		query.addCriteria(new Criteria().where("state").is(articleState.toString()));
 		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());

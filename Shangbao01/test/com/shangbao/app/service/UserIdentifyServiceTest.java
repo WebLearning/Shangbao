@@ -23,7 +23,7 @@ public class UserIdentifyServiceTest {
 		user.setNickname("一梦醉千年");
 		user.setPsw("330810852");
 		user.setSex(1);
-		identiy.addUser(user);
+		//identiy.addUser(user);
 	}
 
 }

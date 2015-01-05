@@ -13,34 +13,34 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class UserIdentifyService {
-	@Resource
-	private RestTemplate restTemplate;
-	private final String remoteUrl;
-	
-	public UserIdentifyService(){
-		Properties props = new Properties();
-		try {
-			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(!props.getProperty("remoteUrl").isEmpty()){
-			remoteUrl = props.getProperty("remoteUrl");
-		}else{
-			remoteUrl = "http://user.itanzi.com/wap/api/v1/";
-		}
-	}
-	
-	public boolean userIsExist(){
-		//restTemplate.get
-		return false;
-	}
-	
-	public void addUser(RemoteUser user){
-		RemoteUser responseUser = restTemplate.postForObject(remoteUrl + "addUser", user, RemoteUser.class);
-		System.out.println(responseUser);
-	}
+//	@Resource
+//	private RestTemplate restTemplate;
+//	private final String remoteUrl;
+//	
+//	public UserIdentifyService(){
+//		Properties props = new Properties();
+//		try {
+//			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		if(!props.getProperty("remoteUrl").isEmpty()){
+//			remoteUrl = props.getProperty("remoteUrl");
+//		}else{
+//			remoteUrl = "http://user.itanzi.com/wap/api/v1/";
+//		}
+//	}
+//	
+//	public boolean userIsExist(){
+//		//restTemplate.get
+//		return false;
+//	}
+//	
+//	public void addUser(RemoteUser user){
+//		RemoteUser responseUser = restTemplate.postForObject(remoteUrl + "addUser", user, RemoteUser.class);
+//		System.out.println(responseUser);
+//	}
 	
 	public class RemoteUser{
 		private int telNum;
