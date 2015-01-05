@@ -94,6 +94,8 @@ public class CommendServiceImp implements CommendService {
 				return;
 			}
 			commend.setArticleTitle(articles.get(0).getTitle());
+			commend.setState(articles.get(0).getState());
+			commend.getCommendList().add(singleCommend);
 			commendDaoImp.insert(commend);
 		}else{
 			Update updateElement = new Update();
