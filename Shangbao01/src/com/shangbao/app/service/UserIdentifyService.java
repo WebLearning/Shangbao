@@ -2,66 +2,72 @@ package com.shangbao.app.service;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.Resource;
 
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class UserIdentifyService {
-//	@Resource
-//	private RestTemplate restTemplate;
-//	private final String remoteUrl;
-//	
-//	public UserIdentifyService(){
-//		Properties props = new Properties();
-//		try {
-//			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		if(!props.getProperty("remoteUrl").isEmpty()){
-//			remoteUrl = props.getProperty("remoteUrl");
-//		}else{
-//			remoteUrl = "http://user.itanzi.com/wap/api/v1/";
-//		}
-//	}
-//	
-//	public boolean userIsExist(){
-//		//restTemplate.get
-//		return false;
-//	}
-//	
-//	public void addUser(RemoteUser user){
-//		RemoteUser responseUser = restTemplate.postForObject(remoteUrl + "addUser", user, RemoteUser.class);
-//		System.out.println(responseUser);
-//	}
+	@Resource
+	private RestTemplate restTemplate;
+	private final String remoteUrl;
+	
+	public UserIdentifyService(){
+		Properties props = new Properties();
+		try {
+			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(!props.getProperty("remoteUrl").isEmpty()){
+			remoteUrl = props.getProperty("remoteUrl");
+		}else{
+			remoteUrl = "http://user.itanzi.com/wap/api/v1/";
+		}
+	}
+	
+	public boolean userIsExist(){
+		//restTemplate.get
+		return false;
+	}
+	
+	public void addUser(RemoteUser user){
+		RemoteUser responseUser = restTemplate.postForObject(remoteUrl + "addUser", user, RemoteUser.class);
+		System.out.println(responseUser);
+	}
+	
+	public void addUser(Map user){
+		String responseUser = restTemplate.postForObject(remoteUrl + "addUser", user, String.class);
+		System.out.println(responseUser);
+	}
 	
 	public class RemoteUser{
-		private int telNum;
-		private String head;
+		private int phone;
+		private String acatar;
 		private String email;
 		private int sex;
 		private long birthdaty;
 		private int qq;
 		private String nickname;
 		private String psw;
-		public int getTelNum() {
-			return telNum;
+		
+		public int getPhone() {
+			return phone;
 		}
-		public void setTelNum(int telNum) {
-			this.telNum = telNum;
+		public void setPhone(int phone) {
+			this.phone = phone;
 		}
-		public String getHead() {
-			return head;
+		public String getAcatar() {
+			return acatar;
 		}
-		public void setHead(String head) {
-			this.head = head;
+		public void setAcatar(String acatar) {
+			this.acatar = acatar;
 		}
 		public String getEmail() {
 			return email;
@@ -98,6 +104,11 @@ public class UserIdentifyService {
 		}
 		public void setPsw(String psw) {
 			this.psw = psw;
+		}
+		
+		@Override
+		public String toString(){
+			return "{tel : " + getPhone() + " " + nickname + " : " + getNickname() + "}";
 		}
 	}
 	

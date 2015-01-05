@@ -59,7 +59,7 @@ public class PictureServiceImp implements PictureService{
 	public TitleList getTiltList(ArticleState articleState, int pageNo) {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
-		query.addCriteria(new Criteria().where("state").is(articleState));
+		query.addCriteria(new Criteria().where("state").is(articleState.toString()));
 		query.addCriteria(new Criteria().where("tag").is(true));
 		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
 		titleList.setCurrentNo(pageNo);
@@ -75,7 +75,7 @@ public class PictureServiceImp implements PictureService{
 			String order) {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
-		query.addCriteria(new Criteria().where("state").is(articleState));
+		query.addCriteria(new Criteria().where("state").is(articleState.toString()));
 		query.addCriteria(new Criteria().where("tag").is(true));
 		query.with(new Sort(order));
 		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
@@ -157,7 +157,7 @@ public class PictureServiceImp implements PictureService{
 	public ChannelList getActivity(int pageNo, int pageSize) {
 		ChannelList channelList = new ChannelList();
 		Query activeQuery = new Query();
-		activeQuery.addCriteria(new Criteria().where("state").is(ChannelState.Activity));
+		activeQuery.addCriteria(new Criteria().where("state").is(ChannelState.Activity.toString()));
 		List<Channel> actives = this.channelDaoImp.getPage(pageNo, pageSize, activeQuery).getDatas();
 		for(Channel channel : actives){
 			Long pictureNum = new Long(0);
@@ -180,7 +180,7 @@ public class PictureServiceImp implements PictureService{
 	public ChannelList getOrderActivity(int pageNo, int pageSize, String order) {
 		ChannelList channelList = new ChannelList();
 		Query activeQuery = new Query();
-		activeQuery.addCriteria(new Criteria().where("state").is(ChannelState.Activity));
+		activeQuery.addCriteria(new Criteria().where("state").is(ChannelState.Activity.toString()));
 		List<Channel> actives = this.channelDaoImp.getPage(pageNo, pageSize, activeQuery).getDatas();
 		for(Channel channel : actives){
 			Long pictureNum = new Long(0);

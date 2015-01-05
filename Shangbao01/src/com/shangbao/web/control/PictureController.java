@@ -61,6 +61,7 @@ public class PictureController {
 	 * @return
 	 */
 	@RequestMapping(value="/{articleState}/{pageNo}", method=RequestMethod.GET)
+	@ResponseBody
 	public TitleList getTitleList(@PathVariable ArticleState articleState,
 			@PathVariable int pageNo){
 		return this.pictureServiceImp.getTiltList(articleState, pageNo);
@@ -73,9 +74,10 @@ public class PictureController {
 	 * @param order
 	 * @return
 	 */
-	@RequestMapping(value="/{articleState}/{pageId}/{order:[a-z,A-Z]+}", method=RequestMethod.GET)
+	@RequestMapping(value="/{articleState}/{pageId}/{order:[a-z,A-Z]+}/{direction:asc|desc}", method=RequestMethod.GET)
+	@ResponseBody
 	public TitleList getOrderedTitleList(@PathVariable ArticleState articleState,
-			@PathVariable int pageNo, @PathVariable String order){
+			@PathVariable int pageNo, @PathVariable String order, @PathVariable String direction){
 		return this.pictureServiceImp.getOrderedList(articleState, pageNo, order);
 	}
 	

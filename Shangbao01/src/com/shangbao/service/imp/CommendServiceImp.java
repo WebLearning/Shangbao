@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.shangbao.dao.ArticleDao;
 import com.shangbao.dao.CommendDao;
 import com.shangbao.model.CommendState;
 import com.shangbao.model.persistence.Article;
@@ -33,6 +34,9 @@ public class CommendServiceImp implements CommendService {
 
 	@Resource
 	private CommendDao commendDaoImp;
+	
+	@Resource
+	private ArticleDao articleDaoImp;
 
 	@Override
 	public void add(Commend commend){
@@ -81,10 +85,24 @@ public class CommendServiceImp implements CommendService {
 
 	@Override
 	public void add(Commend commend, SingleCommend singleCommend) {
-		Update updateElement = new Update();
-		singleCommend.setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()));
-		updateElement.push("commendList", singleCommend);
-		commendDaoImp.update(commend, updateElement);
+		List<Commend> commends = commendDaoImp.find(commend);
+		if(commends == null || commends.isEmpty()){
+			Article article = new Article();
+			article.setId(commend.getArticleId());
+			List<Article> articles = articleDaoImp.find(article);
+			if(articles == null || articles.isEmpty()){
+				return;
+			}
+			commend.setArticleTitle(articles.get(0).getTitle());
+			commend.setState(articles.get(0).getState());
+			commend.getCommendList().add(singleCommend);
+			commendDaoImp.insert(commend);
+		}else{
+			Update updateElement = new Update();
+			singleCommend.setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()));
+			updateElement.push("commendList", singleCommend);
+			commendDaoImp.update(commend, updateElement);
+		}
 	}
 
 	@Override
