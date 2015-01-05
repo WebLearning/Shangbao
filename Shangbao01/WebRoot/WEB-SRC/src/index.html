@@ -33,7 +33,9 @@
     <script type="text/javascript" src="js/dashboard/controllers/article-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/crawler-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/comment-ctrl.js"></script>
-
+    <script type="text/javascript" src="js/dashboard/controllers/pending-ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/published-ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/draft-ctrl.js"></script>
     <!--<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">-->
     <!--<script src="js/bootstrap-datetimepicker.js"></script>-->
 
@@ -71,16 +73,16 @@
                 <li role="presentation" class="sidebar-list" id="crawlerSidebarID">
                     <a href="#crawlerArticle" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/爬虫文章')">爬虫文章 <span class="menu-icon glyphicon glyphicon-save"></span></a>
                 </li>
-                <li role="presentation" class="sidebar-list">
+                <li role="presentation" class="sidebar-list" id="pendingSidebarID">
                     <a href="#pendingTrial" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>
                 </li>
-                <li role="presentation" class="sidebar-list">
+                <li role="presentation" class="sidebar-list" id="publishedSidebarID">
                     <a href="#published" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/已发布')">已发布 <span class="menu-icon glyphicon glyphicon-ok"></span></a>
                 </li>
                 <li role="presentation" class="sidebar-list">
                     <a href="#revoked" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/已撤销')">已撤销 <span class="menu-icon glyphicon glyphicon-remove"></span></a>
                 </li>
-                <li role="presentation" class="sidebar-list">
+                <li role="presentation" class="sidebar-list"id="draftSidebarID">
                     <a href="#draft" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
                 </li>
             </ul>
@@ -353,6 +355,9 @@
                                 <!--<button type="button" class="btn btn-default">预览</button>-->
                             </div>
                         </form>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
                         <!-- Modal add picture  -->
                         <div class="modal fade" id="myModal_addIMG" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -437,19 +442,19 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th><a href="" ng-click="orderByTitle()">标题</a></th>
-                                        <th>标题Url</th>
-                                        <th><a href="" ng-click="orderByArticleId()">文章ID</a></th>
+                                        <th>标题</th>
+                                        <!--<th>标题Url</th>
+                                        <th><a href="" ng-click="orderByArticleId()">文章ID</a></th>-->
                                         <th>作者</th>
                                         <th><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th>来源</th>
                                         <th>分类</th>
                                         <th>等级</th>
-                                        <th>点击数</th>
-                                        <th>评论数</th>
-                                        <th>赞数</th>
+                                        <th><a href="" ng-click="orderByClicks()">点击数</a></th>
+                                        <th><a href="" ng-click="orderByCommends()">评论数</a></th>
+                                        <th><a href="" ng-click="orderByLikes()">赞数</a></th>
                                         <th>摘要</th>
-                                        <th>字数</th>
+                                        <th><a href="" ng-click="orderByWords()">字数</a></th>
                                         <th>活动</th>
                                         <th><a href="" ng-click="selectAll()">全选</a>(当前页)</th>
                                     </tr>
@@ -457,8 +462,8 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in crawlerData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.titleUrl)}}</td>
-                                        <td>{{checkIfNull(tileObj.articleId)}}</td>
+                                        <!--<td>{{checkIfNull(tileObj.titleUrl)}}</td>
+                                        <td>{{checkIfNull(tileObj.articleId)}}</td>-->
                                         <td>{{checkIfNull(tileObj.author)}}</td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
@@ -492,7 +497,15 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="pendingTrial">
+            <div role="tabpanel" class="tab-pane" id="pendingTrial" ng-controller="pendingCtrl">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <button type="button" class="btn btn-success" ng-click="pendingTestLog()">test</button>
+                    </div>
+                    <div class="col-md-1 col-md-offset-7">
+                        <button type="button" class="btn btn-success" ng-click="refreshPending()"><span class="glyphicon glyphicon-refresh"></span></button>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="panel panel-success">
@@ -500,40 +513,56 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>等级</th>
-                                        <th>字数</th>
-                                        <th>图数</th>
-                                        <th>评论数</th>
-                                        <th>点击数</th>
-                                        <th>来源</th>
-                                        <th>日期</th>
-                                        <th>选择</th>
+                                        <th style="width: 8%">标题</th>
+                                        <!--<th>标题Url</th>
+                                        <th><a href="" ng-click="orderByArticleId()">文章ID</a></th>-->
+                                        <th style="width: 8%">作者</th>
+                                        <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
+                                        <th style="width: 8%">来源</th>
+                                        <th style="width: 11%">分类</th>
+                                        <th style="width: 5%">等级</th>
+                                        <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
+                                        <th style="width: 6%"><a href="" ng-click="orderByCommends()">评论数</a></th>
+                                        <th style="width: 6%"><a href="" ng-click="orderByLikes()">赞数</a></th>
+                                        <th style="width: 16%">摘要</th>
+                                        <th style="width: 5%">字数</th>
+                                        <th style="width: 8%">活动</th>
+                                        <th style="width: 5%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>文章1111</td>
-                                        <td>一级</td>
-                                        <td>1000</td>
-                                        <td>3</td>
-                                        <td>100</td>
-                                        <td>300</td>
-                                        <td>腾讯</td>
-                                        <td>2014/11/11</td>
+                                    <tr ng-repeat="tileObj in pendingData.tileList">
+                                        <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
+                                        <!--<td>{{checkIfNull(tileObj.articleUrl)}}</td>
+                                        <td>{{checkIfNull(tileObj.articleId)}}</td>-->
+                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td>{{dateStringToDate(tileObj.time)}}</td>
+                                        <td>{{checkIfNull(tileObj.from)}}</td>
+                                        <td>{{checkIfEmpty(tileObj.channel)}}</td>
+                                        <td>{{checkIfNull(tileObj.level)}}</td>
+                                        <td>{{checkIfNull(tileObj.clicks)}}</td>
+                                        <td>{{checkIfNull(tileObj.commends)}}</td>
+                                        <td>{{checkIfNull(tileObj.likes)}}</td>
+                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkIfNull(tileObj.words)}}</td>
+                                        <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
-                                            <input type="checkbox" value="">
+                                            <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>文章2222</td>
-                                        <td>一级</td>
+                                        <td><a href="" ng-click="goNewArticle(2)">文章222</a></td>
+                                        <td>author</td>
+                                        <td>2014/11/11</td>
+                                        <td>新浪</td>
+                                        <td>无</td>
+                                        <td>1</td>
                                         <td>500</td>
                                         <td>0</td>
                                         <td>30</td>
-                                        <td>300</td>
-                                        <td>新浪</td>
-                                        <td>2014/11/11</td>
+                                        <td>haha</td>
+                                        <td>24</td>
+                                        <td>无</td>
                                         <td>
                                             <input type="checkbox" value="">
                                         </td>
@@ -549,58 +578,119 @@
                                 <li><a href="#">2</a></li>
                                 <li><a href="#">3</a></li>
                                 <li><a href="#">&raquo;</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                             </ul>
                         </nav>
                         <div class="pull-right">
-                            <button type="button" class="btn btn-info">立刻发布</button>
-                            <button type="button" class="btn btn-info">定时发布</button>
-                            <button type="button" class="btn btn-info">撤销</button>
+                            <button type="button" class="btn btn-info" ng-click="publishArticleSelectionsNow()">立刻发布</button>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Select-Time">定时发布</button>
+                            <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">撤销</button>
+                        </div>
+                        <div class="modal fade" id="Select-Time" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">选择定时发布时间</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="datetime-local" class="form-control" placeholder="请输入时间" ng-model="publishTime">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="publishArticleSelectionsTiming()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="published">
+            <div role="tabpanel" class="tab-pane" id="published" ng-controller="publishedCtrl">
                 <div class="row">
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-1">
+                            <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                        </div>
+                        <div class="col-md-1 col-md-offset-7">
+                            <button type="button" class="btn btn-success" ng-click="refreshPublished()"><span class="glyphicon glyphicon-refresh"></span></button>
+                        </div>
+                    </div>
                     <div class="col-md-10 col-md-offset-1">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>等级</th>
-                                        <th>字数</th>
-                                        <th>图数</th>
-                                        <th>评论数</th>
-                                        <th>点击数</th>
+                                        <th>标题</th>
+                                        <th>作者</th>
+                                        <th><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th>来源</th>
-                                        <th>日期</th>
-                                        <th>选择</th>
+                                        <th>分类</th>
+                                        <th>等级</th>
+                                        <th><a href="" ng-click="orderByClicks()">点击数</a></th>
+                                        <th><a href="" ng-click="orderByCommends()">评论数</a></th>
+                                        <th><a href="" ng-click="orderByLikes()">赞数</a></th>
+                                        <th>摘要</th>
+                                        <th><a href="" ng-click="orderByWords()">字数</a></th>
+                                        <!--<th>图片数</th>-->
+                                        <th>活动</th>
+                                        <th><a href="" ng-click="selectAll()">全选</a>(当前页)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <tr ng-repeat="tileObj in publishedData.tileList">
+                                        <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
+                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td>{{dateStringToDate(tileObj.time)}}</td>
+                                        <td>{{checkIfNull(tileObj.from)}}</td>
+                                        <td>{{checkIfEmpty(tileObj.channel)}}</td>
+                                        <td>{{checkIfNull(tileObj.level)}}</td>
+                                        <td>{{checkIfNull(tileObj.clicks)}}</td>
+                                        <td>{{checkIfNull(tileObj.commends)}}</td>
+                                        <td>{{checkIfNull(tileObj.likes)}}</td>
+                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkIfNull(tileObj.words)}}</td>
+                                        <!--<td>{{checkIfEmpty(tileObj.pictures)}}</td>-->
+                                        <td>{{checkIfNull(tileObj.activity)}}</td>
+                                        <td>
+                                            <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody>
                                     <tr>
                                         <td>文章1111</td>
-                                        <td>一级</td>
-                                        <td>1000</td>
-                                        <td>3</td>
+                                        <td>author</td>
+                                        <td>2014/11/11</td>
+                                        <td>新浪</td>
+                                        <td>无</td>
+                                        <td>1</td>
                                         <td>100</td>
                                         <td>300</td>
-                                        <td>腾讯</td>
-                                        <td>2014/11/11</td>
+                                        <td>299</td>
+                                        <td>hehe</td>
+                                        <td>312</td>
+
+                                        <td>无</td>
                                         <td>
                                             <input type="checkbox" value="">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>文章2222</td>
-                                        <td>一级</td>
-                                        <td>500</td>
-                                        <td>0</td>
-                                        <td>30</td>
-                                        <td>300</td>
-                                        <td>新浪</td>
+                                        <td>author</td>
                                         <td>2014/11/11</td>
+                                        <td>新浪</td>
+                                        <td>无</td>
+                                        <td>1</td>
+                                        <td>32</td>
+                                        <td>234</td>
+                                        <td>299</td>
+                                        <td>哈哈</td>
+                                        <td>312</td>
+
+                                        <td>无</td>
                                         <td>
                                             <input type="checkbox" value="">
                                         </td>
@@ -617,10 +707,15 @@
                                 <li><a href="#">3</a></li>
                                 <li><a href="#">&raquo;</a></li>
                             </ul>
+                            <ul class="pagination">
+                                <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <!--<li><a href="#">&raquo;</a></li>-->
+                            </ul>
                         </nav>
                         <div class="pull-right">
                             <button type="button" class="btn btn-info">编辑</button>
-                            <button type="button" class="btn btn-info">撤销</button>
+                            <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">撤销</button>
                         </div>
                     </div>
                 </div>
@@ -691,7 +786,15 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="draft">
+            <div role="tabpanel" class="tab-pane" id="draft" ng-controller="draftCtrl">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                    </div>
+                    <div class="col-md-1 col-md-offset-7">
+                        <button type="button" class="btn btn-success" ng-click="refreshTemp()"><span class="glyphicon glyphicon-refresh"></span></button>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="panel panel-success">
@@ -699,40 +802,73 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>等级</th>
-                                        <th>字数</th>
-                                        <th>图数</th>
-                                        <th>评论数</th>
-                                        <th>点击数</th>
+                                        <th>标题</th>
+                                        <th>作者</th>
+                                        <th><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th>来源</th>
-                                        <th>日期</th>
-                                        <th>选择</th>
+                                        <th>分类</th>
+                                        <th>等级</th>
+                                        <th><a href="" ng-click="orderByClicks()">点击数</a></th>
+                                        <th><a href="" ng-click="orderByCommends()">评论数</a></th>
+                                        <th><a href="" ng-click="orderByLikes()">赞数</a></th>
+                                        <th>摘要</th>
+                                        <th><a href="" ng-click="orderByWords()">字数</a></th>
+                                        <th>活动</th>
+                                        <th><a href="" ng-click="selectAll()">全选</a>(当前页)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <tr ng-repeat="tileObj in tempData.tileList">
+                                        <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
+                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td>{{dateStringToDate(tileObj.time)}}</td>
+                                        <td>{{checkIfNull(tileObj.from)}}</td>
+                                        <td>{{checkIfEmpty(tileObj.channel)}}</td>
+                                        <td>{{checkIfNull(tileObj.level)}}</td>
+                                        <td>{{checkIfNull(tileObj.clicks)}}</td>
+                                        <td>{{checkIfNull(tileObj.commends)}}</td>
+                                        <td>{{checkIfNull(tileObj.likes)}}</td>
+                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkIfNull(tileObj.words)}}</td>
+                                        <td>{{checkIfNull(tileObj.activity)}}</td>
+                                        <td>
+                                            <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody>
                                     <tr>
                                         <td>文章1111</td>
-                                        <td>一级</td>
-                                        <td>1000</td>
-                                        <td>3</td>
+                                        <td>author</td>
+                                        <td>2014/11/11</td>
+                                        <td>新浪</td>
+                                        <td>无</td>
+                                        <td>1</td>
                                         <td>100</td>
                                         <td>300</td>
-                                        <td>腾讯</td>
-                                        <td>2014/11/11</td>
+                                        <td>299</td>
+                                        <td>hehe</td>
+                                        <td>312</td>
+                                        <td>2</td>
+                                        <td>无</td>
                                         <td>
                                             <input type="checkbox" value="">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>文章2222</td>
-                                        <td>一级</td>
-                                        <td>500</td>
-                                        <td>0</td>
-                                        <td>30</td>
-                                        <td>300</td>
-                                        <td>新浪</td>
+                                        <td>author</td>
                                         <td>2014/11/11</td>
+                                        <td>新浪</td>
+                                        <td>无</td>
+                                        <td>1</td>
+                                        <td>100</td>
+                                        <td>300</td>
+                                        <td>299</td>
+                                        <td>hehe</td>
+                                        <td>312</td>
+                                        <td>2</td>
+                                        <td>无</td>
                                         <td>
                                             <input type="checkbox" value="">
                                         </td>
@@ -749,10 +885,16 @@
                                 <li><a href="#">3</a></li>
                                 <li><a href="#">&raquo;</a></li>
                             </ul>
+                            <ul class="pagination">
+                                <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <!--<li><a href="#">&raquo;</a></li>-->
+                            </ul>
+                            </ul>
                         </nav>
                         <div class="pull-right">
-                            <button type="button" class="btn btn-info">提交审核</button>
-                            <button type="button" class="btn btn-info">彻底删除</button>
+                            <button type="button" class="btn btn-info" ng-click="submitArticleSelections()">提交审核</button>
+                            <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">彻底删除</button>
                         </div>
                     </div>
                 </div>
