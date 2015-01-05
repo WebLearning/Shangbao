@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
@@ -14,4 +15,7 @@ public interface ArticleDao extends MongoDao<Article> {
 	void setState(ArticleState state, Article criteriaArticle);
 	Page<Article> getPage(int pageNo, int pageSize, Query query);
 	List<Article> find(Article criteriaArticle, Direction direction, String property);
+	void setTopArticle(String channelName, Long articleId);
+	void swapArticle(String channelName, Long articleAId, Long articleBId);
+	void update(Article criteriaArticle, Update update);
 }

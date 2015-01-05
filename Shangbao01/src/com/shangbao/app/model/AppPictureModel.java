@@ -18,6 +18,7 @@ public class AppPictureModel {
 	private Date time;
 	private String activeName;
 	private String content;
+	private Long articleId;
 	
 	public AppPictureModel(){
 		
@@ -30,6 +31,7 @@ public class AppPictureModel {
 		time = article.getTime();
 		activeName = article.getActivity();
 		content = article.getContent();
+		articleId = article.getId();
 	}
 	
 	public String getTitle() {
@@ -73,5 +75,12 @@ public class AppPictureModel {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public Long getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(Long articleId) {
+		this.articleId = articleId;
 	}
 }

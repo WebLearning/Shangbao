@@ -18,7 +18,7 @@
 
 	<!-- SpringMVC -->
 	<servlet>
-		<servlet-name>spitter</servlet-name>
+		<servlet-name>springMVC</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -28,7 +28,7 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>spitter</servlet-name>
+		<servlet-name>springMVC</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 

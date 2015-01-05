@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import com.shangbao.dao.ArticleDao;
@@ -17,113 +22,210 @@ import com.shangbao.dao.ChannelDao;
 import com.shangbao.dao.CommendDao;
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.ChannelState;
+import com.shangbao.model.CommendState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.persistence.Commend;
+import com.shangbao.model.persistence.CrawlerCommend;
+import com.shangbao.model.persistence.NewsCommend;
 import com.shangbao.model.show.SingleCommend;
 
 @Component
 @Scope("singleton")
 public class AppModel {
-	private List<String> startPictures = new ArrayList<String>();//启动显示图片
-	private Map<String, List<Article>> appMap = new HashMap<String, List<Article>>();//每个channel包含的文章
-	private List<ChannelModel> channelModels = new ArrayList<ChannelModel>();//所有的channel
-	private Map<Long, List<SingleCommend>> commends = new HashMap<Long, List<SingleCommend>>();//每篇文章的评论
-	private List<Channel> activities = new ArrayList<Channel>();
-
+	
+	private ArticleDao articleDaoImp;
+	private ChannelDao channelDaoImp;
+	private CommendDao commendDaoImp;
+	
+	private final List<String> startPictures = new CopyOnWriteArrayList<String>();//启动显示图片
+	private final Map<String, List<Article>> appMap = new ConcurrentHashMap<String, List<Article>>();//每个channel包含的文章
+	private final List<ChannelModel> channelModels = new CopyOnWriteArrayList<ChannelModel>();//所有的channel
+	private final Map<Long, List<SingleCommend>> commends = new ConcurrentHashMap<Long, List<SingleCommend>>();//每篇文章的评论
+	private final List<Channel> activities = new CopyOnWriteArrayList<Channel>();
+	private final Map<String, String> channelEn_Cn = new ConcurrentHashMap<String, String>();//key:英文名； value:中文名
+	
 	
 	@Autowired
 	public AppModel(@Qualifier("articleDaoImp") ArticleDao articleDaoImp, 
 			@Qualifier("channelDaoImp") ChannelDao channelDaoImp,
 			@Qualifier("commendDaoImp") CommendDao commendDaoImp){
+		this.articleDaoImp = articleDaoImp;
+		this.channelDaoImp = channelDaoImp;
+		this.commendDaoImp = commendDaoImp;
+		
+		System.out.println("Init!");
 		//初始化appMap
-		System.out.println("Inite!");
+		List<Channel> channels = channelDaoImp.find(new Channel());
+		for(Channel channel : channels){
+			redeployChannelArticles(channel.getChannelName());
+		}
+		//打印
+		for(String key : appMap.keySet()){
+			System.out.println("key: " + key + "  value: ");
+			for(Article article : appMap.get(key)){
+				System.out.println("   " + article.getId() + "  " + article.getChannelIndex());
+			}
+		}
+		
+		//初始化commends
 		Article criteriaArticle = new Article();
 		criteriaArticle.setState(ArticleState.Published);
-		List<Article> articles = articleDaoImp.find(criteriaArticle, Direction.DESC, "time");
+		List<Article> articles = articleDaoImp.find(criteriaArticle);
 		for(Article article : articles){
-			List<String> articleChannels = article.getChannel();
-			if(articleChannels != null && !articleChannels.isEmpty()){
-				for(String channelName : articleChannels){
-					addArticle(channelName, article);
-				}
-				//初始化commends
-				Commend criteriaCommend = new Commend();
-				List<SingleCommend> singleCommends = new ArrayList<SingleCommend>();
-				criteriaCommend.setArticleId(article.getId());
-				List<Commend> commends = commendDaoImp.find(criteriaCommend);
-				if(commends != null && !commends.isEmpty()){
-					for(Commend commend : commends){
-						if(commend.getCommendList() != null){
-							singleCommends.addAll(commend.getCommendList());
+			redeployComment(article.getId());
+		}
+		//打印
+//		for(Long id : commends.keySet()){
+//			System.out.println("ID: " + id + "Comments: ");
+//			for(SingleCommend singleCommend : commends.get(id)){
+//				System.out.println("    " + singleCommend.getContent());
+//			}
+//		}
+				
+		//初始化channelModels channelEn_Cn activities
+		redeployChannels();
+		//打印
+		for(String key : channelEn_Cn.keySet()){
+			System.out.println("key: " + key + "  value: " + channelEn_Cn.get(key));
+		}
+	}
+	
+	/**
+	 * 更新appModel
+	 * @param channelName
+	 */
+	public void redeployChannelArticles(String channelName){
+		 Article criteriaArticle = new Article();
+		 criteriaArticle.addChannel(channelName);
+		 criteriaArticle.setState(ArticleState.Published);
+		 List<Article> articles = articleDaoImp.find(criteriaArticle, Direction.DESC, "channelIndex." + channelName);
+		 if(articles != null && !articles.isEmpty()){
+			 appMap.put(channelName, articles);
+		 }
+	}
+	
+	/**
+	 * 更新评论
+	 * @param articleId
+	 */
+	public void redeployComment(Long articleId){
+		Commend criteriaCommend = new Commend();
+		List<SingleCommend> singleCommends = new ArrayList<SingleCommend>();
+		criteriaCommend.setArticleId(articleId);
+		List<Commend> commends = commendDaoImp.find(criteriaCommend);
+		if(commends != null && !commends.isEmpty()){
+			for(Commend commend : commends){
+				if(commend.getCommendList() != null && !commend.getCommendList().isEmpty()){
+					for(SingleCommend singleCommend : commend.getCommendList()){
+						if(singleCommend.getState() != null && singleCommend.getState().equals(CommendState.published)){
+							singleCommends.add(singleCommend);
 						}
 					}
 				}
-				this.commends.put(article.getId(), singleCommends);
 			}
 		}
-				
-		//初始化channelModels
+		this.commends.put(articleId, singleCommends);
+	}
+	
+	/**
+	 * 更新channels
+	 */
+	public void redeployChannels(){
 		Channel criteriaChannel = new Channel();
 		criteriaChannel.setState(ChannelState.Father);
 		List<Channel> fatherChannels = channelDaoImp.find(criteriaChannel);
 		if(fatherChannels != null && !fatherChannels.isEmpty()){
 			for(Channel fatherChannel : fatherChannels){
+				channelEn_Cn.put(fatherChannel.getEnglishName(), fatherChannel.getChannelName());
 				Channel sonCriteriaChannel = new Channel();
 				sonCriteriaChannel.setState(ChannelState.Son);
 				sonCriteriaChannel.setRelated(fatherChannel.getChannelName());
 				List<Channel> sonChannels = channelDaoImp.find(sonCriteriaChannel);
 				addTopChannel(fatherChannel, sonChannels);
+				for(Channel sonChannel : sonChannels){
+					channelEn_Cn.put(sonChannel.getEnglishName(), sonChannel.getChannelName());
+				}
 			}
 		}
-		
-		
-		//初始化activities
 		Channel criteriaActivity = new Channel();
 		criteriaActivity.setState(ChannelState.Activity);
-		this.activities = channelDaoImp.find(criteriaActivity);
+		this.activities.addAll(channelDaoImp.find(criteriaActivity));
 	}
 	
+	/**
+	 * 全部更新
+	 */
+	public void redeployAll(){
+		appMap.clear();
+		channelModels.clear();
+		commends.clear();
+		activities.clear();
+		channelEn_Cn.clear();
+		List<Channel> channels = channelDaoImp.find(new Channel());
+		for(Channel channel : channels){
+			redeployChannelArticles(channel.getChannelName());
+		}
+		
+		Article criteriaArticle = new Article();
+		criteriaArticle.setState(ArticleState.Published);
+		List<Article> articles = articleDaoImp.find(criteriaArticle);
+		for(Article article : articles){
+			redeployComment(article.getId());
+		}
+		
+		redeployChannels();
+	}
 	
 	public List<String> getStartPictures() {
 		return startPictures;
 	}
 
-	public void setStartPictures(List<String> startPictures) {
-		this.startPictures = startPictures;
-	}
+//	public void setStartPictures(List<String> startPictures) {
+//		this.startPictures = startPictures;
+//	}
 	
 	public Map<String, List<Article>> getAppMap() {
 		return appMap;
 	}
 
-	public void setAppMap(Map<String, List<Article>> appMap) {
-		this.appMap = appMap;
-	}
+//	public void setAppMap(Map<String, List<Article>> appMap) {
+//		this.appMap = appMap;
+//	}
 
 	public List<ChannelModel> getChannelModels() {
 		return channelModels;
 	}
 
-	public void setChannelModels(List<ChannelModel> channelModels) {
-		this.channelModels = channelModels;
-	}
+//	public void setChannelModels(List<ChannelModel> channelModels) {
+//		this.channelModels = channelModels;
+//	}
 
 	public Map<Long, List<SingleCommend>> getCommends() {
 		return commends;
 	}
 
-	public void setCommends(Map<Long, List<SingleCommend>> commends) {
-		this.commends = commends;
-	}
+//	public void setCommends(Map<Long, List<SingleCommend>> commends) {
+//		this.commends = commends;
+//	}
 
 	public List<Channel> getActivities() {
 		return activities;
 	}
 
-	public void setActivities(List<Channel> activities) {
-		this.activities = activities;
+//	public void setActivities(List<Channel> activities) {
+//		this.activities = activities;
+//	}
+
+	public Map<String, String> getChannelEn_Cn() {
+		return channelEn_Cn;
 	}
+
+
+//	public void setChannelEn_Cn(Map<String, String> channelEn_Cn) {
+//		this.channelEn_Cn = channelEn_Cn;
+//	}
+
 
 	/**
 	 * 添加开始图片
@@ -163,29 +265,6 @@ public class AppModel {
 	public void deleteStartPicture(int picIndex){
 		if(picIndex > 0 && picIndex <= this.startPictures.size() + 1){
 			this.startPictures.remove(picIndex - 1);
-		}
-	}
-	
-	/**
-	 * 
-	 * @param channelName
-	 */
-	public void addChannel(String channelName) {
-		if (!appMap.containsKey(channelName)) {
-			List<Article> articles = new LinkedList<Article>();
-			appMap.put(channelName, articles);
-		}
-	}
-
-	public void addArticle(String channelName, Article article) {
-		if (appMap.containsKey(channelName)) {
-			if (appMap.get(channelName) != null) {
-				appMap.get(channelName).add(article);
-			}else{
-				List<Article> articles = new ArrayList<Article>();
-				articles.add(article);
-				appMap.put(channelName, articles);
-			}
 		}
 	}
 
@@ -258,13 +337,49 @@ public class AppModel {
 	 * @param singleCommend 添加的评论
 	 */
 	public void addComment(Long articleId, SingleCommend singleCommend){
-		if(this.commends.containsKey(articleId)){
-			this.commends.get(articleId).add(singleCommend);
-		}else{
-			List<SingleCommend> singleCommends = new ArrayList<SingleCommend>();
-			singleCommends.add(singleCommend);
-			this.commends.put(articleId, singleCommends);
-		}
+//		if(this.commends.containsKey(articleId)){
+//			this.commends.get(articleId).add(singleCommend);
+//		}else{
+//			List<SingleCommend> singleCommends = new ArrayList<SingleCommend>();
+//			singleCommends.add(singleCommend);
+//			this.commends.put(articleId, singleCommends);
+//		}
+		Update update = new Update();
+		singleCommend.setState(CommendState.unpublished);
+		NewsCommend newsCommend = new NewsCommend();
+		newsCommend.setArticleId(articleId);
+		update.push("commendList", singleCommend);
+		commendDaoImp.update(newsCommend, update);
+	}
+	
+	/**
+	 * 点赞
+	 * @param articleId
+	 */
+	public void addLike(Long articleId){
+		Article criteriaArticle = new Article();
+		criteriaArticle.setId(articleId);
+		Update update = new Update();
+		update.inc("likes", 1);
+		articleDaoImp.update(criteriaArticle, update);
+	}
+	
+	/**
+	 * 点击
+	 * @param articleId
+	 */
+	public void addClick(Long articleId){
+		Article criteriaArticle = new Article();
+		criteriaArticle.setId(articleId);
+		Update update = new Update();
+		update.inc("clicks", 1);
+		articleDaoImp.update(criteriaArticle, update);
+	}
+	
+	public void postPictures(Article pictureArticle){
+		pictureArticle.setTag(true);
+		pictureArticle.setState(ArticleState.Temp);
+		articleDaoImp.insert(pictureArticle);
 	}
 	
 	/**
@@ -279,6 +394,32 @@ public class AppModel {
 		return null;
 	}
 	
+	/**
+	 * 将一个文章置顶
+	 * @param channelName 栏目名称
+	 * @param articleId 文章Id
+	 */
+	public void setTopArticle(String channelName, Long articleId){
+		if(!appMap.containsKey(channelName)){
+			return;
+		}
+		articleDaoImp.setTopArticle(channelName, articleId);
+		redeployChannelArticles(channelName);
+	}
+	
+	/**
+	 * 交换两个文章的位置
+	 * @param channelName 栏目名称
+	 * @param articleAId 文章A的Id
+	 * @param articleBId 文章B的Id
+	 */
+	public void swapArticle(String channelName, Long articleAId, Long articleBId){
+		if(!appMap.containsKey(channelName)){
+			return;
+		}
+		articleDaoImp.swapArticle(channelName, articleAId, articleBId);
+		redeployChannelArticles(channelName);
+	}
 	
 	class ChannelModel {
 		public Channel fatherChannel;

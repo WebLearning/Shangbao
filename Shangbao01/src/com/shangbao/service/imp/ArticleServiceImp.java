@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -81,11 +82,15 @@ public class ArticleServiceImp implements ArticleService {
 
 	@Override
 	public TitleList getOrderedList(ArticleState articleState, int pageNo,
-			String order) {
+			String order, String direction) {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
 		query.addCriteria(new Criteria().where("state").is(articleState));
-		query.with(new Sort(order));
+		if(direction.equals("asc")){
+			query.with(new Sort(Direction.ASC, order));
+		}else{
+			query.with(new Sort(Direction.DESC, order));
+		}
 		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
@@ -149,5 +154,9 @@ public class ArticleServiceImp implements ArticleService {
 			criteriaArticle.setId(id);
 			articleDaoImp.setState(targetState, criteriaArticle);
 		}
+	}
+	
+	private void setArticleIndex(){
+		
 	}
 }

@@ -30,13 +30,16 @@ public class AppChannelModel {
 		this.contentColumns = contentColumns;
 	}
 	
-	public void addColumn(String columnName, List<Article> articles){
+	public void addColumn(String columnName, String columnEnName, List<Article> articles){
 		Column column = new Column();
 		column.columnName = columnName;
+		column.columnEnglishName = columnEnName;
 		if(!articles.isEmpty()){
+			int index = 1;
 			for(Article article : articles){
-				AppTitle appTitle = new AppTitle(article);
+				AppTitle appTitle = new AppTitle(article, index);
 				column.content.add(appTitle);
+				index ++;
 			}
 		}
 		this.contentColumns.add(column);
@@ -47,6 +50,7 @@ public class AppChannelModel {
 	 */
 	class Column{
 		public String columnName;
+		public String columnEnglishName;
 		public List<AppTitle> content = new ArrayList<AppTitle>();
 	}
 	
@@ -55,16 +59,16 @@ public class AppChannelModel {
 	 */
 	class AppTitle{
 		public String title;
-		public List<String> picUrl;
+		public String picUrl;
 		public String summary;
-		public Long newsId;
+		public Integer newsId;
 		public AppTitle(){	
 		}
-		public AppTitle(Article article){
+		public AppTitle(Article article, Integer id){
 			this.title = article.getTitle();
-			this.picUrl = article.getPicturesUrl();
+			this.picUrl = article.getTitlePicUrl();
 			this.summary = article.getSummary();
-			this.newsId = article.getId();
+			this.newsId = id;
 		}
 	}
 }

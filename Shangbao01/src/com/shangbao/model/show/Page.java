@@ -60,7 +60,11 @@ public class Page<T> {
 	 * @return
 	 */
 	public int getLastResult() {
-		return this.getPageNo() * this.getPageSize();
+		int lastResult = this.getPageNo() * this.getPageSize();
+		if(lastResult > this.getTotalCount()){
+			lastResult = (int) this.getTotalCount();
+		}
+		return lastResult;
 	}
 
 	/**

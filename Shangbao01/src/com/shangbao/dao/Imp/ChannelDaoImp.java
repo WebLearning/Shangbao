@@ -109,7 +109,7 @@ public class ChannelDaoImp implements ChannelDao{
 			query.addCriteria(new Criteria().where("related").is(criteriaChannel.getRelated()));
 		}
 		if((criteriaChannel.getState() != null) && (criteriaChannel.getState() != null)){
-			query.addCriteria(new Criteria().where("state").is(criteriaChannel.getState()));
+			query.addCriteria(new Criteria().where("state").is(criteriaChannel.getState().toString()));
 		}
 		return query;
 	}

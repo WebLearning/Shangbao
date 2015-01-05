@@ -3,6 +3,7 @@ package com.shangbao.dao.Imp;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.Id;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -12,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.WriteResult;
 import com.shangbao.dao.ArticleDao;
 import com.shangbao.dao.SequenceDao;
 import com.shangbao.model.ArticleState;
@@ -74,6 +76,12 @@ public class ArticleDaoImp implements ArticleDao {
 	@Override
 	public void update(Article criteriaArticle, Article article) {
 	}
+	
+	@Override
+	public void update(Article criteriaArticle, Update update){
+		Query query = getQuery(criteriaArticle);
+		WriteResult result = mongoTemplate.updateFirst(query, update, Article.class);
+	}
 
 	@Override
 	public List<Article> find(Article article) {
@@ -101,7 +109,9 @@ public class ArticleDaoImp implements ArticleDao {
 	@Override
 	public List<Article> find(Article criteriaArticle, Direction direction, String property){
 		Query query = getQuery(criteriaArticle);
-		query.with(new Sort(direction, property));
+		Sort sort = new Sort(direction, property);
+//		System.out.println(sort);
+		query.with(sort);
 		return mongoTemplate.find(query, Article.class);
 	}
 	
@@ -144,14 +154,15 @@ public class ArticleDaoImp implements ArticleDao {
             query.addCriteria(criteria);  
         }
         if (criteriaArticle.getChannel() != null && !criteriaArticle.getChannel().isEmpty()) {
-        	
+        	Criteria criteria = Criteria.where("channel").in(criteriaArticle.getChannel());
+        	query.addCriteria(criteria);
         }
         if (criteriaArticle.getActivity() != null && !criteriaArticle.getActivity().isEmpty()){
         	Criteria criteria = Criteria.where("activity").is(criteriaArticle.getActivity());
         	query.addCriteria(criteria);
         }
         if(criteriaArticle.getState() != null){
-        	Criteria criteria = Criteria.where("state").is(criteriaArticle.getState());
+        	Criteria criteria = Criteria.where("state").is(criteriaArticle.getState().toString());
         	query.addCriteria(criteria);
         }
         if (criteriaArticle.isTag()){
@@ -176,7 +187,89 @@ public class ArticleDaoImp implements ArticleDao {
 	public void setState(ArticleState state, Article criteriaArticle) {
 		Query query = getQuery(criteriaArticle);
 		Update update = new Update();
-		update.set("state", state);
-		mongoTemplate.updateFirst(query, update, Article.class);
+		update.set("state", state.toString());
+		if(state.equals(ArticleState.Published)){
+			//如果是发表，需要设置文章在每个channel里的顺序
+			Article article = findById(criteriaArticle.getId());
+			List<String> channels = article.getChannel();
+			if(channels != null && !channels.isEmpty()){
+				for(String channel : channels){
+					//针对每一个channel设置该文章的顺序
+					Query channelQuery = new Query();
+					Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published);
+					//找出该channel所属文章的最大的index
+					channelQuery.addCriteria(channelCriteria);
+					channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channel));
+					channelQuery.limit(1);
+					List<Article> articleList = mongoTemplate.find(channelQuery, Article.class);
+					if(articleList == null || articleList.isEmpty()){
+						//这篇文章是该栏目第一个文章
+						update.set("channelIndex." + channel, 1);
+					}else{
+						//该栏目已经有文章
+						int index = 1;
+						if(articleList.get(0).getChannelIndex().get(channel) != null){
+							index = articleList.get(0).getChannelIndex().get(channel) + 1;
+						}
+						update.set("channelIndex." + channel, index);
+					}
+				}
+			}
+		}
+//		System.out.println(query.getQueryObject());
+//		System.out.println(update.getUpdateObject());
+		WriteResult result = mongoTemplate.updateFirst(query, update, Article.class);
+	}
+
+	@Override
+	public void setTopArticle(String channelName, Long articleId) {
+		Article article = mongoTemplate.findById(articleId, Article.class);
+		if(article == null){
+			return;
+		}
+		if (article.getChannel().contains(channelName)){
+			Query channelQuery = new Query();
+			Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published);
+			//找出该channel所属文章的最大的index
+			channelQuery.addCriteria(channelCriteria);
+			channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channelName));
+			channelQuery.limit(1);
+			List<Article> articleList = mongoTemplate.find(channelQuery, Article.class);
+			if(articleList != null && !articleList.isEmpty()){
+				if(articleList.get(0).getId() == articleId)
+					return;
+				int index = articleList.get(0).getChannelIndex().get(channelName);
+				index ++;
+				//将id为articleId的文章置顶
+				Update update = new Update();
+				Query query = new Query();
+				query.addCriteria(new Criteria().where("id").is(articleId));
+				update.set("channelIndex." + channelName, index);
+				WriteResult result = mongoTemplate.updateFirst(query, update, Article.class);
+			}
+		}
+	}
+
+	@Override
+	public void swapArticle(String channelName, Long articleAId, Long articleBId) {
+		Article articleA = mongoTemplate.findById(articleAId, Article.class);
+		Article articleB = mongoTemplate.findById(articleBId, Article.class);
+		if(articleA == null || articleB == null || !articleA.getChannel().contains(channelName) || !articleB.getChannel().contains(channelName)){
+			return;
+		}
+		int indexA = articleB.getChannelIndex().get(channelName);
+		int indexB = articleA.getChannelIndex().get(channelName);
+		if(indexA > 0 && indexB > 0){
+			Update updateA = new Update();
+			Query queryA = new Query();
+			queryA.addCriteria(new Criteria().where("id").is(articleAId));
+			updateA.set("channelIndex." + channelName, indexA);
+			WriteResult resultA = mongoTemplate.updateFirst(queryA, updateA, Article.class);
+			Update updateB = new Update();
+			Query queryB = new Query();
+			queryB.addCriteria(new Criteria().where("id").is(articleBId));
+			updateB.set("channelIndex." + channelName, indexB);
+			WriteResult resultB = mongoTemplate.updateFirst(queryB, updateB, Article.class);
+		}
 	}
 }
