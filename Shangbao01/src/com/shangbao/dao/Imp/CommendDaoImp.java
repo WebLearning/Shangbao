@@ -5,12 +5,15 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.WriteResult;
 import com.shangbao.dao.CommendDao;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Commend;
@@ -23,7 +26,7 @@ public class CommendDaoImp implements CommendDao {
 
 	@Resource
 	private MongoTemplate mongoTemplate;
-	
+
 	@Override
 	public void insert(Commend element) {
 		this.mongoTemplate.insert(element);
@@ -42,7 +45,7 @@ public class CommendDaoImp implements CommendDao {
 
 	@Override
 	public void deleteAll() {
-		
+
 	}
 
 	@Override
@@ -54,23 +57,25 @@ public class CommendDaoImp implements CommendDao {
 	@Override
 	public List<Commend> find(Commend criteriaElement) {
 		List<Commend> commendList = new ArrayList<Commend>();
-		if(criteriaElement instanceof NewsCommend){
-			List<NewsCommend> newsList = mongoTemplate.find(getQuery(criteriaElement), NewsCommend.class);
-			for(NewsCommend commend : newsList){
+		if (criteriaElement instanceof NewsCommend) {
+			List<NewsCommend> newsList = mongoTemplate.find(
+					getQuery(criteriaElement), NewsCommend.class);
+			for (NewsCommend commend : newsList) {
 				commendList.add(commend);
 			}
-		}
-		else if(criteriaElement instanceof CrawlerCommend){
-			for(Commend commend : mongoTemplate.find(getQuery(criteriaElement), CrawlerCommend.class)){
+		} else if (criteriaElement instanceof CrawlerCommend) {
+			for (Commend commend : mongoTemplate.find(
+					getQuery(criteriaElement), CrawlerCommend.class)) {
 				commendList.add(commend);
 			}
-		}
-		else{
-			List<NewsCommend> newsList = mongoTemplate.find(getQuery(criteriaElement), NewsCommend.class);
-			for(Commend commend : newsList){
+		} else {
+			List<NewsCommend> newsList = mongoTemplate.find(
+					getQuery(criteriaElement), NewsCommend.class);
+			for (Commend commend : newsList) {
 				commendList.add(commend);
 			}
-			for(Commend commend : mongoTemplate.find(getQuery(criteriaElement), CrawlerCommend.class)){
+			for (Commend commend : mongoTemplate.find(
+					getQuery(criteriaElement), CrawlerCommend.class)) {
 				commendList.add(commend);
 			}
 		}
@@ -78,25 +83,61 @@ public class CommendDaoImp implements CommendDao {
 	}
 
 	/**
-	 * 查找评论
-	 * 若commend是NewsCommend则只查找商报评论
-	 * 若commend是CrawlerCommend则只查找爬虫评论
+	 * 查找评论 若commend是NewsCommend则只查找商报评论 若commend是CrawlerCommend则只查找爬虫评论
 	 * 若commend是Commend类型则查找两种评论
 	 */
 	@Override
-	public List find(Query query, Commend commend) {
-		if(commend instanceof NewsCommend){
+	public List find(Query query, Commend criteriaElement) {
+		if (criteriaElement instanceof NewsCommend) {
 			return mongoTemplate.find(query, NewsCommend.class);
-		}
-		else if(commend instanceof CrawlerCommend){
+		} else if (criteriaElement instanceof CrawlerCommend) {
 			return mongoTemplate.find(query, CrawlerCommend.class);
+		} else {
+			List<Commend> commends = new ArrayList<>();
+			List<NewsCommend> newsCommends = mongoTemplate.find(query,
+					NewsCommend.class);
+			if (newsCommends != null && !newsCommends.isEmpty()) {
+				for (Commend commend : newsCommends) {
+					commends.add(commend);
+				}
+			}
+			List<CrawlerCommend> crawlerCommends = mongoTemplate.find(query,
+					CrawlerCommend.class);
+			if (crawlerCommends != null && !crawlerCommends.isEmpty()) {
+				for (Commend commend : crawlerCommends) {
+					commends.add(commend);
+				}
+			}
+			return commends;
 		}
-		return null;
 	}
-	
+
+	@Override
+	public List<Commend> find(Commend criteriaCommend, Direction direction, String property) {
+		Query query = getQuery(criteriaCommend);
+		Sort sort = new Sort(direction, property);
+		query.with(sort);
+		List<Commend> commends = new ArrayList<>();
+		List<NewsCommend> newsCommends = mongoTemplate.find(query,
+				NewsCommend.class);
+		if (newsCommends != null && !newsCommends.isEmpty()) {
+			for (Commend commend : newsCommends) {
+				commends.add(commend);
+			}
+		}
+		List<CrawlerCommend> crawlerCommends = mongoTemplate.find(query,
+				CrawlerCommend.class);
+		if (crawlerCommends != null && !crawlerCommends.isEmpty()) {
+			for (Commend commend : crawlerCommends) {
+				commends.add(commend);
+			}
+		}
+		return commends;
+	}
+
 	@Override
 	public Commend findById(long id) {
-		
+
 		return null;
 	}
 
@@ -144,14 +185,17 @@ public class CommendDaoImp implements CommendDao {
 	@Override
 	public Query getQuery(Commend commend) {
 		Query query = new Query();
-		if(commend.getArticleId() > 0){
-			query.addCriteria(new Criteria().where("articleId").is(commend.getArticleId()));
+		if (commend.getArticleId() > 0) {
+			query.addCriteria(new Criteria().where("articleId").is(
+					commend.getArticleId()));
 		}
-		if(commend.getArticleTitle() != null){
-			query.addCriteria(new Criteria().where("articleTitle").is(commend.getArticleTitle()));
+		if (commend.getArticleTitle() != null) {
+			query.addCriteria(new Criteria().where("articleTitle").is(
+					commend.getArticleTitle()));
 		}
-		if(commend.getState() != null){
-			query.addCriteria(new Criteria().where("state").is(commend.getState()));
+		if (commend.getState() != null) {
+			query.addCriteria(new Criteria().where("state").is(
+					commend.getState().toString()));
 		}
 		return query;
 	}
@@ -159,24 +203,23 @@ public class CommendDaoImp implements CommendDao {
 	@Override
 	public void update(Commend commend, Update update) {
 		Query query = getQuery(commend);
-		if(commend instanceof NewsCommend){
-			mongoTemplate.updateFirst(query, update, NewsCommend.class);
-		}
-		else if(commend instanceof CrawlerCommend){
-			mongoTemplate.updateFirst(query, update, CrawlerCommend.class);
+		if (commend instanceof NewsCommend) {
+			WriteResult result = mongoTemplate.updateFirst(query, update, NewsCommend.class);
+		} else if (commend instanceof CrawlerCommend) {
+			WriteResult result = mongoTemplate.updateFirst(query, update, CrawlerCommend.class);
 		}
 	}
 
 	@Override
 	public void update(Commend commend, Query query, Update update) {
-		query.addCriteria(new Criteria().where("articleId").is(commend.getArticleId()));
-		if(commend instanceof NewsCommend){
+		query.addCriteria(new Criteria().where("articleId").is(
+				commend.getArticleId()));
+		if (commend instanceof NewsCommend) {
 			System.out.println(query.getQueryObject());
 			System.out.println(update.getUpdateObject());
-			mongoTemplate.updateFirst(query, update, NewsCommend.class);
-		}
-		else if(commend instanceof CrawlerCommend){
-			mongoTemplate.updateFirst(query, update, CrawlerCommend.class);
+			WriteResult result = mongoTemplate.updateFirst(query, update, NewsCommend.class);
+		} else if (commend instanceof CrawlerCommend) {
+			WriteResult result = mongoTemplate.updateFirst(query, update, CrawlerCommend.class);
 		}
 	}
 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.shangbao.model.show.SingleCommend;
+
 public class CommentPageModel {
 	private int PageCount;//页数
 	private int currentNo;//当前页码
@@ -38,6 +40,15 @@ public class CommentPageModel {
 		Comment comment = new Comment(articleId, userName, userId, time, level, from, content, reply);
 		this.content.add(comment);
 	}
+	
+	public void addComment(List<SingleCommend> singleCommends){
+		if(singleCommends != null && !singleCommends.isEmpty()){
+			for(SingleCommend singleCommend : singleCommends){
+				Comment comment = new Comment(singleCommend);
+				content.add(comment);
+			}
+		}
+	}
 
 	class Comment{
 		public Long articleId;
@@ -52,6 +63,18 @@ public class CommentPageModel {
 		public Comment(){
 			
 		}
+		
+		public Comment(SingleCommend singleCommend){
+			//this.articleId = singleCommend.geta;
+			this.userName = singleCommend.getUserName();
+			this.userId = singleCommend.getUserId();
+			this.time = singleCommend.getTimeDate();
+			this.level = singleCommend.getLevel();
+			this.from = singleCommend.getFrom();
+			this.content = singleCommend.getContent();
+			this.reply = singleCommend.getReply();
+		}
+		
 		public Comment(Long articleId, String userName, Long userId,
 				 Date time, String level, String from, String content, String reply){
 			this.articleId = articleId;

@@ -12,6 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import com.shangbao.app.service.AppService;
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.Page;

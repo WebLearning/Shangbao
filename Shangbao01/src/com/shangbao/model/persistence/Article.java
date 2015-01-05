@@ -2,6 +2,7 @@ package com.shangbao.model.persistence;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,8 @@ public class Article {
 	private int clicks;//点击数
 	private int likes;//点赞数
 	private String from;//来源
+	private Map<String, Integer> channelIndex = new HashMap<String, Integer>();//文章在所属目录中的index
+	
 	
 	
 	public long getId() {
@@ -177,6 +180,12 @@ public class Article {
 		this.likes = likes;
 	}
 	
+	public Map<String, Integer> getChannelIndex() {
+		return channelIndex;
+	}
+	public void setChannelIndex(Map<String, Integer> channelIndex) {
+		this.channelIndex = channelIndex;
+	}
 	/**
 	 * 添加关键字
 	 * @param keyWord

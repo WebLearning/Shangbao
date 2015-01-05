@@ -52,7 +52,7 @@ public interface ArticleService {
 	 * @param order
 	 * @return
 	 */
-	public TitleList getOrderedList(ArticleState articleState, int pageNo, String order);
+	public TitleList getOrderedList(ArticleState articleState, int pageNo, String order, String direction);
 	
 	/**
 	 * 设置文章的状态
