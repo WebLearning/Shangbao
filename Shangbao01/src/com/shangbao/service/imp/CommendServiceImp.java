@@ -35,6 +35,11 @@ public class CommendServiceImp implements CommendService {
 	private CommendDao commendDaoImp;
 
 	@Override
+	public void add(Commend commend){
+		commendDaoImp.insert(commend);
+	}
+	
+	@Override
 	public CommendList get(Commend criteriaElement, int pageId) {
 		CommendList commendList = new CommendList();
 		List<Commend> commends = commendDaoImp.find(criteriaElement);
@@ -106,7 +111,7 @@ public class CommendServiceImp implements CommendService {
 	@Override
 	public void publish(Commend commend, List<String> singleCommendIds) {
 		Update updateElement = new Update();
-		updateElement.set("commendList.$.state", CommendState.published);
+		updateElement.set("commendList.$.state", CommendState.published.toString());
 		for(String commendId : singleCommendIds){
 			Query query = new Query();
 			query.addCriteria(new Criteria().where("commendList.commendId").is(commend));

@@ -1,5 +1,6 @@
 package com.shangbao.dao.Imp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -41,14 +42,23 @@ public class ArticleDaoImp implements ArticleDao {
 
 	@Override
 	public void insert(Article article) {
-		article.setId(sequenceDaoImp.getNextSequenceId(ARTICLE_SEQ_KEY));
+		Long idLong = sequenceDaoImp.getNextSequenceId(ARTICLE_SEQ_KEY);
+		article.setId(idLong);
 		mongoTemplate.insert(article);
+	}
+	
+	@Override
+	public Long insertAndGetId(Article article){
+		Long idLong = sequenceDaoImp.getNextSequenceId(ARTICLE_SEQ_KEY);
+		article.setId(idLong);
+		mongoTemplate.insert(article);
+		return idLong;
 	}
 
 	@Override
 	public void insertAll(List<Article> articles) {
 		if(!articles.isEmpty()){
-			List<Article> tempArticles = null;
+			List<Article> tempArticles = new ArrayList<>();
 			for(Article article : articles){
 				article.setId(sequenceDaoImp.getNextSequenceId(ARTICLE_SEQ_KEY));
 				tempArticles.add(article);
@@ -110,8 +120,8 @@ public class ArticleDaoImp implements ArticleDao {
 	public List<Article> find(Article criteriaArticle, Direction direction, String property){
 		Query query = getQuery(criteriaArticle);
 		Sort sort = new Sort(direction, property);
-//		System.out.println(sort);
 		query.with(sort);
+		//System.out.println(query.getQueryObject());
 		return mongoTemplate.find(query, Article.class);
 	}
 	
@@ -178,6 +188,8 @@ public class ArticleDaoImp implements ArticleDao {
 		Page<Article> page = new Page<Article>(pageNo, pageSize, totalCount);
 		query.skip(page.getFirstResult());// skip相当于从那条记录开始
 		query.limit(pageSize);
+		//System.out.println(query.getQueryObject());
+		//System.out.println(query.getSortObject());
 		List<Article> datas = mongoTemplate.find(query, Article.class);
 		page.setDatas(datas);
 		return page;

@@ -18,4 +18,5 @@ public interface ArticleDao extends MongoDao<Article> {
 	void setTopArticle(String channelName, Long articleId);
 	void swapArticle(String channelName, Long articleAId, Long articleBId);
 	void update(Article criteriaArticle, Update update);
+	Long insertAndGetId(Article article);
 }

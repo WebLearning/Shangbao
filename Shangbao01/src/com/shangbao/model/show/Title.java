@@ -11,7 +11,8 @@ public class Title {
 	private String author;//作者
 	private String level;//等级
 	private int words;//字数
-	private int commends;//评论数
+	private int newsCommends;//商报评论数
+	private int crawlerCommends;//爬虫评论数
 	private int clicks;//点击数
 	private int likes;//点赞数
 	private String from;//来源
@@ -30,8 +31,8 @@ public class Title {
 		setAuthor(article.getAuthor());
 		setLevel(article.getLevel());
 		setWords(article.getWords());
-		setCommends(article.getNewsCommends() + article.getNewsCommendsPublish()
-				+ article.getCrawlerCommends() + article.getCrawlerCommendsPublish());
+		setNewsCommends(article.getNewsCommends());
+		setCrawlerCommends(article.getCrawlerCommends());
 		setClicks(article.getClicks());
 		setFrom(article.getFrom());
 		setSummary(article.getSummary());
@@ -75,12 +76,20 @@ public class Title {
 		this.words = words;
 	}
 
-	public int getCommends() {
-		return commends;
+	public int getNewsCommends() {
+		return newsCommends;
 	}
 
-	public void setCommends(int commends) {
-		this.commends = commends;
+	public void setNewsCommends(int newsCommends) {
+		this.newsCommends = newsCommends;
+	}
+
+	public int getCrawlerCommends() {
+		return crawlerCommends;
+	}
+
+	public void setCrawlerCommends(int crawlerCommends) {
+		this.crawlerCommends = crawlerCommends;
 	}
 
 	public int getClicks() {

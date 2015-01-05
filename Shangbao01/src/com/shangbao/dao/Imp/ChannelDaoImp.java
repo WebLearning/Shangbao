@@ -102,6 +102,9 @@ public class ChannelDaoImp implements ChannelDao{
 		if(criteriaChannel.getChannelName() != null && (!criteriaChannel.getChannelName().isEmpty())){
 			query.addCriteria(new Criteria().where("channelName").is(criteriaChannel.getChannelName()));
 		}
+		if(criteriaChannel.getEnglishName() != null && (!criteriaChannel.getEnglishName().isEmpty())){
+			query.addCriteria(new Criteria().where("englishName").is(criteriaChannel.getEnglishName()));
+		}
 		if((criteriaChannel.getSummary() != null) && (!criteriaChannel.getSummary().isEmpty())){
 			query.addCriteria(new Criteria().where("summary").is(criteriaChannel.getSummary()));
 		}

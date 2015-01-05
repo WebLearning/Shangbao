@@ -34,7 +34,13 @@ public class ChannelServiceImp implements ChannelService{
 	@Override
 	public List<Channel> findAllSonChannels(String fatherChannelName) {
 		Channel channel = new Channel();
-		channel.setRelated(fatherChannelName);
+		Channel fatherChannel = new Channel();
+		fatherChannel.setEnglishName(fatherChannelName);
+		List<Channel> fathers = channelDaoImp.find(fatherChannel);
+		if(fathers.isEmpty() || fathers == null)
+			return null;
+		String fatherCnName = fathers.get(0).getChannelName();
+		channel.setRelated(fatherCnName);
 		channel.setState(ChannelState.Son);
 		return channelDaoImp.find(channel);
 	}
