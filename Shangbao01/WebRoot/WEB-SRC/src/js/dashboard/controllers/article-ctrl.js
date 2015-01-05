@@ -31,10 +31,49 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
 
     $scope.testLog=function()
     {
+        $scope.calculateWords();
         console.log($scope.recvData);
         console.log($scope.articleData);
     };
 
+    //footer的3个按钮的操作
+    $scope.clearArticle=function()
+    {
+        for(p in $scope.articleData){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+                $scope.articleData[p]=[];
+            }else{
+                $scope.articleData[p]="";
+            }
+        }
+        $scope.calculateWords();
+    };
+
+    $scope.saveArticle=function(){
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
+            alert("保存文章成功");
+        });
+    };
+
+    $scope.putArticle=function(){
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
+            alert("提交审核文章成功");
+        });
+    };
+
+    //得到字数
+    $scope.calculateWords=function()
+    {
+        $scope.articleData.words=$scope.articleData.content.length;
+    };
+    //图片数-----------------------------------------------------
+    /*$scope.calculatePictures=function(){
+        $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
+    }*/
     //刷新时间
     $scope.getCurrentDatetime=function()
     {
@@ -56,34 +95,6 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     {
         $scope.articleData.picturesUrl.splice(index,1);
     };
-
-    //footer的3个按钮的操作
-
-    $scope.clearArticle=function()
-    {
-        for(p in $scope.articleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
-                $scope.articleData[p]=[];
-            }else{
-                $scope.articleData[p]="";
-            }
-        }
-    };
-
-    $scope.saveArticle=function(){
-        var jsonString=JSON.stringify($scope.articleData);
-        $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
-            alert("保存文章成功");
-        });
-    };
-
-    $scope.putArticle=function(){
-        var jsonString=JSON.stringify($scope.articleData);
-        $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
-            alert("提交审核文章成功");
-        });
-    };
-
 
     //添加关键词和分类
     $scope.addKeyword=function()

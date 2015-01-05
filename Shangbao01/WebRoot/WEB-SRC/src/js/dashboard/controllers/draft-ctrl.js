@@ -48,8 +48,11 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
         var checkedStr;
         if(arr.length==0){
             checkedStr="无数据";
+            return checkedStr;
+        }else{
+            return arr.toString();
         }
-        return checkedStr;
+        //return arr.toString();
     };
     $scope.dateStringToDate=function(dateStr)
     {
@@ -173,13 +176,27 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
         $scope.articleSelections=[];
         $scope.articleSelectionsUrl="";
     }
-
+    var allSelectState="none";
     $scope.selectAll=function()
     {
-        var arr=$scope.tempData.tileList;
-        for(i=0;i<arr.length;i++){
-            $scope.articleSelections.push(arr[i].articleId);
+        if(allSelectState=="none"){
+            selectByArr($scope.tempData.tileList);
+            allSelectState="all";
+        }else if(allSelectState=="all"){
+            selectByArr([]);
+            allSelectState="none";
         }
+    };
+
+    function selectByArr(arr){
+        if(arr.length>0){
+            for(i=0;i<arr.length;i++){
+                $scope.articleSelections.push(arr[i].articleId);
+            }
+        }else{
+            $scope.articleSelections=[];
+        }
+
         if($scope.articleSelections.length>0){
             var str="";
             for(i=0;i<$scope.articleSelections.length;i++){
@@ -190,7 +207,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             $scope.articleSelectionsUrl="";
         }
         $scope.getTempData($scope.tempData.currentNo);
-    };
+    }
 
     //对选取的文章进行操作
     $scope.deleteArticleSelections=function()
@@ -219,34 +236,41 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.getTempData(1);
-                alert("转暂存成功");
+                alert("提交成功");
             });
         };
     };
 
     //排序---------------------------------------------------------------------------------------------------------------
     $scope.orderByWords=function(){
-        $scope.orderCondition="/orderWords";
+        $scope.orderCondition="/words";
         $scope.getTempData(1);
     };
 
     $scope.orderByCommends=function(){
-        $scope.orderCondition="/orderCommends";
+        $scope.orderCondition="/commends";
         $scope.getTempData(1);
     };
 
+    var timeOrderState="desc";
     $scope.orderByTime=function(){
-        $scope.orderCondition="/orderTime";
+        if(timeOrderState=="desc"){
+            $scope.orderCondition="/time/"+"asc";
+            timeOrderState="asc";
+        }else if(timeOrderState=="asc"){
+            $scope.orderCondition="/time/"+"desc";
+            timeOrderState="desc";
+        }
         $scope.getTempData(1);
     };
 
     $scope.orderByClicks=function(){
-        $scope.orderCondition="/orderClicks";
+        $scope.orderCondition="/clicks";
         $scope.getTempData(1);
     };
 
     $scope.orderByLikes=function(){
-        $scope.orderCondition="/orderTime";
+        $scope.orderCondition="/likes";
         $scope.geTempData(1);
     };
 }]);

@@ -32,27 +32,34 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
 
     //排序---------------------------------------------------------------------------------------------------------------
     $scope.orderByWords=function(){
-        $scope.orderCondition="/orderwords";
+        $scope.orderCondition="/words";
         $scope.getPendingData(1);
     };
 
     $scope.orderByCommends=function(){
-        $scope.orderCondition="/ordercommends";
+        $scope.orderCondition="/commends";
         $scope.getPendingData(1);
     };
 
+    var timeOrderState="desc";
     $scope.orderByTime=function(){
-        $scope.orderCondition="/ordertime";
+        if(timeOrderState=="desc"){
+            $scope.orderCondition="/time/"+"asc";
+            timeOrderState="asc";
+        }else if(timeOrderState=="asc"){
+            $scope.orderCondition="/time/"+"desc";
+            timeOrderState="desc";
+        }
         $scope.getPendingData(1);
     };
 
     $scope.orderByClicks=function(){
-        $scope.orderCondition="/orderclicks";
+        $scope.orderCondition="/clicks";
         $scope.getPendingData(1);
     };
 
     $scope.orderByLikes=function(){
-        $scope.orderCondition="/orderlikes";
+        $scope.orderCondition="/likes";
         $scope.getPendingData(1);
     };
 
@@ -73,8 +80,10 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         if(arr.length==0){
             checkedStr="无数据";
             return checkedStr;
+        }else{
+            return arr.toString();
         }
-        return arr.toString();
+        //return arr.toString();
     };
     $scope.dateStringToDate=function(dateStr)
     {
@@ -174,11 +183,25 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         $scope.articleSelectionsUrl="";
     }
 
+    var allSelectState="none";
     $scope.selectAll=function()
     {
         var arr=$scope.pendingData.tileList;
-        for(i=0;i<arr.length;i++){
-            $scope.articleSelections.push(arr[i].articleId);
+        if(allSelectState=="none"){
+            selectByArr(arr);
+            allSelectState="all";
+        }else if(allSelectState=="all"){
+            selectByArr([]);
+            allSelectState="none";
+        }
+    };
+    function selectByArr(arr){
+        if(arr.length>0){
+            for(i=0;i<arr.length;i++){
+                $scope.articleSelections.push(arr[i].articleId);
+            }
+        }else{
+            $scope.articleSelections=[];
         }
         if($scope.articleSelections.length>0){
             var str="";
@@ -190,8 +213,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             $scope.articleSelectionsUrl="";
         }
         $scope.getPendingData($scope.pendingData.currentNo);
-    };
-
+    }
     //对选取的文章进行操作
     //删除-------------
     $scope.deleteArticleSelections=function()

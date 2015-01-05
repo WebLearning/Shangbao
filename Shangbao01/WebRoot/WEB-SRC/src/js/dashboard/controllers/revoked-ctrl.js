@@ -1,36 +1,42 @@
 /**
- Published-ctrl
+ revoked ctrl
  **/
-angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",function($scope,$http){
+
+angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", function ($scope,$http) {
 
     $scope.testLog=function(){
-        console.log($scope.publishedData);
+        console.log($scope.revokedData);
         console.log($scope.articleSelections);
         console.log($scope.articleSelectionsUrl);
     };
 
-    $scope.publishedData=null;
+    $scope.revokedData=null;
     $scope.orderCondition="";
 
-    //初始化页面，获取已发布文章的第一页数据，返回的是一个titleList-----------------------------------------------------
-    $scope.getPublishedData=function(pageID){
-        var url=$scope.projectName+'/article/Published/'+pageID.toString()+$scope.orderCondition;
+    //初始化页面，获取爬虫第一页的数据,返回的是一个titleList-------------------------------------------------------------------
+    $scope.getRevokedData=function(pageID)
+    {
+        var url=$scope.projectName+'/article/Revocation/'+pageID.toString()+$scope.orderCondition;
         console.log(url);
         $http.get(url).success(function(data){
-            $scope.publishedData=data;
-            $scope.pageNums=getPageNums($scope.publishedData.pageCount);
+            $scope.revokedData=data;
+            $scope.pageNums=getPageNums($scope.revokedData.pageCount);
             console.log("成功获取数据");
         });
     };
-    $scope.getPublishedData(1);//在点击已发布文章时，直接生成第一页内容
+    $scope.getRevokedData(1);//会在生成页面的时候直接运行!
 
-    $scope.refreshPublished=function()
+    $scope.refreshRevoked=function()
     {
         clearArticleSelections();
         $scope.orderCondition="";
-        $scope.getPublishedData(1);
+        $scope.getRevokedData(1);
     };
-    //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示---------------------
+
+    //初始化表头
+//    $scope.tableHeadsData=["标题","标题Url","文章ID","作者","时间","来源","分类","等级","点击数","评论数","赞数","摘要","字数","活动","选择"];
+
+    //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示
     $scope.checkIfNull=function(str)
     {
         var checkedStr;
@@ -60,21 +66,23 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             var date=new Date(Date(dateStr));
             return date.toDateString();
         }
+
     };
-    //文章跳转,点击文章名（标题）在新建页面显示文章内容------------------------------------------------------------------------------------------------------------
+
+    //文章跳转------------------------------------------------------------------------------------------------------------
     //转到新建文章页面并重置sidebar的爬虫文章按钮，不然会产生点击无效的BUG
     $scope.goNewArticle=function(articleId)
     {
-        $scope.showPublishedArticle(articleId);
-        document.getElementById("published").className="tab-pane";
+        $scope.showRevokedArticle(articleId);
+        document.getElementById("revoked").className="tab-pane";
         document.getElementById("newArticle").className="tab-pane active";
-        document.getElementById("publishedSidebarID").className="sidebar-list";
+        document.getElementById("revokedSidebarID").className="sidebar-list";
     };
 
     //得到文章的URL
-    $scope.getPublishedArticleUrl=function(articleId)
+    $scope.getRevokedArticleUrl=function(articleId)
     {
-        var url=$scope.projectName+"/article/Published/"+($scope.publishedData.currentNo).toString()+"/"+articleId;
+        var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/"+articleId;
         return url;
     };
 
@@ -93,58 +101,25 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
     };
 
     //显示点击的文章
-    $scope.showPublishedArticle=function(articleId)
+    $scope.showRevokedArticle=function(articleId)
     {
-        var url=$scope.getPublishedArticleUrl(articleId);
+        var url=$scope.getRevokedArticleUrl(articleId);
 
         $http.get(url).success(function(data) {
             $scope.transDataToArticleData(data);
         });
     };
 
-    //排序(作者，评论数等）---------------------------------------------------------------------------------------------------------------
-    $scope.orderByWords=function(){
-        $scope.orderCondition="/words";
-        $scope.getPublishedData(1);
-    };
-
-    $scope.orderByCommends=function(){
-        $scope.orderCondition="/commends";
-        $scope.getPublishedData(1);
-    };
-
-    var timeOrderState="desc";
-    $scope.orderByTime=function(){
-        if(timeOrderState=="desc"){
-            $scope.orderCondition="/time/"+"asc";
-            timeOrderState="asc";
-        }else if(timeOrderState=="asc"){
-            $scope.orderCondition="/time/"+"desc";
-            timeOrderState="desc";
-        }
-        $scope.getPublishedData(1);
-    };
-
-    $scope.orderByClicks=function(){
-        $scope.orderCondition="/clicks";
-        $scope.getPublishedData(1);
-    };
-
-    $scope.orderByLikes=function(){
-        $scope.orderCondition="/likes";
-        $scope.getPublishedData(1);
-    };
-
     //页面跳转------------------------------------------------------------------------------------------------------------
     $scope.turnToPage=function(pageNum)
     {
-        $scope.getPublishedData(pageNum);
+        $scope.getRevokedData(pageNum);
     };
 
     //页码样式
     $scope.pageNumClass=function(pageNum)
     {
-        return(pageNum==$scope.publishedData.currentNo);
+        return(pageNum==$scope.revokedData.currentNo);
     };
 
     //得到页码数组的函数
@@ -160,6 +135,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             return arr;
         }
     }
+
     //文章的选取和操作------------------------------------------------------------------------------------------------------
     //文章的选取
     $scope.articleSelections=[];
@@ -210,7 +186,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
     var allSelectState="none";
     $scope.selectAll=function()
     {
-        var arr=$scope.publishedData.tileList;
+        var arr=$scope.revokedData.tileList;
         if(allSelectState=="none"){
             selectByArr(arr);
             allSelectState="all";
@@ -236,7 +212,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }else{
             $scope.articleSelectionsUrl="";
         }
-        $scope.getPublishedData($scope.publishedData.currentNo);
+        $scope.getRevokedData($scope.revokedData.currentNo);
     };
     //对选取的文章进行操作
     $scope.deleteArticleSelections=function()
@@ -244,15 +220,71 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
         }else{
-            if (confirm("确定撤销选中的文章吗？")==true)
+            if (confirm("确定删除选中的文章吗？")==true)
             {
-                var url=$scope.projectName+"/article/Published/"+($scope.publishedData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+                var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getPublishedData(1);
-                    alert("撤销成功");
+                    $scope.getRevokedData(1);
+                    alert("删除成功");
                 });
             };
         };
     };
+
+    $scope.saveArticleSelections=function()
+    {
+        if($scope.articleSelectionsUrl==""){
+            alert("未选取文章");
+        }else{
+            var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+            $http.put(url).success(function(){
+                clearArticleSelections();
+                $scope.getRevokedData(1);
+                alert("转暂存成功");
+            });
+        };
+    };
+
+    //排序---------------------------------------------------------------------------------------------------------------
+    $scope.orderByWords=function(){
+        $scope.orderCondition="/words";
+        $scope.getRevokedData(1);
+    };
+
+    $scope.orderByCommends=function(){
+        $scope.orderCondition="/commends";
+        $scope.getRevokedData(1);
+    };
+
+    var timeOrderState="desc";
+    $scope.orderByTime=function(){
+        if(timeOrderState=="desc"){
+            $scope.orderCondition="/time/"+"asc";
+            timeOrderState="asc";
+        }else if(timeOrderState=="asc"){
+            $scope.orderCondition="/time/"+"desc";
+            timeOrderState="desc";
+        }
+        $scope.getRevokedData(1);
+    };
+
+    $scope.orderByClicks=function(){
+        $scope.orderCondition="/clicks";
+        $scope.getRevokedData(1);
+    };
+
+    $scope.orderByLikes=function(){
+        $scope.orderCondition="/likes";
+        $scope.getRevokedData(1);
+    };
+
 }]);
+
+
+
+//    $scope.goCrawlerList=function()
+//    {
+//        document.getElementById("crawlerArticle_article").className="tab-pane";
+//        document.getElementById("crawlerArticle_list").className="tab-pane active";
+//    };

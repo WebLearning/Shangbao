@@ -28,7 +28,8 @@ function MasterCtrl($scope) {
         channel:[],
         picturesUrl:[],
         level:"",
-        from:""
+        from:"",
+        words:0
     };
 
     //初始化header
@@ -48,6 +49,8 @@ function MasterCtrl($scope) {
         for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
                 $scope.articleData[p]=[];
+            }else if(p=="words"){
+                $scope.articleData[p]=0;
             }else{
                 $scope.articleData[p]="";
             }

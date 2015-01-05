@@ -49,8 +49,10 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         var checkedStr;
         if(arr.length==0){
             checkedStr="无数据";
+            return checkedStr;
+        }else{
+            return arr.toString();
         }
-        return checkedStr;
     };
     $scope.dateStringToDate=function(dateStr)
     {
@@ -177,11 +179,25 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         $scope.articleSelectionsUrl="";
     }
 
+    var allSelectState="none";
     $scope.selectAll=function()
     {
         var arr=$scope.crawlerData.tileList;
-        for(i=0;i<arr.length;i++){
-            $scope.articleSelections.push(arr[i].articleId);
+        if(allSelectState=="none"){
+            selectByArr(arr);
+            allSelectState="all";
+        }else if(allSelectState=="all"){
+            selectByArr([]);
+            allSelectState="none";
+        }
+    };
+    function selectByArr(arr){
+        if(arr.length>0){
+            for(i=0;i<arr.length;i++){
+                $scope.articleSelections.push(arr[i].articleId);
+            }
+        }else{
+            $scope.articleSelections=[];
         }
         if($scope.articleSelections.length>0){
             var str="";
@@ -193,8 +209,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             $scope.articleSelectionsUrl="";
         }
         $scope.getCrawlerData($scope.crawlerData.currentNo);
-    };
-
+    }
     //对选取的文章进行操作
     $scope.deleteArticleSelections=function()
     {
@@ -229,27 +244,34 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
 
     //排序---------------------------------------------------------------------------------------------------------------
     $scope.orderByWords=function(){
-        $scope.orderCondition="/orderWords";
+        $scope.orderCondition="/words";
         $scope.getCrawlerData(1);
     };
 
     $scope.orderByCommends=function(){
-        $scope.orderCondition="/orderCommends";
+        $scope.orderCondition="/commends";
         $scope.getCrawlerData(1);
     };
 
+    var timeOrderState="desc";
     $scope.orderByTime=function(){
-        $scope.orderCondition="/orderTime";
+        if(timeOrderState=="desc"){
+            $scope.orderCondition="/time/"+"asc";
+            timeOrderState="asc";
+        }else if(timeOrderState=="asc"){
+            $scope.orderCondition="/time/"+"desc";
+            timeOrderState="desc";
+        }
         $scope.getCrawlerData(1);
     };
 
     $scope.orderByClicks=function(){
-        $scope.orderCondition="/orderClicks";
+        $scope.orderCondition="/clicks";
         $scope.getCrawlerData(1);
     };
 
     $scope.orderByLikes=function(){
-        $scope.orderCondition="/orderTime";
+        $scope.orderCondition="/likes";
         $scope.getCrawlerData(1);
     };
 
