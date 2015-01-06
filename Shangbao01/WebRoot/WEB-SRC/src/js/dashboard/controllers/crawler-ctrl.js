@@ -219,7 +219,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         }else{
             if (confirm("确定删除选中的文章吗？")==true)
             {
-                var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+                var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
                     $scope.getCrawlerData(1);
@@ -234,7 +234,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
         }else{
-            var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+            var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.getCrawlerData(1);

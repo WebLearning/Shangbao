@@ -218,7 +218,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
         }else{
             if (confirm("确定删除选中的文章吗？")==true)
             {
-                var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+                var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
                     $scope.getTempData(1);
@@ -233,7 +233,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
         }else{
-            var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+            var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.getTempData(1);

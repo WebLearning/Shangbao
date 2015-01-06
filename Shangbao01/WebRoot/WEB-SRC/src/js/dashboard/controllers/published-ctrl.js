@@ -246,7 +246,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }else{
             if (confirm("确定撤销选中的文章吗？")==true)
             {
-                var url=$scope.projectName+"/article/Published/"+($scope.publishedData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+                var url=$scope.projectName+"/article/Published/"+($scope.publishedData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
                     $scope.getPublishedData(1);

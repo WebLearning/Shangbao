@@ -4,6 +4,8 @@
 angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function($scope,$http){
     $scope.pendingTestLog=function() {
         console.log($scope.pendingData);
+        console.log($scope.articleSelections);
+        console.log($scope.articleSelectionsUrl);
     };
 
     $scope.pendingData=null;
@@ -223,7 +225,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }else{
             if (confirm("确定撤销选中的文章吗？")==true)
             {
-                var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+                var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
                     $scope.getPendingData(1);
@@ -238,7 +240,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
         }else{
-            var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+            var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.getPendingData(1);
