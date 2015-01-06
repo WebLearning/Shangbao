@@ -226,22 +226,41 @@ public class AppService {
 	 */
 	public List<BackChannelModel> getAllChannels(){
 		List<BackChannelModel> channels = new ArrayList<BackChannelModel>();
-		if(!this.appModel.getAppMap().isEmpty()){
-			for(Map.Entry<String, List<Article>> entry : this.appModel.getAppMap().entrySet()){
-				String channelName = entry.getKey();
-				List<Article> articles = entry.getValue();
+		if(!this.appModel.getAppMap().isEmpty() && !this.appModel.getChannelEn_Cn().isEmpty()){
+			for(Map.Entry<String, String> entry : this.appModel.getChannelEn_Cn().entrySet()){
+				String channelEnName = entry.getKey();
+				String channelChName = entry.getValue();
 				BackChannelModel backChannelModel = new BackChannelModel();
-				backChannelModel.ChannelName = channelName;
-				if(articles != null && !articles.isEmpty()){
+				if(appModel.getAppMap().get(channelChName) != null && !appModel.getAppMap().get(channelChName).isEmpty()){
+					backChannelModel.ChannelEnglishName = channelEnName;
+					backChannelModel.ChannelName = channelChName;
+					List<Article> articles = appModel.getAppMap().get(channelChName);
 					int i = 1;
 					for(Article article : articles){
 						String articleTitle = article.getTitle();
 						backChannelModel.addTitle(articleTitle, i);
 						i ++;
 					}
+					channels.add(backChannelModel);
 				}
-				channels.add(backChannelModel);
 			}
+			
+//			for(Map.Entry<String, List<Article>> entry : this.appModel.getAppMap().entrySet()){
+//				String channelName = entry.getKey();
+//				List<Article> articles = entry.getValue();
+//				BackChannelModel backChannelModel = new BackChannelModel();
+//				backChannelModel.ChannelName = channelName;
+//				
+//				if(articles != null && !articles.isEmpty()){
+//					int i = 1;
+//					for(Article article : articles){
+//						String articleTitle = article.getTitle();
+//						backChannelModel.addTitle(articleTitle, i);
+//						i ++;
+//					}
+//				}
+//				channels.add(backChannelModel);
+//			}
 		}
 		return channels;
 	}
@@ -331,6 +350,7 @@ public class AppService {
 	 */
 	public class BackChannelModel{
 		public String ChannelName;
+		public String ChannelEnglishName;
 		public List<Title> content = new ArrayList<Title>();
 		class Title{
 			public String title;

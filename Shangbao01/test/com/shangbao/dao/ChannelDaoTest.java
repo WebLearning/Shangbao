@@ -55,7 +55,7 @@ public class ChannelDaoTest {
 		ChannelDao dao = (ChannelDao) factory.getBean("channelDaoImp");
 		Channel topChannel1 = new Channel();
 		topChannel1.setChannelName("商报原创");
-		topChannel1.setEnglishName("orignal");
+		topChannel1.setEnglishName("original");
 		topChannel1.setState(ChannelState.Father);
 		topChannel1.setSummary("商报原创新闻");
 		dao.insert(topChannel1);
