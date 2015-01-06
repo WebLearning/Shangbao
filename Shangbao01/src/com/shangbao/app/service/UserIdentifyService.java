@@ -56,4 +56,9 @@ public class UserIdentifyService {
 		System.out.println(responseUser);
 	}
 	
+	public void userExist(){
+		String result = restTemplate.getForObject("http://localhost:8080/Shangbao01/backapp/all", String.class);
+		System.out.println(result);
+	}
+	
 }

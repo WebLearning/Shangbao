@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
+import com.shangbao.model.persistence.CrawlerCommend;
 import com.shangbao.model.persistence.NewsCommend;
 import com.shangbao.service.ArticleService;
 import com.shangbao.service.CommendService;
@@ -34,7 +35,7 @@ public class CrawlerGetController {
 	
 	@RequestMapping("/uploadComment/{articleId:[\\d]+}")
 	@ResponseBody
-	public NewsCommend uploadCrawlerComment(@PathVariable("articleId") Long articleId, @RequestBody NewsCommend commend){
+	public CrawlerCommend uploadCrawlerComment(@PathVariable("articleId") Long articleId, @RequestBody CrawlerCommend commend){
 		commend.setArticleId(articleId);
 		commendServiceImp.add(commend);
 		return commend;

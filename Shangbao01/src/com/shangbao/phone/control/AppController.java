@@ -79,7 +79,7 @@ public class AppController {
 	@RequestMapping(value="/{phoneType}/original/{pageNo:[\\d]+}", method=RequestMethod.GET)
 	@ResponseBody
 	public ColumnPageModel getOriginal(@PathVariable("pageNo") int pageNo){
-		return appService.getArticlesFromChannel("orignal", pageNo, 10);
+		return appService.getArticlesFromChannel("original", pageNo, 10);
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class AppController {
 	 * 分栏详细页面
 	 * @return
 	 */
-	@RequestMapping(value="/{phoneType}/{channelName}/{columnName}/{pageNo:[\\d]+}", method=RequestMethod.GET)
+	@RequestMapping(value="/{phoneType}/{channelName:[a-z,A-Z]+}/{columnName:[a-z,A-Z]+}/{pageNo:[\\d]+}", method=RequestMethod.GET)
 	@ResponseBody
 	public ColumnPageModel getColumnDetail(@PathVariable("columnName") String channelName, @PathVariable("pageNo") int pageNo){
 		return appService.getArticlesFromChannel(channelName, pageNo, 10);

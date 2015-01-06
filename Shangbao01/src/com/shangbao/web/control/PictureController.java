@@ -46,13 +46,13 @@ public class PictureController {
 	 * 提交审核图片
 	 * @param article
 	 */
-	@RequestMapping(value="/newPicture", method=RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.OK)
-	public void addPicturePending(@RequestBody Article article){
-		article.setState(ArticleState.Pending);//状态设置为待审
-		article.setTag(true);//设置为图片新闻
-		this.pictureServiceImp.add(article);
-	}
+//	@RequestMapping(value="/newPicture", method=RequestMethod.PUT)
+//	@ResponseStatus(HttpStatus.OK)
+//	public void addPicturePending(@RequestBody Article article){
+//		article.setState(ArticleState.Pending);//状态设置为待审
+//		article.setTag(true);//设置为图片新闻
+//		this.pictureServiceImp.add(article);
+//	}
 	
 	/**
 	 * 获得图片标题列表
@@ -94,6 +94,7 @@ public class PictureController {
 		return article;
 	}
 
+	
 	/**
 	 * 修改一篇图片文章
 	 * 
@@ -105,7 +106,7 @@ public class PictureController {
 	@ResponseStatus(HttpStatus.OK)
 	public void modifyOne(@PathVariable("articleState") ArticleState state,
 			@PathVariable("id") Long id, @RequestBody Article article) {
-		if (state.equals(ArticleState.Published)
+		if (state.equals(ArticleState.Crawler)
 				|| state.equals(ArticleState.Revocation)
 				|| state.equals(ArticleState.Pending)) {
 			article.setId(id);

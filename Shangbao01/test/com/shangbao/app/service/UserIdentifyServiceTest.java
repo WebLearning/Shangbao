@@ -33,7 +33,8 @@ public class UserIdentifyServiceTest {
 //		user.add("phone", "123123");
 //		user.add("email", "sdfsdf@123.com");
 //		user.add("qq", "123123");
-		identiy.addUser(user);
+		//identiy.addUser(user);
+		identiy.userExist();
 	}
 
 }

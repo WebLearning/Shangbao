@@ -46,7 +46,7 @@ public class ColumnPageModel {
 		public String summary;
 		public Date time;
 		public int clicks;
-		public Integer newsId;
+		public Integer indexId;
 		
 		public NewsTitle(){
 			
@@ -58,7 +58,7 @@ public class ColumnPageModel {
 			this.summary = article.getSummary();
 			this.time = article.getTime();
 			this.clicks = article.getClicks();
-			this.newsId = newsId;
+			this.indexId = newsId;
 		}
 	}
 }

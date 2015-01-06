@@ -2,13 +2,18 @@ package com.shangbao.web.control;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,17 +50,17 @@ public class ArticleController {
 		System.out.println(article.getTitle());
 	}
 
-	/**
-	 * 新建文章
-	 * 提交审核
-	 * @param article
-	 */
-	@RequestMapping(value = "/newArticle", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.OK)
-	public void addPending(@RequestBody Article article){
-		article.setState(ArticleState.Pending);
-		articleServiceImp.add(article);
-	}
+//	/**
+//	 * 新建文章
+//	 * 提交审核
+//	 * @param article
+//	 */
+//	@RequestMapping(value = "/newArticle", method = RequestMethod.PUT)
+//	@ResponseStatus(HttpStatus.OK)
+//	public void addPending(@RequestBody Article article){
+//		article.setState(ArticleState.Pending);
+//		articleServiceImp.add(article);
+//	}
 	
 	/**
 	 * 标题列表分页
@@ -101,22 +106,6 @@ public class ArticleController {
 		Article article = articleServiceImp.findOne(id);
 		return article;
 	}
-
-	/**
-	 * 保存一篇文章
-	 * @param id
-	 * @param state
-	 * @param article
-	 * @return
-	 */
-	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}", method = RequestMethod.POST)
-	@ResponseBody
-	public Article saveOne(@PathVariable("id") Long id, @PathVariable("articleState") ArticleState state, @RequestBody Article article){
-		article.setId(id);
-		article.setState(state);
-		articleServiceImp.update(article);
-		return article;
-	}
 	
 	/**
 	 * 修改一篇文章
@@ -146,7 +135,7 @@ public class ArticleController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/{articleState}/{pageNo}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{articleState}/{pageNo}/statechange/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public TitleList stateTranslatePut(
@@ -178,7 +167,7 @@ public class ArticleController {
 		return articleServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
 
-	@RequestMapping(value = "/{articleState}/{pageNo}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{articleState}/{pageNo}/statechange/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public TitleList stateTranslateDelete(
@@ -219,22 +208,29 @@ public class ArticleController {
 	@ResponseBody
 	public String uploadPicture(@RequestParam(value = "file", required = true) MultipartFile file) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
-		System.out.println("upload done!");
-		if (!file.isEmpty()) {
-			byte[] bytes;
-			String fileName = sdf.format(new Date()) + file.getSize();
-			try {
+		String returnString = "";
+		String fileName = sdf.format(new Date()) + file.getSize() + file.getOriginalFilename();//保存到本地的文件名
+		Properties props = new Properties();
+		try {
+			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
+			String filePath = props.getProperty("pictureDir") + "\\articlePic\\";//目录的路径
+			Path path = Paths.get(filePath);
+			if(Files.notExists(path)){
+				Path filPath = Files.createDirectories(path);
+			}
+			if(!file.isEmpty()){
+				byte[] bytes;
 				bytes = file.getBytes();
-				FileOutputStream fos = new FileOutputStream("../webapps/Shangbao01/WEB-SRC/picture/"
-						+ fileName + file.getOriginalFilename()); // 上传到写死的上传路径
+				FileOutputStream fos = new FileOutputStream(filePath + fileName);
 				fos.write(bytes); // 写入文件
 				fos.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				returnString = path.toString().split("Shangbao01")[1] + "\\" + fileName;
+				return returnString;
 			}
-			return "/WEB-SRC/picture/" + fileName + file.getOriginalFilename();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
+		System.out.println("upload done!");
 		return null;
 	}
 	

@@ -100,7 +100,7 @@ public class AppService {
 			List<Article> pageArticles = articles.subList(fromIndex, toIndex);
 			columnPageModel.setCurrentNo(page.getPageNo());
 			columnPageModel.setPageCount(page.getTotalPage());
-			int index = fromIndex;
+			int index = fromIndex + 1;
 			for(Article article : pageArticles){
 				columnPageModel.addNewsTitle(article, index ++);
 			}
