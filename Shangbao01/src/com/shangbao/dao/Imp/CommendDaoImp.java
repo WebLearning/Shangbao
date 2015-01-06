@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mongodb.WriteResult;
 import com.shangbao.dao.CommendDao;
+import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Commend;
 import com.shangbao.model.persistence.CrawlerCommend;
@@ -175,6 +176,7 @@ public class CommendDaoImp implements CommendDao {
 	public Page<Article> getPage(int pageNo, int pageSize, Query query) {
 		long totalCount = mongoTemplate.count(query, Article.class);
 		Page<Article> page = new Page<Article>(pageNo, pageSize, totalCount);
+		query.addCriteria(new Criteria().where("state").ne(ArticleState.Deleted.toString()));
 		query.skip(page.getFirstResult());// skip相当于从那条记录开始
 		query.limit(pageSize);
 		List<Article> datas = mongoTemplate.find(query, Article.class);

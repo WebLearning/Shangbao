@@ -9,8 +9,9 @@ import java.util.Map;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
-import com.shangbao.app.service.UserIdentifyService.RemoteUser;
 import com.shangbao.model.persistence.User;
 
 public class UserIdentifyServiceTest {
@@ -19,16 +20,18 @@ public class UserIdentifyServiceTest {
 	public void test() {
 		BeanFactory factory = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserIdentifyService identiy = (UserIdentifyService) factory.getBean("userIdentifyService");
-//		RemoteUser user = identiy.new RemoteUser();
-//		user.setBirthdaty(System.currentTimeMillis()/1000);
-//		user.setEmail("yangyistd@163.com");
-//		user.setNickname("一梦醉千年");
-//		user.setPsw("330810852");
-//		user.setSex(1);
-		Map user = new HashMap<String, String>();
-		user.put("phone", "123123");
-		user.put("email", "sdfsdf@123.com");
-		user.put("qq", "123123");
+		com.shangbao.model.RemoteUser user = new com.shangbao.model.RemoteUser();
+		user.setBirthday(System.currentTimeMillis()/1000);
+		user.setEmail("yangyistd@163.com");
+		user.setNickname("一梦醉千年");
+		user.setPsw("330810852");
+		user.setSex(1);
+		user.setPhone(123123);
+		user.setAvatar("http://java.dzone.com/users/johnathansmith1969");
+//		MultiValueMap<String, Object> user = new LinkedMultiValueMap<>();
+//		user.add("phone", "123123");
+//		user.add("email", "sdfsdf@123.com");
+//		user.add("qq", "123123");
 		identiy.addUser(user);
 	}
 

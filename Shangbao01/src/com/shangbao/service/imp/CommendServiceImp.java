@@ -22,6 +22,8 @@ import com.shangbao.dao.CommendDao;
 import com.shangbao.model.CommendState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Commend;
+import com.shangbao.model.persistence.CrawlerCommend;
+import com.shangbao.model.persistence.NewsCommend;
 import com.shangbao.model.show.CommendForArticle;
 import com.shangbao.model.show.CommendList;
 import com.shangbao.model.show.CommendPage;
@@ -103,6 +105,17 @@ public class CommendServiceImp implements CommendService {
 			updateElement.push("commendList", singleCommend);
 			commendDaoImp.update(commend, updateElement);
 		}
+		//将文章评论数加一
+		Article article = new Article();
+		article.setId(commend.getArticleId());
+		Update update = new Update();
+		if(commend instanceof CrawlerCommend){
+			update.inc("newsCommends", 1);
+			articleDaoImp.update(article, update);
+		}else{
+			update.inc("crawlerCommends", 1);
+			articleDaoImp.update(article, update);
+		}
 	}
 
 	@Override
@@ -134,6 +147,18 @@ public class CommendServiceImp implements CommendService {
 			Query query = new Query();
 			query.addCriteria(new Criteria().where("commendList.commendId").is(commend));
 			commendDaoImp.update(commend, query, updateElement);
+		}
+		Article article = new Article();
+		article.setId(commend.getArticleId());
+		List<Article> articles = articleDaoImp.find(article);
+		if(articles != null && !articles.isEmpty()){
+			Update update = new Update();
+			if(commend instanceof CrawlerCommend){
+				update.inc("newsCommendsPublish", 1);
+			}else{
+				update.inc("crawlerCommendsPublish", 1);
+			}
+			articleDaoImp.update(article, update);
 		}
 	}
 

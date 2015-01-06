@@ -103,18 +103,34 @@ public class ArticleController {
 	}
 
 	/**
+	 * 保存一篇文章
+	 * @param id
+	 * @param state
+	 * @param article
+	 * @return
+	 */
+	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}", method = RequestMethod.POST)
+	@ResponseBody
+	public Article saveOne(@PathVariable("id") Long id, @PathVariable("articleState") ArticleState state, @RequestBody Article article){
+		article.setId(id);
+		article.setState(state);
+		articleServiceImp.update(article);
+		return article;
+	}
+	
+	/**
 	 * 修改一篇文章
 	 * 
 	 * @param state
-	 *            只有暂存，已发布，撤销的文章能够修改
+	 *            只有暂存，爬虫，撤销的文章能够修改
 	 * @param id
 	 * @param article
 	 */
-	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	public void modifyOne(@PathVariable("articleState") ArticleState state,
 			@PathVariable("id") Long id, @RequestBody Article article) {
-		if (state.equals(ArticleState.Published)
+		if (state.equals(ArticleState.Crawler)
 				|| state.equals(ArticleState.Revocation)
 				|| state.equals(ArticleState.Pending)) {
 			article.setId(id);

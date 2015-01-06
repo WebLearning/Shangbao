@@ -33,9 +33,11 @@ public class CrawlerGetController {
 	}
 	
 	@RequestMapping("/uploadComment/{articleId:[\\d]+}")
-	public void uploadCrawlerComment(@PathVariable("articleId") Long articleId, @RequestBody NewsCommend commend){
+	@ResponseBody
+	public NewsCommend uploadCrawlerComment(@PathVariable("articleId") Long articleId, @RequestBody NewsCommend commend){
 		commend.setArticleId(articleId);
 		commendServiceImp.add(commend);
+		return commend;
 	}
 	
 	public ArticleService getArticleServiceImp() {

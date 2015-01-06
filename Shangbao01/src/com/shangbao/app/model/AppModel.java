@@ -337,19 +337,25 @@ public class AppModel {
 	 * @param singleCommend 添加的评论
 	 */
 	public void addComment(Long articleId, SingleCommend singleCommend){
-//		if(this.commends.containsKey(articleId)){
-//			this.commends.get(articleId).add(singleCommend);
-//		}else{
-//			List<SingleCommend> singleCommends = new ArrayList<SingleCommend>();
-//			singleCommends.add(singleCommend);
-//			this.commends.put(articleId, singleCommends);
-//		}
 		Update update = new Update();
 		singleCommend.setState(CommendState.unpublished);
 		NewsCommend newsCommend = new NewsCommend();
 		newsCommend.setArticleId(articleId);
-		update.push("commendList", singleCommend);
-		commendDaoImp.update(newsCommend, update);
+		List<Commend> commends = commendDaoImp.find(newsCommend);
+		if(commends != null && !commends.isEmpty()){
+			update.push("commendList", singleCommend);
+			commendDaoImp.update(newsCommend, update);
+		}else{
+			//如果当前没有该文章的评论
+			Article article = new Article();
+			article.setId(articleId);
+			List<Article> articles = articleDaoImp.find(article);
+			if(articles != null && !articles.isEmpty()){
+				newsCommend.setArticleTitle(articles.get(0).getTitle());
+				newsCommend.getCommendList().add(singleCommend);
+				commendDaoImp.insert(newsCommend);
+			}
+		}
 	}
 	
 	/**
