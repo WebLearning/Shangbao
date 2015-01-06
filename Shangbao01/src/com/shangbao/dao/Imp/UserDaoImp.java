@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.mongodb.WriteResult;
 import com.shangbao.dao.UserDao;
 import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.Page;
@@ -74,7 +75,7 @@ public class UserDaoImp implements UserDao {
      * <br>------------------------------<br> 
      */  
     public void deleteAll() {  
-        mongoTemplate.dropCollection(User.class);  
+        mongoTemplate.dropCollection(User.class);
     }  
       
     /** 
@@ -96,11 +97,12 @@ public class UserDaoImp implements UserDao {
      * @param criteriaUser 
      * @param user 
      */  
-    public void update(User criteriaUser, User user) {  
+    public boolean update(User criteriaUser, User user) {  
 //        Criteria criteria = Criteria.where("age").gt(criteriaUser.getAge());;  
 //        Query query = new Query(criteria);  
 //        Update update = Update.update("name", user.getName()).set("age", user.getAge());  
-//        mongoTemplate.updateMulti(query, update, User.class);  
+//        mongoTemplate.updateMulti(query, update, User.class); 
+    	return false;
     }  
      
     public List<User> find(User user){

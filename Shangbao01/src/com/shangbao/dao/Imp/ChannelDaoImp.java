@@ -41,9 +41,9 @@ public class ChannelDaoImp implements ChannelDao{
 	}
 
 	@Override
-	public void update(Channel criteriaElement, Channel updateElement) {
+	public boolean update(Channel criteriaElement, Channel updateElement) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override

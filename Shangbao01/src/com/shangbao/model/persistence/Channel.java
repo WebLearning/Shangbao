@@ -1,5 +1,7 @@
 package com.shangbao.model.persistence;
 
+import java.util.Date;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.shangbao.model.ChannelState;
@@ -11,6 +13,8 @@ public class Channel {
 	private ChannelState state;//栏目状态
 	private String related;//相关栏目(父栏目，子栏目)
 	private String englishName;//栏目英文名(用于生产URI)
+	private Date startDate;//活动的开始时间
+	private Date endDate;//活动的结束时间
 	
 	public String getEnglishName() {
 		return englishName;
@@ -41,6 +45,18 @@ public class Channel {
 	}
 	public void setRelated(String related) {
 		this.related = related;
+	}
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 	
 }

@@ -84,7 +84,8 @@ public class ArticleDaoImp implements ArticleDao {
 	}
 	
 	@Override
-	public void update(Article criteriaArticle, Article article) {
+	public boolean update(Article criteriaArticle, Article article) {
+		return false;
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package com.shangbao.app.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -339,6 +340,8 @@ public class AppModel {
 	public void addComment(Long articleId, SingleCommend singleCommend){
 		Update update = new Update();
 		singleCommend.setState(CommendState.unpublished);
+		singleCommend.setTimeDate(new Date());
+		singleCommend.setCommendId("" + new Date().getTime() + singleCommend.getUserId());
 		NewsCommend newsCommend = new NewsCommend();
 		newsCommend.setArticleId(articleId);
 		List<Commend> commends = commendDaoImp.find(newsCommend);

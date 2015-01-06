@@ -41,18 +41,16 @@ public class CommendDaoImp implements CommendDao {
 	@Override
 	public void delete(Commend criteriaElement) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void deleteAll() {
-
 	}
 
 	@Override
-	public void update(Commend criteriaElement, Commend updateElement) {
+	public boolean update(Commend criteriaElement, Commend updateElement) {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 	@Override

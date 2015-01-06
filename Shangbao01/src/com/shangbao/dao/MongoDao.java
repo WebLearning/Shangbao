@@ -31,7 +31,7 @@ public interface MongoDao<T> {
 	 * @param criteriaElement
 	 * @param element
 	 */
-	void update(T criteriaElement, T updateElement);
+	boolean update(T criteriaElement, T updateElement);
 	/**
 	 * 查找
 	 * @param criteriaElement
