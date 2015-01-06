@@ -19,6 +19,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -45,6 +47,7 @@ import com.shangbao.app.model.OriginalPageModel;
 import com.shangbao.app.service.AppService;
 import com.shangbao.app.service.AppService.AppHtml;
 import com.shangbao.model.persistence.Article;
+import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.SingleCommend;
 
 /**
@@ -233,6 +236,13 @@ public class AppController {
 //		return "sdfsdf";
 //	}
 
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public void appLogIn(@RequestBody User user){
+		if(user.getName() != null && user.getPasswd() != null){
+			BeanFactory factory = new ClassPathXmlApplicationContext();
+		}
+	}
+	
 	/**
 	 * 生成验证码的图片
 	 * @param request
