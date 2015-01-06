@@ -93,6 +93,6 @@ public class RemoteUser{
 
 	@Override
 	public String toString(){
-		return "{tel : " + getPhone() + " " + nickname + " : " + getNickname() + "}";
+		return "{\'phone\' : " + getPhone() + " " + nickname + " : " + getNickname() + "}";
 	}
 }
