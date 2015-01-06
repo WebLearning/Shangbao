@@ -25,6 +25,7 @@ public class UserIdentifyServiceTest {
 		user.setEmail("yangyistd@163.com");
 		user.setNickname("一梦醉千年");
 		user.setPsw("330810852");
+		user.setQq(123123123);
 		user.setSex(1);
 		user.setPhone(123123);
 		user.setAvatar("http://java.dzone.com/users/johnathansmith1969");

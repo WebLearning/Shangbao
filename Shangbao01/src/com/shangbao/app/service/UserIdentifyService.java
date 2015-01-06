@@ -50,4 +50,10 @@ public class UserIdentifyService {
 		System.out.println(responseUser);
 	}
 	
+	public void addUser(String user){
+		System.out.println(user);
+		String responseUser = restTemplate.postForObject(remoteUrl + "addUser", user, String.class);
+		System.out.println(responseUser);
+	}
+	
 }
