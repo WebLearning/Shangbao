@@ -51,15 +51,16 @@ function MasterCtrl($scope) {
         picturesUrl: [],
         subTitle: "",
         summary: "",
+        state:null,
         tag: null,
-        time: null,
+        time: "",
         title: "",
         titlePicUrl: null,
         words: null
     };
 
     $scope.newArticleData={
-        activity:"" ,
+        activity:null ,
         author: "",
         channel: [],
         channelIndex: null,
@@ -77,7 +78,7 @@ function MasterCtrl($scope) {
         subTitle: "",
         summary: "",
         tag: null,
-        time: null,
+        time: "",
         title: "",
         titlePicUrl: null,
         words: null
@@ -103,8 +104,10 @@ function MasterCtrl($scope) {
                 $scope.articleData[p]=[];
             }else if(p=="words"){
                 $scope.articleData[p]=0;
-            }else{
+            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"){
                 $scope.articleData[p]="";
+            }else{
+                $scope.articleData[p]=null;
             }
         }
     }
@@ -115,8 +118,10 @@ function MasterCtrl($scope) {
                 $scope.newArticleData[p]=[];
             }else if(p=="words"){
                 $scope.newArticleData[p]=0;
-            }else{
+            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"){
                 $scope.newArticleData[p]="";
+            }else{
+                $scope.newArticleData[p]=null;
             }
         }
     }

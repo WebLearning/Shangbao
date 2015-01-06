@@ -222,7 +222,7 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
         }else{
             if (confirm("确定删除选中的文章吗？")==true)
             {
-                var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+                var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
                     $scope.getRevokedData(1);
@@ -237,7 +237,7 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
         }else{
-            var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+            var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.getRevokedData(1);

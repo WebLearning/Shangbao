@@ -487,8 +487,8 @@
                             </ul>
                         </nav>
                         <div class="pull-right">
-                            <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">删除</button>
-                            <button type="button" class="btn btn-success" ng-click="saveArticleSelections()">转至草稿箱</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">彻底删除</button>
+                            <button type="button" class="btn btn-info" ng-click="saveArticleSelections()">转至草稿箱</button>
                         </div>
                     </div>
                 </div>
@@ -712,8 +712,6 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in pendingData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <!--<td>{{checkIfNull(tileObj.articleUrl)}}</td>
-                                        <td>{{checkIfNull(tileObj.articleId)}}</td>-->
                                         <td>{{checkIfNull(tileObj.author)}}</td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
@@ -739,9 +737,8 @@
                             </ul>
                         </nav>
                         <div class="pull-right">
-                            <button type="button" class="btn btn-info" ng-click="publishArticleSelectionsNow()">立刻发布</button>
-                            <!--<button type="button" class="btn btn-info" data-toggle="modal" data-target="#Select-Time">定时发布</button>-->
-                            <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">撤销</button>
+                            <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">撤销</button>
+                            <button type="button" class="btn btn-info" ng-click="publishArticleSelectionsNow()">发布</button>
                         </div>
                         <div class="modal fade" id="Select-Time" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
                             <div class="modal-dialog">
@@ -801,10 +798,10 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">时间</label>
                                 <div class="col-md-5">
-                                    <div class="input-group">
+                                    <!--<div >-->
                                         <input type="text" class="form-control" ng-model="articleData.time" disabled>
-                                        <div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"disabled></span></div>
-                                    </div>
+                                        <!--<div class="input-group-addon btn-success" ng-click="getCurrentDatetime()" ><span class="glyphicon glyphicon-refresh"disabled></span></div>-->
+                                    <!--</div>-->
                                     <!--<input type="text" class="form-control" ng-model="articleData.time" disabled>-->
                                     <!--<input type="date" class="form-control" ng-model="articleData.time"> 方案一-->
                                     <!--<div class="input-group date form_datetime" data-date="2014-06-21T15:25:00Z"> 方案二-->
@@ -1003,10 +1000,10 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">时间</label>
                                 <div class="col-md-5">
-                                    <div class="input-group">
+                                    <!--<div class="input-group">-->
                                         <input type="text" class="form-control" ng-model="articleData.time" disabled>
-                                        <div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"disabled></span></div>
-                                    </div>
+                                        <!--<div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"disabled></span></div>-->
+                                    <!--</div>-->
                                     <!--<input type="text" class="form-control" ng-model="articleData.time" disabled>-->
                                     <!--<input type="date" class="form-control" ng-model="articleData.time"> 方案一-->
                                     <!--<div class="input-group date form_datetime" data-date="2014-06-21T15:25:00Z"> 方案二-->
@@ -1185,8 +1182,8 @@
                             </ul>
                         </nav>
                         <div class="pull-right">
-                            <button type="button" class="btn btn-info" ng-click="saveArticleSelections()">恢复暂存</button>
-                            <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">彻底删除</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">彻底删除</button>
+                            <button type="button" class="btn btn-info" ng-click="saveArticleSelections()">恢复至草稿箱</button>
                         </div>
                     </div>
                 </div>
@@ -1443,8 +1440,8 @@
                             </ul>
                         </nav>
                         <div class="pull-right">
+                            <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">彻底删除</button>
                             <button type="button" class="btn btn-info" ng-click="submitArticleSelections()">提交审核</button>
-                            <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">彻底删除</button>
                         </div>
                     </div>
                 </div>

@@ -61,7 +61,9 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         console.log("test new save");
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
-        $http.put($scope.projectName+'/article/Crawler/1/'+$scope.articleData.id,jsonString).success(function(data) {
+        var url=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
+        console.log(url);
+        $http.put(url,jsonString).success(function(data) {
             alert("保存文章成功");
         });
     };
