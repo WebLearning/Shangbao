@@ -75,7 +75,7 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
     {
         $scope.showRevokedArticle(articleId);
         document.getElementById("revoked").className="tab-pane";
-        document.getElementById("newArticle").className="tab-pane active";
+        document.getElementById("revokedArticle").className="tab-pane active";
         document.getElementById("revokedSidebarID").className="sidebar-list";
     };
 

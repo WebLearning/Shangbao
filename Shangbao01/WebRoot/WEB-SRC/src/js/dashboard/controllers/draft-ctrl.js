@@ -28,6 +28,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
     $scope.refreshTemp=function()
     {
         clearArticleSelections();
+        selectByArr([]);
         $scope.orderCondition="";
         $scope.getTempData(1);
     };
@@ -70,7 +71,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
     {
         $scope.showTempArticle(articleId);
         document.getElementById("draft").className="tab-pane";
-        document.getElementById("newArticle").className="tab-pane active";
+        document.getElementById("draftArticle").className="tab-pane active";
         document.getElementById("draftSidebarID").className="sidebar-list";
     };
 

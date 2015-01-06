@@ -1,60 +1,57 @@
+/**
+ newCrawler-Ctrl
+ **/
 
-angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", function ($scope,$http) {
+angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", function ($scope,$http) {
 
     $scope.recvData={
-        activity: null,
-        author: "杨一",
-        channel: ["原创","本地","热门"],
-        channelIndex: null,
-        clicks: null,
-        content: "据了解",
-        crawlerCommends: null,
-        crawlerCommendsPublish: null,
-        from: "成都商报",
-        keyWord: ["成绵乐","动车组","救援演练"],
-        level: "1等",
-        likes: null,
-        newsCommends: null,
-        newsCommendsPublish: null,
-        picturesUrl: ["http://localhost:8080/Shangbao01/WEB-SRC/src/img/spiderMan.jpg","http://localhost:8080/Shangbao01/WEB-SRC/src/img/shitMan.jpg"],
-        subTitle: "即将进入",
-        summary: "摘要：成绵乐",
-        tag: null,
-        time: new Date(),
-        title: "成绵乐",
-        titlePicUrl: null,
-        words: null
+        title:"成绵乐客专“蓄势待发” 应急救援演练10天",
+        subTitle:"即将进入运行试验阶段 全真模拟开行动车组的情形",
+        keyWord:["成绵乐","动车组","救援演练"],
+        author:"杨一",
+        summary:"摘要：成绵乐客专“蓄势待发” 应急救援演练10天，即将进入运行试验阶段 全真模拟开行动车组的情形",
+        content:'<p style="text-indent: 2em;">据了解，为期10天的应急救援演练基本上覆盖了成绵乐客专上的各个车站与区段，应急救援演练的项目至少达到50项以上。200公里时速 模拟运营真实状况 在应急救援演练项目之外，还将专门模拟列车开通运营，模仿运行时刻表，进行行车试验。</p><p style="text-indent: 2em;"><img src="img/spiderMan.jpg"/></p><p style="text-indent: 2em;">据介绍，通过运行图参数测试，掌握全程运行时分，行车试验则对各项设备进行考验，检验各系统和整体系统的稳定性及能力，并且让客运、车站、通信等各个专业的人员得到实作培训，熟悉各种规章制度，熟悉工作流程。</p><p style="text-indent: 2em;"><img src="img/shitMan.jpg"/></p><p style="text-indent: 2em;">据了解，这部分试验将采用CRH1A或CRH2A型动车组，动车组将模拟北向、南向行驶，或全程拉通行驶的运行方式，每种模拟方式基本都是站站停，行进中保持时速200公里，从江油至峨眉山大约需要2个多小时，成都至江油、成都至峨眉山大约各在1个小时左右。</p>',
+        time:new Date(),
+        channel:["原创","本地","热门"],
+        picturesUrl:["http://localhost:8080/Shangbao01/WEB-SRC/src/img/spiderMan.jpg","http://localhost:8080/Shangbao01/WEB-SRC/src/img/shitMan.jpg"],
+        level:"一级",
+        from:"成都商报"
     };
 
     $scope.getEditorContent=function()
     {
         //导入数据
-        for(p in $scope.newArticleData){
+        for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
                 for(i in $scope.recvData[p]){
-                    $scope.newArticleData[p][i]=$scope.recvData[p][i];
+                    $scope.articleData[p][i]=$scope.recvData[p][i];
                 }
             }else{
-                $scope.newArticleData[p]=$scope.recvData[p];
+                $scope.articleData[p]=$scope.recvData[p];
             }
         }
     };
-
+    $scope.goPending=function()
+    {
+        document.getElementById("pendingArticle").className="tab-pane";
+        document.getElementById("pendingTrial").className="tab-pane active";
+        document.getElementById("pendingSidebarID").className="sidebar-list";
+    };
     $scope.testLog=function()
     {
         $scope.calculateWords();
         console.log($scope.recvData);
-        console.log($scope.newArticleData);
+        console.log($scope.articleData);
     };
 
     //footer的3个按钮的操作
     $scope.clearArticle=function()
     {
-        for(p in $scope.newArticleData){
+        for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
-                $scope.newArticleData[p]=[];
+                $scope.articleData[p]=[];
             }else{
-                $scope.newArticleData[p]="";
+                $scope.articleData[p]="";
             }
         }
         $scope.calculateWords();
@@ -62,7 +59,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
 
     $scope.saveArticle=function(){
         $scope.calculateWords();
-        var jsonString=JSON.stringify($scope.newArticleData);
+        var jsonString=JSON.stringify($scope.articleData);
         $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("保存文章成功");
         });
@@ -70,7 +67,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
 
     $scope.putArticle=function(){
         $scope.calculateWords();
-        var jsonString=JSON.stringify($scope.newArticleData);
+        var jsonString=JSON.stringify($scope.articleData);
         $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("提交审核文章成功");
         });
@@ -79,32 +76,32 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     //得到字数
     $scope.calculateWords=function()
     {
-        $scope.newArticleData.words=$scope.newArticleData.content.length;
+        $scope.articleData.words=$scope.articleData.content.length;
     };
     //图片数-----------------------------------------------------
     /*$scope.calculatePictures=function(){
-     $scope.newArticleData.pictures=$scope.newArticleData.picturesUrl.length;
-    }*/
+     $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
+     }*/
     //刷新时间
     $scope.getCurrentDatetime=function()
     {
-        $scope.newArticleData.time=new Date();
+        $scope.articleData.time=new Date();
     };
 
     //删除关键词 分类 和 图片数组的操作
     $scope.deleteKeyword=function(index)
     {
-        $scope.newArticleData.keyWord.splice(index,1);
+        $scope.articleData.keyWord.splice(index,1);
     };
 
     $scope.deleteChannel=function(index)
     {
-        $scope.newArticleData.channel.splice(index,1);
+        $scope.articleData.channel.splice(index,1);
     };
 
     $scope.deletePicUrl=function(index)
     {
-        $scope.newArticleData.picturesUrl.splice(index,1);
+        $scope.articleData.picturesUrl.splice(index,1);
     };
 
     //添加关键词和分类
@@ -113,8 +110,8 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         if($scope.additionKeyword==undefined||$scope.additionKeyword==""){
             alert("没有任何输入");
         }else{
-            $scope.newArticleData.keyWord.push($scope.additionKeyword);
-            $('#myModal_addKeyword').modal('toggle');
+            $scope.articleData.keyWord.push($scope.additionKeyword);
+            $('#myModal_addKeyword_pending').modal('toggle');
         }
     };
 
@@ -123,8 +120,8 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         if($scope.additionChannel==undefined||$scope.additionChannel==""){
             alert("没有任何输入");
         }else{
-            $scope.newArticleData.channel.push($scope.additionChannel);
-            $('#myModal_addChannel').modal('toggle');
+            $scope.articleData.channel.push($scope.additionChannel);
+            $('#myModal_addChannel_pending').modal('toggle');
         }
     };
 
@@ -168,17 +165,17 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             +'<img id="imgPreview">'
             +'</div>';
 
-        document.getElementById("previewFrame").innerHTML=tempHtml;
+        document.getElementById("previewFrame_pending").innerHTML=tempHtml;
     };
 
     $scope.deletePreviewFrame=function()
     {
-        document.getElementById("previewFrame").innerHTML="";
+        document.getElementById("previewFrame_pending").innerHTML="";
     };
 
     $scope.refreshImgInput=function()
     {
-        document.getElementById("myUploadImgForm").innerHTML='<input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>';
+        document.getElementById("myUploadImgForm_pending").innerHTML='<input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>';
     };
 
     //上传按钮的改变（主要）
@@ -188,13 +185,13 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             +'<button type="button" class="btn btn-default" disabled>上传</button>'
             +'<button type="button" class="btn btn-default" disabled>确认</button>';
 
-        document.getElementById("modalFooterID").innerHTML=tempString;
+        document.getElementById("modalFooterID_pending").innerHTML=tempString;
     };
 
     //上传图片
     $scope.uploadImg=function()
     {
-        $('#myUploadImgForm').submit();
+        $('#myUploadImgForm_pending').submit();
         $scope.enableConfirmButton();
     };
 
@@ -205,7 +202,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             +'<button type="button" class="btn btn-success" onclick="angular.element(this).scope().uploadImg()">上传</button>'
             +'<button type="button" class="btn btn-primary" onclick="angular.element(this).scope().addPicUrl()">确认</button>';
 
-        document.getElementById("modalFooterID").innerHTML=tempString;
+        document.getElementById("modalFooterID_pending").innerHTML=tempString;
     };
 
     $scope.disableConfirmButton=function()
@@ -214,7 +211,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             +'<button type="button" class="btn btn-success" onclick="angular.element(this).scope().uploadImg()">上传</button>'
             +'<button type="button" class="btn btn-default" disabled>确认</button>';
 
-        document.getElementById("modalFooterID").innerHTML=tempString;
+        document.getElementById("modalFooterID_pending").innerHTML=tempString;
     };
 
     $scope.addPicUrl=function()
@@ -227,7 +224,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
 
     $scope.getPicUrl=function()
     {
-        var url = document.getElementById("myIFrameID").contentWindow.document.body.innerText;
+        var url = document.getElementById("myIFrameID_pending").contentWindow.document.body.innerText;
         url=url.substr(8);
         url=$scope.projectName+"/WEB-SRC"+url;
 
@@ -236,21 +233,21 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
 
     $scope.pushPicUrl=function(url)
     {
-        $scope.newArticleData.picturesUrl.push(url);
+        $scope.articleData.picturesUrl.push(url);
         $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 
     //添加图片到ueditor内容
     $scope.addImgToEditorContent=function(url){
         var text='<img src="'+url+'">';
-        $scope.newArticleData.content=text+$scope.newArticleData.content;
+        $scope.articleData.content=text+$scope.articleData.content;
         $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 
     //关闭上传框
     $scope.turnOffUploadModal=function()
     {
-        $('#myModal_addIMG').modal('toggle');
+        $('#myModal_addIMG_pending').modal('toggle');
     };
 
 
@@ -258,9 +255,3 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
 
 
 }]);
-
-
-
-
-
-

@@ -67,7 +67,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
     {
         $scope.showPublishedArticle(articleId);
         document.getElementById("published").className="tab-pane";
-        document.getElementById("newArticle").className="tab-pane active";
+        document.getElementById("publishedArticle").className="tab-pane active";
         document.getElementById("publishedSidebarID").className="sidebar-list";
     };
 

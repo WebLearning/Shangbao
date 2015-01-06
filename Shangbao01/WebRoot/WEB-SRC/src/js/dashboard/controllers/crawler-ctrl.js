@@ -70,8 +70,8 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
     $scope.goNewArticle=function(articleId)
     {
         $scope.showCrawlerArticle(articleId);
-        document.getElementById("crawlerArticle").className="tab-pane";
-        document.getElementById("newArticle").className="tab-pane active";
+        document.getElementById("crawler").className="tab-pane";
+        document.getElementById("crawlerArticle").className="tab-pane active";
         document.getElementById("crawlerSidebarID").className="sidebar-list";
     };
 
@@ -102,6 +102,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         var url=$scope.getCrawlerArticleUrl(articleId);
 
         $http.get(url).success(function(data) {
+//            console.log(data);
             $scope.transDataToArticleData(data);
         });
     };

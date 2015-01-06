@@ -101,7 +101,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     {
         $scope.showPendingArticle(articleId);
         document.getElementById("pendingTrial").className="tab-pane";
-        document.getElementById("newArticle").className="tab-pane active";
+        document.getElementById("pendingArticle").className="tab-pane active";
         document.getElementById("pendingSidebarID").className="sidebar-list";
     };
 

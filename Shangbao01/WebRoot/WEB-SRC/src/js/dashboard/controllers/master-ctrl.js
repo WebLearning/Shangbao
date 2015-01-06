@@ -17,20 +17,72 @@ function MasterCtrl($scope) {
     $scope.projectName="http://localhost:8080/Shangbao01";
 
     //文章数据
+//    $scope.articleData={
+//        title:"",
+//        subTitle:"",
+//        keyWord:[],
+//        author:"",
+//        summary:"",
+//        content:'',
+//        time:"",
+//        channel:[],
+//        picturesUrl:[],
+//        level:"",
+//        from:"",
+//        words:0
+//    };
+
     $scope.articleData={
-        title:"",
-        subTitle:"",
-        keyWord:[],
-        author:"",
-        summary:"",
-        content:'',
-        time:"",
-        channel:[],
-        picturesUrl:[],
-        level:"",
-        from:"",
-        words:0
+        activity:"" ,
+        author: "",
+        channel: [],
+        channelIndex: null,
+        clicks: null,
+        content: "",
+        crawlerCommends: null,
+        crawlerCommendsPublish: null,
+        from: "",
+        id: null,
+        keyWord: [],
+        level: null,
+        likes: null,
+        newsCommends: null,
+        newsCommendsPublish: null,
+        picturesUrl: [],
+        subTitle: "",
+        summary: "",
+        tag: null,
+        time: null,
+        title: "",
+        titlePicUrl: null,
+        words: null
     };
+
+    $scope.newArticleData={
+        activity:"" ,
+        author: "",
+        channel: [],
+        channelIndex: null,
+        clicks: null,
+        content: "",
+        crawlerCommends: null,
+        crawlerCommendsPublish: null,
+        from: "",
+        keyWord: [],
+        level: null,
+        likes: null,
+        newsCommends: null,
+        newsCommendsPublish: null,
+        picturesUrl: [],
+        subTitle: "",
+        summary: "",
+        tag: null,
+        time: null,
+        title: "",
+        titlePicUrl: null,
+        words: null
+    };
+
 
     //初始化header
     $scope.curPage = "一览";
@@ -41,7 +93,7 @@ function MasterCtrl($scope) {
         $scope.curPage=str;
         //如果是点击新建文章就清除文章里的数据
         if(str=="文章/新建"){
-            clearArticleData();
+            clearNewArticleData();
         }
     };
 
@@ -53,6 +105,18 @@ function MasterCtrl($scope) {
                 $scope.articleData[p]=0;
             }else{
                 $scope.articleData[p]="";
+            }
+        }
+    }
+
+    function clearNewArticleData(){
+        for(p in $scope.newArticleData){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+                $scope.newArticleData[p]=[];
+            }else if(p=="words"){
+                $scope.newArticleData[p]=0;
+            }else{
+                $scope.newArticleData[p]="";
             }
         }
     }
