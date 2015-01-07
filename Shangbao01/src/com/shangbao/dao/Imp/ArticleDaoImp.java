@@ -44,6 +44,24 @@ public class ArticleDaoImp implements ArticleDao {
 	public void insert(Article article) {
 		Long idLong = sequenceDaoImp.getNextSequenceId(ARTICLE_SEQ_KEY);
 		article.setId(idLong);
+		//查找当前文章所属于分类
+		List<String> channels = article.getChannel();
+		if(channels != null && !channels.isEmpty()){
+			for(String channelName : channels){
+				//找出该channel所属文章的最大的index
+				Query channelQuery = new Query();
+				Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published.toString());
+				channelQuery.addCriteria(channelCriteria);
+				channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channelName));
+				channelQuery.limit(1);
+				List<Article> articleList = mongoTemplate.find(channelQuery, Article.class);
+				if(articleList != null && !articleList.isEmpty() && articleList.get(0).getChannelIndex().get(channelName) != null){
+					article.getChannelIndex().put(channelName, articleList.get(0).getChannelIndex().get(channelName) + 1);
+				}else{
+					article.getChannelIndex().put(channelName, 1);
+				}
+			}
+		}
 		mongoTemplate.insert(article);
 	}
 	
@@ -209,7 +227,7 @@ public class ArticleDaoImp implements ArticleDao {
 				for(String channel : channels){
 					//针对每一个channel设置该文章的顺序
 					Query channelQuery = new Query();
-					Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published);
+					Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published.toString());
 					//找出该channel所属文章的最大的index
 					channelQuery.addCriteria(channelCriteria);
 					channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channel));
@@ -242,7 +260,7 @@ public class ArticleDaoImp implements ArticleDao {
 		}
 		if (article.getChannel().contains(channelName)){
 			Query channelQuery = new Query();
-			Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published);
+			Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published.toString());
 			//找出该channel所属文章的最大的index
 			channelQuery.addCriteria(channelCriteria);
 			channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channelName));

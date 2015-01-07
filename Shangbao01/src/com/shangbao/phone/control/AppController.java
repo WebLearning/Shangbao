@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.code.kaptcha.Constants;
@@ -240,6 +241,10 @@ public class AppController {
 	public void appLogIn(@RequestBody User user){
 		if(user.getName() != null && user.getPasswd() != null){
 			BeanFactory factory = new ClassPathXmlApplicationContext();
+			RestTemplate restTemplate = (RestTemplate)factory.getBean("restTemplate");
+			if(restTemplate != null){
+				
+			}
 		}
 	}
 	

@@ -24,10 +24,10 @@ public class ChannelDaoTest {
 	@Test
 	public void test() {
 		//addChannel();
-		appChannelTest();
+		//appChannelTest();
 		addAppArticle();
-		addAppComment();
-		addAppActivity();
+		//addAppComment();
+		//addAppActivity();
 	}
 	
 	public void addChannel(){

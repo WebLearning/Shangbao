@@ -310,6 +310,7 @@ public class AppService {
 						Article articleA = appModel.getAppMap().get(channelName).get(index + 1);
 						Article articleB = appModel.getAppMap().get(channelName).get(index);
 						appModel.swapArticle(channelName, articleA.getId(), articleB.getId());
+						appModel.redeployChannelArticles(channelName);
 					}
 				}
 			}
@@ -332,6 +333,7 @@ public class AppService {
 			if(index > 0 && index < appModel.getAppMap().get(channelName).size()){
 				Article article = appModel.getAppMap().get(channelName).get(index);
 				appModel.setTopArticle(channelName, article.getId());
+				appModel.redeployChannelArticles(channelName);
 			}
 		}
 	}
