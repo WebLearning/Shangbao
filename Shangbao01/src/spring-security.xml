@@ -10,7 +10,6 @@
 	</http> -->
 	
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/**" access="permitAll"/>
 		<intercept-url pattern="/commend/**" access="permitAll"/>
 		<intercept-url pattern="/picture/**" access="permitAll"/>
 		<intercept-url pattern="/crawler/**" access="permitAll"/>

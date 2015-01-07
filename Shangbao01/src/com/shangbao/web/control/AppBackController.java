@@ -46,6 +46,7 @@ public class AppBackController {
 	}
 	
 	@RequestMapping(value="/settop/{channelName}/{index}", method=RequestMethod.PUT)
+	@ResponseBody
 	public String setTopArticle(@PathVariable("channelName") String channelName,
 								@PathVariable("index") int index){
 		appService.setArticleTop(channelName, index);
