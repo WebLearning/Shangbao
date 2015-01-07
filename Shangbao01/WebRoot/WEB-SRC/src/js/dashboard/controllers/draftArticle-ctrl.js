@@ -147,7 +147,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     {
         var docObj = obj;
         var preViewUrl = window.URL.createObjectURL(docObj.files[0]);
-        var imgObjPreview=document.getElementById("imgPreview");
+        var imgObjPreview=document.getElementById("imgPreview_draft");
         imgObjPreview.src = preViewUrl;
     };
 
@@ -155,7 +155,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     {
         var tempHtml='<div class="thumbnail">'
             +'<button type="button" class="close" onclick="angular.element(this).scope().deletePreviewFrame()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
-            +'<img id="imgPreview">'
+            +'<img id="imgPreview_draft">'
             +'</div>';
 
         document.getElementById("previewFrame_draft").innerHTML=tempHtml;

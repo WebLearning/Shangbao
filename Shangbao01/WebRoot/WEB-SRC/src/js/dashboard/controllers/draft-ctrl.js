@@ -34,10 +34,11 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
     };
 
     //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示
+
     $scope.checkIfNull=function(str)
     {
         var checkedStr;
-        if(str==null){
+        if(str==null||str==""){
             checkedStr="无";
         }else{
             checkedStr=str;
@@ -243,13 +244,27 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
     };
 
     //排序---------------------------------------------------------------------------------------------------------------
+    var wordsOrderState="desc";
     $scope.orderByWords=function(){
-        $scope.orderCondition="/words";
+        if(wordsOrderState=="desc"){
+            $scope.orderCondition="/words/"+"asc";
+            wordsOrderState="asc";
+        }else if(wordsOrderState=="asc"){
+            $scope.orderCondition="/words/"+"desc";
+            wordsOrderState="desc";
+        }
         $scope.getTempData(1);
     };
 
+    var commendsOrderState="desc";
     $scope.orderByCommends=function(){
-        $scope.orderCondition="/commends";
+        if(commendsOrderState=="desc"){
+            $scope.orderCondition="/commends/"+"asc";
+            commendsOrderState="asc";
+        }else if(commendsOrderState=="asc"){
+            $scope.orderCondition="/commends/"+"desc";
+            commendsOrderState="desc";
+        }
         $scope.getTempData(1);
     };
 
@@ -265,13 +280,28 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
         $scope.getTempData(1);
     };
 
+    var clicksOrderState="desc";
     $scope.orderByClicks=function(){
-        $scope.orderCondition="/clicks";
+        if(clicksOrderState=="desc"){
+            $scope.orderCondition="/clicks/"+"asc";
+            clicksOrderState="asc";
+        }else if(clicksOrderState=="asc"){
+            $scope.orderCondition="/clicks/"+"desc";
+            clicksOrderState="desc";
+        }
         $scope.getTempData(1);
     };
 
+    var likesOrderState="desc";
     $scope.orderByLikes=function(){
-        $scope.orderCondition="/likes";
-        $scope.geTempData(1);
+        if(likesOrderState=="desc"){
+            $scope.orderCondition="/likes/"+"asc";
+            likesOrderState="asc";
+        }else if(likesOrderState=="asc"){
+            $scope.orderCondition="/likes/"+"desc";
+            likesOrderState="desc";
+        }
+        $scope.getTempData(1);
     };
+
 }]);

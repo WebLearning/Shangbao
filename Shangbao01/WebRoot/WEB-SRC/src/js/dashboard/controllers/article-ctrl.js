@@ -25,7 +25,52 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         titlePicUrl: null,
         words: null
     };
-
+    $scope.channelNames=[
+        {channelName:'国内'},
+        {channelName:'商报原创'},
+        {channelName:'活动'},
+        {channelName:'娱乐'}
+    ];
+    //获得顶级目录名----------------------------------------------------------------------------------------------------
+    $scope.newChannelNames=[];
+    $scope.getNewChannelNames=function(){
+        var url=$scope.projectName+'/channel/channels';
+        console.log(url);
+        $http.get(url).success(function(data){
+            console.log(data);
+            if(data.length>0){
+                for(i=0;i<data.length;i++){
+                    if(data[i].englishName=="orignal"){
+                        $scope.newChannelNames.push(data[i]);
+                    }else{
+                        $scope.getSecondChannelNames(data[i].englishName);
+                    }
+                }
+            }else{
+                $scope.newChannelNames=[];
+            }
+        });
+    };
+    $scope.getNewChannelNames();
+    //获得次级目录名----------------------------------------------------------------------------------------------------
+    $scope.getSecondChannelNames=function(channelName){
+        var url=$scope.projectName+'/channel/'+channelName+'/channels';
+        console.log(url);
+        $http.get(url).success(function(data){
+            console.log(data);
+            if(data.length>0){
+                for(i=0;i<data.length;i++){
+                    $scope.newChannelNames.push(data[i]);
+                }
+            }
+        });
+    };
+    //获得所有目录------------------------------------------------------------------------------------------------------
+//    $scope.getChannelNames=function(){
+//        $scope.getNewChannelNames();
+//        $scope.getSecondChannelNames(channelName);
+//    };
+    //
     $scope.getEditorContent=function()
     {
         //导入数据
@@ -228,9 +273,10 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myIFrameID").contentWindow.document.body.innerText;
+        console.log(url);
         url=url.substr(8);
         url=$scope.projectName+"/WEB-SRC"+url;
-
+        console.log(url);
         return url;
     };
 

@@ -209,27 +209,27 @@
                     </div>
                 </div>
 				<div class="row">
-					<div class="col-lg-4" ng-repeat="section in generalViewSections">
+					<div class="col-lg-4" ng-repeat="section in newGeneralViewSections">
 						<div class="widget">
 							<div class="widget-title">
-								<i class="glyphicon glyphicon-tasks"></i> {{section.name}}
+								<i class="glyphicon glyphicon-tasks"></i> {{section.ChannelName}}
 							</div>
 							<div class="widget-body medium no-padding" ng-init="newsItems=section.content">
 								<div class="table-responsive">
 									<table class="table table-hover">
 										<tbody>
 											<tr ng-repeat="newsItem in newsItems track by $index">
-												<td>{{newsItem}}</td>
+												<td>{{newsItem.title}}</td>
 												<td align="right">
 													<div class="btn-group">
-														<button type="button" class="btn btn-default btn-xs">
+														<button type="button" class="btn btn-default btn-xs" ng-click="upGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
                                                             <span class="glyphicon glyphicon-arrow-up"></span> up
                                                         </button>
-														<button type="button" class="btn btn-default btn-xs">
+														<button type="button" class="btn btn-default btn-xs" ng-click="downGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
                                                             <span class="glyphicon glyphicon-arrow-down"></span> down
                                                         </button>
 													</div>
-                                                    <button type="button" class="btn btn-default btn-xs">
+                                                    <button type="button" class="btn btn-default btn-xs"ng-click="topGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
                                                         <span class="glyphicon glyphicon-plane"></span> Top
                                                     </button>
                                                 </td>
@@ -410,7 +410,14 @@
                                         <h4 class="modal-title">添加分类</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">
+                                        <form role="form">
+                                            <select class="form-control" ng-model="additionChannel" >
+                                                <option ng-repeat="x in newChannelNames">
+                                                    {{x.channelName}}
+                                                </option>
+                                            </select>
+                                        </form>
+                                        <!--<input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">-->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -704,7 +711,7 @@
                                         <th style="width: 6%"><a href="" ng-click="orderByCommends()">评论数</a></th>
                                         <th style="width: 6%"><a href="" ng-click="orderByLikes()">赞数</a></th>
                                         <th style="width: 16%">摘要</th>
-                                        <th style="width: 5%">字数</th>
+                                        <th style="width: 5%"><a href="" ng-click="orderByWords()" >字数</a></th>
                                         <th style="width: 8%">活动</th>
                                         <th style="width: 5%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
