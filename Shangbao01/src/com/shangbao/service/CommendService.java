@@ -21,7 +21,7 @@ public interface CommendService {
 	 * @param order
 	 * @return
 	 */
-	CommendList get(Commend commend, int pageId, String order);
+	CommendList get(Commend commend, int pageId, String order, String direction);
 	/**
 	 * 添加一个评论
 	 * @param singleCommend

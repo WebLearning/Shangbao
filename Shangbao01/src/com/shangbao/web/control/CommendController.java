@@ -87,11 +87,13 @@ public class CommendController {
 	 * @param order
 	 * @return
 	 */
-	@RequestMapping(value = "/{pageId:[\\d]+}/{articleId:[\\d]+}/{type:crawler|news}/{commendPage:[\\d]+}/{order:[a-z,A-Z]+}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{pageId:[\\d]+}/{articleId:[\\d]+}/{type:crawler|news}/{commendPage:[\\d]+}/{order:[a-z,A-Z]+}/{direction:asc|desc}", method = RequestMethod.GET)
+	@ResponseBody
 	public CommendList commendOrder(@PathVariable("articleId") long articleId,
 			@PathVariable("type") String type,
 			@PathVariable("commendPage") int pageId,
-			@PathVariable("order") String order) {
+			@PathVariable("order") String order,
+			@PathVariable("direction") String direction) {
 		Commend commend = null;
 		if(type.equals("crawler")){
 			commend = new CrawlerCommend();
@@ -100,7 +102,7 @@ public class CommendController {
 			commend = new NewsCommend();
 		}
 		commend.setArticleId(articleId);
-		return commendServiceImp.get(commend, pageId, order);
+		return commendServiceImp.get(commend, pageId, order, direction);
 	}
 
 	/**

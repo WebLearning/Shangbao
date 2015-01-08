@@ -16,6 +16,7 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
@@ -31,6 +32,9 @@ public class UserIdentifyService {
 	private UserDetailsService myUserDetailsService;
 	@Resource
 	private PasswordEncoder passwordEncoder;
+	@Resource
+	private RememberMeServices rememberMeServices;
+	
 	private final String remoteUrl;
 	
 	public UserIdentifyService(){
@@ -59,6 +63,7 @@ public class UserIdentifyService {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			HttpSession session = request.getSession(true);
 			session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+			//request.getCookies().a
 			return userDetails;
 		}else{
 			//从商报的用户数据库中查找用户数据并添加到本地

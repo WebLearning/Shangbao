@@ -65,13 +65,16 @@ public class CommendServiceImp implements CommendService {
 	}
 
 	@Override
-	public CommendList get(Commend criteriaElement, int pageId, String order) {
+	public CommendList get(Commend criteriaElement, int pageId, String order, String direction) {
 		CommendList commendList = new CommendList();
 		List<Commend> commends = commendDaoImp.find(criteriaElement);
 		if (commends.size() == 1
 				&& commends.get(0).getCommendList().size() > 10 * (pageId - 1)) {
 			List<SingleCommend> singleCommends = reSort(commends.get(0)
 					.getCommendList(), order);
+			if(direction.equals("desc")){
+				Collections.reverse(singleCommends);
+			}
 			if (singleCommends.size() > 0) {
 				int pageCount = singleCommends.size() / 10;
 				commendList.setCurrentNo(pageCount);
@@ -222,12 +225,20 @@ public class CommendServiceImp implements CommendService {
 		@Override
 		public int compare(SingleCommend o1, SingleCommend o2) {
 			if(order.equals("time")){
+				if(o1.getTimeDate() == null)
+					return 0;
 				return o1.getTimeDate().after(o2.getTimeDate()) ? 1 : 0;
 			}else if(order.equals("level")){
+				if(o1.getLevel() == null)
+					return 0;
 				return o1.getLevel().compareTo(o2.getLevel());
 			}else if(order.equals("state")){
+				if(o1.getState() == null)
+					return 0;
 				return o1.getState().toString().compareTo(o2.getState().toString());
 			}else if(order.equals("from")){
+				if(o1.getFrom() == null)
+					return 0;
 				return o1.getFrom().compareTo(o2.getFrom());
 			}
 			return 0;

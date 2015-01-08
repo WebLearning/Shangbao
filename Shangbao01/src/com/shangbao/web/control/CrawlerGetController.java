@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shangbao.model.ArticleState;
@@ -23,7 +24,7 @@ public class CrawlerGetController {
 	@Resource
 	private CommendService commendServiceImp;
 	
-	@RequestMapping("/uploadArticle")
+	@RequestMapping(value="/uploadArticle", method=RequestMethod.POST)
 	@ResponseBody
 	public Long uploadCrawlerArticle(@RequestBody Article article){
 		if(article != null){
@@ -33,7 +34,7 @@ public class CrawlerGetController {
 		return null;
 	}
 	
-	@RequestMapping("/uploadComment/{articleId:[\\d]+}")
+	@RequestMapping(value="/uploadComment/{articleId:[\\d]+}", method=RequestMethod.POST)
 	@ResponseBody
 	public CrawlerCommend uploadCrawlerComment(@PathVariable("articleId") Long articleId, @RequestBody CrawlerCommend commend){
 		commend.setArticleId(articleId);
