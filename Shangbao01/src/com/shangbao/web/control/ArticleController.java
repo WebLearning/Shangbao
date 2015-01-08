@@ -213,7 +213,7 @@ public class ArticleController {
 		Properties props = new Properties();
 		try {
 			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
-			String filePath = props.getProperty("pictureDir") + "\\articlePic\\";//目录的路径
+			String filePath = props.getProperty("pictureDir") + "\\articlePic";//目录的路径
 			Path path = Paths.get(filePath);
 			if(Files.notExists(path)){
 				Path filPath = Files.createDirectories(path);
@@ -221,7 +221,7 @@ public class ArticleController {
 			if(!file.isEmpty()){
 				byte[] bytes;
 				bytes = file.getBytes();
-				FileOutputStream fos = new FileOutputStream(filePath + fileName);
+				FileOutputStream fos = new FileOutputStream(filePath + "\\" + fileName);
 				fos.write(bytes); // 写入文件
 				fos.close();
 				returnString = path.toString().split("Shangbao01")[1] + "\\" + fileName;
