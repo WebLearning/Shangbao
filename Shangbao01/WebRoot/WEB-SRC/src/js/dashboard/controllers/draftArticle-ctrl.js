@@ -245,7 +245,40 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
 
 
     //关于上传图片的----------------------------------------------------------------------------------------------
-
+    //获得顶级目录名----------------------------------------------------------------------------------------------------
+    $scope.newChannelNames=[];
+    $scope.getNewChannelNames=function(){
+        var url=$scope.projectName+'/channel/channels';
+        //console.log(url);
+        $http.get(url).success(function(data){
+            //console.log(data);
+            if(data.length>0){
+                for(i=0;i<data.length;i++){
+                    if(data[i].englishName=="orignal"){
+                        $scope.newChannelNames.push(data[i]);
+                    }else{
+                        $scope.getSecondChannelNames(data[i].englishName);
+                    }
+                }
+            }else{
+                $scope.newChannelNames=[];
+            }
+        });
+    };
+    $scope.getNewChannelNames();
+    //获得次级目录名----------------------------------------------------------------------------------------------------
+    $scope.getSecondChannelNames=function(channelName){
+        var url=$scope.projectName+'/channel/'+channelName+'/channels';
+        //console.log(url);
+        $http.get(url).success(function(data){
+            //console.log(data);
+            if(data.length>0){
+                for(i=0;i<data.length;i++){
+                    $scope.newChannelNames.push(data[i]);
+                }
+            }
+        });
+    };
 
 }]);
 

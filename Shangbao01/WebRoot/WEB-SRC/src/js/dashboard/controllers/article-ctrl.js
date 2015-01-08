@@ -35,9 +35,9 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     $scope.newChannelNames=[];
     $scope.getNewChannelNames=function(){
         var url=$scope.projectName+'/channel/channels';
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
-            console.log(data);
+            //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
                     if(data[i].englishName=="orignal"){
@@ -55,9 +55,9 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     //获得次级目录名----------------------------------------------------------------------------------------------------
     $scope.getSecondChannelNames=function(channelName){
         var url=$scope.projectName+'/channel/'+channelName+'/channels';
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
-            console.log(data);
+            //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
                     $scope.newChannelNames.push(data[i]);
@@ -111,15 +111,16 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("保存文章成功");
         });
+        $scope.clearArticle();
     };
 
-    $scope.putArticle=function(){
-        $scope.calculateWords();
-        var jsonString=JSON.stringify($scope.newArticleData);
-        $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
-            alert("提交审核文章成功");
-        });
-    };
+//    $scope.putArticle=function(){
+//        $scope.calculateWords();
+//        var jsonString=JSON.stringify($scope.newArticleData);
+//        $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
+//            alert("提交审核文章成功");
+//        });
+//    };
 
     //得到字数
     $scope.calculateWords=function()

@@ -32,7 +32,6 @@
     <script type="text/javascript" src="js/dashboard/controllers/generalView-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/article-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/crawler-ctrl.js"></script>
-    <script type="text/javascript" src="js/dashboard/controllers/comment-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/pending-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/published-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draft-ctrl.js"></script>
@@ -42,6 +41,11 @@
     <script type="text/javascript" src="js/dashboard/controllers/publishedArticle_ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/revokedArticle-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draftArticle-ctrl.js"></script>
+
+    <script type="text/javascript" src="js/dashboard/controllers/commentPages-ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/comment-ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/commentDetails-ctrl.js"></script>
+
     <!--<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">-->
     <!--<script src="js/bootstrap-datetimepicker.js"></script>-->
 
@@ -94,7 +98,7 @@
             </ul>
         </li>
 		<li role="presentation" class="sidebar-list">
-          <a href="#comment" role="tab" data-toggle="tab" ng-click="changeCurPage('评论')">评论 <span class="menu-icon glyphicon glyphicon-list-alt"></span></a>
+          <a href="#commentPages" role="tab" data-toggle="tab" ng-click="changeCurPage('评论')">评论 <span class="menu-icon glyphicon glyphicon-list-alt"></span></a>
         </li>
 		<li role="presentation" class="sidebar-list">
           <a href="#management" role="tab" data-toggle="tab" ng-click="changeCurPage('管理')">管理 <span class="menu-icon glyphicon glyphicon-folder-open"></span></a>
@@ -201,7 +205,7 @@
 		
 		<!-- Main Content -->
 		
-		<div class="row tab-content" ng-controller="tabContentCtrl">
+		<div class="row tab-content">
 			<div role="tabpanel" class="tab-pane active" id="generalView" ng-controller="generalViewCtrl">
                 <div class="row">
                     <div class="col-md-2 col-md-offset-1">
@@ -671,7 +675,14 @@
                                         <h4 class="modal-title">添加分类</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">
+                                        <form role="form">
+                                            <select class="form-control" ng-model="additionChannel" >
+                                                <option ng-repeat="x in newChannelNames">
+                                                    {{x.channelName}}
+                                                </option>
+                                            </select>
+                                        </form>
+                                        <!--<input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">-->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -1366,7 +1377,14 @@
                                         <h4 class="modal-title">添加分类</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">
+                                        <form role="form">
+                                            <select class="form-control" ng-model="additionChannel" >
+                                                <option ng-repeat="x in newChannelNames">
+                                                    {{x.channelName}}
+                                                </option>
+                                            </select>
+                                        </form>
+                                        <!--<input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">-->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -1624,7 +1642,14 @@
                                         <h4 class="modal-title">添加分类</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">
+                                        <form role="form">
+                                            <select class="form-control" ng-model="additionChannel" >
+                                                <option ng-repeat="x in newChannelNames">
+                                                    {{x.channelName}}
+                                                </option>
+                                            </select>
+                                        </form>
+                                        <!--<input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">-->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -1636,118 +1661,121 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="comment" ng-controller="commentCtrl">
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-1">
-                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
-                    </div>
-                    <div class="col-md-2 col-md-offset-1">
-                        <button type="button" class="btn btn-success" ng-click="addComment()">add comment</button>
-                    </div>
-                    <div class="col-md-1 col-md-offset-7">
-                        <button type="button" class="btn btn-success" ng-click="refreshComment()"><span class="glyphicon glyphicon-refresh"></span></button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>标题</th>
-                                        <th><a href="" ng-click="orderByState()">状态</a></th>
-                                        <th><a href="" ng-click="orderByNewsCommends()">商报评论数(已发布/总数)</a></th>
-                                        <th><a href="" ng-click="orderByCrawlerCommends()">爬虫评论数(已发布/总数)</a></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="commendObj in commentData.commendList">
-                                        <td><a href="">{{checkIfNull(commendObj.title)}}</a></td>
-                                        <td>{{checkAndTranslate(commendObj.state)}}</td>
-                                        <td><a href="">{{checkIfNull(commendObj.newsCommendsPublish)}}</a>/<a href="">{{checkIfNull(commendObj.newsCommends)}}</a></td>
-                                        <td><a href="">{{checkIfNull(commendObj.crawlerCommendsPublish)}}</a>/<a href="">{{checkIfNull(commendObj.crawlerCommends)}}</a></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+            <div role="tabpanel" class="tab-pane" id="commentPages" ng-controller="commentPagesCtrl">
+                <div class="row tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="comment" ng-controller="commentCtrl">
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-1">
+                                <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                            </div>
+                            <div class="col-md-2 col-md-offset-1">
+                                <button type="button" class="btn btn-success" ng-click="addComment()">add comment</button>
+                            </div>
+                            <div class="col-md-1 col-md-offset-7">
+                                <button type="button" class="btn btn-success" ng-click="refreshComment()"><span class="glyphicon glyphicon-refresh"></span></button>
                             </div>
                         </div>
-                        <nav>
-                            <ul class="pagination">
-                                <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
-                                <!--<li><a href="#">&raquo;</a></li>-->
-                            </ul>
-                        </nav>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <div class="panel panel-success">
+                                    <div class="panel-body">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>标题</th>
+                                                <th>文章ID</th>
+                                                <th><a href="" ng-click="orderByState()">状态</a></th>
+                                                <th><a href="" ng-click="orderByNewsCommends()">商报评论数(已发布/总数)</a></th>
+                                                <th><a href="" ng-click="orderByCrawlerCommends()">爬虫评论数(已发布/总数)</a></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="commendObj in commentData.commendList">
+                                                <td><a href="">{{checkIfNull(commendObj.title)}}</a></td>
+                                                <td>{{commendObj.articleId}}</td>
+                                                <td>{{checkAndTranslate(commendObj.state)}}</td>
+                                                <td>{{checkIfNull(commendObj.newsCommendsPublish)}}/<a href="" ng-click="showNewsCommends(commendObj.articleId)">{{checkIfNull(commendObj.newsCommends)}}</a></td>
+                                                <td>{{checkIfNull(commendObj.crawlerCommendsPublish)}}/<a href="" ng-click="showCrawlerCommends(commendObj.articleId)">{{checkIfNull(commendObj.crawlerCommends)}}</a></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <nav>
+                                    <ul class="pagination">
+                                        <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
+                                        <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                        <!--<li><a href="#">&raquo;</a></li>-->
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="commentDetails" ng-controller="commentDetailsCtrl">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-info btn-lg btn-block" ng-click="goCommentList()"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <strong>biaoti</strong>
+                                <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                                <button type="button" class="btn btn-success" ng-click="refreshCommentDetails()"><span class="glyphicon glyphicon-refresh"></span></button>
+                                <button type="button" class="btn btn-info pull-right">新建评论</button>
+                            </div>
+                            <div class="col-md-10 col-md-offset-1">
+                                <div class="panel panel-success">
+                                    <div class="panel-body">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>评论ID</th>
+                                                <th>用户名</th>
+                                                <th>用户ID</th>
+                                                <th>时间日期</th>
+                                                <th>等级</th>
+                                                <th>状态</th>
+                                                <th>来源</th>
+                                                <th>内容</th>
+                                                <th>回复</th>
+                                                <th><a>全选</a></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="articleComment in commentDetailData.commendList">
+                                                <td>{{articleComment.commendId}}</td>
+                                                <td>{{articleComment.userName}}</td>
+                                                <td>{{articleComment.userId}}</td>
+                                                <td>{{articleComment.timeDate}}</td>
+                                                <td>{{articleComment.level}}</td>
+                                                <td>{{articleComment.state}}</td>
+                                                <td>{{articleComment.from}}</td>
+                                                <td>{{articleComment.content}}</td>
+                                                <td>{{articleComment.reply}}</td>
+                                                <td><input type="checkbox" value=""></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <nav>
+                                    <ul class="pagination">
+                                        <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
+                                        <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                        <!--<li><a href="#">&raquo;</a></li>-->
+                                    </ul>
+                                </nav>
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-info">发布</button>
+                                    <button type="button" class="btn btn-info">删除</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="commentDetails">
-                <div class="row">
-                    <div class="col-md-1">
-                        <button type="button" class="btn btn-info btn-lg btn-block" ng-click="goCommentList()"><span class="glyphicon glyphicon-arrow-left"></span></button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <strong>{{commentDetailTitle}}</strong>
-                        <button type="button" class="btn btn-info pull-right">新建评论</button>
-                    </div>
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="panel panel-success">
-                            <div class="panel-body">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>时间</th>
-                                        <th>等级</th>
-                                        <th>已发布</th>
-                                        <th>来源</th>
-                                        <th>操作</th>
-                                        <th>选择</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>评论评论评论评论评论评论评论评论评论</td>
-                                        <td>2014/11/10</td>
-                                        <td>1</td>
-                                        <td>是</td>
-                                        <td>新浪</td>
-                                        <td>回复</td>
-                                        <td><input type="checkbox" value=""></td>
-                                    </tr>
-                                    <tr>
-                                        <td>评论评论评论评论评论评论评论评论评论</td>
-                                        <td>2014/11/11</td>
-                                        <td>5</td>
-                                        <td>否</td>
-                                        <td>腾讯</td>
-                                        <td>回复</td>
-                                        <td><input type="checkbox" value=""></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <nav>
-                            <ul class="pagination">
-                                <li class="disabled"><a href="#">&laquo;</a></li>
-                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">&raquo;</a></li>
-                            </ul>
-                        </nav>
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-info">发布</button>
-                            <button type="button" class="btn btn-info">删除</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-			<div role="tabpanel" class="tab-pane" id="management">
+            <div role="tabpanel" class="tab-pane" id="management">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal_newApp">
                     新建APP

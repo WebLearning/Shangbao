@@ -6,31 +6,27 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
 
     $scope.testLog=function(){
         console.log($scope.commentData);
-        console.log($scope.articleSelections);
-        console.log($scope.articleSelectionsUrl);
     };
 
     $scope.addComment=function()
     {
-        console.log("enter add");
         var testCommentData={
             commendId:"2",
             userName:"",
             userId:77,
             timeDate:new Date(),
             level:77,
-            state:"unpublished",
+            state:"published",
             from:"home",
             content:"hello this is a test comment",
             reply:"I get it"
         };
-        var url=$scope.projectName+'/commend/1/'+'22/'+'news';
+        var url=$scope.projectName+'/commend/1/'+'7/'+'crawler';
         console.log(url);
         var jsonString=JSON.stringify(testCommentData);
         console.log(jsonString);
         $http.post(url,jsonString).success(function(data){
-            console.log("get data");
-            console.log(data);
+            console.log("添加成功");
         });
     };
 
@@ -52,7 +48,6 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
 
     $scope.refreshComment=function()
     {
-        clearArticleSelections();
         $scope.orderCondition="";
         $scope.getCommentData(1);
     };
@@ -91,45 +86,41 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
         return checkedStr;
     };
 
-    //文章跳转------------------------------------------------------------------------------------------------------------
-    //转到新建文章页面并重置sidebar的爬虫文章按钮，不然会产生点击无效的BUG
-    $scope.goNewArticle=function(articleId)
+    //文章评论跳转------------------------------------------------------------------------------------------------------------
+
+    $scope.goCommentDetails=function()
     {
-        $scope.showCrawlerArticle(articleId);
-        document.getElementById("crawlerArticle").className="tab-pane";
-        document.getElementById("newArticle").className="tab-pane active";
-        document.getElementById("crawlerSidebarID").className="sidebar-list";
+        document.getElementById("comment").className="tab-pane";
+        document.getElementById("commentDetails").className="tab-pane active";
     };
 
-    //得到文章的URL
-    $scope.getCrawlerArticleUrl=function(articleId)
+    //将文章评论数据传输给全局变量commentDetailData
+    $scope.transDataToCommentDetailData=function(data)
     {
-        var url=$scope.projectName+"/article/Crawler/"+($scope.commentData.currentNo).toString()+"/"+articleId;
-        return url;
-    };
-
-    //将文章数据传输给全局变量articleData
-    $scope.transDataToArticleData=function(data)
-    {
-        for(p in $scope.articleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+        for(p in $scope.commentDetailData){
+            if(p=="commendList"){
                 for(i in data[p]){
-                    $scope.articleData[p][i]=data[p][i];
+                    $scope.commentDetailData[p][i]=data[p][i];
                 }
             }else{
-                $scope.articleData[p]=data[p];
+                $scope.commentDetailData[p]=data[p];
             }
         }
     };
 
-    //显示点击的文章
-    $scope.showCrawlerArticle=function(articleId)
+    //点击显示文章评论明细
+    $scope.showNewsCommends=function(articleId)
     {
-        var url=$scope.getCrawlerArticleUrl(articleId);
+        commentDetailsUrl=$scope.projectName+'/commend/1/'+articleId+'/'+'news';
+        $scope.goCommentDetails();
+        $scope.getCommentDetailData(1);
+    };
 
-        $http.get(url).success(function(data) {
-            $scope.transDataToArticleData(data);
-        });
+    $scope.showCrawlerCommends=function(articleId)
+    {
+        commentDetailsUrl=$scope.projectName+'/commend/1/'+articleId+'/'+'crawler';
+        $scope.goCommentDetails();
+        $scope.getCommentDetailData(1);
     };
 
     //页面跳转------------------------------------------------------------------------------------------------------------
@@ -158,103 +149,6 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
         }
     }
 
-    //文章的选取和操作------------------------------------------------------------------------------------------------------
-    //文章的选取
-    $scope.articleSelections=[];
-    $scope.articleSelectionsUrl="";
-
-    $scope.selectArticle=function(articleId,selectState)
-    {
-        if(!selectState){
-            $scope.articleSelections.push(articleId);
-        }else{
-            var index=$scope.articleSelections.indexOf(articleId);
-            $scope.articleSelections.splice(index,1);
-        }
-//        console.log($scope.articleSelections);
-
-        if($scope.articleSelections.length>0){
-            var str="";
-            for(i=0;i<$scope.articleSelections.length;i++){
-                str+=($scope.articleSelections[i]+"_");
-                $scope.articleSelectionsUrl=str.substr(0,str.length-1);
-            }
-        }else{
-            $scope.articleSelectionsUrl="";
-        }
-//        console.log($scope.articleSelectionsUrl);
-    };
-
-    $scope.checkSelectState=function(articleId)
-    {
-        if($scope.articleSelections.length>0){
-            for(i=0;i<$scope.articleSelections.length;i++){
-                if(articleId==$scope.articleSelections[i]){
-                    return true;
-                }
-            }
-            return false;
-        }else{
-            return false;
-        }
-    };
-
-    function clearArticleSelections()
-    {
-        $scope.articleSelections=[];
-        $scope.articleSelectionsUrl="";
-    }
-
-    $scope.selectAll=function()
-    {
-        var arr=$scope.commentData.tileList;
-        for(i=0;i<arr.length;i++){
-            $scope.articleSelections.push(arr[i].articleId);
-        }
-        if($scope.articleSelections.length>0){
-            var str="";
-            for(i=0;i<$scope.articleSelections.length;i++){
-                str+=($scope.articleSelections[i]+"_");
-                $scope.articleSelectionsUrl=str.substr(0,str.length-1);
-            }
-        }else{
-            $scope.articleSelectionsUrl="";
-        }
-        $scope.getCommentData($scope.commentData.currentNo);
-    };
-
-    //对选取的文章进行操作
-    $scope.deleteArticleSelections=function()
-    {
-        if($scope.articleSelectionsUrl==""){
-            alert("未选取文章");
-        }else{
-            if (confirm("确定删除选中的文章吗？")==true)
-            {
-                var url=$scope.projectName+"/article/Crawler/"+($scope.commentData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
-                $http.delete(url).success(function(){
-                    clearArticleSelections();
-                    $scope.getCommentData(1);
-                    alert("删除成功");
-                });
-            };
-        };
-    };
-
-    $scope.saveArticleSelections=function()
-    {
-        if($scope.articleSelectionsUrl==""){
-            alert("未选取文章");
-        }else{
-            var url=$scope.projectName+"/article/Crawler/"+($scope.commentData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
-            $http.put(url).success(function(){
-                clearArticleSelections();
-                $scope.getCommentData(1);
-                alert("转暂存成功");
-            });
-        };
-    };
-
     //排序---------------------------------------------------------------------------------------------------------------
     $scope.orderByState=function(){
         $scope.orderCondition="/state";
@@ -270,6 +164,7 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
         $scope.orderCondition="/crawlerCommends";
         $scope.getCommentData(1);
     };
+
 }]);
 
 
