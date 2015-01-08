@@ -6,8 +6,17 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpRequest;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +27,10 @@ import com.shangbao.model.RemoteUser;
 public class UserIdentifyService {
 	@Resource
 	private RestTemplate restTemplate;
+	@Resource
+	private UserDetailsService myUserDetailsService;
+	@Resource
+	private PasswordEncoder passwordEncoder;
 	private final String remoteUrl;
 	
 	public UserIdentifyService(){
@@ -33,6 +46,25 @@ public class UserIdentifyService {
 		}else{
 			remoteUrl = "http://user.itanzi.com/wap/api/v1/";
 		}
+	}
+	
+	public UserDetails identifyUser(String userName, String password, HttpServletRequest request){
+		UserDetails userDetails = myUserDetailsService.loadUserByUsername(userName);
+		String password_Encoded = passwordEncoder.encodePassword(password, null);
+		if(userDetails != null && password_Encoded.equals(userDetails.getPassword())){
+			UsernamePasswordAuthenticationToken authentication =
+					new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+			//设置authentication中的details
+			authentication.setDetails(new WebAuthenticationDetails(request));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			HttpSession session = request.getSession(true);
+			session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+			return userDetails;
+		}else{
+			//从商报的用户数据库中查找用户数据并添加到本地
+			
+		}
+		return null;
 	}
 	
 	public boolean userIsExist(){
