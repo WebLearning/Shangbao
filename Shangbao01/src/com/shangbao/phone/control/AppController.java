@@ -208,7 +208,6 @@ public class AppController {
 				FileOutputStream fos = new FileOutputStream(fileURL + "\\" + fileNameString);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				System.out.println(path);
 				returnPath = path.toString().split("Shangbao01")[1] + "\\" + fileNameString;
 				System.out.println(returnPath);
 			} catch (IOException e) {

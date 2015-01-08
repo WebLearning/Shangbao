@@ -3,7 +3,9 @@ package com.shangbao.model.persistence;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+
 
 
 import org.springframework.data.annotation.Id;
@@ -15,9 +17,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Document(collection = "user")
 public class User implements UserDetails {
 	@Id
-	private BigInteger id;
+	private Long id;
 	private String name;
 	private String passwd;
+	private int phone;
+	private String avatar;//头像
+	private String email;
+	private boolean sex;
+	private Date birthday;
+	private int qq;
+	private String nickname;
 	private String role;
 	
 	public String getRole() {
@@ -26,10 +35,10 @@ public class User implements UserDetails {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public BigInteger getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(BigInteger id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -45,6 +54,48 @@ public class User implements UserDetails {
 		this.passwd = passwd;
 	}
 	
+	public int getPhone() {
+		return phone;
+	}
+	public void setPhone(int phone) {
+		this.phone = phone;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public boolean isSex() {
+		return sex;
+	}
+	public void setSex(boolean sex) {
+		this.sex = sex;
+	}
+	public Date getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	public int getQq() {
+		return qq;
+	}
+	public void setQq(int qq) {
+		this.qq = qq;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public String toString(){
 		return "ID:" + "  Name:" + this.name + "  Passwd:" + this.passwd + " Role:" + this.role;
 	}

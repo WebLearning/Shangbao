@@ -225,6 +225,7 @@ public class ArticleController {
 				fos.write(bytes); // 写入文件
 				fos.close();
 				returnString = path.toString().split("Shangbao01")[1] + "\\" + fileName;
+				System.out.println(returnString);
 				return returnString;
 			}
 		} catch (IOException e1) {

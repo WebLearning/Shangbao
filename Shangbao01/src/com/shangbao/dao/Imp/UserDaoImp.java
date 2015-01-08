@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.mongodb.WriteResult;
+import com.shangbao.dao.SequenceDao;
 import com.shangbao.dao.UserDao;
 import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.Page;
@@ -22,6 +23,11 @@ public class UserDaoImp implements UserDao {
 	@Resource
 	private MongoTemplate mongoTemplate;
 	
+	@Resource
+	private SequenceDao sequenceDaoImp;
+	
+	private final String USER_SEQ_KEY = "user";
+	
 	public MongoTemplate getMongoTemplate() {
 		return mongoTemplate;
 	}
@@ -37,6 +43,8 @@ public class UserDaoImp implements UserDao {
      */  
     public void insert(User user) { 
     	//System.out.println(user.getName());
+    	Long idLong = sequenceDaoImp.getNextSequenceId(USER_SEQ_KEY);
+    	user.setId(idLong);
         mongoTemplate.insert(user);  
     }  
       
