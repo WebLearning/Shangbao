@@ -1688,15 +1688,15 @@
                                             </thead>
                                             <tbody>
                                             <tr ng-repeat="articleComment in commentDetailData.commendList">
-                                                <td>{{articleComment.commendId}}</td>
-                                                <td>{{articleComment.userName}}</td>
-                                                <td>{{articleComment.userId}}</td>
-                                                <td>{{articleComment.timeDate}}</td>
-                                                <td>{{articleComment.level}}</td>
-                                                <td>{{articleComment.state}}</td>
-                                                <td>{{articleComment.from}}</td>
-                                                <td>{{articleComment.content}}</td>
-                                                <td>{{articleComment.reply}}</td>
+                                                <td>{{checkIfNull(articleComment.commendId)}}</td>
+                                                <td>{{checkIfNull(articleComment.userName)}}</td>
+                                                <td>{{checkIfNull(articleComment.userId)}}</td>
+                                                <td>{{dateStringToDate(articleComment.timeDate)}}</td>
+                                                <td>{{checkIfNull(articleComment.level)}}</td>
+                                                <td>{{checkIfNull(articleComment.state)}}</td>
+                                                <td>{{checkIfNull(articleComment.from)}}</td>
+                                                <td>{{checkIfNull(articleComment.content)}}</td>
+                                                <td>{{checkIfNull(articleComment.reply)}}</td>
                                                 <td>
                                                     <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(articleComment.commendId)" ng-click="selectArticle(articleComment.commendId,selectState)">
                                                 </td>

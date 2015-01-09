@@ -28,12 +28,11 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         }
         return checkedStr;
     };
-    $scope.checkIfEmpty=function(arr)
+    $scope.checkReplyIfNull=function(str)
     {
         var checkedStr;
-        if(arr.length==0){
-            checkedStr="无数据";
-            return checkedStr;
+        if(str==""||str==null){
+
         }else{
             return arr.toString();
         }
@@ -47,6 +46,7 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
             return date.toDateString();
         }
     };
+
 
     //返回评论列表--------------------------------------------------------------------------------------------------------
     $scope.goCommentList=function()

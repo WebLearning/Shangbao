@@ -173,7 +173,7 @@ public class CommendServiceImp implements CommendService {
 			DBObject object = new BasicDBObject();
 			object.put("commendId", commendId);
 			updateElement.pull("commendList", object);
-			query.addCriteria(new Criteria().where("commendList.commendId").is(commend));
+			query.addCriteria(new Criteria().where("commendList.commendId").is(commendId));
 			commendDaoImp.update(commend, query, updateElement);
 		}
 	}
