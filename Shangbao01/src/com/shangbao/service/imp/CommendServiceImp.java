@@ -157,9 +157,9 @@ public class CommendServiceImp implements CommendService {
 		if(articles != null && !articles.isEmpty()){
 			Update update = new Update();
 			if(commend instanceof CrawlerCommend){
-				update.inc("newsCommendsPublish", 1);
-			}else{
 				update.inc("crawlerCommendsPublish", 1);
+			}else{
+				update.inc("newsCommendsPublish", 1);
 			}
 			articleDaoImp.update(article, update);
 		}
