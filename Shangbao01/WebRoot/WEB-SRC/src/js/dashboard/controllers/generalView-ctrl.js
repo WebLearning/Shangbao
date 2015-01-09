@@ -9,7 +9,13 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
             console.log(data);
         });
     };
-
+    $scope.refreshGeneralView=function(){
+        var url=$scope.projectName+'/backapp/refresh';
+        //console.log(url);
+        $http.get(url).success(function(data){
+            console.log(data);
+        })
+    };
     $scope.generalViewSections=[
         {"name":"热点",
             "content":["新闻1 标题","新闻2 标题","新闻3 标题","新闻4 标题","新闻5 标题","新闻6 标题","新闻7 标题","新闻8 标题","新闻9 标题"]},

@@ -13,9 +13,8 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
     //页面，获取评论第一页的数据,返回的是一个titleList-------------------------------------------------------------------
     $scope.getCommentDetailData=function(pageID)
     {
-        console.log("commentDetailsUrl:"+commentDetailsUrl);
-
         var url=commentDetailsUrl+"/"+pageID.toString();
+        console.log(url);
         $http.get(url).success(function(data){
             $scope.commentDetailData=data;
             $scope.pageNums=getPageNums($scope.commentDetailData.pageCount);
@@ -37,6 +36,17 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
             return arr;
         }
     }
+
+    $scope.getCommentDetailTitle=function(title,typeStr)
+    {
+        if(typeStr=="news"){
+            $scope.commentDetailTitle=title+"_"+"商报评论";
+//            console.log($scope.commentDetailTitle);
+        }else if(typeStr=="crawler"){
+            $scope.commentDetailTitle=title+"_"+"爬虫评论";
+//            console.log($scope.commentDetailTitle);
+        }
+    };
 
 
 }]);

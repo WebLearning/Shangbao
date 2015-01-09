@@ -1,36 +1,14 @@
-//angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", function ($scope,$http) {
-//
-//    /* $http.get('http://localhost:8080/Shangbao01/user/users')
-//     .success(function(data) {
-//     $scope.editorContent = data;
-//     }); */
-//
-//    $scope.testLog=function()
-//    {
-//        console.log($scope.commentDetailData);
-//    };
-//
-//    $scope.goCommentList=function()
-//    {
-//        document.getElementById("comment").className="tab-pane active";
-//        document.getElementById("commentDetails").className="tab-pane";
-//    };
-//
-//
-//}]);
-
-
 
 angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", function ($scope,$http) {
 
-    $scope.testLog=function(){
+    $scope.testLog=function()
+    {
         console.log($scope.commentDetailData);
         console.log(commentDetailsUrl);
         console.log($scope.commentSelections);
         console.log($scope.commentSelectionsUrl);
     };
 
-//    $scope.commentDetailData=null;
     $scope.orderCondition="";
 
     $scope.refreshCommentDetails=function()
@@ -69,7 +47,6 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
             var date=new Date(Date(dateStr));
             return date.toDateString();
         }
-
     };
 
     //返回评论列表--------------------------------------------------------------------------------------------------------
@@ -99,12 +76,12 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
     $scope.commentSelections=[];
     $scope.commentSelectionsUrl="";
 
-    $scope.selectArticle=function(articleId,selectState)
+    $scope.selectArticle=function(commendId,selectState)
     {
         if(!selectState){
-            $scope.commentSelections.push(articleId);
+            $scope.commentSelections.push(commendId);
         }else{
-            var index=$scope.commentSelections.indexOf(articleId);
+            var index=$scope.commentSelections.indexOf(commendId);
             $scope.commentSelections.splice(index,1);
         }
 //        console.log($scope.commentSelections);
@@ -121,11 +98,11 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
 //        console.log($scope.commentSelectionsUrl);
     };
 
-    $scope.checkSelectState=function(articleId)
+    $scope.checkSelectState=function(commendId)
     {
         if($scope.commentSelections.length>0){
             for(i=0;i<$scope.commentSelections.length;i++){
-                if(articleId==$scope.commentSelections[i]){
+                if(commendId==$scope.commentSelections[i]){
                     return true;
                 }
             }
@@ -144,7 +121,8 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
     var allSelectState="none";
     $scope.selectAll=function()
     {
-        var arr=$scope.commentDetailData.tileList;
+        var arr=$scope.commentDetailData.commendList;
+        console.log($scope.commentDetailData.commendList);
         if(allSelectState=="none"){
             selectByArr(arr);
             allSelectState="all";
@@ -156,7 +134,7 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
     function selectByArr(arr){
         if(arr.length>0){
             for(i=0;i<arr.length;i++){
-                $scope.commentSelections.push(arr[i].articleId);
+                $scope.commentSelections.push(arr[i].commendId);
             }
         }else{
             $scope.commentSelections=[];
@@ -173,14 +151,15 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         $scope.getCommentDetailData($scope.commentDetailData.currentNo);
     }
     //对选取的文章进行操作
-    $scope.deleteArticleSelections=function()
+    $scope.deleteCommentSelections=function()
     {
         if($scope.commentSelectionsUrl==""){
-            alert("未选取文章");
+            alert("未选取评论");
         }else{
-            if (confirm("确定删除选中的文章吗？")==true)
+            if (confirm("确定删除选中的评论吗？")==true)
             {
-                var url=$scope.projectName+"/article/Crawler/"+($scope.commentDetailData.currentNo).toString()+"/statechange/"+$scope.commentSelectionsUrl;
+                var url=commentDetailsUrl+'/'+$scope.commentSelectionsUrl;
+                console.log(url);
                 $http.delete(url).success(function(){
                     clearArticleSelections();
                     $scope.getCommentDetailData(1);
@@ -190,16 +169,16 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         };
     };
 
-    $scope.saveArticleSelections=function()
+    $scope.publishCommentSelections=function()
     {
         if($scope.commentSelectionsUrl==""){
-            alert("未选取文章");
+            alert("未选取评论");
         }else{
-            var url=$scope.projectName+"/article/Crawler/"+($scope.commentDetailData.currentNo).toString()+"/statechange/"+$scope.commentSelectionsUrl;
+            var url=commentDetailsUrl+'/'+$scope.commentSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.getCommentDetailData(1);
-                alert("转暂存成功");
+                alert("发布成功");
             });
         };
     };
@@ -237,5 +216,31 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         $scope.getCommentDetailData(1);
     };
 
+    //对一篇文章新建评论------------------------------------------------------------------------------------------------
+    $scope.inputCommentData={
+        commendId:"2",
+        userName:"user",
+        userId:77,
+        timeDate:new Date(),
+        level:77,
+        state:"unpublished",
+        from:"home",
+        content:"",
+        reply:""
+    };
+    $scope.testInputCommentData=function(){
+        console.log($scope.inputCommentData);
+    };
+    $scope.addComments=function(){
+        var url=commentDetailsUrl;
+        console.log(url);
+        var jsonString=JSON.stringify($scope.inputCommentData);
+        console.log(jsonString);
+        $http.post(url,jsonString).success(function(data){
+            console.log("添加成功");
+        });
+        $scope.refreshCommentDetails();
+        $('#myModal_addComment').modal('toggle')
+    };
 }]);
 

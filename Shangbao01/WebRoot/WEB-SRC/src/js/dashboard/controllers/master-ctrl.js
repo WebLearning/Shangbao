@@ -129,5 +129,6 @@ function MasterCtrl($scope) {
     //评论数据------------------------------------------------------------------------------------------------------------
     $scope.commentDetailData={"currentNo":null,"pageCount":null,"commendList":[]};
     var commentDetailsUrl="";
+    $scope.commentDetailTitle="";
 
 }
