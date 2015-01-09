@@ -53,6 +53,13 @@ public class AppBackController {
 		return "done";
 	}
 	
+	@RequestMapping(value="/refresh")
+	@ResponseBody
+	public List<BackChannelModel> refresh(){
+		appService.refresh();
+		return appService.getAllChannels();
+	}
+	
 	public AppService getAppService() {
 		return appService;
 	}

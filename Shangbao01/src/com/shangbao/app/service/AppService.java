@@ -19,11 +19,14 @@ import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.show.Page;
 import com.shangbao.model.show.SingleCommend;
+import com.shangbao.service.ArticleService;
 
 @Service
 public class AppService {
 	@Resource
 	private AppModel appModel;
+	@Resource
+	private ArticleService articleServiceImp;
 	private final String appUrlPrefix = "/{phoneType}/";
 	
 	
@@ -129,24 +132,34 @@ public class AppService {
 	 * 获取一篇文章的HTML
 	 * @return
 	 */
-	public AppHtml getNewsHtml(String channelName, int articleIndex){
-		channelName = appModel.getChannelEn_Cn().get(channelName);
+	public AppHtml getNewsHtml(Long articleId){
 		AppHtml appHtml = new AppHtml();
-		if(channelName == null){
-			return null;
-		}
-		List<Article> articles;
-		if((articles = appModel.getAppMap().get(channelName)) != null){
-			if(articleIndex > 0 && articleIndex <= articles.size() + 1){
-				String html = articles.get(articleIndex -1).getContent();
-				//System.out.println(html);
-				appHtml.html = html;
-				appHtml.articleId = articles.get(articleIndex -1).getId();
-				appModel.addClick(articles.get(articleIndex -1).getId());
-				return appHtml;
+//		List<Article> articles;
+//		if((articles = appModel.getAppMap().get(channelName)) != null){
+//			if(articleIndex > 0 && articleIndex <= articles.size() + 1){
+//				String html = articles.get(articleIndex -1).getContent();
+//				//System.out.println(html);
+//				appHtml.html = html;
+//				appHtml.articleId = articles.get(articleIndex -1).getId();
+//				appModel.addClick(articles.get(articleIndex -1).getId());
+//				return appHtml
+//			}
+//		}
+		if(!appModel.getArticleMap().isEmpty()){
+			if(appModel.getArticleMap().containsKey(articleId)){
+				appHtml.html = appModel.getArticleMap().get(articleId).getContent();
+				appHtml.articleId = articleId;
+			}else{
+				Article articleInMongo = articleServiceImp.findOne(articleId);
+				if(articleInMongo != null){
+					appModel.getArticleMap().put(articleId, articleInMongo);
+					appHtml.html = articleInMongo.getContent();
+					appHtml.articleId = articleId;
+					return appHtml;
+				}
 			}
 		}
-		return null;
+		return appHtml;
 	}
 
 	/**
@@ -338,6 +351,10 @@ public class AppService {
 		}
 	}
 	
+	public void refresh(){
+		appModel.redeployAll();
+	}
+	
 	public AppModel getAppModel() {
 		return appModel;
 	}
@@ -347,6 +364,15 @@ public class AppService {
 	}
 	
 	
+	public ArticleService getArticleServiceImp() {
+		return articleServiceImp;
+	}
+
+	public void setArticleServiceImp(ArticleService articleServiceImp) {
+		this.articleServiceImp = articleServiceImp;
+	}
+
+
 	/**
 	 * 后台在一览众显示分类和文章的模板
 	 */

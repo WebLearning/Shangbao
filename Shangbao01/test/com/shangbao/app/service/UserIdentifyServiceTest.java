@@ -23,18 +23,19 @@ public class UserIdentifyServiceTest {
 		com.shangbao.model.RemoteUser user = new com.shangbao.model.RemoteUser();
 		user.setBirthday(System.currentTimeMillis()/1000);
 		user.setEmail("yangyistd@163.com");
-		user.setNickname("一梦醉千年");
+		user.setNickname("tiankongyy");
 		user.setPsw("330810852");
 		user.setQq(123123123);
 		user.setSex(1);
 		user.setPhone(123123);
 		user.setAvatar("http://java.dzone.com/users/johnathansmith1969");
+		System.out.println(user.getBirthday());
 //		MultiValueMap<String, Object> user = new LinkedMultiValueMap<>();
 //		user.add("phone", "123123");
 //		user.add("email", "sdfsdf@123.com");
 //		user.add("qq", "123123");
-		//identiy.addUser(user);
-		identiy.userExist();
+		identiy.addUser(user);
+//		identiy.userExist();
 	}
 
 }

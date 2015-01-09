@@ -65,6 +65,10 @@ public class AppController {
 	@Resource
 	private AppService appService;
 	
+	@RequestMapping(value="/addUser", method=RequestMethod.POST)
+	public void testPost(@RequestBody String str){
+		System.out.println(str);
+	}
 	
 	/**
 	 * 获取宣传图片，首页信息
@@ -110,11 +114,10 @@ public class AppController {
 	 * 获取新闻详细页面
 	 * @return
 	 */
-	@RequestMapping(value="/{phoneType}/{channelName:[a-z,A-Z]+}/{pageNo:[\\d]+}/{articleIndex:[\\d]+}")
+	@RequestMapping(value="/{phoneType}/articledetail/{articleId:[\\d]+}", method=RequestMethod.GET)
 	@ResponseBody
-	public AppHtml getNews(@PathVariable("channelName") String channelName,
-						  @PathVariable("articleIndex") int articleIndex){
-		return appService.getNewsHtml(channelName, articleIndex);
+	public AppHtml getNews(@PathVariable("articleId") long articleId){
+		return appService.getNewsHtml(articleId);
 	}
 	
 	/**

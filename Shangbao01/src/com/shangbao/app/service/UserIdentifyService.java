@@ -48,7 +48,7 @@ public class UserIdentifyService {
 		if(!props.getProperty("remoteUrl").isEmpty()){
 			remoteUrl = props.getProperty("remoteUrl");
 		}else{
-			remoteUrl = "http://user.itanzi.com/wap/api/v1/";
+			remoteUrl = "http://user.itanzi.com/index.php/wap/api/v1/";
 		}
 	}
 	
@@ -78,7 +78,7 @@ public class UserIdentifyService {
 	}
 	
 	public void addUser(RemoteUser user){
-		String responseUser = restTemplate.postForObject(remoteUrl + "addUser", user, String.class);
+		String responseUser = restTemplate.postForObject("http://192.168.1.119:8080/Shangbao01/app/" + "addUser", user, String.class);
 		System.out.println(responseUser);
 	}
 	

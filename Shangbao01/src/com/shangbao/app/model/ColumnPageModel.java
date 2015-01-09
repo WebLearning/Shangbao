@@ -36,7 +36,7 @@ public class ColumnPageModel {
 	}
 	
 	public void addNewsTitle(Article article, Integer index){
-		NewsTitle newsTitle = new NewsTitle(article, index);
+		NewsTitle newsTitle = new NewsTitle(article, index, article.getId());
 		this.content.add(newsTitle);
 	}
 
@@ -47,18 +47,20 @@ public class ColumnPageModel {
 		public Date time;
 		public int clicks;
 		public Integer indexId;
+		public Long newsId;
 		
 		public NewsTitle(){
 			
 		}
 		
-		public NewsTitle(Article article, Integer newsId){
+		public NewsTitle(Article article, Integer indexId, Long newsId){
 			this.title = article.getTitle();
 			this.pictureUrl = article.getPicturesUrl();
 			this.summary = article.getSummary();
 			this.time = article.getTime();
 			this.clicks = article.getClicks();
-			this.indexId = newsId;
+			this.indexId = indexId;
+			this.newsId = newsId;
 		}
 	}
 }

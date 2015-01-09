@@ -45,6 +45,7 @@ public class AppModel {
 	private final Map<Long, List<SingleCommend>> commends = new ConcurrentHashMap<Long, List<SingleCommend>>();//每篇文章的评论
 	private final List<Channel> activities = new CopyOnWriteArrayList<Channel>();
 	private final Map<String, String> channelEn_Cn = new ConcurrentHashMap<String, String>();//key:英文名； value:中文名
+	private final Map<Long, Article> articleMap = new ConcurrentHashMap<>();//key是文章的id，value对应一篇文章
 	
 	
 	@Autowired
@@ -56,7 +57,7 @@ public class AppModel {
 		this.commendDaoImp = commendDaoImp;
 		
 		System.out.println("Init!");
-		//初始化appMap
+		//初始化appMap，articleMap
 		List<Channel> channels = channelDaoImp.find(new Channel());
 		for(Channel channel : channels){
 			redeployChannelArticles(channel.getChannelName());
@@ -103,6 +104,9 @@ public class AppModel {
 		 List<Article> articles = articleDaoImp.find(criteriaArticle, Direction.DESC, "channelIndex." + channelName);
 		 if(articles != null && !articles.isEmpty()){
 			 appMap.put(channelName, articles);
+			 for(Article article : articles){
+				 articleMap.put(article.getId(), article);
+			 }
 		 }
 	}
 	
@@ -227,6 +231,10 @@ public class AppModel {
 //		this.channelEn_Cn = channelEn_Cn;
 //	}
 
+
+	public Map<Long, Article> getArticleMap() {
+		return articleMap;
+	}
 
 	/**
 	 * 添加开始图片
