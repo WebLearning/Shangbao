@@ -11,6 +11,7 @@
 	
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/commend/**" access="permitAll"/>
+		<intercept-url pattern="/article/**" access="permitAll"/>
 		<intercept-url pattern="/auth/**" access="permitAll"/>
 		<intercept-url pattern="/picture/**" access="permitAll"/>
 		<intercept-url pattern="/crawler/**" access="permitAll"/>

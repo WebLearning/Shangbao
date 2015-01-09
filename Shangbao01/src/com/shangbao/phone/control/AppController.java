@@ -184,9 +184,10 @@ public class AppController {
 	/**
 	 * 上传用户图片
 	 */
-	@RequestMapping(value="/{phoneType}/kuaipai/", method=RequestMethod.POST)
-	public void sendUserPicture(@RequestBody Article aritilcePic){
-		appService.postPictures(aritilcePic);
+	@RequestMapping(value="/sendarticle", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public void sendUserPicture(@RequestBody Article article){
+		appService.postPictures(article);
 	}
 	
 	@RequestMapping(value = "/{userId:[\\d]+}/uploadpic", method = RequestMethod.POST)

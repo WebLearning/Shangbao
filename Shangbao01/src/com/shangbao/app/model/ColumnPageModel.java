@@ -42,7 +42,7 @@ public class ColumnPageModel {
 
 	class NewsTitle{
 		public String title;
-		public List<String> pictureUrl = new ArrayList<String>();
+		public List<String> picUrl = new ArrayList<String>();
 		public String summary;
 		public Date time;
 		public int clicks;
@@ -55,7 +55,7 @@ public class ColumnPageModel {
 		
 		public NewsTitle(Article article, Integer indexId, Long newsId){
 			this.title = article.getTitle();
-			this.pictureUrl = article.getPicturesUrl();
+			this.picUrl = article.getPicturesUrl();
 			this.summary = article.getSummary();
 			this.time = article.getTime();
 			this.clicks = article.getClicks();
