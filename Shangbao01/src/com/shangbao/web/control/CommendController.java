@@ -161,6 +161,7 @@ public class CommendController {
 	 * @param commendId
 	 */
 	@RequestMapping(value = "/{pageId:[\\d]+}/{articleId:[\\d]+}/{type:crawler|news}/{commendIds:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
 	public void publish(@PathVariable("articleId") long articleId,
 			@PathVariable("type") String type,
 			@PathVariable("commendIds") String commendIds) {
@@ -187,9 +188,10 @@ public class CommendController {
 	 * @param commendIds
 	 */
 	@RequestMapping(value = "/{pageId:[\\d]+}/{articleId:[\\d]+}/{type:crawler|news}/{commendIds:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
 	public void delete(@PathVariable("articleId") long articleId,
 			@PathVariable("type") String type,
-			@PathVariable("commendId") String commendIds) {
+			@PathVariable("commendIds") String commendIds) {
 		Commend commend = null;
 		if(type.equals("crawler")){
 			commend = new CrawlerCommend();
