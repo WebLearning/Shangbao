@@ -245,7 +245,7 @@ public class CommendServiceImp implements CommendService {
 			}else if(order.equals("from")){
 				if(o1.getFrom() == null)
 					return 0;
-				if(o1.getFrom() == null)
+				if(o2.getFrom() == null)
 					return 1;
 				return o1.getFrom().compareTo(o2.getFrom());
 			}
