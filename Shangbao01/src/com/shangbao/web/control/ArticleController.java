@@ -121,7 +121,7 @@ public class ArticleController {
 			@PathVariable("id") Long id, @RequestBody Article article) {
 		if (state.equals(ArticleState.Crawler)
 				|| state.equals(ArticleState.Revocation)
-				|| state.equals(ArticleState.Pending)) {
+				|| state.equals(ArticleState.Temp)) {
 			article.setId(id);
 			articleServiceImp.update(article);
 		}
