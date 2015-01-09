@@ -11,9 +11,10 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
 //    var commentDetailsUrl="";
 
     //页面，获取评论第一页的数据,返回的是一个titleList-------------------------------------------------------------------
+    $scope.orderCondition="";
     $scope.getCommentDetailData=function(pageID)
     {
-        var url=commentDetailsUrl+"/"+pageID.toString();
+        var url=commentDetailsUrl+"/"+pageID.toString()+$scope.orderCondition;
         console.log(url);
         $http.get(url).success(function(data){
             $scope.commentDetailData=data;
@@ -48,5 +49,9 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
         }
     };
 
+    $scope.transOrderCondition=function(str){
+        $scope.orderCondition=str;
+        console.log($scope.orderCondition);
+    };
 
 }]);

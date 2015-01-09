@@ -76,8 +76,8 @@ public class CommendServiceImp implements CommendService {
 				Collections.reverse(singleCommends);
 			}
 			if (singleCommends.size() > 0) {
-				int pageCount = singleCommends.size() / 10;
-				commendList.setCurrentNo(pageCount);
+				int pageCount = singleCommends.size() / 10 + 1;
+				commendList.setPageCount(pageCount);
 				commendList.setCurrentNo(pageId);
 				commendList.setCommendList(singleCommends.subList(
 						(pageId - 1) * 10,

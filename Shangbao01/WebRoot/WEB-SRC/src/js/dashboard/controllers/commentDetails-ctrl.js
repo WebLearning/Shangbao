@@ -184,35 +184,50 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
     };
 
     //排序---------------------------------------------------------------------------------------------------------------
-    $scope.orderByWords=function(){
-        $scope.orderCondition="/words";
-        $scope.getCommentDetailData(1);
+    var orderFromState="desc";
+    $scope.orderByFrom=function(){
+        if(orderFromState=="desc"){
+            $scope.transOrderCondition("/from/"+"asc");
+            orderFromState="asc";
+            $scope.getCommentDetailData(1);
+        }else if(orderFromState=="asc"){
+            $scope.transOrderCondition("/from/"+"desc");
+            orderFromState="desc";
+            $scope.getCommentDetailData(1);
+        }
     };
-
-    $scope.orderByCommends=function(){
-        $scope.orderCondition="/commends";
+    var orderLevelState="desc";
+    $scope.orderByLevel=function(){
+        if(orderLevelState=="desc"){
+            $scope.transOrderCondition("/level/asc");
+            orderLevelState="asc";
+        }else if(orderLevelState=="asc"){
+            $scope.transOrderCondition("/level/desc");
+            orderLevelState="desc";
+        }
         $scope.getCommentDetailData(1);
     };
 
     var timeOrderState="desc";
     $scope.orderByTime=function(){
         if(timeOrderState=="desc"){
-            $scope.orderCondition="/time/"+"asc";
+            $scope.transOrderCondition("/time/asc");
             timeOrderState="asc";
         }else if(timeOrderState=="asc"){
-            $scope.orderCondition="/time/"+"desc";
+            $scope.transOrderCondition("/time/desc");
             timeOrderState="desc";
         }
         $scope.getCommentDetailData(1);
     };
-
-    $scope.orderByClicks=function(){
-        $scope.orderCondition="/clicks";
-        $scope.getCommentDetailData(1);
-    };
-
-    $scope.orderByLikes=function(){
-        $scope.orderCondition="/likes";
+    var orderStateState="desc";
+    $scope.orderByState=function(){
+        if(orderStateState=="desc"){
+            $scope.transOrderCondition("/state/asc");
+            orderStateState="asc";
+        }else if(orderStateState=="asc"){
+            $scope.transOrderCondition("/state/desc");
+            orderStateState="desc";
+        }
         $scope.getCommentDetailData(1);
     };
 
