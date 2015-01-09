@@ -669,9 +669,7 @@
                                     <div class="modal-body">
                                         <form role="form">
                                             <select class="form-control" ng-model="additionChannel" >
-                                                <option ng-repeat="x in newChannelNames">
-                                                    {{x.channelName}}
-                                                </option>
+                                                <option ng-repeat="x in newChannelNames">{{x.channelName}}</option>
                                             </select>
                                         </form>
                                         <!--<input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">-->
@@ -1636,9 +1634,7 @@
                                     <div class="modal-body">
                                         <form role="form">
                                             <select class="form-control" ng-model="additionChannel" >
-                                                <option ng-repeat="x in newChannelNames">
-                                                    {{x.channelName}}
-                                                </option>
+                                                <option ng-repeat="x in newChannelNames">{{x.channelName}}</option>
                                             </select>
                                         </form>
                                         <!--<input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">-->
@@ -1696,7 +1692,7 @@
                                                 <td>{{checkIfNull(articleComment.state)}}</td>
                                                 <td>{{checkIfNull(articleComment.from)}}</td>
                                                 <td>{{checkIfNull(articleComment.content)}}</td>
-                                                <td>{{checkIfNull(articleComment.reply)}}</td>
+                                                <td>{{articleComment.reply}}<button type="button" ng-class="replyBtnStr(articleComment.reply,articleComment.commendId)" ng-click="replyTest()">回复</button></td>
                                                 <td>
                                                     <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(articleComment.commendId)" ng-click="selectArticle(articleComment.commendId,selectState)">
                                                 </td>

@@ -1,6 +1,8 @@
 
 angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", function ($scope,$http) {
 
+    $scope.addReplyCommentId="";
+
     $scope.testLog=function()
     {
         console.log($scope.commentDetailData);
@@ -28,15 +30,36 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         }
         return checkedStr;
     };
-    $scope.checkReplyIfNull=function(str)
-    {
-        var checkedStr;
-        if(str==""||str==null){
 
+//    $scope.checkReplyIfNull=function(str)
+//    {
+//        if(str==""||str==null){
+//            return "";
+//        }else{
+//            return str;
+//        }
+//    };
+
+    $scope.replyBtnStr=function(str,commentId)
+    {
+        $scope.addReplyCommentId=commentId;
+
+        if(str==""||str==null){
+            return "btn btn-xs btn-success";
         }else{
-            return arr.toString();
+            return "btn btn-xs btn-success sr-only";
         }
     };
+
+    $scope.replyTest=function()
+    {
+        console.log("reply test");
+        console.log($scope.addReplyCommentId);
+        console.log(commentDetailsUrl);
+        var url=commentDetailsUrl+'/'+$scope.addReplyCommentId;
+        console.log(url);
+    };
+
     $scope.dateStringToDate=function(dateStr)
     {
         if(dateStr==null||dateStr==""){
