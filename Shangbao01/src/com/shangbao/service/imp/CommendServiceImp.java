@@ -148,7 +148,7 @@ public class CommendServiceImp implements CommendService {
 		updateElement.set("commendList.$.state", CommendState.published.toString());
 		for(String commendId : singleCommendIds){
 			Query query = new Query();
-			query.addCriteria(new Criteria().where("commendList.commendId").is(commend));
+			query.addCriteria(new Criteria().where("commendList.commendId").is(commendId));
 			commendDaoImp.update(commend, query, updateElement);
 		}
 		Article article = new Article();
