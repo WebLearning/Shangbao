@@ -227,18 +227,26 @@ public class CommendServiceImp implements CommendService {
 			if(order.equals("time")){
 				if(o1.getTimeDate() == null)
 					return 0;
+				if(o2.getTimeDate() == null)
+					return 1;
 				return o1.getTimeDate().after(o2.getTimeDate()) ? 1 : 0;
 			}else if(order.equals("level")){
 				if(o1.getLevel() == null)
+					return 0;
+				if(o2.getLevel() == null)
 					return 0;
 				return o1.getLevel().compareTo(o2.getLevel());
 			}else if(order.equals("state")){
 				if(o1.getState() == null)
 					return 0;
+				if(o2.getState() == null)
+					return 0;
 				return o1.getState().toString().compareTo(o2.getState().toString());
 			}else if(order.equals("from")){
 				if(o1.getFrom() == null)
 					return 0;
+				if(o1.getFrom() == null)
+					return 1;
 				return o1.getFrom().compareTo(o2.getFrom());
 			}
 			return 0;

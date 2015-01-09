@@ -226,7 +226,7 @@ public class ArticleController {
 				fos.close();
 				returnString = path.toString().split("Shangbao01")[1] + "\\" + fileName;
 				System.out.println(returnString);
-				return returnString;
+				return returnString.replaceAll("\\\\", "/");
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
