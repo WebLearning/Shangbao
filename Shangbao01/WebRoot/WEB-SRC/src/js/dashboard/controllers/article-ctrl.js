@@ -49,9 +49,13 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             }else{
                 $scope.newChannelNames=[];
             }
+            console.log($scope.newChannelNames);
         });
     };
     $scope.getNewChannelNames();
+    $scope.consoleLog=function(){
+        console.log($scope.additionChannel);
+    };
     //获得次级目录名----------------------------------------------------------------------------------------------------
     $scope.getSecondChannelNames=function(channelName){
         var url=$scope.projectName+'/channel/'+channelName+'/channels';
@@ -88,7 +92,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     $scope.testLog=function()
     {
         $scope.calculateWords();
-        console.log($scope.recvData);
+//        console.log($scope.recvData);
         console.log($scope.newArticleData);
     };
 

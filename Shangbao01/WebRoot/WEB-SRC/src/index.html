@@ -409,10 +409,8 @@
                                     </div>
                                     <div class="modal-body">
                                         <form role="form">
-                                            <select class="form-control" ng-model="additionChannel" >
-                                                <option ng-repeat="x in newChannelNames">
-                                                    {{x.channelName}}
-                                                </option>
+                                            <select class="form-control" ng-model="additionChannel" ng-click="consoleLog()">
+                                                <option ng-repeat="x in newChannelNames" ng-click="consoleLog()">{{x.channelName}}</option>
                                             </select>
                                         </form>
                                         <!--<input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">-->

@@ -14,7 +14,7 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
         //console.log(url);
         $http.get(url).success(function(data){
             console.log(data);
-            //$scope.newGeneralViewSections=data;
+            $scope.newGeneralViewSections=data;
         })
     };
     $scope.generalViewSections=[
