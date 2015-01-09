@@ -24,6 +24,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,8 +67,10 @@ public class AppController {
 	private AppService appService;
 	
 	@RequestMapping(value="/addUser", method=RequestMethod.POST)
-	public void testPost(@RequestBody String str){
-		System.out.println(str);
+	@ResponseBody
+	public String testPost(@RequestParam("phone") String phone, @RequestParam("psw") String psw){
+		System.out.println(phone);
+		return "get it";
 	}
 	
 	/**

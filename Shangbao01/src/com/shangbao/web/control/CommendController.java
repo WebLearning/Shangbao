@@ -136,6 +136,7 @@ public class CommendController {
 	 * @param commendId
 	 */
 	@RequestMapping(value = "/{pageId:[\\d]+}/{articleId:[\\d]+}/{type:crawler|news}/{commendId:[\\d]+}", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
 	public void reply(@PathVariable("articleId") long articleId,
 			@PathVariable("type") String type,
 			@PathVariable("commendId") String commendId,
