@@ -9,12 +9,11 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         console.log($scope.commentSelectionsUrl);
     };
 
-    $scope.orderCondition="";
-
     $scope.refreshCommentDetails=function()
     {
         clearArticleSelections();
-        $scope.orderCondition="";
+//        $scope.orderCondition="";
+        $scope.transOrderCondition("");
         $scope.getCommentDetailData(1);
     };
 

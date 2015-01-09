@@ -163,7 +163,7 @@ public class CommendController {
 	@RequestMapping(value = "/{pageId:[\\d]+}/{articleId:[\\d]+}/{type:crawler|news}/{commendIds:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
 	public void publish(@PathVariable("articleId") long articleId,
 			@PathVariable("type") String type,
-			@PathVariable("commendId") String commendIds) {
+			@PathVariable("commendIds") String commendIds) {
 		Commend commend = null;
 		if(type.equals("crawler")){
 			commend = new CrawlerCommend();

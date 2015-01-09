@@ -212,13 +212,14 @@ public class CommendDaoImp implements CommendDao {
 
 	@Override
 	public void update(Commend commend, Query query, Update update) {
-		query.addCriteria(new Criteria().where("articleId").is(
-				commend.getArticleId()));
+		//query.addCriteria(new Criteria().where("articleId").is(commend.getArticleId()));
 		if (commend instanceof NewsCommend) {
 			System.out.println(query.getQueryObject());
 			System.out.println(update.getUpdateObject());
 			WriteResult result = mongoTemplate.updateFirst(query, update, NewsCommend.class);
 		} else if (commend instanceof CrawlerCommend) {
+			System.out.println(query.getQueryObject());
+			System.out.println(update.getUpdateObject());
 			WriteResult result = mongoTemplate.updateFirst(query, update, CrawlerCommend.class);
 		}
 	}
