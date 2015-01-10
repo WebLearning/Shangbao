@@ -23,6 +23,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.shangbao.model.RemoteUser;
+import com.shangbao.remotemodel.ResponseModel;
 
 @Service
 public class UserIdentifyService {
@@ -52,7 +53,7 @@ public class UserIdentifyService {
 		}
 	}
 	
-	public UserDetails identifyUser(String userName, String password, HttpServletRequest request){
+	public UserDetails identifyUser(String userName, String password, int type, HttpServletRequest request){
 		UserDetails userDetails = myUserDetailsService.loadUserByUsername(userName);
 		String password_Encoded = passwordEncoder.encodePassword(password, null);
 		if(userDetails != null && password_Encoded.equals(userDetails.getPassword())){
@@ -67,7 +68,10 @@ public class UserIdentifyService {
 			return userDetails;
 		}else{
 			//从商报的用户数据库中查找用户数据并添加到本地
-			
+			//String identifyUrl = remoteUrl + "userMatch/" + userName + "/" + password + "/" + type;
+			String identifyUrl = "http://user.itanzi.com/index.php/wap/api/v1/userMatch/一梦醉千年/330810852/2";
+			ResponseModel model = restTemplate.getForObject(identifyUrl, ResponseModel.class);
+			System.out.println(model.getResultCode());
 		}
 		return null;
 	}

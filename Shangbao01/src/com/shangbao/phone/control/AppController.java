@@ -186,8 +186,10 @@ public class AppController {
 	 */
 	@RequestMapping(value="/sendarticle", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void sendUserPicture(@RequestBody Article article){
+	@ResponseBody
+	public String sendUserPicture(@RequestBody Article article){
 		appService.postPictures(article);
+		return "done";
 	}
 	
 	@RequestMapping(value = "/{userId:[\\d]+}/uploadpic", method = RequestMethod.POST)

@@ -1,11 +1,9 @@
 package com.shangbao.remotemodel;
 
-import java.util.List;
-
 public class ResponseModel {
 	private int ResultCode;
 	private String ResultMsg;
-	private List<UserInfo> Data;
+	private UserInfo Data;
 	public int getResultCode() {
 		return ResultCode;
 	}
@@ -18,10 +16,10 @@ public class ResponseModel {
 	public void setResultMsg(String resultMsg) {
 		ResultMsg = resultMsg;
 	}
-	public List<UserInfo> getData() {
+	public UserInfo getData() {
 		return Data;
 	}
-	public void setData(List<UserInfo> data) {
+	public void setData(UserInfo data) {
 		Data = data;
 	}
 	

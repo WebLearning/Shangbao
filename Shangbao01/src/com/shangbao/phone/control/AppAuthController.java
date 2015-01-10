@@ -25,7 +25,7 @@ public class AppAuthController {
 	@ResponseBody
 	public UserDetails test(@PathVariable("username") String userName, @PathVariable("passwd") String passwd){
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-		UserDetails userDetails = userIdentifyService.identifyUser(userName, passwd, request);
+		UserDetails userDetails = userIdentifyService.identifyUser(userName, passwd, 2, request);
 		return userDetails;
 	}
 }
