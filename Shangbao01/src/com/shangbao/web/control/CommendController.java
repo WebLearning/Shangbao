@@ -140,7 +140,8 @@ public class CommendController {
 	public void reply(@PathVariable("articleId") long articleId,
 			@PathVariable("type") String type,
 			@PathVariable("commendId") String commendId,
-			@RequestBody Reply reply) {
+			@RequestBody Reply reply
+			) {
 		System.out.println("reply inite!!!");
 		Commend commend = null;
 		if(type.equals("crawler")){

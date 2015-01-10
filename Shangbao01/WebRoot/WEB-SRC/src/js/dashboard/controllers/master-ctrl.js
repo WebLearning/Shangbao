@@ -127,7 +127,21 @@ function MasterCtrl($scope) {
     }
 
     //评论数据------------------------------------------------------------------------------------------------------------
-    $scope.commentDetailData={"currentNo":null,"pageCount":null,"commendList":[]};
+    $scope.commentDetailData={
+        "currentNo":null,
+        "pageCount":null,
+        "commendList":[{
+            commendId:"",
+            userName:"",
+            userId:"",
+            timeDate:new Date(),
+            level:"",
+            state:"",
+            from:"",
+            content:"",
+            reply:""
+        }]
+    };
     var commentDetailsUrl="";
     $scope.commentDetailTitle="";
 

@@ -1085,12 +1085,6 @@
                                     <textarea class="form-control" rows="5" ng-model="articleData.content"></textarea>
                                 </div>
                             </div>
-                            <!--<div class="pull-right">-->
-                            <!--<button type="button" class="btn btn-default" ng-click="clearArticle()">清除所有内容</button>-->
-                            <!--<button type="button" class="btn btn-success" ng-click="saveArticle()">保存</button>-->
-                            <!--<button type="button" class="btn btn-info" ng-click="putArticle()">提交审核</button>
-                            <!--<button type="button" class="btn btn-default">预览</button>-->
-                            <!--</div>-->
                         </form>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
@@ -1156,23 +1150,7 @@
                                             <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
                                         </td>
                                     </tr>
-                                    <!--<tr>
-                                        <td>文章1111</td>
-                                        <td>yi</td>
-                                        <td>2014/12/12</td>
-                                        <td>sina</td>
-                                        <td>wu</td>
-                                        <td>1</td>
-                                        <td>12</td>
-                                        <td>23</td>
-                                        <td>55</td>
-                                        <td>shsh</td>
-                                        <td>12</td>
-                                        <td>wu</td>
-                                        <td>
-                                            <input type="checkbox" value="">
-                                        </td>
-                                    </tr>-->
+
                                     </tbody>
                                 </table>
                             </div>
@@ -1182,11 +1160,6 @@
                                 <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
                                 <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                                 <!--<li><a href="#">&raquo;</a></li>-->
-                                <!--<li class="disabled"><a href="#">&laquo;</a></li>
-                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">&raquo;</a></li>-->
                             </ul>
                         </nav>
                         <div class="pull-right">
@@ -1690,7 +1663,7 @@
                                                 <td>{{checkIfNull(articleComment.state)}}</td>
                                                 <td>{{checkIfNull(articleComment.from)}}</td>
                                                 <td>{{checkIfNull(articleComment.content)}}</td>
-                                                <td>{{articleComment.reply}}<button type="button" ng-class="replyBtnStr(articleComment.reply,articleComment.commendId)" ng-click="replyTest()">回复</button></td>
+                                                <td>{{articleComment.reply}}<button type="button" data-toggle="modal" data-target="#myModal_addReply" ng-class="replyBtnStr(articleComment.reply,articleComment.commendId)" ng-click="replyTest()">回复</button></td>
                                                 <td>
                                                     <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(articleComment.commendId)" ng-click="selectArticle(articleComment.commendId,selectState)">
                                                 </td>
@@ -1726,6 +1699,24 @@
                                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                             <!--<button type="button" class="btn btn-default" ng-click="testInputCommentData()">test</button>-->
                                             <button type="button" class="btn btn-default" ng-click="addComments()">确认</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="myModal_addReply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title">添加回复</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="text" class="form-control" placeholder="请输入回复内容" ng-model="replyData.reply">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                            <!--<button type="button" class="btn btn-default" ng-click="testInputCommentData()">test</button>-->
+                                            <button type="button" class="btn btn-default" ng-click="addReply()">确认</button>
                                         </div>
                                     </div>
                                 </div>

@@ -61,7 +61,9 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
         console.log("test new save");
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
-        $http.put($scope.projectName+'/article/Revocation/1/'+$scope.articleData.id,jsonString).success(function(data) {
+        console.log($scope.articleData);
+        var url=$scope.projectName+'/article/Revocation/1/'+$scope.articleData.id;
+        $http.put(url,jsonString).success(function(data) {
             alert("保存文章成功");
         });
     };

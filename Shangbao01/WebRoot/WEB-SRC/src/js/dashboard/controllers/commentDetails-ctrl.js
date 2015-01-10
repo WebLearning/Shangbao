@@ -59,7 +59,20 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         var url=commentDetailsUrl+'/'+$scope.addReplyCommentId;
         console.log(url);
     };
-
+    $scope.replyData={
+        reply:""
+    };
+    $scope.addReply=function(){
+        var url=commentDetailsUrl+'/'+$scope.addReplyCommentId;
+        console.log(url);
+        var jsonString=JSON.stringify($scope.replyData);
+        console.log(jsonString);
+        $http.post(url,jsonString).success(function(data){
+            console.log("添加成功");
+        });
+        $scope.refreshCommentDetails();
+        $('#myModal_addReply').modal('toggle')
+    };
     $scope.dateStringToDate=function(dateStr)
     {
         if(dateStr==null||dateStr==""){
