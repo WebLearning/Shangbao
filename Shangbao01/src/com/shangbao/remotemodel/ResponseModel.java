@@ -4,6 +4,11 @@ public class ResponseModel {
 	private int ResultCode;
 	private String ResultMsg;
 	private UserInfo Data;
+	
+	public ResponseModel(){
+		
+	}
+	
 	public int getResultCode() {
 		return ResultCode;
 	}

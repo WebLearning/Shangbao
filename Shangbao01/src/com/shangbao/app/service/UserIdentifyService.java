@@ -1,15 +1,15 @@
 package com.shangbao.app.service;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpRequest;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -76,30 +76,35 @@ public class UserIdentifyService {
 		return null;
 	}
 	
-	public boolean userIsExist(){
-		//restTemplate.get
-		return false;
-	}
-	
-	public void addUser(RemoteUser user){
-		String responseUser = restTemplate.postForObject("http://192.168.1.119:8080/Shangbao01/app/" + "addUser", user, String.class);
-		System.out.println(responseUser);
-	}
-	
 	public void addUser(MultiValueMap user){
 		String responseUser = restTemplate.postForObject(remoteUrl + "addUser", user, String.class);
 		System.out.println(responseUser);
 	}
 	
-	public void addUser(String user){
-		System.out.println(user);
-		String responseUser = restTemplate.postForObject(remoteUrl + "addUser", user, String.class);
-		System.out.println(responseUser);
-	}
-	
-	public void userExist(){
-		String result = restTemplate.getForObject("http://localhost:8080/Shangbao01/backapp/all", String.class);
+	public boolean userExist(String account, String accountType){
+		String result = restTemplate.getForObject(remoteUrl + "isExist/" + account + "/" + accountType, String.class);
 		System.out.println(result);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			mapper.enableDefaultTyping();
+			ResponseModel model = mapper.readValue(result, ResponseModel.class);
+			System.out.println(model.getData().getAvatar());
+			if(model.getResultMsg().equals("userExist fail")){
+				return false;
+			}else{
+				return true;
+			}
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

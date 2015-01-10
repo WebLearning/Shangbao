@@ -73,9 +73,8 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 	
 	@Override
 	public List<PicTitle> getPictureTitles(Date startDate, Date endDate) {
-		String url = remoteUrl;
-		List<PicTitle> picTitles = restTemplate.getForObject(url, List.class);
-		return picTitles;
+		
+		return null;
 	}
 
 	@Override

@@ -20,16 +20,16 @@ public class DownLoadPicServiceImpTest {
 	public void test() {
 		BeanFactory factory = new ClassPathXmlApplicationContext("applicationContext.xml");
 		DownLoadPicService service = (DownLoadPicService) factory.getBean("downLoadPicServiceImp");
-//		List<PicTitle> titles = service.getPictureTitles();
-//		for(PicTitle title : titles){
-//			System.out.println(title.id + "  " + title.nickname + " " + title.picurl + " " + title.title + " "
-//					+ title.uid);
-//		}
-		Pic pic = service.getPictures("1609499");
-		System.out.println(pic.nickname + " " + pic.title + " ");
-		for(PicUrl eString : pic.list){
-			System.out.println("    " + eString.picurl);
+		List<PicTitle> titles = service.getPictureTitles();
+		for(PicTitle title : titles){
+			System.out.println(title.id + "  " + title.nickname + " " + title.picurl + " " + title.title + " "
+					+ title.uid);
 		}
+//		Pic pic = service.getPictures("1609499");
+//		System.out.println(pic.nickname + " " + pic.title + " ");
+//		for(PicUrl eString : pic.list){
+//			System.out.println("    " + eString.picurl);
+//		}
 	}
 
 }

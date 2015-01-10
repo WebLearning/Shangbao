@@ -140,7 +140,7 @@ public class CommendController {
 	public void reply(@PathVariable("articleId") long articleId,
 			@PathVariable("type") String type,
 			@PathVariable("commendId") String commendId,
-			@RequestParam("reply") String reply) {
+			@RequestBody Reply reply) {
 		System.out.println("reply inite!!!");
 		Commend commend = null;
 		if(type.equals("crawler")){
@@ -150,7 +150,7 @@ public class CommendController {
 			commend = new NewsCommend();
 		}
 		commend.setArticleId(articleId);
-		commendServiceImp.reply(commend, commendId, reply);
+		commendServiceImp.reply(commend, commendId, reply.reply);
 	}
 
 	/**
@@ -212,4 +212,8 @@ public class CommendController {
 		System.out.println(reply);
 	}
 
+	
+	public class Reply{
+		public String reply;
+	}
 }
