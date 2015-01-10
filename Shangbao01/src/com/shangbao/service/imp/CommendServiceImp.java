@@ -167,6 +167,8 @@ public class CommendServiceImp implements CommendService {
 
 	@Override
 	public void delete(Commend commend, List<String> singleCommendIds) {
+		int totalCount = 0;
+		int published = 0;
 		for(String commendId : singleCommendIds){
 			Update updateElement = new Update();
 			Query query = new Query();
@@ -176,17 +178,34 @@ public class CommendServiceImp implements CommendService {
 			query.addCriteria(new Criteria().where("commendList.commendId").is(commendId));
 			commendDaoImp.update(commend, query, updateElement);
 		}
-		Article article = new Article();
-		article.setId(commend.getArticleId());
-		List<Article> articles = articleDaoImp.find(article);
-		if(articles != null && !articles.isEmpty()){
-			Update update = new Update();
-			if(commend instanceof CrawlerCommend){
-				update.inc("crawlerCommendsPublish", -1);
+		List<Commend> commendList = commendDaoImp.find(commend);
+		if(!commendList.isEmpty() && commendList != null){
+			if(commendList.get(0).getCommendList().isEmpty()){
+				
 			}else{
-				update.inc("newsCommendsPublish", -1);
+				for(SingleCommend singleCommend : commendList.get(0).getCommendList()){
+					if(singleCommend.getState().equals(CommendState.published)){
+						totalCount ++;
+						published ++;
+					}else{
+						totalCount ++;
+					}
+				}
 			}
-			articleDaoImp.update(article, update);
+			Article article = new Article();
+			article.setId(commend.getArticleId());
+			List<Article> articles = articleDaoImp.find(article);
+			if(articles != null && !articles.isEmpty()){
+				Update update = new Update();
+				if(commend instanceof CrawlerCommend){
+					update.set("crawlerCommendsPublish", totalCount);
+					update.set("crawlerCommends", published);
+				}else{
+					update.set("newsCommendsPublish", totalCount);
+					update.set("newsCommends", published);
+				}
+				articleDaoImp.update(article, update);
+			}
 		}
 	}
 
