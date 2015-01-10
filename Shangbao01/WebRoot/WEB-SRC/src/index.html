@@ -624,13 +624,14 @@
                                             <div class="row">
                                                 <div class="col-md-5" id="previewFrame_crawler"></div>
                                                 <div class="col-md-7">
-                                                    <form action="http://localhost:8080/Shangbao01/article/upload" method="post" enctype="multipart/form-data" target="myIFrame" id="myUploadImgForm_crawler">
+                                                    <form action="http://localhost:8080/Shangbao01/article/upload" method="post" enctype="multipart/form-data" target="myIFrame_crawler" id="myUploadImgForm_crawler">
                                                         <input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
-                                        <iframe name="myIFrame" id="myIFrameID_crawler" style="display: none"></iframe>
+                                        <!--<iframe name="myIFrame_crawler" id="myIFrameID_crawler" style="display: none"></iframe>-->
+                                        <iframe name="myIFrame_crawler" id="myIFrameID_crawler"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalFooterID_crawler">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -1297,13 +1298,13 @@
                                             <div class="row">
                                                 <div class="col-md-5" id="previewFrame_revoked"></div>
                                                 <div class="col-md-7">
-                                                    <form action="http://localhost:8080/Shangbao01/article/upload" method="post" enctype="multipart/form-data" target="myIFrame" id="myUploadImgForm_revoked">
+                                                    <form action="http://localhost:8080/Shangbao01/article/upload" method="post" enctype="multipart/form-data" target="myIFrame_revoked" id="myUploadImgForm_revoked">
                                                         <input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
-                                        <iframe name="myIFrame" id="myIFrameID_revoked" style="display: none"></iframe>
+                                        <iframe name="myIFrame_revoked" id="myIFrameID_revoked" style="display: none"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalFooterID_revoked">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -1560,13 +1561,13 @@
                                             <div class="row">
                                                 <div class="col-md-5" id="previewFrame_draft"></div>
                                                 <div class="col-md-7">
-                                                    <form action="http://localhost:8080/Shangbao01/article/upload" method="post" enctype="multipart/form-data" target="myIFrame" id="myUploadImgForm_draft">
+                                                    <form action="http://localhost:8080/Shangbao01/article/upload" method="post" enctype="multipart/form-data" target="myIFrame_draft" id="myUploadImgForm_draft">
                                                         <input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
-                                        <iframe name="myIFrame" id="myIFrameID_draft" style="display: none"></iframe>
+                                        <iframe name="myIFrame_draft" id="myIFrameID_draft" style="display: none"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalFooterID_draft">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
