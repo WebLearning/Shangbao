@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonMethod;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -21,6 +23,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.codehaus.jackson.map.DeserializationConfig; 
 
 import com.shangbao.model.RemoteUser;
 import com.shangbao.remotemodel.ResponseModel;
@@ -68,10 +71,13 @@ public class UserIdentifyService {
 			return userDetails;
 		}else{
 			//从商报的用户数据库中查找用户数据并添加到本地
-			//String identifyUrl = remoteUrl + "userMatch/" + userName + "/" + password + "/" + type;
-			String identifyUrl = "http://user.itanzi.com/index.php/wap/api/v1/userMatch/一梦醉千年/330810852/2";
-			ResponseModel model = restTemplate.getForObject(identifyUrl, ResponseModel.class);
-			System.out.println(model.getResultCode());
+			if(userExist(userName, type)){
+				//表示在商报数据库中有该用户
+				ResponseModel model = identifyRemoteUser(userName, password, type);
+				if(model != null){
+					//将用户
+				}
+			}
 		}
 		return null;
 	}
@@ -81,10 +87,11 @@ public class UserIdentifyService {
 		System.out.println(responseUser);
 	}
 	
-	public boolean userExist(String account, String accountType){
-		String result = restTemplate.getForObject(remoteUrl + "isExist/" + account + "/" + accountType, String.class);
+	public boolean userExist(String account, int accountType){
+		String result = restTemplate.getForObject(remoteUrl + "isExists/" + account + "/" + accountType, String.class);
 		System.out.println(result);
-		ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		try {
 			mapper.enableDefaultTyping();
 			ResponseModel model = mapper.readValue(result, ResponseModel.class);
@@ -107,4 +114,19 @@ public class UserIdentifyService {
 		return false;
 	}
 	
+	public ResponseModel identifyRemoteUser(String account, String passwd, int accountType){
+		String result = restTemplate.getForObject(remoteUrl + "userMatch/" + account + "/" + passwd + "/" + accountType, String.class);
+		System.out.println(result);
+		ObjectMapper mapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		try {
+			mapper.enableDefaultTyping();
+			ResponseModel model = mapper.readValue(result, ResponseModel.class);
+			return model;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

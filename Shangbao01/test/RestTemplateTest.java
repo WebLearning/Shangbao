@@ -23,9 +23,17 @@ public class RestTemplateTest {
 		BeanFactory factory = new ClassPathXmlApplicationContext("applicationContext.xml");
 		RestTemplate restTemplate = (RestTemplate) factory.getBean(RestTemplate.class);
 		
-		String identifyUrl = "http://user.itanzi.com/index.php/wap/api/v1/userMatch/一梦醉千年/330810852/2";
-		String model = restTemplate.getForObject(identifyUrl, String.class);
+//		String identifyUrl = "http://user.itanzi.com/index.php/wap/api/v1/userMatch/一梦醉千年/330810852/2";
+//		String model = restTemplate.getForObject(identifyUrl, String.class);
 		
+		String url = "http://localhost:8080/Shangbao01/commend/1/2/crawler/1";
+		Reply reply = new Reply();
+		reply.reply = "test";
+		restTemplate.postForObject(url, reply, String.class);
+	}
+	
+	public class Reply{
+		public String reply;
 	}
 
 }

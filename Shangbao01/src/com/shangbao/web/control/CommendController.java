@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.shangbao.app.model.Reply;
 import com.shangbao.model.persistence.Commend;
 import com.shangbao.model.persistence.CrawlerCommend;
 import com.shangbao.model.persistence.NewsCommend;
@@ -151,7 +152,7 @@ public class CommendController {
 			commend = new NewsCommend();
 		}
 		commend.setArticleId(articleId);
-		commendServiceImp.reply(commend, commendId, reply.reply);
+		commendServiceImp.reply(commend, commendId, reply.getReply());
 	}
 
 	/**
@@ -214,7 +215,16 @@ public class CommendController {
 	}
 
 	
-	public class Reply{
-		public String reply;
-	}
+//	public class Reply{
+//		private String reply;
+//
+//		public String getReply() {
+//			return reply;
+//		}
+//
+//		public void setReply(String reply) {
+//			this.reply = reply;
+//		}
+//		
+//	}
 }
