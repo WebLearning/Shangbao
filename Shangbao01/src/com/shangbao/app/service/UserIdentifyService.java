@@ -1,6 +1,7 @@
 package com.shangbao.app.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.annotation.Resource;
@@ -25,8 +26,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.codehaus.jackson.map.DeserializationConfig; 
 
-import com.shangbao.model.RemoteUser;
+import com.shangbao.model.persistence.User;
 import com.shangbao.remotemodel.ResponseModel;
+import com.shangbao.remotemodel.UserInfo;
+import com.shangbao.service.UserService;
 
 @Service
 public class UserIdentifyService {
@@ -38,6 +41,8 @@ public class UserIdentifyService {
 	private PasswordEncoder passwordEncoder;
 	@Resource
 	private RememberMeServices rememberMeServices;
+	@Resource
+	private UserService userServiceImp;
 	
 	private final String remoteUrl;
 	
@@ -75,7 +80,28 @@ public class UserIdentifyService {
 				//表示在商报数据库中有该用户
 				ResponseModel model = identifyRemoteUser(userName, password, type);
 				if(model != null){
-					//将用户
+					//将用户添加到本地的数据库中
+					UserInfo userInfo = model.getData();
+					User user  = new User();
+					user.setAvatar(userInfo.getAvatar());
+					user.setBirthday(new Date(Long.parseLong(userInfo.getBirthday()) * 1000));
+					user.setEmail(userInfo.getEmail());
+					user.setPasswd(passwordEncoder.encodePassword(password, null));
+					user.setName(userInfo.getNickname());
+					user.setPhone(Integer.parseInt(userInfo.getPhone()));
+					user.setQq(Integer.parseInt(userInfo.getQq()));
+					user.setSex(Integer.parseInt(userInfo.getSex()));
+					user.setRole("ROLE_USER");
+					userServiceImp.addUser(user);
+					//进行授权
+					UsernamePasswordAuthenticationToken authentication =
+							new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+					//设置authentication中的details
+					authentication.setDetails(new WebAuthenticationDetails(request));
+					SecurityContextHolder.getContext().setAuthentication(authentication);
+					HttpSession session = request.getSession(true);
+					session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+					return user;
 				}
 			}
 		}

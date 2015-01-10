@@ -176,6 +176,18 @@ public class CommendServiceImp implements CommendService {
 			query.addCriteria(new Criteria().where("commendList.commendId").is(commendId));
 			commendDaoImp.update(commend, query, updateElement);
 		}
+		Article article = new Article();
+		article.setId(commend.getArticleId());
+		List<Article> articles = articleDaoImp.find(article);
+		if(articles != null && !articles.isEmpty()){
+			Update update = new Update();
+			if(commend instanceof CrawlerCommend){
+				update.inc("crawlerCommendsPublish", -1);
+			}else{
+				update.inc("newsCommendsPublish", -1);
+			}
+			articleDaoImp.update(article, update);
+		}
 	}
 
 	@Override

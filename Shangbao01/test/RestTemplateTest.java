@@ -1,12 +1,22 @@
 import static org.junit.Assert.*;
 
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import javax.imageio.ImageIO;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -26,14 +36,25 @@ public class RestTemplateTest {
 //		String identifyUrl = "http://user.itanzi.com/index.php/wap/api/v1/userMatch/一梦醉千年/330810852/2";
 //		String model = restTemplate.getForObject(identifyUrl, String.class);
 		
-		String url = "http://localhost:8080/Shangbao01/commend/1/2/crawler/1";
-		Reply reply = new Reply();
-		reply.reply = "test";
-		restTemplate.postForObject(url, reply, String.class);
-	}
-	
-	public class Reply{
-		public String reply;
+		String picUrl = "http://img.eva.chengdu.cn/upload/thumper/diary/259481/54b0d6118b3d5.jpg";
+		String localPicDir = "";
+		try {
+			Properties props=PropertiesLoaderUtils.loadAllProperties("config.properties");
+			if(!props.getProperty("pictureDir").isEmpty()){
+				localPicDir = props.getProperty("pictureDir") + "picWeb/";
+			}
+			byte[] bytes;
+			Path path = Paths.get(localPicDir);
+			if(Files.notExists(path)){
+				Path filPath = Files.createDirectories(path);
+			}
+			bytes = restTemplate.getForObject(picUrl, byte[].class);
+			FileOutputStream fos = new FileOutputStream(localPicDir + "\\" + picUrl.substring(picUrl.lastIndexOf("/")));
+			fos.write(bytes); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

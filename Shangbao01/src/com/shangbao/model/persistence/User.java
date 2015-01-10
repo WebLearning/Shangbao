@@ -23,7 +23,7 @@ public class User implements UserDetails {
 	private int phone;
 	private String avatar;//头像
 	private String email;
-	private boolean sex;
+	private int sex;
 	private Date birthday;
 	private int qq;
 	private String nickname;
@@ -72,10 +72,10 @@ public class User implements UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public boolean isSex() {
+	public int isSex() {
 		return sex;
 	}
-	public void setSex(boolean sex) {
+	public void setSex(int sex) {
 		this.sex = sex;
 	}
 	public Date getBirthday() {
