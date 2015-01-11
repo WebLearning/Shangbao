@@ -42,7 +42,10 @@ public class ArticleDaoImp implements ArticleDao {
 
 	@Override
 	public void insert(Article article) {
-		if(article.getState().equals(ArticleState.Published)){
+		if(article.getState() == null){
+			
+		}
+		else if(article.getState().equals(ArticleState.Published)){
 			//查找当前文章所属于分类
 			List<String> channels = article.getChannel();
 			if(channels != null && !channels.isEmpty()){

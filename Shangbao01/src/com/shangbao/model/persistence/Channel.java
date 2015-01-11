@@ -15,6 +15,7 @@ public class Channel {
 	private String englishName;//栏目英文名(用于生产URI)
 	private Date startDate;//活动的开始时间
 	private Date endDate;//活动的结束时间
+	private int channelIndex;//栏目的顺序
 	
 	public String getEnglishName() {
 		return englishName;
@@ -57,6 +58,12 @@ public class Channel {
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+	public int getChannelIndex() {
+		return channelIndex;
+	}
+	public void setChannelIndex(int channelIndex) {
+		this.channelIndex = channelIndex;
 	}
 	
 }

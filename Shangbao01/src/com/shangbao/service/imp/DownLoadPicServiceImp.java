@@ -28,6 +28,7 @@ import com.shangbao.model.persistence.Article;
 import com.shangbao.remotemodel.Pic;
 import com.shangbao.remotemodel.PicTitle;
 import com.shangbao.remotemodel.PicUrl;
+import com.shangbao.service.ArticleService;
 import com.shangbao.service.DownLoadPicService;
 
 @Service
@@ -35,6 +36,8 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 
 	@Resource
 	private ArticleDao articleDaoImp;
+	@Resource
+	private ArticleService articleServiceImp;
 	
 	@Resource
 	private RestTemplate restTemplate;
@@ -167,7 +170,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				article.setPicturesUrl(localUrls);
 				article.setTitle(title.title);
 				article.setAuthor(title.nickname);
-				//articleDaoImp.insert(article);
+				articleServiceImp.add(article);
 			}
 		}
 	}
@@ -190,7 +193,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				article.setPicturesUrl(localUrls);
 				article.setTitle(title.title);
 				article.setAuthor(title.nickname);
-				articleDaoImp.insert(article);
+				articleServiceImp.add(article);
 			}
 		}
 	}
