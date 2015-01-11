@@ -198,11 +198,11 @@ public class CommendServiceImp implements CommendService {
 			if(articles != null && !articles.isEmpty()){
 				Update update = new Update();
 				if(commend instanceof CrawlerCommend){
-					update.set("crawlerCommendsPublish", totalCount);
-					update.set("crawlerCommends", published);
+					update.set("crawlerCommendsPublish", published);
+					update.set("crawlerCommends", totalCount);
 				}else{
-					update.set("newsCommendsPublish", totalCount);
-					update.set("newsCommends", published);
+					update.set("newsCommendsPublish", published);
+					update.set("newsCommends", totalCount);
 				}
 				articleDaoImp.update(article, update);
 			}

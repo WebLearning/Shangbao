@@ -96,7 +96,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 	 */
 	@Override
 	public List<PicTitle> getPictureTitles(Date startDate, Date endDate) {
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		String startDateString = sdf.format(startDate);
 		String endDateString = sdf.format(endDate);
 		String url = remoteUrl + "&a=query&stime=" + startDateString + "&etime=" +endDateString;
@@ -202,7 +202,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 	 */
 	private List<String> downloadPic(List<String> picUrls){
 		List<String> localPicUrls = new ArrayList<>();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		String dateString = sdf.format(new Date());
 		Path path = Paths.get(localPicDir + "\\" + dateString);
 		if(Files.notExists(path)){
@@ -219,10 +219,10 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 			String returnUrl = "";
 			//FileOutputStream fos;
 			try(FileOutputStream fos = 
-					new FileOutputStream(localPicDir + "\\" + 
+					new FileOutputStream(localPicDir + "\\" + dateString + "\\" +
 							singlePicUrl.substring(singlePicUrl.lastIndexOf("/")))) {	
 				fos.write(bytes); 
-				returnUrl = localPicDir.split("Shangbao01")[1]
+				returnUrl = localPicDir.split("Shangbao01")[1] + "\\" + dateString
 						 + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
