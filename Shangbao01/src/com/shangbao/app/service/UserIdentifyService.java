@@ -22,21 +22,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.codehaus.jackson.map.DeserializationConfig; 
 
+import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.User;
 import com.shangbao.remotemodel.ResponseModel;
 import com.shangbao.remotemodel.UserInfo;
 import com.shangbao.service.UserService;
+import com.shangbao.web.service.MyUserDetailService;
 
 @Service
 public class UserIdentifyService {
 	@Resource
 	private RestTemplate restTemplate;
 	@Resource
-	private UserDetailsService myUserDetailsService;
+	private MyUserDetailService myUserDetailsService;
 	@Resource
 	private PasswordEncoder passwordEncoder;
 	@Resource
@@ -61,8 +64,23 @@ public class UserIdentifyService {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param userName 
+	 * @param password
+	 * @param type 1 表示电话号码  2 表示userName  3 表示email
+	 * @param request
+	 * @return
+	 */
 	public UserDetails identifyUser(String userName, String password, int type, HttpServletRequest request){
-		UserDetails userDetails = myUserDetailsService.loadUserByUsername(userName);
+		UserDetails userDetails;
+		if(1 == type){
+			userDetails = myUserDetailsService.loadUserByPhone(userName);
+		}else if(3 == type){
+			userDetails = myUserDetailsService.loadUserByEmail(userName);
+		}else {
+			userDetails = myUserDetailsService.loadUserByUsername(userName);
+		}
 		String password_Encoded = passwordEncoder.encodePassword(password, null);
 		if(userDetails != null && password_Encoded.equals(userDetails.getPassword())){
 			UsernamePasswordAuthenticationToken authentication =
@@ -83,6 +101,7 @@ public class UserIdentifyService {
 					//将用户添加到本地的数据库中
 					UserInfo userInfo = model.getData();
 					User user  = new User();
+					user.setUid(Long.parseLong(userInfo.getUid()));
 					user.setAvatar(userInfo.getAvatar());
 					user.setBirthday(new Date(Long.parseLong(userInfo.getBirthday()) * 1000));
 					user.setEmail(userInfo.getEmail());
@@ -108,9 +127,42 @@ public class UserIdentifyService {
 		return null;
 	}
 	
-	public void addUser(MultiValueMap user){
-		String responseUser = restTemplate.postForObject(remoteUrl + "addUser", user, String.class);
+	public void addUser(User user){
+		MultiValueMap<String, Object> userMap = new LinkedMultiValueMap<>();
+		if(user.getName() == null || user.getPasswd() == null){
+			return;
+		}
+		userMap.add("nickname", user.getName());
+		userMap.add("psw", user.getPasswd());
+		if(user.getAvatar() != null)
+			userMap.add("avatar", user.getAvatar());
+		if(user.getPhone() != 0)
+			userMap.add("phone", user.getPhone() + "");
+		if(user.getEmail() != null)
+			userMap.add("email", user.getEmail());
+		if(user.getSex() == 0 || user.getSex() == 1)
+			userMap.add("sex", user.getSex() + "");
+		if(user.getBirthday() != null)
+			userMap.add("birthday", user.getBirthday().getTime()/1000 + "");
+		if(user.getQq() != 0)
+			userMap.add("qq", user.getQq() + "");
+		String responseUser = restTemplate.postForObject(remoteUrl + "addUser", userMap, String.class);
 		System.out.println(responseUser);
+		ObjectMapper mapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.enableDefaultTyping();
+		try {
+			String model = mapper.readValue(responseUser, String.class);
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean userExist(String account, int accountType){

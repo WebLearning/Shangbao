@@ -31,4 +31,23 @@ public class MyUserDetailService implements UserDetailsService {
 		return null;
 	}
 
+	public UserDetails loadUserByEmail(String email){
+		User user = new User();
+		user.setEmail(email);
+		List<User>ulist = userDaoImp.find(user);
+		if(ulist.size() == 1){
+			return (UserDetails) (ulist.toArray())[0];
+		}
+		return null;
+	}
+	
+	public UserDetails loadUserByPhone(String phone){
+		User user = new User();
+		user.setPhone(Integer.parseInt(phone));
+		List<User>ulist = userDaoImp.find(user);
+		if(ulist.size() == 1){
+			return (UserDetails) (ulist.toArray())[0];
+		}
+		return null;
+	}
 }

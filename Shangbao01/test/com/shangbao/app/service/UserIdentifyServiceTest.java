@@ -34,8 +34,11 @@ public class UserIdentifyServiceTest {
 //		user.add("phone", "123123");
 //		user.add("email", "sdfsdf@123.com");
 //		user.add("qq", "123123");
+//		user.add("nickname", "测试昵称");
+//		user.add("psw", "12344321");
 //		identiy.addUser(user);
-		System.out.println(identiy.userExist("一梦醉千年", 2));
+//		identiy.addUser(user);
+		System.out.println(identiy.userExist("测试昵称", 2));
 	}
 
 }

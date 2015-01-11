@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
 	@Id
 	private Long id;
+	private Long uid;
 	private String name;
 	private String passwd;
 	private int phone;
@@ -26,7 +27,6 @@ public class User implements UserDetails {
 	private int sex;
 	private Date birthday;
 	private int qq;
-	private String nickname;
 	private String role;
 	
 	public String getRole() {
@@ -46,6 +46,15 @@ public class User implements UserDetails {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public Long getUid() {
+		return uid;
+	}
+	public void setUid(Long uid) {
+		this.uid = uid;
+	}
+	public int getSex() {
+		return sex;
 	}
 	public String getPasswd() {
 		return passwd;
@@ -89,12 +98,6 @@ public class User implements UserDetails {
 	}
 	public void setQq(int qq) {
 		this.qq = qq;
-	}
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
 	}
 	public String toString(){
 		return "ID:" + "  Name:" + this.name + "  Passwd:" + this.passwd + " Role:" + this.role;

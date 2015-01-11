@@ -210,7 +210,15 @@ public class UserDaoImp implements UserDao {
         if (criteriaUser.getPasswd() != null) {  
             Criteria criteria = Criteria.where("passwd").is(criteriaUser.getPasswd());  
             query.addCriteria(criteria);  
-        }  
+        }
+        if (criteriaUser.getPhone() != 0) {
+        	Criteria criteria = Criteria.where("phone").is(criteriaUser.getPhone());  
+            query.addCriteria(criteria);
+        }
+        if (criteriaUser.getEmail() != null) {
+        	Criteria criteria = Criteria.where("email").is(criteriaUser.getPhone());  
+            query.addCriteria(criteria);
+        }
         return query;  
     }
 

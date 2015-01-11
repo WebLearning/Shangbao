@@ -17,6 +17,7 @@ public class Article {
 	private long id;
 	private boolean tag = false;//是否属于图片新闻
 	private String author;//作者
+	private Long uid;
 	private String summary;//摘要
 	private String content;//内容
 	private String title;//标题
@@ -58,6 +59,12 @@ public class Article {
 	}
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+	public Long getUid() {
+		return uid;
+	}
+	public void setUid(Long uid) {
+		this.uid = uid;
 	}
 	public String getSummary() {
 		return summary;
