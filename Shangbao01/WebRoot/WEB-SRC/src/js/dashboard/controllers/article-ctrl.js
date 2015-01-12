@@ -278,6 +278,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myIFrameID").contentWindow.document.body.innerText;
+        console.log(document.getElementById("myIFrameID").contentDocument);
         console.log(url);
 //        url=url.substr(8);
 //        url=$scope.projectName+"/WEB-SRC"+url;
