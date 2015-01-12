@@ -202,6 +202,7 @@ public class AppController {
 		if (!file.isEmpty()) {
 			byte[] bytes;
 			String fileName = sdf.format(new Date()) + file.getSize();
+			String localhostString = "";
 			try {
 				bytes = file.getBytes();
 				Properties props = new Properties();
@@ -209,6 +210,7 @@ public class AppController {
 				
 				String fileURL = props.getProperty("pictureDir") + "\\userPic\\"
 						+ userId;
+				localhostString = props.getProperty("localhost");
 				String fileNameString = fileName + file.getOriginalFilename();
 				Path path = Paths.get(fileURL);
 				if(Files.notExists(path)){
@@ -223,7 +225,7 @@ public class AppController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return returnPath.replaceAll("\\\\", "/");
+			return localhostString + returnPath.replaceAll("\\\\", "/");
 		}
 		return null;
 	}

@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.dao.ChannelDao;
@@ -103,15 +104,49 @@ public class ChannelServiceImp implements ChannelService{
 			fatherChannel.setRelated(channel.getChannelName());
 			this.channelDaoImp.delete(fatherChannel);
 			this.channelDaoImp.delete(channel);
+			updateChannelIndex();
 			return "OK";
 		}else if(channel.getState().equals(ChannelState.Son)){
 			this.channelDaoImp.delete(channel);
+			updateSonChannelIndex(channel.getRelated());
 			return "OK";
 		}else if(channel.getState().equals(ChannelState.Activity)){
 			this.channelDaoImp.delete(channel);
+			updateActivityIndex();
 			return "OK";
 		}
 		return "error";
+	}
+	
+	@Override
+	public void swapChannel(Channel channelA, Channel channelB){
+		if(channelA.getState().equals(ChannelState.Father) 
+				&& channelB.getState().equals(ChannelState.Father)){
+			Update updateA = new Update();
+			Update updateB = new Update();
+			updateA.set("channelIndex", channelB.getChannelIndex());
+			updateB.set("channelIndex", channelA.getChannelIndex());
+			channelDaoImp.update(channelA, updateA);
+			channelDaoImp.update(channelB, updateB);
+		}else if(channelA.getState().equals(ChannelState.Son) 
+				&& channelB.getState().equals(ChannelState.Son)){
+			if(channelA.getRelated().equals(channelB.getRelated())){
+				Update updateA = new Update();
+				Update updateB = new Update();
+				updateA.set("channelIndex", channelB.getChannelIndex());
+				updateB.set("channelIndex", channelA.getChannelIndex());
+				channelDaoImp.update(channelA, updateA);
+				channelDaoImp.update(channelB, updateB);
+			}
+		}else if(channelA.getState().equals(ChannelState.Activity) 
+				&& channelB.getState().equals(ChannelState.Activity)){
+			Update updateA = new Update();
+			Update updateB = new Update();
+			updateA.set("channelIndex", channelB.getChannelIndex());
+			updateB.set("channelIndex", channelA.getChannelIndex());
+			channelDaoImp.update(channelA, updateA);
+			channelDaoImp.update(channelB, updateB);
+		}
 	}
 	
 	private int findFatherCount(){
@@ -141,5 +176,65 @@ public class ChannelServiceImp implements ChannelService{
 		if(activities != null && !activities.isEmpty())
 			return activities.size();
 		return count;
+	}
+	
+	private void updateChannelIndex(){
+		List<Channel> fatherChannels = findAllFatherChannels();
+		if(fatherChannels != null && !fatherChannels.isEmpty()){
+			int i = 1;
+			for(Channel fatherChannel : fatherChannels){
+				Channel updateChannel = new Channel();
+				Update update = new Update();
+				updateChannel.setChannelName(fatherChannel.getChannelName());
+				updateChannel.setState(ChannelState.Father);
+				updateChannel.setEnglishName(fatherChannel.getEnglishName());
+				update.set("channelIndex", i);
+				channelDaoImp.update(updateChannel, update);
+				i ++;
+			}
+		}
+	}
+	
+	private void updateSonChannelIndex(String fatherEnglistChannel){
+		Channel fatherChannel = new Channel();
+		fatherChannel.setEnglishName(fatherEnglistChannel);
+		List<Channel> fatherChannels = channelDaoImp.find(fatherChannel);
+		if(fatherChannels == null || fatherChannels.isEmpty()){
+			return;
+		}
+		List<Channel> sonChannels = findAllSonChannels(fatherEnglistChannel);
+		if(sonChannels != null && !sonChannels.isEmpty()){
+			int i = 1;
+			for(Channel sonChannel : sonChannels){
+				Channel updateChannel = new Channel();
+				Update update = new Update();
+				updateChannel.setState(ChannelState.Son);
+				updateChannel.setRelated(fatherChannels.get(0).getChannelName());
+				updateChannel.setChannelName(sonChannel.getChannelName());
+				updateChannel.setEnglishName(sonChannel.getEnglishName());
+				update.set("channelIndex", i);
+				channelDaoImp.update(updateChannel, update);
+				i ++;
+			}
+		}
+	}
+	
+	private void updateActivityIndex(){
+		Channel activityChannel = new Channel();
+		activityChannel.setState(ChannelState.Activity);
+		List<Channel> activities = channelDaoImp.find(activityChannel);
+		if(activities != null && !activities.isEmpty()){
+			int i = 1;
+			for(Channel activity : activities){
+				Channel updateChannel = new Channel();
+				Update update = new Update();
+				updateChannel.setState(ChannelState.Activity);
+				updateChannel.setChannelName(activity.getChannelName());
+				updateChannel.setEnglishName(activity.getEnglishName());
+				update.set("channelIndex", i);
+				channelDaoImp.update(updateChannel, update);
+				i ++;
+			}
+		}
 	}
 }

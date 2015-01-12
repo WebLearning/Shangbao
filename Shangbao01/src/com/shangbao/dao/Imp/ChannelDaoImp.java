@@ -46,6 +46,12 @@ public class ChannelDaoImp implements ChannelDao{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public void update(Channel criteriaChannel, Update update){
+		Query query = getQuery(criteriaChannel);
+		mongoTemplate.updateFirst(query, update, Channel.class);
+	}
 
 	@Override
 	public List<Channel> find(Channel criteriaElement) {

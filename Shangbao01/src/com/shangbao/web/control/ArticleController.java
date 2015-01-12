@@ -209,11 +209,13 @@ public class ArticleController {
 	public String uploadPicture(@RequestParam(value = "file", required = true) MultipartFile file) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
 		String returnString = "";
+		String localhostString = "";
 		String fileName = sdf.format(new Date()) + file.getSize() + file.getOriginalFilename();//保存到本地的文件名
 		Properties props = new Properties();
 		try {
 			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
 			String filePath = props.getProperty("pictureDir") + "\\articlePic";//目录的路径
+			localhostString = props.getProperty("localhost");
 			Path path = Paths.get(filePath);
 			if(Files.notExists(path)){
 				Path filPath = Files.createDirectories(path);
@@ -226,7 +228,7 @@ public class ArticleController {
 				fos.close();
 				returnString = path.toString().split("Shangbao01")[1] + "\\" + fileName;
 				System.out.println(returnString);
-				return returnString.replaceAll("\\\\", "/");
+				return localhostString + returnString.replaceAll("\\\\", "/");
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();

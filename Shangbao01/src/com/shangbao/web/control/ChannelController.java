@@ -70,4 +70,9 @@ public class ChannelController {
 		channel.setState(state);
 		return this.channelServiceImp.deleteChannel(channel);
 	}
+	
+	public String swapChannels(){
+		
+		return "false";
+	}
 }

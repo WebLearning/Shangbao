@@ -10,4 +10,5 @@ public interface ChannelService {
 	List<Channel> findAllSonChannels(String fatherChannelName);
 	String addChannel(Channel channel);
 	String deleteChannel(Channel channel);
+	void swapChannel(Channel channelA, Channel channelB);
 }

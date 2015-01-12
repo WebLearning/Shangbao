@@ -70,7 +70,7 @@ public class CrawlerGetController {
 				bytes = file.getBytes();
 				Properties props = new Properties();
 				props=PropertiesLoaderUtils.loadAllProperties("config.properties");
-				
+				returnPath = props.getProperty("localhost");
 				String fileURL = props.getProperty("pictureDir") + "\\crawlerPic";
 				String fileNameString = fileName + file.getOriginalFilename();
 				Path path = Paths.get(fileURL);
@@ -80,7 +80,7 @@ public class CrawlerGetController {
 				FileOutputStream fos = new FileOutputStream(fileURL + "\\" + fileNameString);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				returnPath = path.toString().split("Shangbao01")[1] + "\\" + fileNameString;
+				returnPath = returnPath + path.toString().split("Shangbao01")[1] + "\\" + fileNameString;
 				System.out.println(returnPath);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
