@@ -1661,7 +1661,7 @@
                                                 <td>{{checkIfNull(articleComment.userId)}}</td>
                                                 <td>{{dateStringToDate(articleComment.timeDate)}}</td>
                                                 <td>{{checkIfNull(articleComment.level)}}</td>
-                                                <td>{{checkIfNull(articleComment.state)}}</td>
+                                                <td>{{checkState(articleComment.state)}}</td>
                                                 <td>{{checkIfNull(articleComment.from)}}</td>
                                                 <td>{{checkIfNull(articleComment.content)}}</td>
                                                 <td>{{articleComment.reply}}<button type="button" data-toggle="modal" data-target="#myModal_addReply" ng-class="replyBtnStr(articleComment.reply,articleComment.commendId)" ng-click="replyTest()">回复</button></td>

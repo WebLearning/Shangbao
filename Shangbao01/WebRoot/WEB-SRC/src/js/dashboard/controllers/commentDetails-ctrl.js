@@ -23,22 +23,26 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
     $scope.checkIfNull=function(str)
     {
         var checkedStr;
-        if(str==null){
+        if(str==null||str==""){
             checkedStr="无";
         }else{
             checkedStr=str;
         }
         return checkedStr;
     };
+    $scope.checkState=function(str){
+        var checkedState;
+        if(str==null||str==""){
+            checkedState="无";
+        }else if(str=="published"){
+            checkedState="已发布";
+        }else if(str=="unpublished"){
+            checkedState="未发布";
+        }
+        return checkedState;
+    };
 
-//    $scope.checkReplyIfNull=function(str)
-//    {
-//        if(str==""||str==null){
-//            return "";
-//        }else{
-//            return str;
-//        }
-//    };
+
 
     $scope.replyBtnStr=function(str,commentId)
     {
@@ -289,8 +293,10 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         $http.post(url,jsonString).success(function(data){
             console.log("添加成功");
         });
+
+        $('#myModal_addComment').modal('toggle');
+        //$scope.getCommentDetailData(1);
         $scope.refreshCommentDetails();
-        $('#myModal_addComment').modal('toggle')
     };
 }]);
 
