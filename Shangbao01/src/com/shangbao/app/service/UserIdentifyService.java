@@ -151,6 +151,7 @@ public class UserIdentifyService {
 		mapper.enableDefaultTyping();
 		try {
 			String model = mapper.readValue(responseUser, String.class);
+			System.out.println(model);
 		} catch (JsonParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

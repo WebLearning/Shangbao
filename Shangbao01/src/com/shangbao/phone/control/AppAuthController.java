@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.shangbao.app.model.AppResponseModel;
 import com.shangbao.app.service.UserIdentifyService;
 import com.shangbao.model.persistence.User;
+import com.shangbao.remotemodel.ResponseModel;
 
 @RequestMapping("/auth")
 @Controller
@@ -44,15 +46,30 @@ public class AppAuthController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public String login(@RequestBody User user){
+	public AppResponseModel login(@RequestBody User user){
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		UserDetails userDetails = null;
+		AppResponseModel appResponseModel = new AppResponseModel();
 		if(user.getName() != null && user.getPasswd() != null){
-			UserDetails userDetails = userIdentifyService.identifyUser(user.getName(), user.getPasswd(), 2, request);
+			userDetails = userIdentifyService.identifyUser(user.getName(), user.getPasswd(), 2, request);
 		}else if(user.getPhone() != 0 && user.getPasswd() != null){
-			UserDetails userDetails = userIdentifyService.identifyUser(user.getPhone() + "", user.getPasswd(), 1, request);
+			userDetails = userIdentifyService.identifyUser(user.getPhone() + "", user.getPasswd(), 1, request);
 		}else if(user.getEmail() != null && user.getPasswd() != null){
-			UserDetails userDetails = userIdentifyService.identifyUser(user.getEmail(), user.getPasswd(), 3, request);
+			userDetails = userIdentifyService.identifyUser(user.getEmail(), user.getPasswd(), 3, request);
 		}
-		return "Login Failed";
+		if(userDetails != null){
+			appResponseModel.setResultCode(1);
+			appResponseModel.setResultMsg("Login Success");
+		}
+		appResponseModel.setResultCode(0);
+		appResponseModel.setResultMsg("Login Failed");
+		return appResponseModel;
+	}
+	
+	@RequestMapping(value="/register", method=RequestMethod.POST)
+	public AppResponseModel register(@RequestBody User user){
+		AppResponseModel appResponseModel = new AppResponseModel();
+		userIdentifyService.addUser(user);
+		return appResponseModel;
 	}
 }

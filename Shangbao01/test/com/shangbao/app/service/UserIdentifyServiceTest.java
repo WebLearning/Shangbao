@@ -38,7 +38,7 @@ public class UserIdentifyServiceTest {
 //		user.add("psw", "12344321");
 //		identiy.addUser(user);
 //		identiy.addUser(user);
-		System.out.println(identiy.userExist("测试昵称", 2));
+		//System.out.println(identiy.userExist("测试昵称", 2));
 	}
 
 }
