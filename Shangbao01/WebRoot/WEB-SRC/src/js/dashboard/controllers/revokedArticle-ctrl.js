@@ -220,9 +220,8 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myIFrameID_revoked").contentWindow.document.body.innerText;
-        url=url.substr(8);
-        url=$scope.projectName+"/WEB-SRC"+url;
-
+        //url=url.substr(8);
+        //url=$scope.projectName+"/WEB-SRC"+url;
         return url;
     };
 

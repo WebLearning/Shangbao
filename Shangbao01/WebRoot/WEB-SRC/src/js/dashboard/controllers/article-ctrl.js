@@ -279,9 +279,9 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     {
         var url = document.getElementById("myIFrameID").contentWindow.document.body.innerText;
         console.log(url);
-        url=url.substr(8);
-        url=$scope.projectName+"/WEB-SRC"+url;
-        console.log(url);
+//        url=url.substr(8);
+//        url=$scope.projectName+"/WEB-SRC"+url;
+//        console.log(url);
         return url;
     };
 

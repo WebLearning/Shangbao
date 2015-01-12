@@ -222,9 +222,9 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     {
         var url = document.getElementById("myIFrameID_crawler").contentWindow.document.body.innerText;
         console.log(url);
-        url=url.substr(8);
-        url=$scope.projectName+"/WEB-SRC"+url;
-        console.log(url);
+        //url=url.substr(8);
+        //url=$scope.projectName+"/WEB-SRC"+url;
+        //console.log(url);
         return url;
     };
 

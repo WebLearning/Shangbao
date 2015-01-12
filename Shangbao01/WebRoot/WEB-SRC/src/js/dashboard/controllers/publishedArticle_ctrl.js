@@ -225,9 +225,8 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myIFrameID_pending").contentWindow.document.body.innerText;
-        url=url.substr(8);
-        url=$scope.projectName+"/WEB-SRC"+url;
-
+        //url=url.substr(8);
+        //url=$scope.projectName+"/WEB-SRC"+url;
         return url;
     };
 
