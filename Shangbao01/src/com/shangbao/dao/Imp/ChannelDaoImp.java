@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -51,6 +52,13 @@ public class ChannelDaoImp implements ChannelDao{
 		return this.mongoTemplate.find(getQuery(criteriaElement), Channel.class);
 	}
 
+	@Override
+	public List<Channel> find(Channel criteriaChannel, Sort sort){
+		Query query = getQuery(criteriaChannel);
+		query.with(sort);
+		return this.mongoTemplate.find(query, Channel.class);
+	}
+	
 	@Override
 	public Channel findById(long id) {
 		// TODO Auto-generated method stub
