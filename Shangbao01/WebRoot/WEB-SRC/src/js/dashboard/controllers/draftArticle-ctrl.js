@@ -220,7 +220,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
 
     $scope.getPicUrl=function()
     {
-        var url = document.getElementById("myIFrameID_draft").contentWindow.document.body.innerText;
+        var url = document.getElementById("myIFrameID_draft").contentDocument.body.innerHTML;
         //url=url.substr(8);
         //url=$scope.projectName+"/WEB-SRC"+url;
 
