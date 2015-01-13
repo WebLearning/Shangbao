@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.dao.ArticleDao;
@@ -68,7 +69,16 @@ public class ArticleServiceImp implements ArticleService {
 
 	@Override
 	public void update(Article article) {
-		articleDaoImp.update(article);
+		Article criteriaArticle = new Article();
+		criteriaArticle.setId(article.getId());
+		Update update = new Update();
+		if(article.getCrawlerCommends() != 0){
+			update.set("crawlerCommends", article.getCrawlerCommends());
+		}
+		if(article.getLevel() != null){
+			update.set("level", article.getLevel());
+		}
+		articleDaoImp.update(criteriaArticle, update);
 	}
 
 	@Override

@@ -51,6 +51,19 @@ public class ChannelServiceImp implements ChannelService{
 	}
 
 	@Override
+	public Channel findByEnName(String englishName, ChannelState state){
+		Channel criteriaChannel = new Channel();
+		criteriaChannel.setEnglishName(englishName);
+		if(state != null){
+			criteriaChannel.setState(state);
+		}
+		List<Channel> channels = channelDaoImp.find(criteriaChannel);
+		if(channels!= null && !channels.isEmpty())
+			return channels.get(0);
+		return null;
+	}
+	
+	@Override
 	public String addChannel(Channel channel) {
 		if(channel.getState().equals(ChannelState.Son)){
 			Channel relateChannel = new Channel();

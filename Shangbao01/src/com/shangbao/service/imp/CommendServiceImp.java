@@ -129,8 +129,17 @@ public class CommendServiceImp implements CommendService {
 
 	@Override
 	public void update(Commend commend, List<SingleCommend> singeCommends) {
-		// TODO Auto-generated method stub
-		
+		Update update = new Update();
+		List<SingleCommend> singleUpdateCommends = new ArrayList<>();
+		if(singeCommends != null && !singeCommends.isEmpty()){
+			for(SingleCommend singleCommend : singeCommends){
+				singleCommend.setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()) + (int)(Math.random()*100));
+				singleCommend.setState(CommendState.unpublished);
+				singleUpdateCommends.add(singleCommend);
+			}
+			update.pushAll("commendList", singleUpdateCommends.toArray());
+			commendDaoImp.update(commend, update);
+		}
 	}
 
 	@Override

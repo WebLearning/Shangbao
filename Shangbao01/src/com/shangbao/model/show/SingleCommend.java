@@ -15,7 +15,7 @@ public class SingleCommend {
 	private long userId;//评论者ID
 	private Date timeDate;//评论时间
 	private String level;//等级
-	private CommendState state;//是否发表
+	private CommendState state = CommendState.unpublished;//是否发表
 	private String from;//评论来源
 	private String content;//评论内容
 	private String reply;//回复

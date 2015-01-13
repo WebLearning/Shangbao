@@ -84,8 +84,8 @@
 	<!--Http client Factory -->
 	<bean id="httpClientFactory"
 		class="org.springframework.http.client.SimpleClientHttpRequestFactory">
-		<property name="connectTimeout"  value="1000"/>
-        <property name="readTimeout"  value="1000"/>
+		<property name="connectTimeout"  value="100000"/>
+        <property name="readTimeout"  value="100000"/>
 	</bean>
 
 	

@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.shangbao.dao.ArticleDao;
+import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.remotemodel.Pic;
 import com.shangbao.remotemodel.PicTitle;
@@ -169,6 +170,8 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				article.setUid(Long.parseLong(title.uid));
 				article.setPicturesUrl(localUrls);
 				article.setTitle(title.title);
+				article.setTag(true);//是图片新闻
+				article.setState(ArticleState.Crawler);
 				article.setAuthor(title.nickname);
 				articleServiceImp.add(article);
 			}

@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,9 +68,41 @@ public class AppAuthController {
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
+	@ResponseBody
 	public AppResponseModel register(@RequestBody User user){
 		AppResponseModel appResponseModel = new AppResponseModel();
-		userIdentifyService.addUser(user);
+		if(userIdentifyService.addUser(user)){
+			appResponseModel.setResultCode(1);
+			appResponseModel.setResultMsg("Register Success");
+		}else{
+			appResponseModel.setResultCode(0);
+			appResponseModel.setResultMsg("Register Failed");
+		}
 		return appResponseModel;
+	}
+	
+	@RequestMapping(value="/phoneidentify/{phone:[\\d]+}", method=RequestMethod.GET)
+	@ResponseBody
+	public AppResponseModel AppPhoneNumIdentify(@PathVariable("phone") String phoneNum){
+		AppResponseModel appResponseModel = new AppResponseModel();
+		String code = userIdentifyService.identifyUserPhone(phoneNum);
+		if(code != null){
+			appResponseModel.setResultCode(1);
+			appResponseModel.setResultMsg(code);
+		}
+		return appResponseModel;
+	}
+	
+	/**
+	 * 获取当前用户信息
+	 * @return
+	 */
+	@RequestMapping(value="/userinfo", method=RequestMethod.GET)
+	@ResponseBody
+	public User getUserInfo(){
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		SecurityContext context = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+		User user = (User)context.getAuthentication().getPrincipal();
+		return user;
 	}
 }

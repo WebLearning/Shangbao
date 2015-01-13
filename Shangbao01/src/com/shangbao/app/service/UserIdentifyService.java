@@ -44,6 +44,8 @@ public class UserIdentifyService {
 	private RememberMeServices rememberMeServices;
 	@Resource
 	private UserService userServiceImp;
+	@Resource
+	private MessageService messageService;
 	
 	private final String remoteUrl;
 	
@@ -125,10 +127,10 @@ public class UserIdentifyService {
 		return null;
 	}
 	
-	public void addUser(User user){
+	public boolean addUser(User user){
 		MultiValueMap<String, Object> userMap = new LinkedMultiValueMap<>();
 		if(user.getName() == null || user.getPasswd() == null){
-			return;
+			return false;
 		}
 		userMap.add("nickname", user.getName());
 		userMap.add("psw", user.getPasswd());
@@ -146,22 +148,10 @@ public class UserIdentifyService {
 			userMap.add("qq", user.getQq() + "");
 		String responseUser = restTemplate.postForObject(remoteUrl + "addUser", userMap, String.class);
 		System.out.println(responseUser);
-		ObjectMapper mapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
-		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		mapper.enableDefaultTyping();
-		try {
-			String model = mapper.readValue(responseUser, String.class);
-			System.out.println(model);
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(responseUser.toCharArray()[14] == 0){
+			return true;
 		}
+		return false;
 	}
 	
 	public boolean userExist(String account, int accountType){
@@ -203,6 +193,16 @@ public class UserIdentifyService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String identifyUserPhone(String userPhone){
+		int code = (int)(Math.random() * 1000000);
+		String content = code + " 请不要把验证码泄露给其他人，如非本人操作，可不用理会！ 【成都商报】";
+		String responseCode = messageService.mt(userPhone, content, "", "", code + "");
+		if(responseCode.equals(code + "")){
+			return code + "";
 		}
 		return null;
 	}

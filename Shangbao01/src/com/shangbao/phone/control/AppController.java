@@ -132,6 +132,9 @@ public class AppController {
 	public CommentPageModel getComment(@PathVariable("newsId") Long newsId, @PathVariable("pageNo") int pageNo){
 		CommentPageModel commentPageModel = new CommentPageModel();
 		List<SingleCommend> singleCommends = appService.getCommentByArticleId(newsId);
+		if(singleCommends == null || singleCommends.isEmpty()){
+			return commentPageModel;
+		}
 		int pageCount = singleCommends.size() / 10 + 1;
 		commentPageModel.setPageCount(pageCount);
 		if(pageNo > pageCount)
