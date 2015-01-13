@@ -1967,7 +1967,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in newArticleData.picturesUrl">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}">
+                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -1977,7 +1977,7 @@
                             </div>
                             <div class="panel panel-success">
                                 <div class="panel-body">
-                                    <textarea class="form-control" rows="10" ng-model="newArticleData.content"></textarea>
+                                    <div class="ueditor" ng-model="newArticleData.content"></div>
                                 </div>
                             </div>
                             <div class="pull-right">
@@ -2045,7 +2045,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form role="form">
-                                            <select class="form-control" ng-modal="additionChannel" ng-click="consoleLog()">
+                                            <select class="form-control" ng-model="additionChannel" ng-click="consoleLog()">
                                                 <option ng-repeat="x in newChannelNames">{{x.channelName}}</option>
                                             </select>
                                         </form>
