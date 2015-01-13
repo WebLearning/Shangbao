@@ -86,6 +86,7 @@ public class ArticleServiceImp implements ArticleService {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
 		query.addCriteria(new Criteria().where("state").is(articleState.toString()));
+		query.addCriteria(new Criteria().where("tag").is(false));
 		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
@@ -101,6 +102,7 @@ public class ArticleServiceImp implements ArticleService {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
 		query.addCriteria(new Criteria().where("state").is(articleState.toString()));
+		query.addCriteria(new Criteria().where("tag").is(false));
 		if(direction.equals("asc")){
 			query.with(new Sort(Direction.ASC, order));
 		}else{
