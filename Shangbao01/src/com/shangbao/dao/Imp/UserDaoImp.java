@@ -1,5 +1,6 @@
 package com.shangbao.dao.Imp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,8 +8,10 @@ import javax.annotation.Resource;
 import com.mongodb.WriteResult;
 import com.shangbao.dao.SequenceDao;
 import com.shangbao.dao.UserDao;
+import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.Page;
+import com.shangbao.model.show.TitleList;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;  
@@ -232,5 +235,4 @@ public class UserDaoImp implements UserDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

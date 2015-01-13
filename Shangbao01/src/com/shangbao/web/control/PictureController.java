@@ -76,8 +76,8 @@ public class PictureController {
 	 */
 	@RequestMapping(value="/{articleState}/{pageId}/{order:[a-z,A-Z]+}/{direction:asc|desc}", method=RequestMethod.GET)
 	@ResponseBody
-	public TitleList getOrderedTitleList(@PathVariable ArticleState articleState,
-			@PathVariable int pageNo, @PathVariable String order, @PathVariable String direction){
+	public TitleList getOrderedTitleList(@PathVariable("articleState") ArticleState articleState,
+			@PathVariable("pageId") int pageNo, @PathVariable("order") String order, @PathVariable("direction") String direction){
 		return this.pictureServiceImp.getOrderedList(articleState, pageNo, order);
 	}
 	
