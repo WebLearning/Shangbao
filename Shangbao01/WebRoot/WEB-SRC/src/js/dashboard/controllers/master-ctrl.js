@@ -16,22 +16,6 @@ function MasterCtrl($scope) {
     //IP和projectName的全局变量
     $scope.projectName="http://localhost:8080/Shangbao01";
 
-    //文章数据
-//    $scope.articleData={
-//        title:"",
-//        subTitle:"",
-//        keyWord:[],
-//        author:"",
-//        summary:"",
-//        content:'',
-//        time:"",
-//        channel:[],
-//        picturesUrl:[],
-//        level:"",
-//        from:"",
-//        words:0
-//    };
-
     $scope.articleData={
         activity:"" ,
         author: "",
@@ -83,8 +67,6 @@ function MasterCtrl($scope) {
         titlePicUrl: null,
         words: null
     };
-
-
     //初始化header
     $scope.curPage = "一览";
 
@@ -95,6 +77,8 @@ function MasterCtrl($scope) {
         //如果是点击新建文章就清除文章里的数据
         if(str=="文章/新建"){
             clearNewArticleData();
+        }else if(str=="快拍成都/新建"){
+            clearNewPictureData();
         }
     };
 
@@ -145,4 +129,84 @@ function MasterCtrl($scope) {
     var commentDetailsUrl="";
     $scope.commentDetailTitle="";
 
+    //快拍成都----------------------------------------------------------------------------------------------------------
+    $scope.pictureData={
+        activity:"" ,
+        author: "",
+        channel: [],
+        channelIndex: null,
+        clicks: null,
+        content: "",
+        crawlerCommends: null,
+        crawlerCommendsPublish: null,
+        from: "",
+        id: null,
+        keyWord: [],
+        level: null,
+        likes: null,
+        newsCommends: null,
+        newsCommendsPublish: null,
+        picturesUrl: [],
+        subTitle: "",
+        summary: "",
+        state:null,
+        tag: null,
+        time: "",
+        title: "",
+        titlePicUrl: null,
+        words: null
+    };
+
+    $scope.newPictureData={
+        activity:null ,
+        author: "",
+        channel: [],
+        channelIndex: null,
+        clicks: null,
+        content: "",
+        crawlerCommends: null,
+        crawlerCommendsPublish: null,
+        from: "",
+        keyWord: [],
+        level: null,
+        likes: null,
+        newsCommends: null,
+        newsCommendsPublish: null,
+        picturesUrl: [],
+        subTitle: "",
+        summary: "",
+        tag: null,
+        time: "",
+        title: "",
+        titlePicUrl: null,
+        words: null
+    };
+
+    function clearPictureData(){
+        for(p in $scope.pictureData){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+                $scope.pictureData[p]=[];
+            }else if(p=="words"){
+                $scope.pictureData[p]=0;
+            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"){
+                $scope.pictureData[p]="";
+            }else{
+                $scope.pictureData[p]=null;
+            }
+        }
+    }
+
+    function clearNewPictureData(){
+        for(p in $scope.newPictureData){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+                $scope.newPictureData[p]=[];
+            }else if(p=="words"){
+                $scope.newPictureData[p]=0;
+            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"){
+                $scope.newPictureData[p]="";
+            }else{
+                $scope.newPictureData[p]=null;
+            }
+        }
+    }
 }
