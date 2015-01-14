@@ -122,7 +122,7 @@ public class PictureController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/{articleState}/{pageNo}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{articleState}/{pageNo}/statechange/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public TitleList stateTranslatePut(
@@ -155,7 +155,7 @@ public class PictureController {
 		return pictureServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
 
-	@RequestMapping(value = "/{articleState}/{pageNo}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{articleState}/{pageNo}/statechange/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public TitleList stateTranslateDelete(
