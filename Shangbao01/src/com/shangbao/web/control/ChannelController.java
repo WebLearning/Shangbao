@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.shangbao.model.ChannelState;
 import com.shangbao.model.persistence.Channel;
 import com.shangbao.service.ChannelService;
+import com.shangbao.service.StartPicturesService;
 
 @Controller
 @RequestMapping("/channel")
@@ -21,12 +22,24 @@ public class ChannelController {
 	@Resource
 	private ChannelService channelServiceImp;
 	
+	@Resource
+	private StartPicturesService startPicturesServiceImp;
+	
 	public ChannelService getChannelServiceImp() {
 		return channelServiceImp;
 	}
 
 	public void setChannelServiceImp(ChannelService channelServiceImp) {
 		this.channelServiceImp = channelServiceImp;
+	}
+
+	public StartPicturesService getStartPicturesServiceImp() {
+		return startPicturesServiceImp;
+	}
+
+	public void setStartPicturesServiceImp(
+			StartPicturesService startPicturesServiceImp) {
+		this.startPicturesServiceImp = startPicturesServiceImp;
 	}
 
 	/**

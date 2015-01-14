@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class StartPictures {
 
 	@Id
-	private String id = "startpictures";
+	private String id;
 	private List<String> pictureUrls = new ArrayList<>();
 	
 	public String getId() {

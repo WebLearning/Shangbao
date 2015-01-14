@@ -69,6 +69,11 @@ public class ArticleServiceImp implements ArticleService {
 
 	@Override
 	public void update(Article article) {
+		articleDaoImp.update(article);
+	}
+
+	@Override
+	public void updateCrawler(Article article){
 		Article criteriaArticle = new Article();
 		criteriaArticle.setId(article.getId());
 		Update update = new Update();
@@ -80,7 +85,7 @@ public class ArticleServiceImp implements ArticleService {
 		}
 		articleDaoImp.update(criteriaArticle, update);
 	}
-
+	
 	@Override
 	public TitleList getTiltList(ArticleState articleState, int pageNo) {
 		TitleList titleList = new TitleList();

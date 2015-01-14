@@ -122,7 +122,7 @@ public class CrawlerGetController {
 	@ResponseBody
 	public Long updateArticle(@RequestBody Article article, @PathVariable("articleId") Long articleId){
 		article.setId(articleId);
-		articleServiceImp.update(article);
+		articleServiceImp.updateCrawler(article);
 		return articleId;
 	}
 	

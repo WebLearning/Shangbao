@@ -63,4 +63,6 @@ public interface ArticleService {
 	public void setPutState(ArticleState articleState, List<Long> idList);
 	
 	public void setDeleteState(ArticleState articleState, List<Long> idList);
+	
+	void updateCrawler(Article article);
 }
