@@ -367,6 +367,11 @@ public class AppModel {
 				commendDaoImp.insert(newsCommend);
 			}
 		}
+		Article criteriaArticle = new Article();
+		criteriaArticle.setId(articleId);
+		Update articleUpdate = new Update();
+		update.inc("newsCommends", 1);
+		articleDaoImp.update(criteriaArticle, articleUpdate);
 	}
 	
 	/**

@@ -46,6 +46,7 @@ public class ColumnPageModel {
 		public String summary;
 		public Date time;
 		public int clicks;
+		public int comments;
 		public Integer indexId;
 		public Long newsId;
 		
@@ -61,6 +62,7 @@ public class ColumnPageModel {
 			this.clicks = article.getClicks();
 			this.indexId = indexId;
 			this.newsId = newsId;
+			this.comments = article.getCrawlerCommendsPublish() + article.getNewsCommendsPublish();
 		}
 	}
 }

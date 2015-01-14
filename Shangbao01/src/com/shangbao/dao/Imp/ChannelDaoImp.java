@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.WriteResult;
 import com.shangbao.dao.ChannelDao;
 import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.show.Page;
@@ -50,7 +51,9 @@ public class ChannelDaoImp implements ChannelDao{
 	@Override
 	public void update(Channel criteriaChannel, Update update){
 		Query query = getQuery(criteriaChannel);
-		mongoTemplate.updateFirst(query, update, Channel.class);
+		//System.out.println(query.getQueryObject());
+		WriteResult result = mongoTemplate.updateFirst(query, update, Channel.class);
+		//System.out.println(result.getN());
 	}
 
 	@Override
@@ -127,6 +130,9 @@ public class ChannelDaoImp implements ChannelDao{
 		}
 		if((criteriaChannel.getState() != null) && (criteriaChannel.getState() != null)){
 			query.addCriteria(new Criteria().where("state").is(criteriaChannel.getState().toString()));
+		}
+		if(criteriaChannel.getChannelIndex() > 0){
+			query.addCriteria(new Criteria().where("channelIndex").is(criteriaChannel.getChannelIndex()));
 		}
 		return query;
 	}
