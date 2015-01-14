@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.app.model.ActiveModel;
@@ -15,6 +16,7 @@ import com.shangbao.app.model.AppModel;
 import com.shangbao.app.model.AppPictureModel;
 import com.shangbao.app.model.ColumnPageModel;
 import com.shangbao.app.model.FrontPageModel;
+import com.shangbao.dao.ArticleDao;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.show.Page;
@@ -27,6 +29,9 @@ public class AppService {
 	private AppModel appModel;
 	@Resource
 	private ArticleService articleServiceImp;
+	@Resource
+	private ArticleDao articleDaoImp;
+	
 	private final String appUrlPrefix = "/{phoneType}/";
 	
 	
@@ -148,6 +153,11 @@ public class AppService {
 		if(!appModel.getArticleMap().isEmpty()){
 			if(appModel.getArticleMap().containsKey(articleId)){
 				appHtml.html = appModel.getArticleMap().get(articleId).getContent();
+				int clicks = appModel.getArticleMap().get(articleId).getClicks() + 1;
+				Update update = new Update();
+				update.inc("clicks", 1);
+				articleDaoImp.update(appModel.getArticleMap().get(articleId), update);
+				appModel.getArticleMap().get(articleId).setClicks(clicks);
 				appHtml.articleId = articleId;
 			}else{
 				Article articleInMongo = articleServiceImp.findOne(articleId);
@@ -155,6 +165,9 @@ public class AppService {
 					appModel.getArticleMap().put(articleId, articleInMongo);
 					appHtml.html = articleInMongo.getContent();
 					appHtml.articleId = articleId;
+					Update update = new Update();
+					update.inc("clicks", 1);
+					articleDaoImp.update(articleInMongo, update);
 					return appHtml;
 				}
 			}
@@ -370,6 +383,15 @@ public class AppService {
 
 	public void setArticleServiceImp(ArticleService articleServiceImp) {
 		this.articleServiceImp = articleServiceImp;
+	}
+
+
+	public ArticleDao getArticleDaoImp() {
+		return articleDaoImp;
+	}
+
+	public void setArticleDaoImp(ArticleDao articleDaoImp) {
+		this.articleDaoImp = articleDaoImp;
 	}
 
 

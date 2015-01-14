@@ -157,6 +157,8 @@ public class ChannelServiceImp implements ChannelService{
 				Update updateB = new Update();
 				updateA.set("channelIndex", channelB.getChannelIndex());
 				updateB.set("channelIndex", channelA.getChannelIndex());
+				//System.out.println(updateA.getUpdateObject());
+				//System.out.println(updateB.getUpdateObject());
 				channelDaoImp.update(channelA, updateA);
 				channelDaoImp.update(channelB, updateB);
 			}
