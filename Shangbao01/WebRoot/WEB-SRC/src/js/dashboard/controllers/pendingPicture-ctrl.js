@@ -1,35 +1,37 @@
 /**
- Pending Controller
+ pendingPictureCtrl
  **/
-angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function($scope,$http){
-    $scope.pendingTestLog=function() {
-        console.log($scope.pendingData);
+angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",function($scope,$http){
+
+    $scope.pendingPictureTestLog=function() {
+        console.log($scope.pendingPictureData);
         console.log($scope.articleSelections);
         console.log($scope.articleSelectionsUrl);
     };
 
-    $scope.pendingData=null;
+    $scope.pendingPictureData=null;
     $scope.orderCondition="";
 
     //4.1点击待审文章，初始化页面，获得待审的第一页数据----------------------------------------------------------------------------------
 
-    $scope.getPendingData=function(pageID){
+    $scope.getPendingPictureData=function(pageID){
 
-        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+$scope.orderCondition;
+        var url=$scope.projectName+'/picture/Pending/'+pageID.toString()+$scope.orderCondition;
         console.log(url);
         $http.get(url).success(function(data){
-            $scope.pendingData=data;
-            $scope.pageNums=getPageNums($scope.pendingData.pageCount);
+            console.log(data);
+            $scope.pendingPictureData=data;
+            $scope.pageNums=getPageNums($scope.pendingPictureData.pageCount);
             console.log("成功获取数据");
         });
     };
-    $scope.getPendingData(1);//生成待审页面时即产生第一页数据
+    $scope.getPendingPictureData(1);//生成待审页面时即产生第一页数据
 
-    $scope.refreshPending=function()
+    $scope.refreshPendingPicture=function()
     {
         clearArticleSelections();
         $scope.orderCondition="";
-        $scope.getPendingData(1);
+        $scope.getPendingPictureData(1);
     };
 
     //排序---------------------------------------------------------------------------------------------------------------
@@ -42,7 +44,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             $scope.orderCondition="/words/"+"desc";
             wordsOrderState="desc";
         }
-        $scope.getPendingData(1);
+        $scope.getPendingPictureData(1);
     };
 
     var newsCommendsOrderState="desc";
@@ -54,7 +56,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             $scope.orderCondition="/newsCommends/"+"desc";
             newsCommendsOrderState="desc";
         }
-        $scope.getPendingData(1);
+        $scope.getPendingPictureData(1);
     };
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
@@ -65,7 +67,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             $scope.orderCondition="/crawlerCommends/"+"desc";
             crawlerCommendsOrderState="desc";
         }
-        $scope.getPendingData(1);
+        $scope.getPendingPictureData(1);
     };
 
     var timeOrderState="desc";
@@ -77,7 +79,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             $scope.orderCondition="/time/"+"desc";
             timeOrderState="desc";
         }
-        $scope.getPendingData(1);
+        $scope.getPendingPictureData(1);
     };
 
     var clicksOrderState="desc";
@@ -89,7 +91,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             $scope.orderCondition="/clicks/"+"desc";
             clicksOrderState="desc";
         }
-        $scope.getPendingData(1);
+        $scope.getPendingPictureData(1);
     };
 
     var likesOrderState="desc";
@@ -101,7 +103,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             $scope.orderCondition="/likes/"+"desc";
             likesOrderState="desc";
         }
-        $scope.getPendingData(1);
+        $scope.getPendingPictureData(1);
     };
 
     //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示
@@ -115,6 +117,16 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }
         return checkedStr;
     };
+    $scope.checkNum=function(str)
+    {
+        var checkedStr;
+        if(str=="0"||str==null||str==""){
+            checkedStr="0";
+        }else{
+            checkedStr=str;
+        }
+        return checkedStr;
+    };
     $scope.checkIfEmpty=function(arr)
     {
         var checkedStr;
@@ -122,7 +134,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             checkedStr="无数据";
             return checkedStr;
         }else{
-            return arr.toString();
+            return arr;
         }
         //return arr.toString();
     };
@@ -138,18 +150,18 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
 
     //文章跳转------------------------------------------------------------------------------------------------------------
     //转到新建文章页面并重置sidebar的爬虫文章按钮，不然会产生点击无效的BUG
-    $scope.goNewArticle=function(articleId)
+    $scope.goNewPictureArticle=function(articleId)
     {
-        $scope.showPendingArticle(articleId);
-        document.getElementById("pendingTrial").className="tab-pane";
-        document.getElementById("pendingArticle").className="tab-pane active";
-        document.getElementById("pendingSidebarID").className="sidebar-list";
+        $scope.showPendingPictureArticle(articleId);
+        document.getElementById("pendingPicture").className="tab-pane";
+        document.getElementById("pendingPictureView").className="tab-pane active";
+        document.getElementById("pendingPictureSidebarID").className="sidebar-list";
     };
 
     //得到文章的URL
-    $scope.getPendingArticleUrl=function(articleId)
+    $scope.getPendingPictureArticleUrl=function(articleId)
     {
-        var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/"+articleId;
+        var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/"+articleId;
         return url;
     };
 
@@ -168,9 +180,9 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     };
 
     //显示点击的文章
-    $scope.showPendingArticle=function(articleId)
+    $scope.showPendingPictureArticle=function(articleId)
     {
-        var url=$scope.getPendingArticleUrl(articleId);
+        var url=$scope.getPendingPictureArticleUrl(articleId);
 
         $http.get(url).success(function(data) {
             $scope.transDataToArticleData(data);
@@ -227,7 +239,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     var allSelectState="none";
     $scope.selectAll=function()
     {
-        var arr=$scope.pendingData.tileList;
+        var arr=$scope.pendingPictureData.tileList;
         if(allSelectState=="none"){
             selectByArr(arr);
             allSelectState="all";
@@ -253,36 +265,36 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }else{
             $scope.articleSelectionsUrl="";
         }
-        $scope.getPendingData($scope.pendingData.currentNo);
+        $scope.getPendingPictureData($scope.pendingPictureData.currentNo);
     }
     //对选取的文章进行操作
     //删除-------------
-    $scope.deleteArticleSelections=function()
+    $scope.deletePictureArticleSelections=function()
     {
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
         }else{
             if (confirm("确定撤销选中的文章吗？")==true)
             {
-                var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
+                var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getPendingData(1);
+                    $scope.getPendingPictureData(1);
                     alert("撤销成功");
                 });
             };
         };
     };
 //立刻发布--------------------------------------------------------------------------------------------------------
-    $scope.publishArticleSelectionsNow=function()
+    $scope.publishPictureArticleSelections=function()
     {
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
         }else{
-            var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
+            var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.getPendingData(1);
+                $scope.getPendingPictureData(1);
                 alert("发布成功");
             });
         };
@@ -295,10 +307,10 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             alert("未选取文章");
         }else{
             $scope.Time=$scope.publishTime;
-            var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
+            var url=$scope.projectName+"/article/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
             //加参数time(定时发布的时间）
             clearArticleSelections();
-            $scope.getPendingData(1);
+            $scope.getPendingPictureData(1);
             alert("保存成功");
         }
     };
@@ -306,13 +318,13 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     //页面跳转------------------------------------------------------------------------------------------------------------
     $scope.turnToPage=function(pageNum)
     {
-        $scope.getPendingData(pageNum);
+        $scope.getPendingPictureData(pageNum);
     };
 
     //页码样式
     $scope.pageNumClass=function(pageNum)
     {
-        return(pageNum==$scope.pendingData.currentNo);
+        return(pageNum==$scope.pendingPictureData.currentNo);
     };
 
     //得到页码数组的函数
@@ -328,5 +340,4 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             return arr;
         }
     };
-
 }]);

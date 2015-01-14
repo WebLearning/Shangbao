@@ -115,14 +115,25 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         $scope.getPublishedData(1);
     };
 
-    var commendsOrderState="desc";
-    $scope.orderByCommends=function(){
-        if(commendsOrderState=="desc"){
-            $scope.orderCondition="/commends/"+"asc";
-            commendsOrderState="asc";
-        }else if(commendsOrderState=="asc"){
-            $scope.orderCondition="/commends/"+"desc";
-            commendsOrderState="desc";
+    var newsCommendsOrderState="desc";
+    $scope.orderByNewsCommends=function(){
+        if(newsCommendsOrderState=="desc"){
+            $scope.orderCondition="/newsCommends/"+"asc";
+            newsCommendsOrderState="asc";
+        }else if(newsCommendsOrderState=="asc"){
+            $scope.orderCondition="/newsCommends/"+"desc";
+            newsCommendsOrderState="desc";
+        }
+        $scope.getPublishedData(1);
+    };
+    var crawlerCommendsOrderState="desc";
+    $scope.orderByCrawlerCommends=function(){
+        if(crawlerCommendsOrderState=="desc"){
+            $scope.orderCondition="/crawlerCommends/"+"asc";
+            crawlerCommendsOrderState="asc";
+        }else if(crawlerCommendsOrderState=="asc"){
+            $scope.orderCondition="/crawlerCommends/"+"desc";
+            crawlerCommendsOrderState="desc";
         }
         $scope.getPublishedData(1);
     };

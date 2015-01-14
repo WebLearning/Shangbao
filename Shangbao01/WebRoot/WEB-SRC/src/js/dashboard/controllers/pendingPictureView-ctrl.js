@@ -1,44 +1,19 @@
 /**
- CrawlerPictureView controller
+ pendingPictureView
  **/
-angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http",function($scope,$http){
+angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http",function($scope,$http){
 
-    $scope.goCrawlerPicture=function()
+    $scope.goPendingPicture=function()
     {
-        document.getElementById("crawlerPictureView").className="tab-pane";
-        document.getElementById("crawlerPicture").className="tab-pane active";
-        document.getElementById("crawlerPictureSidebarID").className="sidebar-list";
+        document.getElementById("pendingPictureView").className="tab-pane";
+        document.getElementById("pendingPicture").className="tab-pane active";
+        document.getElementById("pendingPictureSidebarID").className="sidebar-list";
     };
     $scope.testLog=function()
     {
         $scope.calculateWords();
-        console.log($scope.recvData);
+        //console.log($scope.recvData);
         console.log($scope.articleData);
-    };
-
-    //footer的3个按钮的操作
-    $scope.clearArticle=function()
-    {
-        for(p in $scope.articleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
-                $scope.articleData[p]=[];
-            }else{
-                $scope.articleData[p]="";
-            }
-        }
-        $scope.calculateWords();
-    };
-
-    $scope.saveArticle=function(){
-        console.log("test new save");
-        $scope.calculateWords();
-        var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
-        var url=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
-        console.log(url);
-        $http.put(url,jsonString).success(function(data) {
-            alert("保存文章成功");
-        });
     };
 
     //得到字数
@@ -84,7 +59,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             alert("没有任何输入");
         }else{
             $scope.articleData.keyWord.push($scope.additionKeyword);
-            $('#myPictureModal_addKeyword_crawler').modal('toggle');
+            $('#myPictureModal_addKeyword_pending').modal('toggle');
         }
     };
 
@@ -94,7 +69,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             alert("没有任何输入");
         }else{
             $scope.articleData.channel.push($scope.additionChannel);
-            $('#myPictureModal_addChannel_crawler').modal('toggle');
+            $('#myPictureModal_addChannel_pending').modal('toggle');
         }
     };
 
@@ -111,7 +86,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             alert("没有任何输入");
         }else{
             $scope.articleData.activity=$scope.additionActivity;
-            $('#myPictureModal_addActivity_crawler').modal('toggle');
+            $('#myPictureModal_addActivity_pending').modal('toggle');
         }
     };
 
@@ -142,7 +117,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     {
         var docObj = obj;
         var preViewUrl = window.URL.createObjectURL(docObj.files[0]);
-        var imgObjPreview=document.getElementById("imgPicturePreview_crawler");
+        var imgObjPreview=document.getElementById("imgPicturePreview_pending");
         imgObjPreview.src = preViewUrl;
     };
 
@@ -150,20 +125,20 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     {
         var tempHtml='<div class="thumbnail">'
             +'<button type="button" class="close" onclick="angular.element(this).scope().deletePreviewFrame()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
-            +'<img id="imgPicturePreview_crawler">'
+            +'<img id="imgPicturePreview_pending">'
             +'</div>';
 
-        document.getElementById("previewPictureFrame_crawler").innerHTML=tempHtml;
+        document.getElementById("previewPictureFrame_pending").innerHTML=tempHtml;
     };
 
     $scope.deletePreviewFrame=function()
     {
-        document.getElementById("previewPictureFrame_crawler").innerHTML="";
+        document.getElementById("previewPictureFrame_pending").innerHTML="";
     };
 
     $scope.refreshImgInput=function()
     {
-        document.getElementById("myPictureUploadImgForm_crawler").innerHTML='<input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>';
+        document.getElementById("myPictureUploadImgForm_pending").innerHTML='<input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>';
     };
 
     //上传按钮的改变（主要）
@@ -173,13 +148,13 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             +'<button type="button" class="btn btn-default" disabled>上传</button>'
             +'<button type="button" class="btn btn-default" disabled>确认</button>';
 
-        document.getElementById("modalPictureFooterID_crawler").innerHTML=tempString;
+        document.getElementById("modalPictureFooterID_pending").innerHTML=tempString;
     };
 
     //上传图片
     $scope.uploadImg=function()
     {
-        $('#myPictureUploadImgForm_crawler').submit();
+        $('#myPictureUploadImgForm_pending').submit();
         $scope.enableConfirmButton();
     };
 
@@ -190,7 +165,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             +'<button type="button" class="btn btn-success" onclick="angular.element(this).scope().uploadImg()">上传</button>'
             +'<button type="button" class="btn btn-primary" onclick="angular.element(this).scope().addPicUrl()">确认</button>';
 
-        document.getElementById("modalPictureFooterID_crawler").innerHTML=tempString;
+        document.getElementById("modalPictureFooterID_pending").innerHTML=tempString;
     };
 
     $scope.disableConfirmButton=function()
@@ -199,7 +174,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             +'<button type="button" class="btn btn-success" onclick="angular.element(this).scope().uploadImg()">上传</button>'
             +'<button type="button" class="btn btn-default" disabled>确认</button>';
 
-        document.getElementById("modalPictureFooterID_crawler").innerHTML=tempString;
+        document.getElementById("modalPictureFooterID_pending").innerHTML=tempString;
     };
 
     $scope.addPicUrl=function()
@@ -212,7 +187,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
 
     $scope.getPicUrl=function()
     {
-        var url = document.getElementById("myPictureIFrameID_crawler").contentDocument.body.innerHTML;
+        var url = document.getElementById("myPictureIFrameID_pending").contentDocument.body.innerHTML;
         console.log(url);
         //url=url.substr(8);
         //url=$scope.projectName+"/WEB-SRC"+url;
@@ -236,7 +211,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     //关闭上传框
     $scope.turnOffUploadModal=function()
     {
-        $('#myPictureModal_addIMG_crawler').modal('toggle');
+        $('#myPictureModal_addIMG_pending').modal('toggle');
     };
 
     //获得顶级目录名----------------------------------------------------------------------------------------------------

@@ -36,17 +36,13 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     //获得顶级目录名----------------------------------------------------------------------------------------------------
     $scope.newChannelNames=[];
     $scope.getNewChannelNames=function(){
-        var url=$scope.projectName+'/channel/channels';
+        var url=$scope.projectName+'/channel/kuaipai/channels';
         //console.log(url);
         $http.get(url).success(function(data){
             //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
-                    if(data[i].englishName=="orignal"){
-                        $scope.newChannelNames.push(data[i]);
-                    }else{
-                        $scope.getSecondChannelNames(data[i].englishName);
-                    }
+                    $scope.newChannelNames.push(data[i]);
                 }
             }else{
                 $scope.newChannelNames=[];
@@ -55,27 +51,21 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         });
     };
     $scope.getNewChannelNames();
-    $scope.consoleLog=function(){
-        console.log($scope.additionChannel);
-    };
-    //获得次级目录名----------------------------------------------------------------------------------------------------
-    $scope.getSecondChannelNames=function(channelName){
-        var url=$scope.projectName+'/channel/'+channelName+'/channels';
-        //console.log(url);
+    //活动活动目录------------------------------------------------------------------------------------------------------
+    $scope.newActivityNames=[];
+    $scope.getNewActivityNames=function(){
+        var url=$scope.projectName+'/channel/activities';
         $http.get(url).success(function(data){
-            //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
-                    $scope.newChannelNames.push(data[i]);
+                    $scope.newActivityNames.push(data[i]);
                 }
+            }else{
+                $scope.newActivityNames=[];
             }
         });
     };
-    //获得所有目录------------------------------------------------------------------------------------------------------
-//    $scope.getChannelNames=function(){
-//        $scope.getNewChannelNames();
-//        $scope.getSecondChannelNames(channelName);
-//    };
+    $scope.getNewActivityNames();
     //
     $scope.getEditorContent=function()
     {
@@ -148,12 +138,17 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         $scope.newArticleData.channel.splice(index,1);
     };
 
+    $scope.deleteActivity=function()
+    {
+        $scope.newArticleData.activity=null;
+    };
+
     $scope.deletePicUrl=function(index)
     {
         $scope.newArticleData.picturesUrl.splice(index,1);
     };
 
-    //添加关键词和分类
+    //添加关键词和分类、活动
     $scope.addKeyword=function()
     {
         if($scope.additionKeyword==undefined||$scope.additionKeyword==""){
@@ -174,7 +169,22 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         }
     };
 
+    $scope.replyBtnStr=function(str){
+        if(str==""||str==null){
+            return "sr-only";
+        }else{
+            return "col-md-2";
+        }
+    };
 
+    $scope.addActivity=function(){
+        if($scope.additionActivity==undefined||$scope.additionActivity==""){
+            alert("没有任何输入");
+        }else{
+            $scope.newArticleData.activity=$scope.additionActivity;
+            $('#myPictureModal_addActivity').modal('toggle');
+        }
+    };
 
     //关于上传图片----------------------------------------------------------------------------------------------
 
