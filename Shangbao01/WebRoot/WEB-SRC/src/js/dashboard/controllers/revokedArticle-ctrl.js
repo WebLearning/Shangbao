@@ -253,7 +253,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
             //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
-                    if(data[i].englishName=="orignal"){
+                    if(data[i].englishName=="original"){
                         $scope.newChannelNames.push(data[i]);
                     }else{
                         $scope.getSecondChannelNames(data[i].englishName);
