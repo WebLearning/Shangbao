@@ -64,6 +64,12 @@ public class ChannelController {
 		return channelServiceImp.findAllSonChannels(fatherChannelName);
 	}
 	
+	@RequestMapping(value="/activities")
+	@ResponseBody
+	public List<Channel> getActivities(){
+		return channelServiceImp.findAllActivities();
+	}
+	
 	/**
 	 * 添加一个分类
 	 */

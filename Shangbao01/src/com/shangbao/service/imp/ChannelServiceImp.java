@@ -49,6 +49,15 @@ public class ChannelServiceImp implements ChannelService{
 		Sort sort = new Sort(Direction.ASC, "channelIndex");
 		return channelDaoImp.find(channel, sort);
 	}
+	
+	@Override
+	public List<Channel> findAllActivities(){
+		Channel channel = new Channel();
+		channel.setState(ChannelState.Activity);
+		Sort sort = new Sort(Direction.ASC, "channelIndex");
+		List<Channel> channels = channelDaoImp.find(channel, sort);
+		return channels;
+	}
 
 	@Override
 	public Channel findByEnName(String englishName, ChannelState state){
