@@ -367,11 +367,14 @@ public class AppModel {
 				commendDaoImp.insert(newsCommend);
 			}
 		}
-		Article criteriaArticle = new Article();
-		criteriaArticle.setId(articleId);
+		
+		Article criteriaArticle = articleDaoImp.findById(articleId);
+		int newsCommends = criteriaArticle.getNewsCommends();
 		Update articleUpdate = new Update();
-		update.inc("newsCommends", 1);
-		articleDaoImp.update(criteriaArticle, articleUpdate);
+		articleUpdate.set("newsCommends", newsCommends + 1);
+		Article tempArticle = new Article();
+		tempArticle.setId(criteriaArticle.getId());
+		articleDaoImp.update(tempArticle, articleUpdate);
 	}
 	
 	/**
