@@ -52,6 +52,8 @@
     <script type="text/javascript" src="js/dashboard/controllers/crawlerPictureView-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/pendingPicture-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/pendingPictureView-ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/publishedPicture-ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/publishedPictureView-ctrl.js"></script>
     <!--<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">-->
     <!--<script src="js/bootstrap-datetimepicker.js"></script>-->
 
@@ -2562,8 +2564,87 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="publishedPicture">
-                已发布快拍
+            <div role="tabpanel" class="tab-pane" id="publishedPicture" ng-controller="publishedPictureCtrl">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                    </div>
+                    <div class="col-md-2 col-md-offset-5">
+                        <button type="button" class="btn btn-success" ng-click="refreshPublishedPicture()"><span class="glyphicon glyphicon-refresh"></span></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="panel panel-success">
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 8%">标题</th>
+                                        <th style="width: 8%">作者</th>
+                                        <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
+                                        <th style="width: 8%">来源</th>
+                                        <th style="width: 8%">分类</th>
+                                        <th style="width: 5%">等级</th>
+                                        <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
+                                        <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
+                                        <th style="width: 16%">摘要</th>
+                                        <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
+                                        <!--<th>图片数</th>-->
+                                        <th style="width: 8%">活动</th>
+                                        <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="tileObj in publishedPictureData.tileList">
+                                        <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
+                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td>{{dateStringToDate(tileObj.time)}}</td>
+                                        <td>{{checkIfNull(tileObj.from)}}</td>
+                                        <td>{{checkIfEmpty(tileObj.channel)}}</td>
+                                        <td>{{checkIfNull(tileObj.level)}}</td>
+                                        <td>{{checkNum(tileObj.clicks)}}</td>
+                                        <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
+                                        <td>{{checkNum(tileObj.likes)}}</td>
+                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkNum(tileObj.words)}}</td>
+                                        <!--<td>{{checkIfEmpty(tileObj.pictures)}}</td>-->
+                                        <td>{{checkIfNull(tileObj.activity)}}</td>
+                                        <td>
+                                            <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <nav>
+                            <ul class="pagination">
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                            </ul>
+                        </nav>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-info" ng-click="deletePictureArticleSelections()">撤销</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="publishedPictureView" ng-controller="publishedPictureViewCtrl">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <button type="button" class="btn btn-md btn-info" ng-click="goPublishedPicture()"><span class="glyphicon glyphicon-refresh"></span></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="panel panel-success">
+                            <div class="panel-body">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="revokedPicture">
                 已撤销快拍
