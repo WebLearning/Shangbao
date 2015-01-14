@@ -23,7 +23,19 @@ public class ArticleDaoTest {
 
 	@Test
 	public void test() {
-		addArticle();
+//		addArticle();
+		findArticle();
+	}
+	
+	public void findArticle(){
+		BeanFactory applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		ArticleDao dao = (ArticleDao)applicationContext.getBean("articleDaoImp");
+		Article article = new Article();
+		article.setId(666);
+		List<Article> list = dao.find(article);
+		for(Article article2 : list){
+			System.out.println(article2.getContent());
+		}
 	}
 	
 	public void addArticle(){

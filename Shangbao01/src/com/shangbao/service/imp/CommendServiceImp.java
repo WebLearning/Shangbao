@@ -153,12 +153,14 @@ public class CommendServiceImp implements CommendService {
 
 	@Override
 	public void publish(Commend commend, List<String> singleCommendIds) {
+		int commendCount = 0;
 		Update updateElement = new Update();
 		updateElement.set("commendList.$.state", CommendState.published.toString());
 		for(String commendId : singleCommendIds){
 			Query query = new Query();
 			query.addCriteria(new Criteria().where("commendList.commendId").is(commendId));
 			commendDaoImp.update(commend, query, updateElement);
+			commendCount ++;
 		}
 		Article article = new Article();
 		article.setId(commend.getArticleId());
@@ -166,9 +168,9 @@ public class CommendServiceImp implements CommendService {
 		if(articles != null && !articles.isEmpty()){
 			Update update = new Update();
 			if(commend instanceof CrawlerCommend){
-				update.inc("crawlerCommendsPublish", 1);
+				update.inc("crawlerCommendsPublish", commendCount);
 			}else{
-				update.inc("newsCommendsPublish", 1);
+				update.inc("newsCommendsPublish", commendCount);
 			}
 			articleDaoImp.update(article, update);
 		}
