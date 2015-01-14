@@ -102,7 +102,7 @@ public class PictureController {
 	 * @param id
 	 * @param article
 	 */
-	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	public void modifyOne(@PathVariable("articleState") ArticleState state,
 			@PathVariable("id") Long id, @RequestBody Article article) {

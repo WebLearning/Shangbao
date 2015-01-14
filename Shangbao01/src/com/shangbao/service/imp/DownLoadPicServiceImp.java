@@ -45,6 +45,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 	
 	private final String remoteUrl;
 	private final String localPicDir;
+	private final String localHost;
 	
 	public DownLoadPicServiceImp(){
 		Properties props = new Properties();
@@ -63,6 +64,11 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 			localPicDir = props.getProperty("pictureDir");
 		}else{
 			localPicDir = "D:\\apache-tomcat\\webapps\\hangbao01\\WEB-SRC\\picture";
+		}
+		if(!props.getProperty("localhost").isEmpty()){
+			localHost = props.getProperty("localhost");
+		}else{
+			localHost = "http://localhost:8080/Shangbao01";
 		}
 	}
 	
@@ -237,7 +243,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			localPicUrls.add(returnUrl.replaceAll("\\\\", "/"));
+			localPicUrls.add(localHost + returnUrl.replaceAll("\\\\", "/"));
 		}
 		return localPicUrls;
 	}
