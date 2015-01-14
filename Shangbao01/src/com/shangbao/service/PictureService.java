@@ -14,7 +14,7 @@ public interface PictureService {
 	void delete(List<Channel> activity);
 	TitleList getTiltList(ArticleState articleState, int pageNo);
 	TitleList getOrderedList(ArticleState articleState, int pageNo,
-			String order);
+			String order ,String direction);
 	void setPutState(ArticleState articleState, List<Long> idList);
 	void setDeleteState(ArticleState articleState, List<Long> idList);
 	Article findOne(Long id);

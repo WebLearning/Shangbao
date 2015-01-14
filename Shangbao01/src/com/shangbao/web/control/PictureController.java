@@ -78,7 +78,7 @@ public class PictureController {
 	@ResponseBody
 	public TitleList getOrderedTitleList(@PathVariable("articleState") ArticleState articleState,
 			@PathVariable("pageId") int pageNo, @PathVariable("order") String order, @PathVariable("direction") String direction){
-		return this.pictureServiceImp.getOrderedList(articleState, pageNo, order);
+		return this.pictureServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
 	
 	/**
@@ -137,20 +137,22 @@ public class PictureController {
 		return pictureServiceImp.getTiltList(articleState, pageNo);
 	}
 
-	@RequestMapping(value = "/{articleState}/{pageNo}/{order:[a-z,A-Z]+}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{articleState}/{pageNo}/{order:[a-z,A-Z]+}/{direction:asc|desc}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public TitleList stateTranslatePut(
 			@PathVariable("articleState") ArticleState articleState,
 			@PathVariable("pageNo") int pageNo,
-			@PathVariable("order") String order, @PathVariable("ids") String id) {
+			@PathVariable("order") String order, 
+			@PathVariable("ids") String id,
+			@PathVariable("direction") String direction) {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
 		pictureServiceImp.setPutState(articleState, idList);
-		return pictureServiceImp.getOrderedList(articleState, pageNo, order);
+		return pictureServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
 
 	@RequestMapping(value = "/{articleState}/{pageNo}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
@@ -168,20 +170,22 @@ public class PictureController {
 		return pictureServiceImp.getTiltList(articleState, pageNo);
 	}
 
-	@RequestMapping(value = "/{articleState}/{pageNo}/{order:[a-z,A-Z]+}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{articleState}/{pageNo}/{order:[a-z,A-Z]+}/{direction:asc|desc}/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public TitleList stateTranslateDelete(
 			@PathVariable("articleState") ArticleState articleState,
 			@PathVariable("pageNo") int pageNo,
-			@PathVariable("order") String order, @PathVariable("ids") String id) {
+			@PathVariable("order") String order, 
+			@PathVariable("ids") String id,
+			@PathVariable("direction") String direction) {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
 		pictureServiceImp.setDeleteState(articleState, idList);
-		return pictureServiceImp.getOrderedList(articleState, pageNo, order);
+		return pictureServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
 	
 	/**
