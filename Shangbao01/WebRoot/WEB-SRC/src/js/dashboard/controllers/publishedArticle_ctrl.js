@@ -33,6 +33,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     };
     $scope.goPublished=function()
     {
+        $scope.clearArticle();
         document.getElementById("publishedArticle").className="tab-pane";
         document.getElementById("published").className="tab-pane active";
         document.getElementById("publishedSidebarID").className="sidebar-list";

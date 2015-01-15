@@ -33,6 +33,7 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
     };
     $scope.goRevokedPicture=function()
     {
+        $scope.clearPictureArticle();
         document.getElementById("revokedPictureView").className="tab-pane";
         document.getElementById("revokedPicture").className="tab-pane active";
         document.getElementById("revokedPictureSidebarID").className="sidebar-list";

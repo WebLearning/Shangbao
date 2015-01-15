@@ -33,6 +33,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     };
     $scope.goCrawler=function()
     {
+        $scope.clearArticle();
         document.getElementById("crawlerArticle").className="tab-pane";
         document.getElementById("crawler").className="tab-pane active";
         document.getElementById("crawlerSidebarID").className="sidebar-list";

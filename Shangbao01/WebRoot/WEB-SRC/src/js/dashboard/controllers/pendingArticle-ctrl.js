@@ -33,6 +33,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
     };
     $scope.goPending=function()
     {
+        $scope.clearArticle();
         document.getElementById("pendingArticle").className="tab-pane";
         document.getElementById("pendingTrial").className="tab-pane active";
         document.getElementById("pendingSidebarID").className="sidebar-list";

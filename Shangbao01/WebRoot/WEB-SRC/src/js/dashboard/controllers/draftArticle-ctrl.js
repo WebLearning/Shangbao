@@ -33,6 +33,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     };
     $scope.goDraft=function()
     {
+        $scope.clearArticle();
         document.getElementById("draftArticle").className="tab-pane";
         document.getElementById("draft").className="tab-pane active";
         document.getElementById("draftSidebarID").className="sidebar-list";

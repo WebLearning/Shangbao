@@ -5,6 +5,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
 
     $scope.goCrawlerPicture=function()
     {
+        $scope.clearArticle();
         document.getElementById("crawlerPictureView").className="tab-pane";
         document.getElementById("crawlerPicture").className="tab-pane active";
         document.getElementById("crawlerPictureSidebarID").className="sidebar-list";

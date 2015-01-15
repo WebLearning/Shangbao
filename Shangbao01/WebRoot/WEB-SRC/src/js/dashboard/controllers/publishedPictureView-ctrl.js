@@ -5,6 +5,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
 
     $scope.goPublishedPicture=function()
     {
+        $scope.clearArticle();
         document.getElementById("publishedPictureView").className="tab-pane";
         document.getElementById("publishedPicture").className="tab-pane active";
         document.getElementById("publishedPictureSidebarID").className="sidebar-list";
@@ -14,6 +15,18 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         $scope.calculateWords();
         //console.log($scope.recvData);
         console.log($scope.articleData);
+    };
+
+    $scope.clearArticle=function()
+    {
+        for(p in $scope.articleData){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+                $scope.articleData[p]=[];
+            }else{
+                $scope.articleData[p]="";
+            }
+        }
+        $scope.calculateWords();
     };
 
     //得到字数

@@ -45,7 +45,7 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
         }
         return checkedStr;
     };
-    $scope.checkNum=function()
+    $scope.checkNum=function(str)
     {
         var checkedStr;
         if(str==null||str==""||str=="0"){

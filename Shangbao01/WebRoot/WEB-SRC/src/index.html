@@ -244,42 +244,48 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-success" ng-click="testData()">test</button>
                     </div>
-                    <div class="col-md-2 col-md-offset-4">
+                    <div class="col-md-2 col-md-offset-6">
                         <button type="button" class="btn btn-success" ng-click="refreshGeneralView()"><span class="glyphicon glyphicon-refresh"></span></button>
                     </div>
                 </div>
 				<div class="row">
-					<div class="col-lg-4" ng-repeat="section in newGeneralViewSections">
-						<div class="widget">
-							<div class="widget-title">
-								<i class="glyphicon glyphicon-tasks"></i> {{section.ChannelName}}
-							</div>
-							<div class="widget-body medium no-padding" ng-init="newsItems=section.content">
-								<div class="table-responsive">
-									<table class="table table-hover">
-										<tbody>
-											<tr ng-repeat="newsItem in newsItems track by $index">
-												<td>{{newsItem.title}}</td>
-												<td align="right">
-													<div class="btn-group">
-														<button type="button" class="btn btn-default btn-xs" ng-click="upGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
-                                                            <span class="glyphicon glyphicon-arrow-up"></span> up
-                                                        </button>
-														<button type="button" class="btn btn-default btn-xs" ng-click="downGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
-                                                            <span class="glyphicon glyphicon-arrow-down"></span> down
-                                                        </button>
-													</div>
-                                                    <button type="button" class="btn btn-default btn-xs"ng-click="topGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
-                                                        <span class="glyphicon glyphicon-plane"></span> Top
-                                                    </button>
-                                                </td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="panel panel-success">
+                            <div class="panel-body">
+					            <div class="col-lg-4" ng-repeat="section in newGeneralViewSections">
+						            <div class="widget">
+							            <div class="widget-title">
+								            <i class="glyphicon glyphicon-tasks"></i> {{section.ChannelName}}
+							            </div>
+							            <div class="widget-body medium no-padding" ng-init="newsItems=section.content">
+								            <div class="table-responsive">
+									            <table class="table table-hover">
+										            <tbody>
+											            <tr ng-repeat="newsItem in newsItems track by $index">
+												            <td>{{newsItem.title}}</td>
+												            <td align="right">
+													            <div class="btn-group">
+														            <button type="button" class="btn btn-default btn-xs" ng-click="upGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
+                                                                        <span class="glyphicon glyphicon-arrow-up"></span> up
+                                                                    </button>
+														            <button type="button" class="btn btn-default btn-xs" ng-click="downGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
+                                                                        <span class="glyphicon glyphicon-arrow-down"></span> down
+                                                                    </button>
+													            </div>
+                                                                <button type="button" class="btn btn-default btn-xs"ng-click="topGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
+                                                                    <span class="glyphicon glyphicon-plane"></span> Top
+                                                                </button>
+                                                            </td>
+											            </tr>
+										            </tbody>
+									            </table>
+								            </div>
+							            </div>
+						            </div>
+					            </div>
+                            </div>
+                        </div>
+                    </div>
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="newArticle" ng-controller="articleCtrl">
@@ -2916,7 +2922,7 @@
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" ng-click="clearPictureArticle()">清除所有内容</button>
-                                <button type="button" class="btn btn-default" ng-click="savePictureArticle()">保存</button>
+                                <button type="button" class="btn btn-success" ng-click="savePictureArticle()">保存</button>
                             </div>
                         </form>
                         <p>&nbsp;</p>
