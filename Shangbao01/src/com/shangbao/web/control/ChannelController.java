@@ -201,4 +201,12 @@ public class ChannelController {
 			startPicturesServiceImp.delete(pictures);
 		}
 	}
+	
+	@RequestMapping(value="/startpictures/delete", method=RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteStartPictures(@RequestBody StartPictures pictures){
+		if(!pictures.getId().isEmpty() && pictures.getId() != null){
+			startPicturesServiceImp.deleteAll(pictures);
+		}
+	}
 }

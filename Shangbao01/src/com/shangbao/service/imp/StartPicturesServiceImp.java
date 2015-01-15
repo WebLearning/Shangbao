@@ -26,8 +26,7 @@ public class StartPicturesServiceImp implements StartPicturesService{
 
 	@Override
 	public List<StartPictures> getAll() {
-		startPicturesDaoImp.find(new StartPictures());
-		return null;
+		return startPicturesDaoImp.find(new StartPictures());
 	}
 
 	@Override
