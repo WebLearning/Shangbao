@@ -40,10 +40,19 @@ public class StartPicturesServiceImp implements StartPicturesService{
 	}
 
 	@Override
-	public void addPicture(StartPictures startPictures, String pictureUrl) {
-		Update update = new Update();
-		update.push("pictureUrls", pictureUrl);
-		startPicturesDaoImp.update(startPictures, update);
+	public void addStartPictures(StartPictures startPictures){
+		if(findStartPictures(startPictures) == null && startPictures.getId() != null){
+			startPicturesDaoImp.insert(startPictures);
+		}
+	}
+	
+	@Override
+	public void addPicture(StartPictures startPictures, List<String> pictureUrls) {
+		if(findStartPictures(startPictures) != null){
+			Update update = new Update();
+			update.pushAll("pictureUrls", pictureUrls.toArray());
+			startPicturesDaoImp.update(startPictures, update);
+		}
 	}
 
 	@Override
@@ -62,4 +71,12 @@ public class StartPicturesServiceImp implements StartPicturesService{
 		}
 	}
 	
+	@Override
+	public void delete(StartPictures startPictures){
+		Update update = new Update();
+		if(!startPictures.getPictureUrls().isEmpty()){
+			update.pullAll("pictureUrls", startPictures.getPictureUrls().toArray());
+			startPicturesDaoImp.update(startPictures, update);
+		}
+	}
 }

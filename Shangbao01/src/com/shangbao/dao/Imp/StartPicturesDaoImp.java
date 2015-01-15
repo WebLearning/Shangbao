@@ -46,8 +46,8 @@ public class StartPicturesDaoImp implements StartPicturesDao{
 
 	@Override
 	public List<StartPictures> find(StartPictures criteriaStartPictures) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return mongoTemplate.find(getQuery(criteriaStartPictures), StartPictures.class);
 	}
 	
 	private Query getQuery(StartPictures criteriaStartPictures){

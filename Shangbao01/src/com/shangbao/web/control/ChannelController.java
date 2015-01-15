@@ -1,5 +1,6 @@
 package com.shangbao.web.control;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.shangbao.model.ChannelState;
 import com.shangbao.model.persistence.Channel;
+import com.shangbao.model.persistence.StartPictures;
 import com.shangbao.service.ChannelService;
 import com.shangbao.service.StartPicturesService;
 
@@ -166,5 +168,37 @@ public class ChannelController {
 			}
 		}
 		return "failed";
+	}
+	
+	@RequestMapping(value="/startpictures", method=RequestMethod.GET)
+	@ResponseBody
+	public List<StartPictures> getStartPictures(){
+		List<StartPictures> startPicturesList = new ArrayList<>();
+		startPicturesList = startPicturesServiceImp.getAll();
+		return startPicturesList;
+	}
+	
+	@RequestMapping(value="/startpictures", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	public void creatPictures(@RequestBody StartPictures pictures){
+		if(!pictures.getId().isEmpty() && !pictures.getPictureUrls().isEmpty()){
+			startPicturesServiceImp.addStartPictures(pictures);
+		}
+	}
+	
+	@RequestMapping(value="/startpictures", method=RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+	public void addPictures(@RequestBody StartPictures pictures){
+		if(!pictures.getId().isEmpty() && !pictures.getPictureUrls().isEmpty()){
+			startPicturesServiceImp.addPicture(pictures, pictures.getPictureUrls());
+		}
+	}
+	
+	@RequestMapping(value="/startpictures", method=RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deletePictures(@RequestBody StartPictures pictures){
+		if(!pictures.getId().isEmpty() && !pictures.getPictureUrls().isEmpty()){
+			startPicturesServiceImp.delete(pictures);
+		}
 	}
 }

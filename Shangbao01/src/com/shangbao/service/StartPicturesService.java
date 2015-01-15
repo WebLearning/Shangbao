@@ -10,11 +10,14 @@ public interface StartPicturesService {
 	
 	StartPictures findStartPictures(StartPictures startPictures);
 	
-	void addPicture(StartPictures startPictures, String pictureUrl);
+	void addStartPictures(StartPictures startPictures);
+	
+	void addPicture(StartPictures startPictures, List<String> pictureUrls);
 	
 	void deleteAll(StartPictures startPictures);
 	
 	void delete(StartPictures startPictures, int index);
 	
+	void delete(StartPictures startPictures);
 	
 }

@@ -22,7 +22,7 @@
 		<form-login login-processing-url="/j_spring_security_check"
 					login-page="/login.jsp"
 					authentication-failure-url="/login.jsp"/>
-		<remember-me key="springRocks" services-ref="rememberMeServices" />
+		<remember-me services-ref="rememberMeServices" />
 	</http>
 
 	<authentication-manager>

@@ -22,16 +22,11 @@
 	</bean>
 
 	<!-- Remember-me configuration -->
-	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
-		<constructor-arg value="myAppKey"/>
-	    <constructor-arg ref="myUserDetailService"/>
-	    <constructor-arg ref="tokenRepository"/>
-	    <property name="cookieName" value="remember-me"/>
-	    <property name="tokenLength" value="32"/>
-	    <property name="parameter" value="remember-me-parameter"/>
-	</bean>
-	<bean id="tokenRepository"
-      class="org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl">
+	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+	    <!-- <property name="tokenRepository" ref="mongoDBTokenRepository"></property> -->
+	    <property name="userDetailsService" ref="myUserDetailService"></property>
+	    <property name="key" value="myRememberMeKey"></property>
+	    <property name="alwaysRemember" value="true"></property>
 	</bean>
 	
 
