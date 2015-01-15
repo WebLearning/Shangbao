@@ -81,9 +81,9 @@ public class AppController {
 	 */
 	@RequestMapping(value="/{phoneType}/start", method=RequestMethod.GET)
 	@ResponseBody
-	public FrontPageModel getStartPage(){
+	public FrontPageModel getStartPage(@PathVariable("phoneType") String phoneType){
 		
-		return appService.getChannels();
+		return appService.getChannels(phoneType);
 	}
 	
 	/**

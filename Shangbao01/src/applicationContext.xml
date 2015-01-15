@@ -22,13 +22,22 @@
 	</bean>
 
 	<!-- Remember-me configuration -->
-	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
-	    <!-- <property name="tokenRepository" ref="mongoDBTokenRepository"></property> -->
-	    <property name="userDetailsService" ref="myUserDetailService"></property>
-	    <property name="key" value="myRememberMeKey"></property>
-	    <property name="alwaysRemember" value="true"></property>
+	<bean id="rememberMeServices"
+		class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+		<constructor-arg value="myRememberMeKey"></constructor-arg>
+		<constructor-arg ref="myUserDetailService"></constructor-arg>
+		<property name="alwaysRemember" value="true"></property>
 	</bean>
-	
+	<bean id="rememberMeAuthenticationProvider"
+		class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+		<constructor-arg value="myRememberMeKey"></constructor-arg>
+	</bean>
+	<bean id="rememberMeFilter"
+		class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+		<constructor-arg ref="authenticationManager"></constructor-arg>
+		<constructor-arg ref="rememberMeServices"></constructor-arg>
+	</bean>
+
 
 	<bean
 		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"
@@ -79,11 +88,11 @@
 	<!--Http client Factory -->
 	<bean id="httpClientFactory"
 		class="org.springframework.http.client.SimpleClientHttpRequestFactory">
-		<property name="connectTimeout"  value="100000"/>
-        <property name="readTimeout"  value="100000"/>
+		<property name="connectTimeout" value="100000" />
+		<property name="readTimeout" value="100000" />
 	</bean>
 
-	
+
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 		<constructor-arg ref="httpClientFactory" />
 	</bean>

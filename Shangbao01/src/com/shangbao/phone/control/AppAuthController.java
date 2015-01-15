@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +31,7 @@ public class AppAuthController {
 	
 	@RequestMapping(value="/login/{username}/{passwd}", method=RequestMethod.GET)
 	@ResponseBody
-	public UserDetails test(@PathVariable("username") String userName, @PathVariable("passwd") String passwd){
+	public UserDetails test(@PathVariable("username") String userName, @PathVariable("passwd") String passwd, HttpServletResponse response){
 		byte bb[];
         try {
 			bb = userName.getBytes("ISO-8859-1");
@@ -41,22 +42,22 @@ public class AppAuthController {
 		} //以"ISO-8859-1"方式解析name字符串
    
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-		UserDetails userDetails = userIdentifyService.identifyUser(userName, passwd, 2, request);
+		UserDetails userDetails = userIdentifyService.identifyUser(userName, passwd, 2, request, response);
 		return userDetails;
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public AppResponseModel login(@RequestBody User user){
+	public AppResponseModel login(@RequestBody User user, HttpServletResponse response){
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		UserDetails userDetails = null;
 		AppResponseModel appResponseModel = new AppResponseModel();
 		if(user.getName() != null && user.getPasswd() != null){
-			userDetails = userIdentifyService.identifyUser(user.getName(), user.getPasswd(), 2, request);
+			userDetails = userIdentifyService.identifyUser(user.getName(), user.getPasswd(), 2, request, response);
 		}else if(user.getPhone() != 0 && user.getPasswd() != null){
-			userDetails = userIdentifyService.identifyUser(user.getPhone() + "", user.getPasswd(), 1, request);
+			userDetails = userIdentifyService.identifyUser(user.getPhone() + "", user.getPasswd(), 1, request, response);
 		}else if(user.getEmail() != null && user.getPasswd() != null){
-			userDetails = userIdentifyService.identifyUser(user.getEmail(), user.getPasswd(), 3, request);
+			userDetails = userIdentifyService.identifyUser(user.getEmail(), user.getPasswd(), 3, request, response);
 		}
 		if(userDetails != null){
 			appResponseModel.setResultCode(1);

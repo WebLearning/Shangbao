@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.JsonParseException;
@@ -72,7 +73,7 @@ public class UserIdentifyService {
 	 * @param request
 	 * @return
 	 */
-	public UserDetails identifyUser(String userName, String password, int type, HttpServletRequest request){
+	public UserDetails identifyUser(String userName, String password, int type, HttpServletRequest request, HttpServletResponse response){
 		UserDetails userDetails;
 		if(1 == type){
 			userDetails = myUserDetailsService.loadUserByPhone(userName);
@@ -90,6 +91,7 @@ public class UserIdentifyService {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			HttpSession session = request.getSession(true);
 			session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+			rememberMeServices.loginSuccess(request, response, authentication);
 			//request.getCookies().a
 			return userDetails;
 		}else{
@@ -120,6 +122,7 @@ public class UserIdentifyService {
 					SecurityContextHolder.getContext().setAuthentication(authentication);
 					HttpSession session = request.getSession(true);
 					session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+					rememberMeServices.loginSuccess(request, response, authentication);
 					return user;
 				}
 			}
@@ -148,7 +151,7 @@ public class UserIdentifyService {
 			userMap.add("qq", user.getQq() + "");
 		String responseUser = restTemplate.postForObject(remoteUrl + "addUser", userMap, String.class);
 		System.out.println(responseUser);
-		if(responseUser.toCharArray()[14] == 0){
+		if(responseUser.toCharArray()[14] == '0'){
 			return true;
 		}
 		return false;

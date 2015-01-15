@@ -39,9 +39,9 @@ public class AppService {
 	 * 获取app顶级栏目信息
 	 * @return
 	 */
-	public FrontPageModel getChannels(){
+	public FrontPageModel getChannels(String id){
 		FrontPageModel frontPageModel = new FrontPageModel();
-		List<String> pictures = appModel.getStartPictures();
+		List<String> pictures = appModel.getStartPictures(id);
 		if(pictures != null){
 			for(String picUrl : pictures){
 				frontPageModel.addPictureUrl(picUrl);

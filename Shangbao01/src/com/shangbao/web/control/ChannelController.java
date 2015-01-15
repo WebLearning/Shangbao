@@ -1,18 +1,29 @@
 package com.shangbao.web.control;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shangbao.model.ChannelState;
 import com.shangbao.model.persistence.Channel;
@@ -208,5 +219,38 @@ public class ChannelController {
 		if(!pictures.getId().isEmpty() && pictures.getId() != null){
 			startPicturesServiceImp.deleteAll(pictures);
 		}
+	}
+	
+	@RequestMapping(value = "/uploadstartpicture", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public String uploadStartPicture(@RequestParam(value = "file", required = true) MultipartFile file){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
+		String returnString = "";
+		String localhostString = "";
+		String fileName = sdf.format(new Date()) + file.getSize() + file.getOriginalFilename();//保存到本地的文件名
+		Properties props = new Properties();
+		try {
+			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
+			String filePath = props.getProperty("pictureDir") + "\\startPic";//目录的路径
+			localhostString = props.getProperty("localhost");
+			Path path = Paths.get(filePath);
+			if(Files.notExists(path)){
+				Path filPath = Files.createDirectories(path);
+			}
+			if(!file.isEmpty()){
+				byte[] bytes;
+				bytes = file.getBytes();
+				FileOutputStream fos = new FileOutputStream(filePath + "\\" + fileName);
+				fos.write(bytes); // 写入文件
+				fos.close();
+				returnString = path.toString().split("Shangbao01")[1] + "\\" + fileName;
+				System.out.println(returnString);
+				return localhostString + returnString.replaceAll("\\\\", "/");
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		return null;
 	}
 }

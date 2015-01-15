@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import com.shangbao.dao.ArticleDao;
 import com.shangbao.dao.ChannelDao;
 import com.shangbao.dao.CommendDao;
+import com.shangbao.dao.StartPicturesDao;
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.ChannelState;
 import com.shangbao.model.CommendState;
@@ -29,6 +30,7 @@ import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.persistence.Commend;
 import com.shangbao.model.persistence.CrawlerCommend;
 import com.shangbao.model.persistence.NewsCommend;
+import com.shangbao.model.persistence.StartPictures;
 import com.shangbao.model.show.SingleCommend;
 
 @Component
@@ -38,8 +40,9 @@ public class AppModel {
 	private ArticleDao articleDaoImp;
 	private ChannelDao channelDaoImp;
 	private CommendDao commendDaoImp;
+	private StartPicturesDao startPicturesDaoImp;
 	
-	private final List<String> startPictures = new CopyOnWriteArrayList<String>();//启动显示图片
+	private final Map<String, List<String>> startPictures = new ConcurrentHashMap<String, List<String>>();//启动显示图片
 	private final Map<String, List<Article>> appMap = new ConcurrentHashMap<String, List<Article>>();//每个channel包含的文章
 	private final List<ChannelModel> channelModels = new CopyOnWriteArrayList<ChannelModel>();//所有的channel
 	private final Map<Long, List<SingleCommend>> commends = new ConcurrentHashMap<Long, List<SingleCommend>>();//每篇文章的评论
@@ -51,12 +54,15 @@ public class AppModel {
 	@Autowired
 	public AppModel(@Qualifier("articleDaoImp") ArticleDao articleDaoImp, 
 			@Qualifier("channelDaoImp") ChannelDao channelDaoImp,
-			@Qualifier("commendDaoImp") CommendDao commendDaoImp){
+			@Qualifier("commendDaoImp") CommendDao commendDaoImp,
+			@Qualifier("startPicturesDaoImp") StartPicturesDao startPicturesDaoImp){
 		this.articleDaoImp = articleDaoImp;
 		this.channelDaoImp = channelDaoImp;
 		this.commendDaoImp = commendDaoImp;
+		this.startPicturesDaoImp = startPicturesDaoImp;
 		
 		System.out.println("Init!");
+		redeployStartPictures();
 		//初始化appMap，articleMap
 		List<Channel> channels = channelDaoImp.find(new Channel());
 		for(Channel channel : channels){
@@ -77,19 +83,22 @@ public class AppModel {
 		for(Article article : articles){
 			redeployComment(article.getId());
 		}
-		//打印
-//		for(Long id : commends.keySet()){
-//			System.out.println("ID: " + id + "Comments: ");
-//			for(SingleCommend singleCommend : commends.get(id)){
-//				System.out.println("    " + singleCommend.getContent());
-//			}
-//		}
 				
 		//初始化channelModels channelEn_Cn activities
 		redeployChannels();
 		//打印
 		for(String key : channelEn_Cn.keySet()){
 			System.out.println("key: " + key + "  value: " + channelEn_Cn.get(key));
+		}
+	}
+	
+	public void redeployStartPictures(){
+		startPictures.clear();
+		List<StartPictures> startPictures = startPicturesDaoImp.find(new StartPictures());
+		if(!startPictures.isEmpty()){
+			for(StartPictures pictures : startPictures){
+				this.startPictures.put(pictures.getId(), pictures.getPictureUrls());
+			}
 		}
 	}
 	
@@ -167,6 +176,8 @@ public class AppModel {
 		commends.clear();
 		activities.clear();
 		channelEn_Cn.clear();
+		redeployStartPictures();
+		
 		List<Channel> channels = channelDaoImp.find(new Channel());
 		for(Channel channel : channels){
 			redeployChannelArticles(channel.getChannelName());
@@ -182,8 +193,15 @@ public class AppModel {
 		redeployChannels();
 	}
 	
-	public List<String> getStartPictures() {
+	public Map<String, List<String>> getStartPictures() {
 		return startPictures;
+	}
+	
+	public List<String> getStartPictures(String id){
+		if(startPictures.containsKey(id)){
+			return startPictures.get(id);
+		}
+		return null;
 	}
 
 //	public void setStartPictures(List<String> startPictures) {
@@ -240,32 +258,32 @@ public class AppModel {
 	 * 添加开始图片
 	 * @param picUrl
 	 */
-	public void addStartPicture(String picUrl){
-		if(!this.startPictures.contains(picUrl)){
-			this.startPictures.add(picUrl);
-		}
-	}
+//	public void addStartPicture(String picUrl){
+//		if(!this.startPictures.contains(picUrl)){
+//			this.startPictures.add(picUrl);
+//		}
+//	}
 	
 	/**
 	 * 添加开始图片
 	 * @param picUrl
 	 * @param picIndex
 	 */
-	public void addStartPicture(String picUrl, int picIndex){
-		if(picIndex > 0){
-			this.startPictures.add(picIndex, picUrl);
-		}
-	}
+//	public void addStartPicture(String picUrl, int picIndex){
+//		if(picIndex > 0){
+//			this.startPictures.add(picIndex, picUrl);
+//		}
+//	}
 	
 	/**
 	 * 删除开始图片
 	 * @param picUrl
 	 */
-	public void deleteStartPicture(String picUrl){
-		if(this.startPictures.contains(picUrl)){
-			this.startPictures.remove(picUrl);
-		}
-	}
+//	public void deleteStartPicture(String picUrl){
+//		if(this.startPictures.contains(picUrl)){
+//			this.startPictures.remove(picUrl);
+//		}
+//	}
 	
 	/**
 	 * 按位置删除开始图片
