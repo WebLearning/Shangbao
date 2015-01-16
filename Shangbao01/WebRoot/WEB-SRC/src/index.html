@@ -2848,7 +2848,7 @@
                                 <label class="col-md-1 control-label">时间</label>
                                 <div class="col-md-5">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="请输入时间" ng-model="articleData.time">
+                                        <input type="text" class="form-control" placeholder="请输入时间" ng-model="articleData.time" disabled>
                                         <div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"></span></div>
                                     </div>
                                 </div>
@@ -3086,7 +3086,55 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="draftPictureView" ng-controller=""></div>
+            <div role="tabpanel" class="tab-pane" id="draftPictureView" ng-controller="draftPictureViewCtrl">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <button type="button" class="btn btn-info" ng-click="goDraftPicture()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">标题</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" placeholder="请输入标题" ng-model="articleData.title">
+                                </div>
+                                <label class="col-md-1 control-label">副标题</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" placeholder="请输入副标题" ng-model="articleData.subTitle">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 form-control">来源</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" placeholder="请输入来源" ng-model="articleData.from">
+                                </div>
+                                <label class="col-md-1 form-control">作者</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" placeholder="请输入作者" ng-model="articleData.author">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">时间</label>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="请输入时间" ng-model="articleData.time" disabled>
+                                        <div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"></span></div>
+                                    </div>
+                                </div>
+                                <label class="col-md-1 control-label">等级</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" placeholder="请输入等级" ng-model="articleData.level">
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div role="tabpanel" class="tab-pane" id="commentPicture" ng-controller="">
                 快拍评论
             </div>
