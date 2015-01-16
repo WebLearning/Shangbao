@@ -3,6 +3,9 @@ package com.shangbao.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.Page;
@@ -28,6 +31,10 @@ public interface ArticleService {
 	 */
 	public Article findOne(Long id);
 	
+	
+	public List<Article> find(Article criteriaArticle);
+	
+	public List<Article> find(Article criteriaArticle, Direction direction, String property);
 	/**
 	 * 更新一篇文章
 	 * @param article

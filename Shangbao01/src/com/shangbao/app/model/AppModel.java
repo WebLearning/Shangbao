@@ -12,6 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -64,7 +65,8 @@ public class AppModel {
 		System.out.println("Init!");
 		redeployStartPictures();
 		//初始化appMap，articleMap
-		List<Channel> channels = channelDaoImp.find(new Channel());
+		//List<Channel> channels = channelDaoImp.find(new Channel());
+		List<Channel> channels = getChannelOrdered();
 		for(Channel channel : channels){
 			redeployChannelArticles(channel.getChannelName());
 		}
@@ -90,6 +92,24 @@ public class AppModel {
 		for(String key : channelEn_Cn.keySet()){
 			System.out.println("key: " + key + "  value: " + channelEn_Cn.get(key));
 		}
+	}
+	
+	public List<Channel> getChannelOrdered(){
+		List<Channel> channels = new ArrayList<>();
+		Channel criteriaChannel = new Channel();
+		criteriaChannel.setState(ChannelState.Father);
+		Sort fatherSort = new Sort(Direction.ASC, "channelIndex");
+		List<Channel> fathers = channelDaoImp.find(criteriaChannel, fatherSort);
+		channels.addAll(fathers);
+		if(!fathers.isEmpty()){
+			for(Channel father : fathers){
+				Channel sonCriteriaChannel = new Channel();
+				sonCriteriaChannel.setRelated(father.getChannelName());
+				sonCriteriaChannel.setState(ChannelState.Son);
+				channels.addAll(channelDaoImp.find(sonCriteriaChannel, fatherSort));
+			}
+		}
+		return channels;
 	}
 	
 	public void redeployStartPictures(){

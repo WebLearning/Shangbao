@@ -94,16 +94,4 @@ public class AppAuthController {
 		return appResponseModel;
 	}
 	
-	/**
-	 * 获取当前用户信息
-	 * @return
-	 */
-	@RequestMapping(value="/userinfo", method=RequestMethod.GET)
-	@ResponseBody
-	public User getUserInfo(){
-		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-		SecurityContext context = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-		User user = (User)context.getAuthentication().getPrincipal();
-		return user;
-	}
 }

@@ -252,10 +252,11 @@ public class AppService {
 	 */
 	public List<BackChannelModel> getAllChannels(){
 		List<BackChannelModel> channels = new ArrayList<BackChannelModel>();
-		if(!this.appModel.getAppMap().isEmpty() && !this.appModel.getChannelEn_Cn().isEmpty()){
-			for(Map.Entry<String, String> entry : this.appModel.getChannelEn_Cn().entrySet()){
-				String channelEnName = entry.getKey();
-				String channelChName = entry.getValue();
+		List<Channel> orderedChannels = appModel.getChannelOrdered();
+		if(!this.appModel.getAppMap().isEmpty() && !orderedChannels.isEmpty()){
+			for(Channel tempChannel : orderedChannels){
+				String channelEnName = tempChannel.getEnglishName();
+				String channelChName = tempChannel.getChannelName();
 				BackChannelModel backChannelModel = new BackChannelModel();
 				if(appModel.getAppMap().get(channelChName) != null && !appModel.getAppMap().get(channelChName).isEmpty()){
 					backChannelModel.ChannelEnglishName = channelEnName;

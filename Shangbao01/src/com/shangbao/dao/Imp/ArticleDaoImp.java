@@ -200,6 +200,10 @@ public class ArticleDaoImp implements ArticleDao {
         	Criteria criteria = Criteria.where("id").is(criteriaArticle.getId());
         	query.addCriteria(criteria);
         }
+        if(criteriaArticle.getUid() > 0){
+        	Criteria criteria = Criteria.where("uid").is(criteriaArticle.getUid());
+        	query.addCriteria(criteria);
+        }
         if (criteriaArticle.getTitle() != null) {  
             Criteria criteria = Criteria.where("title").is(criteriaArticle.getTitle());  
             query.addCriteria(criteria);  

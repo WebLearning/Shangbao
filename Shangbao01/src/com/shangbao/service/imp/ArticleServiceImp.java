@@ -49,10 +49,20 @@ public class ArticleServiceImp implements ArticleService {
 		Article article = articleDaoImp.findById(id);
 		return article;
 	}
+	
+	@Override
+	public List<Article> find(Article criteriaArticle){
+		return articleDaoImp.find(criteriaArticle);
+	}
 
 	@Override
 	public void deleteOne(Article article) {
 		articleDaoImp.delete(article);
+	}
+	
+	@Override
+	public List<Article> find(Article criteriaArticle, Direction direction, String property){
+		return articleDaoImp.find(criteriaArticle, direction, property);
 	}
 
 	@Override
