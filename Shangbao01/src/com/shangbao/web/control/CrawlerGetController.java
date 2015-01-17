@@ -52,7 +52,8 @@ public class CrawlerGetController {
 	public Long uploadCrawlerArticle(@RequestBody Article article){
 		if(article != null){
 			article.setState(ArticleState.Crawler);
-			article.setContent(articleToHtml(article));
+			//article.setContent(articleToHtml(article));
+			article.setContent(stringToBody(article.getContent()));
 			return articleServiceImp.addGetId(article);
 		}
 		return null;
@@ -149,33 +150,12 @@ public class CrawlerGetController {
 		article.setAuthor("杨壹");
 		article.setContent("这是一个新闻\n这是第一段。\n这是第二段。\n");
 		String returnString = "";
-		returnString = articleToHtml(article);
+		returnString = stringToBody(article.getContent());
 		return returnString;
 	}
 	
-	private String articleToHtml(Article article){
-		String localhostString = "";
-		try {
-			Properties properties = PropertiesLoaderUtils.loadAllProperties("config.properties");
-			localhostString = properties.getProperty("localhost");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd");
-		String html = "";
-		html += "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"zh-CN\"><head profile=\"http://gmpg.org/xfn/11\"> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> <title>";
-		html += article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/app.css\" type=\"text/css\" />";
-		html += "</head><body class=\"classic-wptouch-bg\"> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">";
-		html += article.getTitle() + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">";
-		html += article.getAuthor() + "&nbsp&nbsp" + format.format(article.getTime());
-		html += "</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">";
-		html += stringToHtml(article.getContent());
-		html += "<p>&nbsp;</p></div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
-		return html;
-	}
 	
-	private String stringToHtml(String content){
+	private String stringToBody(String content){
 		String body = "";
 		String [] parms = content.split("\n");
 		for(String parm : parms){

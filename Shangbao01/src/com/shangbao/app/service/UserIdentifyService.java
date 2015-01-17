@@ -92,7 +92,7 @@ public class UserIdentifyService {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 			rememberMeServices.loginSuccess(request, response, authentication);
-			//request.getCookies().a
+			
 			return userDetails;
 		}else{
 			//从商报的用户数据库中查找用户数据并添加到本地
@@ -105,13 +105,21 @@ public class UserIdentifyService {
 					User user  = new User();
 					user.setUid(Long.parseLong(userInfo.getUid()));
 					user.setAvatar(userInfo.getAvatar());
-					user.setBirthday(new Date(Long.parseLong(userInfo.getBirthday()) * 1000));
+					if(userInfo.getBirthday() != null && !userInfo.getBirthday().isEmpty()){
+						user.setBirthday(new Date(Long.parseLong(userInfo.getBirthday()) * 1000));
+					}
 					user.setEmail(userInfo.getEmail());
 					user.setPasswd(passwordEncoder.encodePassword(password, null));
 					user.setName(userInfo.getNickname());
-					user.setPhone(Integer.parseInt(userInfo.getPhone()));
-					user.setQq(Integer.parseInt(userInfo.getQq()));
-					user.setSex(Integer.parseInt(userInfo.getSex()));
+					if(userInfo.getPhone() != null && !userInfo.getPhone().isEmpty()){
+						user.setPhone(Integer.parseInt(userInfo.getPhone()));
+					}
+					if(userInfo.getQq() != null && !userInfo.getQq().isEmpty()){
+						user.setQq(Integer.parseInt(userInfo.getQq()));
+					}
+					if(userInfo.getSex() != null && !userInfo.getSex().isEmpty()){
+						user.setSex(Integer.parseInt(userInfo.getSex()));
+					}
 					user.setRole("ROLE_USER");
 					userServiceImp.addUser(user);
 					//进行授权
@@ -132,7 +140,7 @@ public class UserIdentifyService {
 	
 	public boolean addUser(User user){
 		MultiValueMap<String, Object> userMap = new LinkedMultiValueMap<>();
-		if(user.getName() == null || user.getPasswd() == null){
+		if(user.getName() == null || user.getPasswd() == null || user.getPasswd() == null){
 			return false;
 		}
 		userMap.add("nickname", user.getName());

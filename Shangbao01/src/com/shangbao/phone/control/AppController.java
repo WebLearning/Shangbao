@@ -23,6 +23,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -152,6 +153,7 @@ public class AppController {
 	/**
 	 * 发表评论
 	 */
+	@Secured("ROLE_USER")
 	@RequestMapping(value="/{phoneType}/{newsId:[\\d]+}/comment", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void sendComment(@PathVariable("newsId") Long articleId, @RequestBody SingleCommend comment){
@@ -190,6 +192,7 @@ public class AppController {
 	/**
 	 * 上传用户图片
 	 */
+	@Secured("ROLE_USER")
 	@RequestMapping(value="/sendarticle", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
@@ -205,6 +208,7 @@ public class AppController {
 		return "done";
 	}
 	
+	@Secured("ROLE_USER")
 	@RequestMapping(value = "/{userId:[\\d]+}/uploadpic", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody

@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ public class AppUserController {
 	 * 获取当前用户信息
 	 * @return
 	 */
+	@Secured("ROLE_USER")
 	@RequestMapping(value="/userinfo", method=RequestMethod.GET)
 	@ResponseBody
 	public User getUserInfo(){

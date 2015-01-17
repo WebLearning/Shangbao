@@ -62,9 +62,10 @@ public class AppAuthController {
 		if(userDetails != null){
 			appResponseModel.setResultCode(1);
 			appResponseModel.setResultMsg("Login Success");
+		}else{
+			appResponseModel.setResultCode(0);
+			appResponseModel.setResultMsg("Login Failed");
 		}
-		appResponseModel.setResultCode(0);
-		appResponseModel.setResultMsg("Login Failed");
 		return appResponseModel;
 	}
 	

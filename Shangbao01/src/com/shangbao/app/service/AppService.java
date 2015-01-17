@@ -1,12 +1,16 @@
 package com.shangbao.app.service;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
@@ -105,12 +109,14 @@ public class AppService {
 		if(articles != null){
 			int toIndex = page.getLastResult();
 			int fromIndex = page.getFirstResult();
-			List<Article> pageArticles = articles.subList(fromIndex, toIndex);
-			columnPageModel.setCurrentNo(page.getPageNo());
-			columnPageModel.setPageCount(page.getTotalPage());
-			int index = fromIndex + 1;
-			for(Article article : pageArticles){
-				columnPageModel.addNewsTitle(article, index ++);
+			if(fromIndex <= toIndex){
+				List<Article> pageArticles = articles.subList(fromIndex, toIndex);
+				columnPageModel.setCurrentNo(page.getPageNo());
+				columnPageModel.setPageCount(page.getTotalPage());
+				int index = fromIndex + 1;
+				for(Article article : pageArticles){
+					columnPageModel.addNewsTitle(article, index ++);
+				}
 			}
 		}
 		return columnPageModel;
@@ -139,20 +145,10 @@ public class AppService {
 	 */
 	public AppHtml getNewsHtml(Long articleId){
 		AppHtml appHtml = new AppHtml();
-//		List<Article> articles;
-//		if((articles = appModel.getAppMap().get(channelName)) != null){
-//			if(articleIndex > 0 && articleIndex <= articles.size() + 1){
-//				String html = articles.get(articleIndex -1).getContent();
-//				//System.out.println(html);
-//				appHtml.html = html;
-//				appHtml.articleId = articles.get(articleIndex -1).getId();
-//				appModel.addClick(articles.get(articleIndex -1).getId());
-//				return appHtml
-//			}
-//		}
 		if(!appModel.getArticleMap().isEmpty()){
 			if(appModel.getArticleMap().containsKey(articleId)){
-				appHtml.html = appModel.getArticleMap().get(articleId).getContent();
+				//appHtml.html = appModel.getArticleMap().get(articleId).getContent();
+				appHtml.html = articleToHtml(appModel.getArticleMap().get(articleId));
 				int clicks = appModel.getArticleMap().get(articleId).getClicks() + 1;
 				Update update = new Update();
 				update.inc("clicks", 1);
@@ -163,7 +159,8 @@ public class AppService {
 				Article articleInMongo = articleServiceImp.findOne(articleId);
 				if(articleInMongo != null){
 					appModel.getArticleMap().put(articleId, articleInMongo);
-					appHtml.html = articleInMongo.getContent();
+					//appHtml.html = articleInMongo.getContent();
+					appHtml.html = articleToHtml(articleInMongo);
 					appHtml.articleId = articleId;
 					Update update = new Update();
 					update.inc("clicks", 1);
@@ -395,6 +392,28 @@ public class AppService {
 		this.articleDaoImp = articleDaoImp;
 	}
 
+	
+	private String articleToHtml(Article article){
+		String localhostString = "";
+		try {
+			Properties properties = PropertiesLoaderUtils.loadAllProperties("config.properties");
+			localhostString = properties.getProperty("localhost");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd");
+		String html = "";
+		html += "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"zh-CN\"><head profile=\"http://gmpg.org/xfn/11\"> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> <title>";
+		html += article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/app.css\" type=\"text/css\" />";
+		html += "</head><body class=\"classic-wptouch-bg\"> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">";
+		html += article.getTitle() + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">";
+		html += article.getAuthor() == null ? "" : article.getAuthor() + "&nbsp&nbsp" + article.getTime() == null ? "" : format.format(article.getTime());
+		html += "</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">";
+		html += article.getContent();
+		html += "<p>&nbsp;</p></div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
+		return html;
+	}
 
 	/**
 	 * 后台在一览众显示分类和文章的模板

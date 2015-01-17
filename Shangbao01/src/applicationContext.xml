@@ -3,10 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 	http://www.springframework.org/schema/data/mongo   
-    http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+    http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
 	<mongo:mongo id="mongo" host="127.0.0.1" port="27017" />
 
@@ -27,6 +30,7 @@
 		<constructor-arg value="myRememberMeKey"></constructor-arg>
 		<constructor-arg ref="myUserDetailService"></constructor-arg>
 		<property name="alwaysRemember" value="true"></property>
+		<property name="tokenValiditySeconds" value="2678400"></property>
 	</bean>
 	<bean id="rememberMeAuthenticationProvider"
 		class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
@@ -96,4 +100,10 @@
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 		<constructor-arg ref="httpClientFactory" />
 	</bean>
+	
+	<!-- spring task -->
+	<!-- <task:scheduled-tasks>   
+        <task:scheduled ref="testTask" method="test" fixed-delay="10000"/>   
+	</task:scheduled-tasks> -->
+	
 </beans>
