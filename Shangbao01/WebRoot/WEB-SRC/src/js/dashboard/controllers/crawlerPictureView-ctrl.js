@@ -31,12 +31,12 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     };
 
     $scope.saveArticle=function(){
-        console.log("test new save");
+        //console.log("test new save");
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
+        //console.log($scope.articleData);
         var url=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
-        console.log(url);
+        //console.log(url);
         $http.put(url,jsonString).success(function(data) {
             alert("保存文章成功");
         });
@@ -207,14 +207,14 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     {
         var url = $scope.getPicUrl();
         $scope.pushPicUrl(url);
-        //$scope.addImgToEditorContent(url);
+        $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
     };
 
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myPictureIFrameID_crawler").contentDocument.body.innerHTML;
-        console.log(url);
+        //console.log(url);
         //url=url.substr(8);
         //url=$scope.projectName+"/WEB-SRC"+url;
         //console.log(url);
@@ -228,11 +228,11 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     };
 
     //添加图片到ueditor内容
-//    $scope.addImgToEditorContent=function(url){
-//        var text='<img src="'+url+'">';
-//        $scope.articleData.content=text+$scope.articleData.content;
-//        $scope.$apply();//相当于刷新一下scope 不然内容加不上
-//    };
+    $scope.addImgToEditorContent=function(url){
+        var text='<img src="'+url+'">';
+        $scope.articleData.content=text+$scope.articleData.content;
+        $scope.$apply();//相当于刷新一下scope 不然内容加不上
+    };
 
     //关闭上传框
     $scope.turnOffUploadModal=function()
@@ -254,7 +254,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             }else{
                 $scope.newChannelNames=[];
             }
-            console.log($scope.newChannelNames);
+            //console.log($scope.newChannelNames);
         });
     };
     $scope.getNewChannelNames();

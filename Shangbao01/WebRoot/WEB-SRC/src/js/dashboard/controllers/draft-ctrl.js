@@ -16,11 +16,11 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
     $scope.getTempData=function(pageID)
     {
         var url=$scope.projectName+'/article/Temp/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
             $scope.tempData=data;
             $scope.pageNums=getPageNums($scope.tempData.pageCount);
-            console.log("成功获取数据");
+            //console.log("成功获取数据");
         });
     };
     $scope.getTempData(1);//会在生成页面的时候直接运行!

@@ -193,14 +193,13 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     {
         var url = $scope.getPicUrl();
         $scope.pushPicUrl(url);
-        //$scope.addImgToEditorContent(url);
+        $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
     };
 
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myPictureIFrameID_pending").contentDocument.body.innerHTML;
-        console.log(url);
         //url=url.substr(8);
         //url=$scope.projectName+"/WEB-SRC"+url;
         //console.log(url);
@@ -214,11 +213,11 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     };
 
     //添加图片到ueditor内容
-//    $scope.addImgToEditorContent=function(url){
-//        var text='<img src="'+url+'">';
-//        $scope.articleData.content=text+$scope.articleData.content;
-//        $scope.$apply();//相当于刷新一下scope 不然内容加不上
-//    };
+    $scope.addImgToEditorContent=function(url){
+        var text='<img src="'+url+'">';
+        $scope.articleData.content=text+$scope.articleData.content;
+        $scope.$apply();//相当于刷新一下scope 不然内容加不上
+    };
 
     //关闭上传框
     $scope.turnOffUploadModal=function()
@@ -240,7 +239,7 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
             }else{
                 $scope.newChannelNames=[];
             }
-            console.log($scope.newChannelNames);
+            //console.log($scope.newChannelNames);
         });
     };
     $scope.getNewChannelNames();

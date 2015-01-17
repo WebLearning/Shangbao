@@ -59,12 +59,12 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     };
 
     $scope.saveArticle=function(){
-        console.log("test new save");
+        //console.log("test new save");
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
+        //console.log($scope.articleData);
         var url=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
-        console.log(url);
+        //console.log(url);
         $http.put(url,jsonString).success(function(data) {
             alert("保存文章成功");
         });
@@ -222,9 +222,6 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myIFrameID_crawler").contentDocument.body.innerHTML;
-        console.log(url);
-        //url=url.substr(8);
-        //url=$scope.projectName+"/WEB-SRC"+url;
         //console.log(url);
         return url;
     };
@@ -257,14 +254,22 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
             //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
-                    if(data[i].englishName=="original"){
-                        $scope.newChannelNames.push(data[i]);
-                    }else{
-                        $scope.getSecondChannelNames(data[i].englishName);
-                    }
+                    $scope.checkFirstChannel(data[i]);
                 }
             }else{
                 $scope.newChannelNames=[];
+            }
+        });
+    };
+
+    //判断是否有次级目录-------------------------------------------------------------------------------------------------
+    $scope.checkFirstChannel=function(channelData){
+        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
+        $http.get(url).success(function (data) {
+            if(data.length>0){
+                $scope.getSecondChannelNames(channelData.englishName);
+            }else{
+                $scope.newChannelNames.push(channelData);
             }
         });
     };

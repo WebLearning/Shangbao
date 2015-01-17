@@ -11,7 +11,7 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
     $scope.getAppNames=function(){
         var url=$scope.projectName+'/channel/channels';
         $http.get(url).success(function(data){
-            console.log(data);
+            //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
                         $scope.appNames.push(data[i]);
@@ -26,7 +26,7 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
     $scope.getModelNames=function(channelName){
         var url=$scope.projectName+'/channel/'+channelName+'/channels';
         $http.get(url).success(function(data){
-            console.log(data);
+            //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
                     $scope.modelNames.push(data[i]);

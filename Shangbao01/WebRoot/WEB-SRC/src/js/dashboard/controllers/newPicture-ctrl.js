@@ -47,7 +47,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
             }else{
                 $scope.newChannelNames=[];
             }
-            console.log($scope.newChannelNames);
+            //console.log($scope.newChannelNames);
         });
     };
     $scope.getNewChannelNames();
@@ -104,7 +104,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     $scope.saveArticle=function(){
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.newArticleData);
-        console.log(jsonString);
+        //console.log(jsonString);
         $http.post($scope.projectName+'/picture/newPicture',jsonString).success(function(data) {
             alert("保存成功");
         });
@@ -277,7 +277,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     {
         var url = $scope.getPicUrl();
         $scope.pushPicUrl(url);
-        //$scope.addImgToEditorContent(url);
+        $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
     };
 
@@ -295,11 +295,11 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     };
 
     //添加图片到ueditor内容
-//    $scope.addImgToEditorContent=function(url){
-//        var text='<img src="'+url+'">';
-//        $scope.newArticleData.content=text+$scope.newArticleData.content;
-//        $scope.$apply();//相当于刷新一下scope 不然内容加不上
-//    };
+    $scope.addImgToEditorContent=function(url){
+        var text='<img src="'+url+'">';
+        $scope.newArticleData.content=text+$scope.newArticleData.content;
+        $scope.$apply();//相当于刷新一下scope 不然内容加不上
+    };
 
     //关闭上传框
     $scope.turnOffUploadModal=function()

@@ -16,11 +16,11 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     $scope.getPendingData=function(pageID){
 
         var url=$scope.projectName+'/article/Pending/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
             $scope.pendingData=data;
             $scope.pageNums=getPageNums($scope.pendingData.pageCount);
-            console.log("成功获取数据");
+            //console.log("成功获取数据");
         });
     };
     $scope.getPendingData(1);//生成待审页面时即产生第一页数据

@@ -16,11 +16,11 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
     $scope.getTempPictureData=function(pageID)
     {
         var url=$scope.projectName+'/picture/Temp/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
             $scope.tempPictureData=data;
             $scope.pageNums=getPageNums($scope.tempPictureData.pageCount);
-            console.log("成功获取数据");
+            //console.log("成功获取数据");
         });
     };
     $scope.getTempPictureData(1);//会在生成页面的时候直接运行!

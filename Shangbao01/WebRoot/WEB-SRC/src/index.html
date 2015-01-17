@@ -460,7 +460,7 @@
                                     <div class="modal-body">
                                         <form role="form">
                                             <select class="form-control" ng-model="additionChannel" ng-click="consoleLog()">
-                                                <option ng-repeat="x in newChannelNames" ng-click="consoleLog()">{{x.channelName}}</option>
+                                                <option ng-repeat="x in newChannelNames track by $index" ng-click="consoleLog()">{{x.channelName}}</option>
                                             </select>
                                         </form>
                                         <!--<input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">-->
@@ -1841,6 +1841,7 @@
                                         <!--<th>模块</th>-->
                                         <th>操作</th>
                                     </tr>
+                                    </thead>
                                     <tbody>
                                     <tr ng-repeat="x in appNames">
                                         <td>{{x.channelIndex}}</td>
@@ -1848,7 +1849,6 @@
                                         <td><a href="">修改</a>/<a href="">删除</a>/<a href="">添加子模块</a></td>
                                     </tr>
                                     </tbody>
-                                    </thead>
                                 </table>
                             </div>
                         </div>
@@ -2003,6 +2003,8 @@
                             <div class="panel panel-success">
                                 <div class="panel-body">
                                     <div class="ueditor" ng-model="newArticleData.content"></div>
+                                    <br>
+                                    <textarea class="form-control" rows="5" ng-model="newArticleData.content"></textarea>
                                 </div>
                             </div>
                             <div class="pull-right">
@@ -2288,6 +2290,8 @@
                             <div class="panel panel-success">
                                 <div class="panel-body">
                                     <div class="ueditor" ng-model="articleData.content"></div>
+                                    <br>
+                                    <textarea class="form-control" rows="5" ng-model="articleData.content"></textarea>
                                 </div>
                             </div>
                             <div class="pull-right">
@@ -2563,6 +2567,8 @@
                             <div class="panel panel-success">
                                 <div class="panel-body">
                                     <div class="ueditor" ng-model="articleData.content"></div>
+                                    <br>
+                                    <textarea class="form-control" rows="5" ng-model="articleData.content"></textarea>
                                 </div>
                             </div>
                         </form>

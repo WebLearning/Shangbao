@@ -59,10 +59,10 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
     };
 
     $scope.savePictureArticle=function(){
-        console.log("test new save");
+        //console.log("test new save");
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
+        //console.log($scope.articleData);
         var url=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
         $http.put(url,jsonString).success(function(data) {
             alert("保存文章成功");
@@ -279,7 +279,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             }else{
                 $scope.newChannelNames=[];
             }
-            console.log($scope.newChannelNames);
+            //console.log($scope.newChannelNames);
         });
     };
     $scope.getNewChannelNames();

@@ -14,11 +14,11 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
     //初始化页面，获取已发布文章的第一页数据，返回的是一个titleList-----------------------------------------------------
     $scope.getPublishedPictureData=function(pageID){
         var url=$scope.projectName+'/picture/Published/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
             $scope.publishedPictureData=data;
             $scope.pageNums=getPageNums($scope.publishedPictureData.pageCount);
-            console.log("成功获取数据");
+            //console.log("成功获取数据");
         });
     };
     $scope.getPublishedPictureData(1);//在点击已发布文章时，直接生成第一页内容

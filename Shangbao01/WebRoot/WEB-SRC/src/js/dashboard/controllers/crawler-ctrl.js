@@ -14,11 +14,11 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
     $scope.getCrawlerData=function(pageID)
     {
         var url=$scope.projectName+'/article/Crawler/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
             $scope.crawlerData=data;
             $scope.pageNums=getPageNums($scope.crawlerData.pageCount);
-            console.log("成功获取数据");
+            //console.log("成功获取数据");
         });
     };
     $scope.getCrawlerData(1);//会在生成页面的时候直接运行!
@@ -51,7 +51,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             checkedStr="无数据";
             return checkedStr;
         }else{
-            return arr.toString();
+            return arr;
         }
     };
     $scope.dateStringToDate=function(dateStr)

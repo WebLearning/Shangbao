@@ -59,12 +59,12 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     };
 
     $scope.saveArticle=function(){
-        console.log("test new save");
+        //console.log("test new save");
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
+        //console.log($scope.articleData);
         var url=$scope.projectName+'/article/Temp/1/'+$scope.articleData.id;
-        console.log(url);
+        //console.log(url);
         $http.put(url,jsonString).success(function(data) {
             alert("保存文章成功");
         });

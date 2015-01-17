@@ -13,7 +13,7 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
         var url=$scope.projectName+'/backapp/refresh';
         //console.log(url);
         $http.get(url).success(function(data){
-            console.log(data);
+            //console.log(data);
             $scope.newGeneralViewSections=data;
         })
     };
@@ -38,9 +38,9 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
     $scope.getNewGeneralViewData=function()
     {
         var url=$scope.projectName+'/backapp/all';
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
-            console.log(data);
+            //console.log(data);
             $scope.newGeneralViewSections=data;
             //console.log("成功获取数据");
         });
@@ -50,24 +50,24 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
     //设置文章的位置(上移一位，下移一位)--------------------------------------------------------------------------------
     $scope.upGeneralViewArticle=function(channelEnglishName,index){
         var url=$scope.projectName+'/backapp/setlocation/'+channelEnglishName+'/'+index+'/true';
-        console.log(url);
+        //console.log(url);
         $http.put(url).success(function(){
             $scope.getNewGeneralViewData();
-            console.log("上移成功");
+            //console.log("上移成功");
         });
     };
     $scope.downGeneralViewArticle=function(channelEnglishName,index){
         var url=$scope.projectName+'/backapp/setlocation/'+channelEnglishName+'/'+index+'/false';
-        console.log(url);
+        //console.log(url);
         $http.put(url).success(function(){
             $scope.getNewGeneralViewData();
-            console.log("下移成功");
+            //console.log("下移成功");
         });
     };
     //将文章置顶--------------------------------------------------------------------------------------------------------
     $scope.topGeneralViewArticle=function(channelEnglishName,index){
         var url=$scope.projectName+'/backapp/settop/'+channelEnglishName+'/'+index;
-        console.log(url);
+        //console.log(url);
         $http.put(url).success(function(){
             //console.log(data);
             $scope.getNewGeneralViewData();

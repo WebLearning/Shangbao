@@ -16,11 +16,11 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
     $scope.getRevokedPictureData=function(pageID)
     {
         var url=$scope.projectName+'/picture/Revocation/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
             $scope.revokedPictureData=data;
             $scope.pageNums=getPageNums($scope.revokedPictureData.pageCount);
-            console.log("成功获取数据");
+            //console.log("成功获取数据");
         });
     };
     $scope.getRevokedPictureData(1);//会在生成页面的时候直接运行!

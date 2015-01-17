@@ -40,28 +40,31 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
-                    if(data[i].englishName=="original"){
-                        $scope.newChannelNames.push(data[i]);
-                    }else{
-                        $scope.getSecondChannelNames(data[i].englishName);
-                    }
+                    $scope.checkFirstChannel(data[i]);
                 }
             }else{
                 $scope.newChannelNames=[];
             }
-            console.log($scope.newChannelNames);
+            //console.log($scope.newChannelNames);
         });
     };
     $scope.getNewChannelNames();
-    $scope.consoleLog=function(){
-        console.log($scope.additionChannel);
+    //判断是否有次级目录-------------------------------------------------------------------------------------------------
+    $scope.checkFirstChannel=function(channelData){
+        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
+        $http.get(url).success(function (data) {
+            if(data.length>0){
+                $scope.getSecondChannelNames(channelData.englishName);
+            }else{
+                $scope.newChannelNames.push(channelData);
+            }
+        });
     };
     //获得次级目录名----------------------------------------------------------------------------------------------------
     $scope.getSecondChannelNames=function(channelName){
         var url=$scope.projectName+'/channel/'+channelName+'/channels';
         //console.log(url);
         $http.get(url).success(function(data){
-            //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
                     $scope.newChannelNames.push(data[i]);
@@ -69,12 +72,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             }
         });
     };
-    //获得所有目录------------------------------------------------------------------------------------------------------
-//    $scope.getChannelNames=function(){
-//        $scope.getNewChannelNames();
-//        $scope.getSecondChannelNames(channelName);
-//    };
-    //
+
     $scope.getEditorContent=function()
     {
         //导入数据
@@ -277,14 +275,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
 
     $scope.getPicUrl=function()
     {
-        //var xmlHttp="";
-        //if(xmlHttp==new XMLHttpRequest()){
-            var url=document.getElementById("myIFrameID").contentDocument.body.innerHTML;
-        //}else{
-            //var url = document.getElementById("myIFrameID").contentWindow.document.body.innerText;
-        //}
-//        var url = document.getElementById("myIFrameID").contentWindow.document.body.innerText;
-        //console.log(document.getElementById("myIFrameID").contentDocument.body.innerHTML);
+        var url=document.getElementById("myIFrameID").contentDocument.body.innerHTML;
         console.log(url);
         return url;
     };

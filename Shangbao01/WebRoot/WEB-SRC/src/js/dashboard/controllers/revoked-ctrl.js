@@ -17,11 +17,11 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
     $scope.getRevokedData=function(pageID)
     {
         var url=$scope.projectName+'/article/Revocation/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
             $scope.revokedData=data;
             $scope.pageNums=getPageNums($scope.revokedData.pageCount);
-            console.log("成功获取数据");
+            //console.log("成功获取数据");
         });
     };
     $scope.getRevokedData(1);//会在生成页面的时候直接运行!
@@ -319,11 +319,3 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
     };
 
 }]);
-
-
-
-//    $scope.goCrawlerList=function()
-//    {
-//        document.getElementById("crawlerArticle_article").className="tab-pane";
-//        document.getElementById("crawlerArticle_list").className="tab-pane active";
-//    };

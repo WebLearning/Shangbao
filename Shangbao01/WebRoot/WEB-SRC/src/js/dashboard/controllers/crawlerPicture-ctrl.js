@@ -16,12 +16,12 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
     $scope.getCrawlerPictureData=function(pageID)
     {
         var url=$scope.projectName+'/picture/Crawler/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
-            console.log(data);
+            //console.log(data);
             $scope.crawlerPictureData=data;
             $scope.pageNums=getPageNums($scope.crawlerPictureData.pageCount);
-            console.log("成功获取数据");
+            //console.log("成功获取数据");
         });
     };
     $scope.getCrawlerPictureData(1);//会在生成页面的时候直接运行!

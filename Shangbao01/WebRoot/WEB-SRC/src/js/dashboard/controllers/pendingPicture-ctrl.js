@@ -17,12 +17,12 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
     $scope.getPendingPictureData=function(pageID){
 
         var url=$scope.projectName+'/picture/Pending/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+       // console.log(url);
         $http.get(url).success(function(data){
-            console.log(data);
+            //console.log(data);
             $scope.pendingPictureData=data;
             $scope.pageNums=getPageNums($scope.pendingPictureData.pageCount);
-            console.log("成功获取数据");
+            //console.log("成功获取数据");
         });
     };
     $scope.getPendingPictureData(1);//生成待审页面时即产生第一页数据

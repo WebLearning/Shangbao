@@ -15,11 +15,11 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
     //初始化页面，获取已发布文章的第一页数据，返回的是一个titleList-----------------------------------------------------
     $scope.getPublishedData=function(pageID){
         var url=$scope.projectName+'/article/Published/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+        //console.log(url);
         $http.get(url).success(function(data){
             $scope.publishedData=data;
             $scope.pageNums=getPageNums($scope.publishedData.pageCount);
-            console.log("成功获取数据");
+            //console.log("成功获取数据");
         });
     };
     $scope.getPublishedData(1);//在点击已发布文章时，直接生成第一页内容
@@ -48,7 +48,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             checkedStr="无数据";
             return checkedStr;
         }else{
-            return arr.toString();
+            return arr;
         }
         //return arr.toString();
     };
