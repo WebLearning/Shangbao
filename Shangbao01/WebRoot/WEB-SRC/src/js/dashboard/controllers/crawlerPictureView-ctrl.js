@@ -45,7 +45,11 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     //得到字数
     $scope.calculateWords=function()
     {
-        $scope.articleData.words=$scope.articleData.content.length;
+        $scope.newArticleData.words=$scope.delHtmlTag($scope.articleData.content).length;
+    };
+
+    $scope.delHtmlTag=function(str){
+        return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     //图片数-----------------------------------------------------
     /*$scope.calculatePictures=function(){
@@ -76,6 +80,12 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     $scope.deletePicUrl=function(index)
     {
         $scope.articleData.picturesUrl.splice(index,1);
+    };
+    $scope.addPictureToEditor=function(picUrl){
+        //console.log(picUrl);
+        var text='<img src="'+picUrl+'">';
+        $scope.articleData.content=$scope.articleData.content+text;
+//        $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 
     //添加关键词和分类

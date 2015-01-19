@@ -254,11 +254,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
             //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
-                    if(data[i].englishName=="original"){
-                        $scope.newChannelNames.push(data[i]);
-                    }else{
-                        $scope.getSecondChannelNames(data[i].englishName);
-                    }
+                    $scope.checkFirstChannel(data[i]);
                 }
             }else{
                 $scope.newChannelNames=[];
@@ -266,6 +262,18 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
         });
     };
     $scope.getNewChannelNames();
+
+    //判断是否有次级目录-------------------------------------------------------------------------------------------------
+    $scope.checkFirstChannel=function(channelData){
+        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
+        $http.get(url).success(function (data) {
+            if(data.length>0){
+                $scope.getSecondChannelNames(channelData.englishName);
+            }else{
+                $scope.newChannelNames.push(channelData);
+            }
+        });
+    };
     //获得次级目录名----------------------------------------------------------------------------------------------------
     $scope.getSecondChannelNames=function(channelName){
         var url=$scope.projectName+'/channel/'+channelName+'/channels';

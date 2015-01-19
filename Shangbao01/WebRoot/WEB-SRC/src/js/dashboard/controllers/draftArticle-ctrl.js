@@ -73,7 +73,11 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     //得到字数
     $scope.calculateWords=function()
     {
-        $scope.articleData.words=$scope.articleData.content.length;
+        $scope.newArticleData.words=$scope.delHtmlTag($scope.articleData.content).length;
+    };
+
+    $scope.delHtmlTag=function(str){
+        return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     //图片数-----------------------------------------------------
     /*$scope.calculatePictures=function(){
@@ -258,11 +262,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
             //console.log(data);
             if(data.length>0){
                 for(i=0;i<data.length;i++){
-                    if(data[i].englishName=="original"){
-                        $scope.newChannelNames.push(data[i]);
-                    }else{
-                        $scope.getSecondChannelNames(data[i].englishName);
-                    }
+                    $scope.checkFirstChannel(data[i]);
                 }
             }else{
                 $scope.newChannelNames=[];
@@ -270,6 +270,18 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         });
     };
     $scope.getNewChannelNames();
+
+    //判断是否有次级目录-------------------------------------------------------------------------------------------------
+    $scope.checkFirstChannel=function(channelData){
+        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
+        $http.get(url).success(function (data) {
+            if(data.length>0){
+                $scope.getSecondChannelNames(channelData.englishName);
+            }else{
+                $scope.newChannelNames.push(channelData);
+            }
+        });
+    };
     //获得次级目录名----------------------------------------------------------------------------------------------------
     $scope.getSecondChannelNames=function(channelName){
         var url=$scope.projectName+'/channel/'+channelName+'/channels';

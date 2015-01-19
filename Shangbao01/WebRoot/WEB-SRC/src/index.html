@@ -69,7 +69,7 @@
     <div id="sidebar-wrapper">
       <ul class="sidebar" role="tablist">
         <li class="sidebar-main">
-          <a href="#" ng-click="toggleSidebar()">
+          <a ng-href="#" ng-click="toggleSidebar()">
             商报后台管理系统
             <span class="menu-icon glyphicon glyphicon-transfer"></span>
           </a>
@@ -78,7 +78,7 @@
 
         <!--导航条-->
         <li role="presentation" class="sidebar-list">
-          <a href="#generalView" role="tab" data-toggle="tab" ng-click="changeCurPage('一览')">一览 <span class="menu-icon glyphicon glyphicon-eye-open"></span></a>
+          <a ng-href="#generalView" role="tab" data-toggle="tab" ng-click="changeCurPage('一览')">一览 <span class="menu-icon glyphicon glyphicon-eye-open"></span></a>
         </li>
         <li role="presentation" class="sidebar-list dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown">
@@ -88,22 +88,22 @@
             </a>
             <ul class="dropdown-menu" role="menu" style="background-color:#30426A;">
                 <li role="presentation" class="sidebar-list">
-                    <a href="#newArticle" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/新建')">新建 <span class="menu-icon glyphicon glyphicon-file"></span></a>
+                    <a ng-href="#newArticle" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/新建')">新建 <span class="menu-icon glyphicon glyphicon-file"></span></a>
                 </li>
                 <li role="presentation" class="sidebar-list" id="crawlerSidebarID">
-                    <a href="#crawler" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/爬虫文章')">爬虫文章 <span class="menu-icon glyphicon glyphicon-save"></span></a>
+                    <a ng-href="#crawler" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/爬虫文章')">爬虫文章 <span class="menu-icon glyphicon glyphicon-save"></span></a>
                 </li>
                 <li role="presentation" class="sidebar-list" id="pendingSidebarID">
-                    <a href="#pendingTrial" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>
+                    <a ng-href="#pendingTrial" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>
                 </li>
                 <li role="presentation" class="sidebar-list" id="publishedSidebarID">
-                    <a href="#published" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/已发布')">已发布 <span class="menu-icon glyphicon glyphicon-ok"></span></a>
+                    <a ng-href="#published" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/已发布')">已发布 <span class="menu-icon glyphicon glyphicon-ok"></span></a>
                 </li>
                 <li role="presentation" class="sidebar-list" id="revokedSidebarID">
-                    <a href="#revoked" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/已撤销')">已撤销 <span class="menu-icon glyphicon glyphicon-remove"></span></a>
+                    <a ng-href="#revoked" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/已撤销')">已撤销 <span class="menu-icon glyphicon glyphicon-remove"></span></a>
                 </li>
                 <li role="presentation" class="sidebar-list"id="draftSidebarID">
-                    <a href="#draft" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
+                    <a ng-href="#draft" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
                 </li>
             </ul>
         </li>
@@ -115,36 +115,36 @@
               </a>
               <ul class="dropdown-menu" role="menu" style="background-color:#30426A;">
                   <li role="presentation" class="sidebar-list">
-                      <a href="#newPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/新建')">新建 <span class="menu-icon glyphicon glyphicon-file"></span></a>
+                      <a ng-href="#newPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/新建')">新建 <span class="menu-icon glyphicon glyphicon-file"></span></a>
                   </li>
                   <li role="presentation" class="sidebar-list" id="crawlerPictureSidebarID">
-                      <a href="#crawlerPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/爬虫图片')">爬虫图片 <span class="menu-icon glyphicon glyphicon-save"></span></a>
+                      <a ng-href="#crawlerPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/爬虫图片')">爬虫图片 <span class="menu-icon glyphicon glyphicon-save"></span></a>
                   </li>
                   <li role="presentation" class="sidebar-list" id="pendingPictureSidebarID">
-                      <a href="#pendingPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>
+                      <a ng-href="#pendingPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>
                   </li>
                   <li role="presentation" class="sidebar-list" id="publishedPictureSidebarID">
-                      <a href="#publishedPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/已发布')">已发布 <span class="menu-icon glyphicon glyphicon-ok"></span></a>
+                      <a ng-href="#publishedPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/已发布')">已发布 <span class="menu-icon glyphicon glyphicon-ok"></span></a>
                   </li>
                   <li role="presentation" class="sidebar-list" id="revokedPictureSidebarID">
-                      <a href="#revokedPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/已撤销')">已撤销 <span class="menu-icon glyphicon glyphicon-remove"></span></a>
+                      <a ng-href="#revokedPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/已撤销')">已撤销 <span class="menu-icon glyphicon glyphicon-remove"></span></a>
                   </li>
                   <li role="presentation" class="sidebar-list"id="draftPictureSidebarID">
-                      <a href="#draftPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
+                      <a ng-href="#draftPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
                   </li>
                   <li role="presentation" class="sidebar-list" id="commentPictureSidebarID">
-                      <a href="#managePicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/管理')">快拍管理<span class="menu-icon glyphicon glyphicon-list-alt"></span></a>
+                      <a ng-href="#managePicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/管理')">快拍管理<span class="menu-icon glyphicon glyphicon-list-alt"></span></a>
                   </li>
               </ul>
           </li>
 		<li role="presentation" class="sidebar-list">
-          <a href="#commentPages" role="tab" data-toggle="tab" ng-click="changeCurPage('评论')">评论 <span class="menu-icon glyphicon glyphicon-list-alt"></span></a>
+          <a ng-href="#commentPages" role="tab" data-toggle="tab" ng-click="changeCurPage('评论')">评论 <span class="menu-icon glyphicon glyphicon-list-alt"></span></a>
         </li>
-		<li role="presentation" class="sidebar-list">
-          <a href="#management" role="tab" data-toggle="tab" ng-click="changeCurPage('管理')">管理 <span class="menu-icon glyphicon glyphicon-folder-open"></span></a>
+		<li ng-href="presentation" class="sidebar-list">
+          <a ng-href="#management" role="tab" data-toggle="tab" ng-click="changeCurPage('管理')">管理 <span class="menu-icon glyphicon glyphicon-folder-open"></span></a>
         </li>
         <li role="presentation" class="sidebar-list">
-          <a href="#settings" role="tab" data-toggle="tab" ng-click="changeCurPage('设置')">设置 <span class="menu-icon glyphicon glyphicon-cog"></span></a>
+          <a ng-href="#settings" role="tab" data-toggle="tab" ng-click="changeCurPage('设置')">设置 <span class="menu-icon glyphicon glyphicon-cog"></span></a>
         </li>
         <!--导航条结束-->
 
@@ -188,7 +188,7 @@
             </div>
             <div class="user pull-right">
               <div class="item dropdown">
-                <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                <a ng-href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
                   <img src="img/avatar.jpg">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
@@ -358,7 +358,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in newArticleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in newArticleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">
@@ -619,7 +619,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in articleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">
@@ -639,6 +639,7 @@
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <button type="button" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span><span class="sr-only">Plus</span></button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -900,7 +901,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in articleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">
@@ -1102,7 +1103,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in articleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">
@@ -1293,7 +1294,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in articleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">
@@ -1548,7 +1549,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in articleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">
@@ -1826,6 +1827,7 @@
                         </button>
                     </div>
                     <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-lg btn-success" ng-click="testLog()">test</button>
                         <button type="button" class="btn btn-lg btn-success" ng-click="refreshLog()"><span class="glyphicon glyphicon-refresh"></span> </button>
                     </div>
                 </div>
@@ -1837,8 +1839,8 @@
                                     <thead>
                                     <tr>
                                         <th>编号</th>
-                                        <th>App名称</th>
-                                        <!--<th>模块</th>-->
+                                        <th>模块名称</th>
+                                        <th>模块内容</th>
                                         <th>操作</th>
                                     </tr>
                                     </thead>
@@ -1846,6 +1848,16 @@
                                     <tr ng-repeat="x in appNames">
                                         <td>{{x.channelIndex}}</td>
                                         <td>{{x.channelName}}</td>
+                                        <td>
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                <tr ng-repeat="z in getModelNames(modelNamesSet,x.englishName)">
+                                                    <td>{{z.channelName}}</td>
+                                                    <td><a href="">修改</a>/<a href="">删除</a>/<a href="">移动</a></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
                                         <td><a href="">修改</a>/<a href="">删除</a>/<a href="">添加子模块</a></td>
                                     </tr>
                                     </tbody>
@@ -1961,7 +1973,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in newArticleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in newArticleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">{{channel}}</div>
@@ -2248,7 +2260,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in articleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">{{channel}}</div>
@@ -2280,6 +2292,7 @@
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -2525,7 +2538,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in articleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">{{channel}}</div>
@@ -2703,7 +2716,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in articleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">{{channel}}</div>
@@ -2886,7 +2899,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in articleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">{{channel}}</div>
@@ -3163,7 +3176,7 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">分类</label>
                                 <div class="col-md-11">
-                                    <div class="col-md-2" ng-repeat="channel in articleData.channel">
+                                    <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deleteChannel($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">{{channel}}</div>
@@ -3311,9 +3324,9 @@
                     </div>
                 </div>
             </div>
-            <!--<div role="tabpanel" class="tab-pane" id="managePicture" ng-controller="">-->
-                <!--快拍评论-->
-            <!--</div>-->
+            <div role="tabpanel" class="tab-pane" id="managePicture">
+                快拍管理
+            </div>
         </div>
 
       </div><!-- End page content -->

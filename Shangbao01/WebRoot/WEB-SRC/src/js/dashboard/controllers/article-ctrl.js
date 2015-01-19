@@ -127,7 +127,11 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     //得到字数
     $scope.calculateWords=function()
     {
-        $scope.newArticleData.words=$scope.newArticleData.content.length;
+        $scope.newArticleData.words=$scope.delHtmlTag($scope.newArticleData.content).length;
+    };
+
+    $scope.delHtmlTag=function(str){
+        return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     //图片数-----------------------------------------------------
     /*$scope.calculatePictures=function(){

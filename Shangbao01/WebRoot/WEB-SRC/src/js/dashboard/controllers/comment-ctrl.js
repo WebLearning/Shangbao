@@ -117,7 +117,7 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
         $scope.getCommentDetailTitle(title,type);
     };
 
-    //页面跳转------------------------------------------------------------------------------------------------------------
+    //页面跳转----------------------------------------------------------------------------------------------------------
     $scope.turnToPage=function(pageNum)
     {
         $scope.getCommentData(pageNum);
