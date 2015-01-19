@@ -1,5 +1,6 @@
 package com.shangbao.web.control;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -33,6 +34,7 @@ import com.shangbao.model.persistence.NewsCommend;
 import com.shangbao.model.show.SingleCommend;
 import com.shangbao.service.ArticleService;
 import com.shangbao.service.CommendService;
+import com.shangbao.utils.CompressPicUtils;
 
 @Controller
 @RequestMapping("/crawler")
@@ -41,6 +43,8 @@ public class CrawlerGetController {
 	private ArticleService articleServiceImp;
 	@Resource
 	private CommendService commendServiceImp;
+	@Resource
+	private CompressPicUtils compressPicUtils;
 	
 	/**
 	 * 接收上传的一篇爬虫新闻 返回新闻的id
@@ -93,16 +97,22 @@ public class CrawlerGetController {
 				Properties props = new Properties();
 				props=PropertiesLoaderUtils.loadAllProperties("config.properties");
 				returnPath = props.getProperty("localhost");
-				String fileURL = props.getProperty("pictureDir") + "\\crawlerPic";
+				String fileURL = props.getProperty("pictureDir") + File.separator + "crawlerPic";
+				String fileURLSim = fileURL + File.separator + "sim";
 				String fileNameString = fileName + file.getOriginalFilename();
 				Path path = Paths.get(fileURL);
 				if(Files.notExists(path)){
 					Path filePath = Files.createDirectories(path);
 				}
-				FileOutputStream fos = new FileOutputStream(fileURL + "\\" + fileNameString);
+				Path pathSim = Paths.get(fileURLSim);
+				if(Files.notExists(pathSim)){
+					Files.createDirectories(pathSim);
+				}
+				FileOutputStream fos = new FileOutputStream(fileURL + File.separator + fileNameString);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				returnPath = returnPath + path.toString().split("Shangbao01")[1] + "\\" + fileNameString;
+				compressPicUtils.compressPic(new File(fileURL + File.separator + fileNameString), new File(fileURLSim + File.separator + fileNameString), 180, 120, true);
+				returnPath = returnPath + path.toString().split("Shangbao01")[1] + File.separator + fileNameString;
 				System.out.println(returnPath.replaceAll("\\\\", "/"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

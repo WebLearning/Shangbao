@@ -56,7 +56,13 @@ public class ColumnPageModel {
 		
 		public NewsTitle(Article article, Integer indexId, Long newsId){
 			this.title = article.getTitle();
-			this.picUrl = article.getPicturesUrl();
+			//this.picUrl = article.getPicturesUrl();
+			if(article.getPicturesUrl() != null && !article.getPicturesUrl().isEmpty()){
+				for(String url : article.getPicturesUrl()){
+					String newUrl = url.substring(0, url.lastIndexOf("/")) + "/sim" + url.substring(url.lastIndexOf("/"));
+					picUrl.add(newUrl);
+				}
+			}
 			this.summary = article.getSummary();
 			this.time = article.getTime();
 			this.clicks = article.getClicks();

@@ -1,5 +1,6 @@
 package com.shangbao.web.control;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,12 +30,15 @@ import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.ArticleService;
+import com.shangbao.utils.CompressPicUtils;
 
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
 	@Resource
 	private ArticleService articleServiceImp;
+	@Resource
+	private CompressPicUtils compressPicUtils;
 
 	/**
 	 * 新建文章
@@ -214,19 +218,25 @@ public class ArticleController {
 		Properties props = new Properties();
 		try {
 			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
-			String filePath = props.getProperty("pictureDir") + "\\articlePic";//目录的路径
+			String filePath = props.getProperty("pictureDir") + File.separator +"articlePic";//目录的路径
+			String filePathSim = filePath + File.separator + "sim";
 			localhostString = props.getProperty("localhost");
 			Path path = Paths.get(filePath);
 			if(Files.notExists(path)){
 				Path filPath = Files.createDirectories(path);
 			}
+			Path pathSim = Paths.get(filePathSim);
+			if(Files.notExists(pathSim)){
+				Files.createDirectories(pathSim);
+			}
 			if(!file.isEmpty()){
 				byte[] bytes;
 				bytes = file.getBytes();
-				FileOutputStream fos = new FileOutputStream(filePath + "\\" + fileName);
+				FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				returnString = path.toString().split("Shangbao01")[1] + "\\" + fileName;
+				compressPicUtils.compressPic(new File(filePath + File.separator + fileName), new File(filePathSim + File.separator + fileName), 180, 150, true);
+				returnString = path.toString().split("Shangbao01")[1] + File.separator + fileName;
 				System.out.println(returnString);
 				return localhostString + returnString.replaceAll("\\\\", "/");
 			}

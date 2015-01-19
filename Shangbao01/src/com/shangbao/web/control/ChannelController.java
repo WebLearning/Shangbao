@@ -105,7 +105,7 @@ public class ChannelController {
 	/**
 	 * 删除一个分类
 	 */
-	@RequestMapping(value="/{channelState:Father|Son|Activity}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/delete/{channelState:Father|Son|Activity}", method=RequestMethod.POST)
 	@ResponseBody
 	public String deleteActivity(@RequestBody Channel channel, @PathVariable("channelState") ChannelState state){
 		channel.setState(state);

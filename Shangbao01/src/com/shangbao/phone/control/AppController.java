@@ -55,6 +55,7 @@ import com.shangbao.app.service.AppService.AppHtml;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.SingleCommend;
+import com.shangbao.utils.CompressPicUtils;
 
 /**
  * 手机app获取数据的Controller
@@ -69,6 +70,8 @@ public class AppController {
 	private Producer captchaProducer;//用于生产验证码
 	@Resource
 	private AppService appService;
+	@Resource
+	private CompressPicUtils compressPicUtils;
 	
 	@RequestMapping(value="/addUser", method=RequestMethod.POST)
 	@ResponseBody
@@ -225,18 +228,24 @@ public class AppController {
 				Properties props = new Properties();
 				props=PropertiesLoaderUtils.loadAllProperties("config.properties");
 				
-				String fileURL = props.getProperty("pictureDir") + "\\userPic\\"
+				String fileURL = props.getProperty("pictureDir") + File.separator +  "userPic" + File.separator
 						+ userId;
 				localhostString = props.getProperty("localhost");
 				String fileNameString = fileName + file.getOriginalFilename();
+				String fileUrlSim = fileURL + File.separator + "sim";
 				Path path = Paths.get(fileURL);
 				if(Files.notExists(path)){
 					Path filePath = Files.createDirectories(path);
 				}
-				FileOutputStream fos = new FileOutputStream(fileURL + "\\" + fileNameString);
+				Path pathSim = Paths.get(fileUrlSim);
+				if(Files.notExists(pathSim)){
+					Files.createDirectories(pathSim);
+				}
+				FileOutputStream fos = new FileOutputStream(fileURL + File.separator + fileNameString);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				returnPath = path.toString().split("Shangbao01")[1] + "\\" + fileNameString;
+				compressPicUtils.compressPic(new File(fileURL + File.separator + fileNameString), new File(fileUrlSim + File.separator + fileNameString), 180, 120, true);
+				returnPath = path.toString().split("Shangbao01")[1] + File.separator + fileNameString;
 				System.out.println(returnPath);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

@@ -59,7 +59,7 @@ public class AppChannelModel {
 	 */
 	class AppTitle{
 		public String title;
-		public List<String> picUrl;
+		public List<String> picUrl = new ArrayList<>();
 		public String summary;
 		public Integer indexId;
 		public Long newsId;
@@ -67,7 +67,13 @@ public class AppChannelModel {
 		}
 		public AppTitle(Article article, Integer id){
 			this.title = article.getTitle();
-			this.picUrl = article.getPicturesUrl();
+			//this.picUrl = article.getPicturesUrl();
+			if(article.getPicturesUrl() != null && !article.getPicturesUrl().isEmpty()){
+				for(String url : article.getPicturesUrl()){
+					String newUrl = url.substring(0, url.lastIndexOf("/")) + "/sim" + url.substring(url.lastIndexOf("/"));
+					picUrl.add(newUrl);
+				}
+			}
 			this.summary = article.getSummary();
 			indexId = id;
 			this.newsId = article.getId();

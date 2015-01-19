@@ -1,5 +1,6 @@
 package com.shangbao.service.imp;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,6 +32,7 @@ import com.shangbao.remotemodel.PicTitle;
 import com.shangbao.remotemodel.PicUrl;
 import com.shangbao.service.ArticleService;
 import com.shangbao.service.DownLoadPicService;
+import com.shangbao.utils.CompressPicUtils;
 
 @Service
 public class DownLoadPicServiceImp implements DownLoadPicService {
@@ -42,6 +44,8 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 	
 	@Resource
 	private RestTemplate restTemplate;
+	@Resource
+	private CompressPicUtils compressPicUtils;
 	
 	private final String remoteUrl;
 	private final String localPicDir;
@@ -216,14 +220,17 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 		List<String> localPicUrls = new ArrayList<>();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		String dateString = sdf.format(new Date());
-		Path path = Paths.get(localPicDir + "\\" + dateString);
-		if(Files.notExists(path)){
-			try {
+		Path path = Paths.get(localPicDir + File.separator + dateString);
+		Path pathSim = Paths.get(localPicDir + File.separator + dateString + File.separator + "sim");
+		try{
+			if(Files.notExists(path)){
 				Path filPath = Files.createDirectories(path);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+			if(Files.notExists(pathSim)){
+				Files.createDirectories(pathSim);
+			}
+		}catch(IOException e){
+			System.out.println(e.getStackTrace());
 		}
 		for(String singlePicUrl : picUrls){
 			byte[] bytes;
@@ -231,11 +238,14 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 			String returnUrl = "";
 			//FileOutputStream fos;
 			try(FileOutputStream fos = 
-					new FileOutputStream(localPicDir + "\\" + dateString + "\\" +
+					new FileOutputStream(localPicDir + File.separator + dateString + File.separator +
 							singlePicUrl.substring(singlePicUrl.lastIndexOf("/")))) {	
 				fos.write(bytes); 
-				returnUrl = localPicDir.split("Shangbao01")[1] + "\\" + dateString
+				returnUrl = localPicDir.split("Shangbao01")[1] + File.separator + dateString
 						 + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"));
+				compressPicUtils.compressPic(new File(path.toFile().getAbsolutePath() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))), 
+											 new File(pathSim.toFile().getAbsoluteFile() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))),
+											 180, 120, false);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
