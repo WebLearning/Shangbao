@@ -20,6 +20,7 @@ import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.show.ChannelList;
 import com.shangbao.model.show.TitleList;
+import com.shangbao.service.DownLoadPicService;
 import com.shangbao.service.PictureService;
 
 @Controller
@@ -27,6 +28,8 @@ import com.shangbao.service.PictureService;
 public class PictureController {
 	@Resource
 	private PictureService pictureServiceImp;
+	@Resource
+	private DownLoadPicService downLoadPicServiceImp;
 	
 	/**
 	 * 新建图片
@@ -219,5 +222,26 @@ public class PictureController {
 	@RequestMapping(value="/activity", method=RequestMethod.DELETE)
 	public void deleteActivity(@RequestBody List<Channel> channels){
 		pictureServiceImp.delete(channels);
+	}
+
+	@RequestMapping(value="/download", method=RequestMethod.GET)
+	public void downloadPic(){
+		downLoadPicServiceImp.saveAsArticle();
+	}
+	
+	public PictureService getPictureServiceImp() {
+		return pictureServiceImp;
+	}
+
+	public void setPictureServiceImp(PictureService pictureServiceImp) {
+		this.pictureServiceImp = pictureServiceImp;
+	}
+
+	public DownLoadPicService getDownLoadPicServiceImp() {
+		return downLoadPicServiceImp;
+	}
+
+	public void setDownLoadPicServiceImp(DownLoadPicService downLoadPicServiceImp) {
+		this.downLoadPicServiceImp = downLoadPicServiceImp;
 	}
 }

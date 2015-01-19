@@ -59,7 +59,7 @@ public class AppChannelModel {
 	 */
 	class AppTitle{
 		public String title;
-		public String picUrl;
+		public List<String> picUrl;
 		public String summary;
 		public Integer indexId;
 		public Long newsId;
@@ -67,7 +67,7 @@ public class AppChannelModel {
 		}
 		public AppTitle(Article article, Integer id){
 			this.title = article.getTitle();
-			this.picUrl = article.getTitlePicUrl();
+			this.picUrl = article.getPicturesUrl();
 			this.summary = article.getSummary();
 			indexId = id;
 			this.newsId = article.getId();

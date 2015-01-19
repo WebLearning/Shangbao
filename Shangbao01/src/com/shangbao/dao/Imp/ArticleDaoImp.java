@@ -52,7 +52,7 @@ public class ArticleDaoImp implements ArticleDao {
 				for(String channelName : channels){
 					//找出该channel所属文章的最大的index
 					Query channelQuery = new Query();
-					Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published.toString());
+					Criteria channelCriteria = Criteria.where("state").is(ArticleState.Published.toString());
 					channelQuery.addCriteria(channelCriteria);
 					channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channelName));
 					channelQuery.limit(1);
@@ -114,7 +114,7 @@ public class ArticleDaoImp implements ArticleDao {
 						
 					}else{
 						Query channelQuery = new Query();
-						Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published.toString());
+						Criteria channelCriteria = Criteria.where("state").is(ArticleState.Published.toString());
 						channelQuery.addCriteria(channelCriteria);
 						channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channel));
 						channelQuery.limit(1);
@@ -261,7 +261,7 @@ public class ArticleDaoImp implements ArticleDao {
 				for(String channel : channels){
 					//针对每一个channel设置该文章的顺序
 					Query channelQuery = new Query();
-					Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published.toString());
+					Criteria channelCriteria = Criteria.where("state").is(ArticleState.Published.toString());
 					//找出该channel所属文章的最大的index
 					channelQuery.addCriteria(channelCriteria);
 					channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channel));
@@ -294,7 +294,7 @@ public class ArticleDaoImp implements ArticleDao {
 		}
 		if (article.getChannel().contains(channelName)){
 			Query channelQuery = new Query();
-			Criteria channelCriteria = new Criteria().where("state").is(ArticleState.Published.toString());
+			Criteria channelCriteria = Criteria.where("state").is(ArticleState.Published.toString());
 			//找出该channel所属文章的最大的index
 			channelQuery.addCriteria(channelCriteria);
 			channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channelName));
@@ -308,7 +308,7 @@ public class ArticleDaoImp implements ArticleDao {
 				//将id为articleId的文章置顶
 				Update update = new Update();
 				Query query = new Query();
-				query.addCriteria(new Criteria().where("id").is(articleId));
+				query.addCriteria(Criteria.where("id").is(articleId));
 				update.set("channelIndex." + channelName, index);
 				WriteResult result = mongoTemplate.updateFirst(query, update, Article.class);
 			}
@@ -327,12 +327,12 @@ public class ArticleDaoImp implements ArticleDao {
 		if(indexA > 0 && indexB > 0){
 			Update updateA = new Update();
 			Query queryA = new Query();
-			queryA.addCriteria(new Criteria().where("id").is(articleAId));
+			queryA.addCriteria(Criteria.where("id").is(articleAId));
 			updateA.set("channelIndex." + channelName, indexA);
 			WriteResult resultA = mongoTemplate.updateFirst(queryA, updateA, Article.class);
 			Update updateB = new Update();
 			Query queryB = new Query();
-			queryB.addCriteria(new Criteria().where("id").is(articleBId));
+			queryB.addCriteria(Criteria.where("id").is(articleBId));
 			updateB.set("channelIndex." + channelName, indexB);
 			WriteResult resultB = mongoTemplate.updateFirst(queryB, updateB, Article.class);
 		}

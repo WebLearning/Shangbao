@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
 	xmlns:task="http://www.springframework.org/schema/task"
@@ -102,8 +103,8 @@
 	</bean>
 	
 	<!-- spring task -->
-	<!-- <task:scheduled-tasks>   
-        <task:scheduled ref="testTask" method="test" fixed-delay="10000"/>   
-	</task:scheduled-tasks> -->
+	<task:scheduled-tasks>   
+        <task:scheduled ref="appService" method="refresh" fixed-delay="10000"/>   
+	</task:scheduled-tasks>
 	
 </beans>

@@ -408,7 +408,7 @@ public class AppService {
 		html += article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/app.css\" type=\"text/css\" />";
 		html += "</head><body class=\"classic-wptouch-bg\"> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">";
 		html += article.getTitle() + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">";
-		html += article.getAuthor() == null ? "" : article.getAuthor() + "&nbsp&nbsp" + article.getTime() == null ? "" : format.format(article.getTime());
+		html += (article.getAuthor() == null ? "" : article.getAuthor()) + "&nbsp&nbsp" + (article.getTime() == null ? "" : format.format(article.getTime()));
 		html += "</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">";
 		html += article.getContent();
 		html += "<p>&nbsp;</p></div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";

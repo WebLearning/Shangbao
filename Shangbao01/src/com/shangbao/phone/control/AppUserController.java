@@ -51,6 +51,7 @@ public class AppUserController {
 	 * 获得当前用户的文章
 	 * @return
 	 */
+	@Secured("ROLE_USER")
 	@RequestMapping(value="/articles/{pageNo}", method=RequestMethod.GET)
 	@ResponseBody
 	public ColumnPageModel getUserArticle(@PathVariable("pageNo") int pageNo){

@@ -53,7 +53,7 @@ public class CrawlerGetController {
 		if(article != null){
 			article.setState(ArticleState.Crawler);
 			//article.setContent(articleToHtml(article));
-			article.setContent(stringToBody(article.getContent()));
+			article.setContent(stringToBody(article));
 			return articleServiceImp.addGetId(article);
 		}
 		return null;
@@ -141,25 +141,20 @@ public class CrawlerGetController {
 		return null;
 	}
 	
-	@RequestMapping(value="/test", method = RequestMethod.GET, produces = "text/html; charset=UTF-8")
-	@ResponseBody
-	public String test(){
-		Article article = new Article();
-		article.setTime(new Date());
-		article.setTitle("中国足球队勇夺世界杯冠军");
-		article.setAuthor("杨壹");
-		article.setContent("这是一个新闻\n这是第一段。\n这是第二段。\n");
-		String returnString = "";
-		returnString = stringToBody(article.getContent());
-		return returnString;
-	}
-	
-	
-	private String stringToBody(String content){
+	private String stringToBody(Article article){
 		String body = "";
-		String [] parms = content.split("\n");
-		for(String parm : parms){
-			body += "<p>" + "&nbsp&nbsp" + parm + "</p>";
+		if(article.getSummary() != null && !article.getSummary().isEmpty()){
+			body += "<p style=\"text-indent: 2em;\"><em>" + article.getSummary() + "</em></p>"; 
+		}
+		if(article.getContent() != null && !article.getContent().isEmpty()){
+			List<String> pictureUrls = article.getPicturesUrl();
+			if(pictureUrls != null && !pictureUrls.isEmpty()){
+				body += "<p style=\"text-align: center;\"><img src=" + pictureUrls.get(0) + " width=\"330\" height=\"220\"></p>";
+			}
+			String [] parms = article.getContent().split("\n");
+			for(String parm : parms){
+				body += "<p style=\"text-indent: 2em;\">" + parm + "</p>";
+			}
 		}
 		return body;
 	}

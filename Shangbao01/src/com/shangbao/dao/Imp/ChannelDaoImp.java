@@ -117,22 +117,22 @@ public class ChannelDaoImp implements ChannelDao{
 	private Query getQuery(Channel criteriaChannel){
 		Query query = new Query();
 		if(criteriaChannel.getChannelName() != null && (!criteriaChannel.getChannelName().isEmpty())){
-			query.addCriteria(new Criteria().where("channelName").is(criteriaChannel.getChannelName()));
+			query.addCriteria(Criteria.where("channelName").is(criteriaChannel.getChannelName()));
 		}
 		if(criteriaChannel.getEnglishName() != null && (!criteriaChannel.getEnglishName().isEmpty())){
-			query.addCriteria(new Criteria().where("englishName").is(criteriaChannel.getEnglishName()));
+			query.addCriteria(Criteria.where("englishName").is(criteriaChannel.getEnglishName()));
 		}
 		if((criteriaChannel.getSummary() != null) && (!criteriaChannel.getSummary().isEmpty())){
-			query.addCriteria(new Criteria().where("summary").is(criteriaChannel.getSummary()));
+			query.addCriteria(Criteria.where("summary").is(criteriaChannel.getSummary()));
 		}
 		if((criteriaChannel.getRelated() != null) && (!criteriaChannel.getRelated().isEmpty())){
-			query.addCriteria(new Criteria().where("related").is(criteriaChannel.getRelated()));
+			query.addCriteria(Criteria.where("related").is(criteriaChannel.getRelated()));
 		}
 		if((criteriaChannel.getState() != null) && (criteriaChannel.getState() != null)){
-			query.addCriteria(new Criteria().where("state").is(criteriaChannel.getState().toString()));
+			query.addCriteria(Criteria.where("state").is(criteriaChannel.getState().toString()));
 		}
 		if(criteriaChannel.getChannelIndex() > 0){
-			query.addCriteria(new Criteria().where("channelIndex").is(criteriaChannel.getChannelIndex()));
+			query.addCriteria(Criteria.where("channelIndex").is(criteriaChannel.getChannelIndex()));
 		}
 		return query;
 	}

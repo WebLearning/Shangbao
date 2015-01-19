@@ -5,9 +5,6 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<!--<http auto-config='true'> <intercept-url pattern="/**" access="ROLE_USER" 
-		/> </http> -->
-
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/commend/**" access="permitAll" />
 		<intercept-url pattern="/article/**" access="permitAll" />
@@ -24,7 +21,6 @@
 	</http>
 
 	<authentication-manager alias="authenticationManager">
-
 		<authentication-provider ref="rememberMeAuthenticationProvider">
 		</authentication-provider>
 
