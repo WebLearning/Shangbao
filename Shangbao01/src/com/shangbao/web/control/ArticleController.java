@@ -11,12 +11,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.annotation.Resource;
 
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -203,6 +206,31 @@ public class ArticleController {
 		return articleServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
 
+	/**
+	 * 定时发布
+	 */
+	@RequestMapping(value="/{articleState}/{pageNo}/timingpublish/{ids:[\\d]+(?:_[\\d]+)*}/{time:[\\d]+}")
+	@ResponseStatus(HttpStatus.OK)
+	public void timingPublish(@PathVariable("ids") String ids, @PathVariable("time") Long time){
+		String[] idStrings = ids.split("_");
+		List<Long> idList = new ArrayList<>();
+		for(String id : idStrings){
+			idList.add(Long.parseLong(id));
+		}
+		publishTask(idList, time);
+	}
+	
+	private void publishTask(final List<Long> idList, final Long date){
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				articleServiceImp.setPutState(ArticleState.Pending, idList);
+			}
+		}, date);
+	}
+	
 	/**
 	 * 上传文件
 	 * @param file

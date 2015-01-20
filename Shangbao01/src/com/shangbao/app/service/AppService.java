@@ -109,7 +109,7 @@ public class AppService {
 		if(articles != null){
 			int toIndex = page.getLastResult();
 			int fromIndex = page.getFirstResult();
-			if(fromIndex <= toIndex){
+			if(0 <= fromIndex && fromIndex <= toIndex){
 				List<Article> pageArticles = articles.subList(fromIndex, toIndex);
 				columnPageModel.setCurrentNo(page.getPageNo());
 				columnPageModel.setPageCount(page.getTotalPage());
