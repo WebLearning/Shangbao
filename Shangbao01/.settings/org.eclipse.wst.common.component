@@ -4,7 +4,7 @@
         <wb-resource deploy-path="/" source-path="/WebRoot" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/test"/>
-        <property name="context-root" value="Shangbao01"/>
         <property name="java-output-path" value="/Shangbao01/WebRoot/WEB-INF/classes"/>
+        <property name="context-root" value="/Shangbao01"/>
     </wb-module>
 </project-modules>
