@@ -285,22 +285,43 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
                 $scope.getPendingData(1);
                 alert("发布成功");
             });
-        };
+        }
     };
     //定时发布----------------------------------------------------------------------------------------------------------
-    $scope.Time="";
+//    $scope.pulishedTiming=function(){
+//        if($scope.articleSelectionUrl==""){
+//            alert("未选取文章");
+//        }else{
+//            return "#Select_Time";
+//        }
+//    };
+//    $scope.Time="";
     $scope.publishArticleSelectionsTiming=function()
     {
-        if($scope.articleSelectionUrl==""){
-            alert("未选取文章");
-        }else{
-            $scope.Time=$scope.publishTime;
-            var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
-            //加参数time(定时发布的时间）
-            clearArticleSelections();
-            $scope.getPendingData(1);
-            alert("保存成功");
-        }
+            var myDate=new Date();
+            var myDateTime=myDate.getTime();
+            var str1=$scope.publishTime.substr(0,10);
+            var str2=$scope.publishTime.substr(11,16);
+            var str3=str1.concat(" ");
+            var str4=str3.concat(str2);
+            var str5=new Date(str4);
+            var myPublishedTime=str5.getTime();
+//            console.log(myDateTime);
+//            console.log(myPublishedTime);
+            var time=myPublishedTime-myDateTime;
+            console.log(time);
+            if($scope.articleSelectionsUrl==""){
+                alert("未选取文章");
+            }else{
+                var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/timingpublish/"+$scope.articleSelectionsUrl+"/"+time;
+                console.log(url);
+                $http.get(url).success(function(){
+                    alert("定时成功");
+                    $('#Select_Time').modal('toggle');
+                    clearArticleSelections();
+                    $scope.getPendingData(1);
+                });
+            }
     };
 
     //页面跳转------------------------------------------------------------------------------------------------------------

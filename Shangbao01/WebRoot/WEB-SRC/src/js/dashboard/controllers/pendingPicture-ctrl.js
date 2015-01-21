@@ -300,18 +300,31 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
         };
     };
     //定时发布----------------------------------------------------------------------------------------------------------
-    $scope.Time="";
-    $scope.publishArticleSelectionsTiming=function()
+    $scope.publishPictureArticleSelectionsTiming=function()
     {
-        if($scope.articleSelectionUrl==""){
+        var myDate=new Date();
+        var myDateTime=myDate.getTime();
+        var str1=$scope.publishTimePicture.substr(0,10);
+        var str2=$scope.publishTimePicture.substr(11,16);
+        var str3=str1.concat(" ");
+        var str4=str3.concat(str2);
+        var str5=new Date(str4);
+        var myPublishedTime=str5.getTime();
+//            console.log(myDateTime);
+//            console.log(myPublishedTime);
+        var time=myPublishedTime-myDateTime;
+        console.log(time);
+        if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
         }else{
-            $scope.Time=$scope.publishTime;
-            var url=$scope.projectName+"/article/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/"+$scope.articleSelectionsUrl;
-            //加参数time(定时发布的时间）
-            clearArticleSelections();
-            $scope.getPendingPictureData(1);
-            alert("保存成功");
+            var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleSelectionsUrl+"/"+time;
+            console.log(url);
+            $http.get(url).success(function(){
+                alert("定时成功");
+                $('#Select_Time_picture').modal('toggle');
+                clearArticleSelections();
+                $scope.getPendingPictureData(1);
+            });
         }
     };
 

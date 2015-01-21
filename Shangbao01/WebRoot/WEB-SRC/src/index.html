@@ -799,8 +799,9 @@
                         <div class="pull-right">
                             <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">撤销</button>
                             <button type="button" class="btn btn-info" ng-click="publishArticleSelectionsNow()">发布</button>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Select_Time">定时发布</button>
                         </div>
-                        <div class="modal fade" id="Select-Time" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal fade" id="Select_Time" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -2543,7 +2544,26 @@
                         <div class="pull-right">
                             <button type="button" class="btn btn-info" ng-click="deletePictureArticleSelections()">撤销</button>
                             <button type="button" class="btn btn-info" ng-click="publishPictureArticleSelections()">发布</button>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Select_Time_picture">定时发布</button>
                         </div>
+                        <div class="modal fade" id="Select_Time_picture" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">选择定时发布时间</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="datetime-local" class="form-control" placeholder="请输入时间" ng-model="publishTimePicture">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="publishPictureArticleSelectionsTiming()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
