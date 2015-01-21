@@ -59,7 +59,12 @@ public class UserIdentifyService {
 			e.printStackTrace();
 		}
 		if(!props.getProperty("remoteUrl").isEmpty()){
-			remoteUrl = props.getProperty("remoteUrl");
+			String url = props.getProperty("remoteUrl");
+			if(url.substring(url.length() - 1) != "/"){
+				remoteUrl = url + "/";
+			}else{
+				remoteUrl = url;
+			}
 		}else{
 			remoteUrl = "http://user.itanzi.com/index.php/wap/api/v1/";
 		}
@@ -168,6 +173,8 @@ public class UserIdentifyService {
 	public boolean userExist(String account, int accountType){
 		String result = restTemplate.getForObject(remoteUrl + "isExists/" + account + "/" + accountType, String.class);
 		System.out.println(result);
+		if(result.substring(14, 15).equals("1"))
+			return false;
 		ObjectMapper mapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		try {

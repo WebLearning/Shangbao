@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.shangbao.app.service.AppPushService;
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.TitleList;
@@ -42,6 +43,8 @@ public class ArticleController {
 	private ArticleService articleServiceImp;
 	@Resource
 	private CompressPicUtils compressPicUtils;
+	@Resource
+	private AppPushService appPushService;
 
 	/**
 	 * 新建文章
@@ -218,6 +221,11 @@ public class ArticleController {
 			idList.add(Long.parseLong(id));
 		}
 		publishTask(idList, time);
+	}
+	
+	@RequestMapping(value="/push", method=RequestMethod.GET)
+	public void pushtest(){
+		appPushService.push();
 	}
 	
 	private void publishTask(final List<Long> idList, final Long date){

@@ -2,6 +2,8 @@ package com.shangbao.web.control;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.annotation.Resource;
 
@@ -157,6 +159,22 @@ public class PictureController {
 		pictureServiceImp.setPutState(articleState, idList);
 		return pictureServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
+	
+	/**
+	 * 定时发布
+	 * @param ids
+	 * @param time
+	 */
+	@RequestMapping(value="/{articleState}/{pageNo}/timingpublish/{ids:[\\d]+(?:_[\\d]+)*}/{time:[\\d]+}")
+	@ResponseStatus(HttpStatus.OK)
+	public void timingPublish(@PathVariable("ids") String ids, @PathVariable("time") Long time){
+		String[] idStrings = ids.split("_");
+		List<Long> idList = new ArrayList<>();
+		for(String id : idStrings){
+			idList.add(Long.parseLong(id));
+		}
+		publishTask(idList, time);
+	}
 
 	@RequestMapping(value = "/{articleState}/{pageNo}/statechange/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
@@ -189,6 +207,16 @@ public class PictureController {
 		}
 		pictureServiceImp.setDeleteState(articleState, idList);
 		return pictureServiceImp.getOrderedList(articleState, pageNo, order, direction);
+	}
+	
+	private void publishTask(final List<Long> idList, final Long date){
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				pictureServiceImp.setPutState(ArticleState.Pending, idList);
+			}
+		}, date);
 	}
 	
 	/**
