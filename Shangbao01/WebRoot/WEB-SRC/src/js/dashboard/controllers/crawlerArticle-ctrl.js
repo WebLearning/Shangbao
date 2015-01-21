@@ -200,6 +200,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     //上传图片
     $scope.uploadImg=function()
     {
+        document.form_crawler.action=$scope.projectActionName;
         $('#myUploadImgForm_crawler').submit();
         $scope.enableConfirmButton();
     };

@@ -199,6 +199,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     //上传图片
     $scope.uploadImg=function()
     {
+        document.form_draft.action=$scope.projectActionName;
         $('#myUploadImgForm_draft').submit();
         $scope.enableConfirmButton();
     };

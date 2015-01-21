@@ -214,6 +214,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
     //上传图片
     $scope.uploadImg=function()
     {
+        document.form_draftPicture.action=$scope.projectActionName;
         $('#myPictureUploadImgForm_draft').submit();
         $scope.enableConfirmButton();
     };

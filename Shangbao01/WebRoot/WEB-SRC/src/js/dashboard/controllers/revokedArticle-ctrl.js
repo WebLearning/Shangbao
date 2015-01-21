@@ -194,6 +194,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
     //上传图片
     $scope.uploadImg=function()
     {
+        document.form_revoked.action=$scope.projectActionName;
         $('#myUploadImgForm_revoked').submit();
         $scope.enableConfirmButton();
     };
