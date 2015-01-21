@@ -9,39 +9,39 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
         console.log($scope.articleSelectionsUrl);
     };
 
-    $scope.pendingPictureData=null;
-    $scope.orderCondition="";
+//    $scope.pendingPictureData=null;
+//    $scope.orderCondition="";
 
     //4.1点击待审文章，初始化页面，获得待审的第一页数据----------------------------------------------------------------------------------
 
-    $scope.getPendingPictureData=function(pageID){
-
-        var url=$scope.projectName+'/picture/Pending/'+pageID.toString()+$scope.orderCondition;
-       // console.log(url);
-        $http.get(url).success(function(data){
-            //console.log(data);
-            $scope.pendingPictureData=data;
-            $scope.pageNums=getPageNums($scope.pendingPictureData.pageCount);
-            //console.log("成功获取数据");
-        });
-    };
-    $scope.getPendingPictureData(1);//生成待审页面时即产生第一页数据
-
-    $scope.refreshPendingPicture=function()
-    {
-        clearArticleSelections();
-        $scope.orderCondition="";
-        $scope.getPendingPictureData(1);
-    };
+//    $scope.getPendingPictureData=function(pageID){
+//
+//        var url=$scope.projectName+'/picture/Pending/'+pageID.toString()+$scope.orderCondition;
+//       // console.log(url);
+//        $http.get(url).success(function(data){
+//            //console.log(data);
+//            $scope.pendingPictureData=data;
+//            $scope.pageNums=getPageNums($scope.pendingPictureData.pageCount);
+//            //console.log("成功获取数据");
+//        });
+//    };
+//    $scope.getPendingPictureData(1);//生成待审页面时即产生第一页数据
+//
+//    $scope.refreshPendingPicture=function()
+//    {
+//        clearArticleSelections();
+//        $scope.orderCondition="";
+//        $scope.getPendingPictureData(1);
+//    };
 
     //排序---------------------------------------------------------------------------------------------------------------
     var wordsOrderState="desc";
     $scope.orderByWords=function(){
         if(wordsOrderState=="desc"){
-            $scope.orderCondition="/words/"+"asc";
+            $scope.transOrderConditions("/words/asc");
             wordsOrderState="asc";
         }else if(wordsOrderState=="asc"){
-            $scope.orderCondition="/words/"+"desc";
+            $scope.transOrderConditions("/words/desc");
             wordsOrderState="desc";
         }
         $scope.getPendingPictureData(1);
@@ -50,10 +50,10 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
     var newsCommendsOrderState="desc";
     $scope.orderByNewsCommends=function(){
         if(newsCommendsOrderState=="desc"){
-            $scope.orderCondition="/newsCommends/"+"asc";
+            $scope.transOrderConditions("/newsCommends/asc");
             newsCommendsOrderState="asc";
         }else if(newsCommendsOrderState=="asc"){
-            $scope.orderCondition="/newsCommends/"+"desc";
+            $scope.transOrderConditions("/newsCommends/desc");
             newsCommendsOrderState="desc";
         }
         $scope.getPendingPictureData(1);
@@ -61,10 +61,10 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
         if(crawlerCommendsOrderState=="desc"){
-            $scope.orderCondition="/crawlerCommends/"+"asc";
+            $scope.transOrderConditions("/crawlerCommends/asc");
             crawlerCommendsOrderState="asc";
         }else if(crawlerCommendsOrderState=="asc"){
-            $scope.orderCondition="/crawlerCommends/"+"desc";
+            $scope.transOrderConditions("/crawlerCommends/desc");
             crawlerCommendsOrderState="desc";
         }
         $scope.getPendingPictureData(1);
@@ -73,10 +73,10 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
     var timeOrderState="desc";
     $scope.orderByTime=function(){
         if(timeOrderState=="desc"){
-            $scope.orderCondition="/time/"+"asc";
+            $scope.transOrderConditions("/time/asc");
             timeOrderState="asc";
         }else if(timeOrderState=="asc"){
-            $scope.orderCondition="/time/"+"desc";
+            $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
         $scope.getPendingPictureData(1);
@@ -85,10 +85,10 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
     var clicksOrderState="desc";
     $scope.orderByClicks=function(){
         if(clicksOrderState=="desc"){
-            $scope.orderCondition="/clicks/"+"asc";
+            $scope.transOrderConditions("/clicks/asc");
             clicksOrderState="asc";
         }else if(clicksOrderState=="asc"){
-            $scope.orderCondition="/clicks/"+"desc";
+            $scope.transOrderConditions("/clicks/desc");
             clicksOrderState="desc";
         }
         $scope.getPendingPictureData(1);
@@ -97,10 +97,10 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
     var likesOrderState="desc";
     $scope.orderByLikes=function(){
         if(likesOrderState=="desc"){
-            $scope.orderCondition="/likes/"+"asc";
+            $scope.transOrderConditions("/likes/asc");
             likesOrderState="asc";
         }else if(likesOrderState=="asc"){
-            $scope.orderCondition="/likes/"+"desc";
+            $scope.transOrderConditions("/likes/desc");
             likesOrderState="desc";
         }
         $scope.getPendingPictureData(1);

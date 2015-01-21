@@ -34,38 +34,38 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         {channelName:'娱乐'}
     ];
     //获得顶级目录名----------------------------------------------------------------------------------------------------
-    $scope.newChannelNames=[];
-    $scope.getNewChannelNames=function(){
-        var url=$scope.projectName+'/channel/kuaipai/channels';
-        //console.log(url);
-        $http.get(url).success(function(data){
-            //console.log(data);
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.newChannelNames.push(data[i]);
-                }
-            }else{
-                $scope.newChannelNames=[];
-            }
-            //console.log($scope.newChannelNames);
-        });
-    };
-    $scope.getNewChannelNames();
-    //活动活动目录------------------------------------------------------------------------------------------------------
-    $scope.newActivityNames=[];
-    $scope.getNewActivityNames=function(){
-        var url=$scope.projectName+'/channel/activities';
-        $http.get(url).success(function(data){
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.newActivityNames.push(data[i]);
-                }
-            }else{
-                $scope.newActivityNames=[];
-            }
-        });
-    };
-    $scope.getNewActivityNames();
+//    $scope.newPictureChannelNames=[];
+//    $scope.getNewChannelNames=function(){
+//        var url=$scope.projectName+'/channel/kuaipai/channels';
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            //console.log(data);
+//            if(data.length>0){
+//                for(i=0;i<data.length;i++){
+//                    $scope.newPictureChannelNames.push(data[i]);
+//                }
+//            }else{
+//                $scope.newPictureChannelNames=[];
+//            }
+//            //console.log($scope.newPictureChannelNames);
+//        });
+//    };
+//    $scope.getNewChannelNames();
+//    //活动活动目录------------------------------------------------------------------------------------------------------
+//    $scope.newActivityNames=[];
+//    $scope.getNewActivityNames=function(){
+//        var url=$scope.projectName+'/channel/activities';
+//        $http.get(url).success(function(data){
+//            if(data.length>0){
+//                for(i=0;i<data.length;i++){
+//                    $scope.newActivityNames.push(data[i]);
+//                }
+//            }else{
+//                $scope.newActivityNames=[];
+//            }
+//        });
+//    };
+//    $scope.getNewActivityNames();
     //
     $scope.getEditorContent=function()
     {

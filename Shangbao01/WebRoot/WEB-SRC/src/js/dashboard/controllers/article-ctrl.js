@@ -32,46 +32,46 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         {channelName:'娱乐'}
     ];
     //获得顶级目录名----------------------------------------------------------------------------------------------------
-    $scope.newChannelNames=[];
-    $scope.getNewChannelNames=function(){
-        var url=$scope.projectName+'/channel/channels';
-        //console.log(url);
-        $http.get(url).success(function(data){
-            //console.log(data);
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.checkFirstChannel(data[i]);
-                }
-            }else{
-                $scope.newChannelNames=[];
-            }
-            //console.log($scope.newChannelNames);
-        });
-    };
-    $scope.getNewChannelNames();
-    //判断是否有次级目录-------------------------------------------------------------------------------------------------
-    $scope.checkFirstChannel=function(channelData){
-        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
-        $http.get(url).success(function (data) {
-            if(data.length>0){
-                $scope.getSecondChannelNames(channelData.englishName);
-            }else{
-                $scope.newChannelNames.push(channelData);
-            }
-        });
-    };
-    //获得次级目录名----------------------------------------------------------------------------------------------------
-    $scope.getSecondChannelNames=function(channelName){
-        var url=$scope.projectName+'/channel/'+channelName+'/channels';
-        //console.log(url);
-        $http.get(url).success(function(data){
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.newChannelNames.push(data[i]);
-                }
-            }
-        });
-    };
+//    $scope.newChannelNames=[];
+//    $scope.getNewChannelNames=function(){
+//        var url=$scope.projectName+'/channel/channels';
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            //console.log(data);
+//            if(data.length>0){
+//                for(i=0;i<data.length;i++){
+//                    $scope.checkFirstChannel(data[i]);
+//                }
+//            }else{
+//                $scope.newChannelNames=[];
+//            }
+//            //console.log($scope.newChannelNames);
+//        });
+//    };
+//    $scope.getNewChannelNames();
+//    //判断是否有次级目录-------------------------------------------------------------------------------------------------
+//    $scope.checkFirstChannel=function(channelData){
+//        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
+//        $http.get(url).success(function (data) {
+//            if(data.length>0){
+//                $scope.getSecondChannelNames(channelData.englishName);
+//            }else{
+//                $scope.newChannelNames.push(channelData);
+//            }
+//        });
+//    };
+//    //获得次级目录名----------------------------------------------------------------------------------------------------
+//    $scope.getSecondChannelNames=function(channelName){
+//        var url=$scope.projectName+'/channel/'+channelName+'/channels';
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            if(data.length>0){
+//                for(i=0;i<data.length;i++){
+//                    $scope.newChannelNames.push(data[i]);
+//                }
+//            }
+//        });
+//    };
 
     $scope.getEditorContent=function()
     {

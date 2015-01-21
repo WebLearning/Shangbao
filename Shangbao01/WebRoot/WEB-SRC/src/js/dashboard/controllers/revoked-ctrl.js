@@ -10,28 +10,28 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
         console.log($scope.articleSelectionsUrl);
     };
 
-    $scope.revokedData=null;
-    $scope.orderCondition="";
+//    $scope.revokedData=null;
+//    $scope.orderCondition="";
 
     //初始化页面，获取爬虫第一页的数据,返回的是一个titleList-------------------------------------------------------------------
-    $scope.getRevokedData=function(pageID)
-    {
-        var url=$scope.projectName+'/article/Revocation/'+pageID.toString()+$scope.orderCondition;
-        //console.log(url);
-        $http.get(url).success(function(data){
-            $scope.revokedData=data;
-            $scope.pageNums=getPageNums($scope.revokedData.pageCount);
-            //console.log("成功获取数据");
-        });
-    };
-    $scope.getRevokedData(1);//会在生成页面的时候直接运行!
-
-    $scope.refreshRevoked=function()
-    {
-        clearArticleSelections();
-        $scope.orderCondition="";
-        $scope.getRevokedData(1);
-    };
+//    $scope.getRevokedData=function(pageID)
+//    {
+//        var url=$scope.projectName+'/article/Revocation/'+pageID.toString()+$scope.orderCondition;
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            $scope.revokedData=data;
+//            $scope.pageNums=getPageNums($scope.revokedData.pageCount);
+//            //console.log("成功获取数据");
+//        });
+//    };
+//    $scope.getRevokedData(1);//会在生成页面的时候直接运行!
+//
+//    $scope.refreshRevoked=function()
+//    {
+//        clearArticleSelections();
+//        $scope.orderCondition="";
+//        $scope.getRevokedData(1);
+//    };
 
     //初始化表头
 //    $scope.tableHeadsData=["标题","标题Url","文章ID","作者","时间","来源","分类","等级","点击数","评论数","赞数","摘要","字数","活动","选择"];
@@ -250,10 +250,10 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
     var wordsOrderState="desc";
     $scope.orderByWords=function(){
         if(wordsOrderState=="desc"){
-            $scope.orderCondition="/words/"+"asc";
+            $scope.transOrderConditions("/words/asc");
             wordsOrderState="asc";
         }else if(wordsOrderState=="asc"){
-            $scope.orderCondition="/words/"+"desc";
+            $scope.transOrderConditions("/words/desc");
             wordsOrderState="desc";
         }
         $scope.getRevokedData(1);
@@ -262,10 +262,10 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
     var newsCommendsOrderState="desc";
     $scope.orderByNewsCommends=function(){
         if(newsCommendsOrderState=="desc"){
-            $scope.orderCondition="/newsCommends/"+"asc";
+            $scope.transOrderConditions("/newsCommends/asc");
             newsCommendsOrderState="asc";
         }else if(newsCommendsOrderState=="asc"){
-            $scope.orderCondition="/newsCommends/"+"desc";
+            $scope.transOrderConditions("/newsCommends/desc");
             newsCommendsOrderState="desc";
         }
         $scope.getRevokedData(1);
@@ -273,10 +273,10 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
         if(crawlerCommendsOrderState=="desc"){
-            $scope.orderCondition="/crawlerCommends/"+"asc";
+            $scope.transOrderConditions("/crawlerCommends/asc");
             crawlerCommendsOrderState="asc";
         }else if(crawlerCommendsOrderState=="asc"){
-            $scope.orderCondition="/crawlerCommends/"+"desc";
+            $scope.transOrderConditions("/crawlerCommends/desc");
             crawlerCommendsOrderState="desc";
         }
         $scope.getRevokedData(1);
@@ -285,10 +285,10 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
     var timeOrderState="desc";
     $scope.orderByTime=function(){
         if(timeOrderState=="desc"){
-            $scope.orderCondition="/time/"+"asc";
+            $scope.transOrderConditions("/time/asc");
             timeOrderState="asc";
         }else if(timeOrderState=="asc"){
-            $scope.orderCondition="/time/"+"desc";
+            $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
         $scope.getRevokedData(1);
@@ -297,10 +297,10 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
     var clicksOrderState="desc";
     $scope.orderByClicks=function(){
         if(clicksOrderState=="desc"){
-            $scope.orderCondition="/clicks/"+"asc";
+            $scope.transOrderConditions("/clicks/asc");
             clicksOrderState="asc";
         }else if(clicksOrderState=="asc"){
-            $scope.orderCondition="/clicks/"+"desc";
+            $scope.transOrderConditions("/clicks/desc");
             clicksOrderState="desc";
         }
         $scope.getRevokedData(1);
@@ -309,10 +309,10 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
     var likesOrderState="desc";
     $scope.orderByLikes=function(){
         if(likesOrderState=="desc"){
-            $scope.orderCondition="/likes/"+"asc";
+            $scope.transOrderConditions("/likes/asc");
             likesOrderState="asc";
         }else if(likesOrderState=="asc"){
-            $scope.orderCondition="/likes/"+"desc";
+            $scope.transOrderConditions("/likes/desc");
             likesOrderState="desc";
         }
         $scope.getRevokedData(1);

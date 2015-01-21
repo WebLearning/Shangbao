@@ -9,14 +9,14 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
             console.log(data);
         });
     };
-    $scope.refreshGeneralView=function(){
-        var url=$scope.projectName+'/backapp/refresh';
-        //console.log(url);
-        $http.get(url).success(function(data){
-            //console.log(data);
-            $scope.newGeneralViewSections=data;
-        })
-    };
+//    $scope.refreshGeneralView=function(){
+//        var url=$scope.projectName+'/backapp/refresh';
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            //console.log(data);
+//            $scope.newGeneralViewSections=data;
+//        })
+//    };
     $scope.generalViewSections=[
         {"name":"热点",
             "content":["新闻1 标题","新闻2 标题","新闻3 标题","新闻4 标题","新闻5 标题","新闻6 标题","新闻7 标题","新闻8 标题","新闻9 标题"]},
@@ -32,20 +32,20 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
             "content":["新闻1 标题","新闻2 标题","新闻3 标题","新闻4 标题","新闻5 标题"]}
     ];
 
-    $scope.newGeneralViewSections=null;
+//    $scope.newGeneralViewSections=null;
 
     //返回当前所有的分类以及分类的文章----------------------------------------------------------------------------------
-    $scope.getNewGeneralViewData=function()
-    {
-        var url=$scope.projectName+'/backapp/all';
-        //console.log(url);
-        $http.get(url).success(function(data){
-            //console.log(data);
-            $scope.newGeneralViewSections=data;
-            //console.log("成功获取数据");
-        });
-    };
-    $scope.getNewGeneralViewData();
+//    $scope.getNewGeneralViewData=function()
+//    {
+//        var url=$scope.projectName+'/backapp/all';
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            //console.log(data);
+//            $scope.newGeneralViewSections=data;
+//            //console.log("成功获取数据");
+//        });
+//    };
+//    $scope.getNewGeneralViewData();
 
     //设置文章的位置(上移一位，下移一位)--------------------------------------------------------------------------------
     $scope.upGeneralViewArticle=function(channelEnglishName,index){

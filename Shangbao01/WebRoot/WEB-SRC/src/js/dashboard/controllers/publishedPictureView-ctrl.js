@@ -9,6 +9,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         document.getElementById("publishedPictureView").className="tab-pane";
         document.getElementById("publishedPicture").className="tab-pane active";
         document.getElementById("publishedPictureSidebarID").className="sidebar-list";
+        $scope.refreshPublishedPicture();
     };
     $scope.testLog=function()
     {

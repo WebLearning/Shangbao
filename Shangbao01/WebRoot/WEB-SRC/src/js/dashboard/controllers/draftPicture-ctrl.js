@@ -9,29 +9,29 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
         console.log($scope.articleSelectionsUrl);
     };
 
-    $scope.tempPictureData=null;
-    $scope.orderCondition="";
+//    $scope.tempPictureData=null;
+//    $scope.orderCondition="";
 
     //初始化页面，获取草稿箱中第一页的数据,返回的是一个titleList-------------------------------------------------------------------
-    $scope.getTempPictureData=function(pageID)
-    {
-        var url=$scope.projectName+'/picture/Temp/'+pageID.toString()+$scope.orderCondition;
-        //console.log(url);
-        $http.get(url).success(function(data){
-            $scope.tempPictureData=data;
-            $scope.pageNums=getPageNums($scope.tempPictureData.pageCount);
-            //console.log("成功获取数据");
-        });
-    };
-    $scope.getTempPictureData(1);//会在生成页面的时候直接运行!
-
-    $scope.refreshTempPicture=function()
-    {
-        clearArticleSelections();
-        selectByArr([]);
-        $scope.orderCondition="";
-        $scope.getTempPictureData(1);
-    };
+//    $scope.getTempPictureData=function(pageID)
+//    {
+//        var url=$scope.projectName+'/picture/Temp/'+pageID.toString()+$scope.orderCondition;
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            $scope.tempPictureData=data;
+//            $scope.pageNums=getPageNums($scope.tempPictureData.pageCount);
+//            //console.log("成功获取数据");
+//        });
+//    };
+//    $scope.getTempPictureData(1);//会在生成页面的时候直接运行!
+//
+//    $scope.refreshTempPicture=function()
+//    {
+//        clearArticleSelections();
+//        selectByArr([]);
+//        $scope.orderCondition="";
+//        $scope.getTempPictureData(1);
+//    };
 
     //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示
 
@@ -129,18 +129,18 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
     };
 
     //得到页码数组的函数
-    function getPageNums(pageCount)
-    {
-        if(pageCount==1||pageCount<1){
-            return [1];
-        }else{
-            var arr=[];
-            for(i=0;i<pageCount;i++){
-                arr.push(i+1);
-            }
-            return arr;
-        }
-    }
+//    function getPageNums(pageCount)
+//    {
+//        if(pageCount==1||pageCount<1){
+//            return [1];
+//        }else{
+//            var arr=[];
+//            for(i=0;i<pageCount;i++){
+//                arr.push(i+1);
+//            }
+//            return arr;
+//        }
+//    }
 
     //文章的选取和操作------------------------------------------------------------------------------------------------------
     //文章的选取
@@ -257,10 +257,10 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
     var wordsOrderState="desc";
     $scope.orderByWords=function(){
         if(wordsOrderState=="desc"){
-            $scope.orderCondition="/words/"+"asc";
+            $scope.transOrderConditions("/words/asc");
             wordsOrderState="asc";
         }else if(wordsOrderState=="asc"){
-            $scope.orderCondition="/words/"+"desc";
+            $scope.transOrderConditions("/words/desc");
             wordsOrderState="desc";
         }
         $scope.getTempPictureData(1);
@@ -269,10 +269,10 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
     var newsCommendsOrderState="desc";
     $scope.orderByNewsCommends=function(){
         if(newsCommendsOrderState=="desc"){
-            $scope.orderCondition="/newsCommends/"+"asc";
+            $scope.transOrderConditions("/newsCommends/asc");
             newsCommendsOrderState="asc";
         }else if(newsCommendsOrderState=="asc"){
-            $scope.orderCondition="/newsCommends/"+"desc";
+            $scope.transOrderConditions("/newsCommends/desc");
             newsCommendsOrderState="desc";
         }
         $scope.getTempPictureData(1);
@@ -280,10 +280,10 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
         if(crawlerCommendsOrderState=="desc"){
-            $scope.orderCondition="/crawlerCommends/"+"asc";
+            $scope.transOrderConditions("/crawlerCommends/asc");
             crawlerCommendsOrderState="asc";
         }else if(crawlerCommendsOrderState=="asc"){
-            $scope.orderCondition="/crawlerCommends/"+"desc";
+            $scope.transOrderConditions("/crawlerCommends/desc");
             crawlerCommendsOrderState="desc";
         }
         $scope.getTempPictureData(1);
@@ -292,10 +292,10 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
     var timeOrderState="desc";
     $scope.orderByTime=function(){
         if(timeOrderState=="desc"){
-            $scope.orderCondition="/time/"+"asc";
+            $scope.transOrderConditions("/time/asc");
             timeOrderState="asc";
         }else if(timeOrderState=="asc"){
-            $scope.orderCondition="/time/"+"desc";
+            $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
         $scope.getTempPictureData(1);
@@ -304,10 +304,10 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
     var clicksOrderState="desc";
     $scope.orderByClicks=function(){
         if(clicksOrderState=="desc"){
-            $scope.orderCondition="/clicks/"+"asc";
+            $scope.transOrderConditions("/clicks/asc");
             clicksOrderState="asc";
         }else if(clicksOrderState=="asc"){
-            $scope.orderCondition="/clicks/"+"desc";
+            $scope.transOrderConditions("/clicks/desc");
             clicksOrderState="desc";
         }
         $scope.getTempPictureData(1);
@@ -316,10 +316,10 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
     var likesOrderState="desc";
     $scope.orderByLikes=function(){
         if(likesOrderState=="desc"){
-            $scope.orderCondition="/likes/"+"asc";
+            $scope.transOrderConditions("/likes/asc");
             likesOrderState="asc";
         }else if(likesOrderState=="asc"){
-            $scope.orderCondition="/likes/"+"desc";
+            $scope.transOrderConditions("/likes/desc");
             likesOrderState="desc";
         }
         $scope.getTempPictureData(1);

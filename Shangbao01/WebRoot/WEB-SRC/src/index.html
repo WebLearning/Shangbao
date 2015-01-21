@@ -132,9 +132,9 @@
                   <li role="presentation" class="sidebar-list"id="draftPictureSidebarID">
                       <a ng-href="#draftPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
                   </li>
-                  <li role="presentation" class="sidebar-list" id="commentPictureSidebarID">
-                      <a ng-href="#managePicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/管理')">快拍管理<span class="menu-icon glyphicon glyphicon-list-alt"></span></a>
-                  </li>
+                  <!--<li role="presentation" class="sidebar-list" id="commentPictureSidebarID">-->
+                      <!--<a ng-href="#managePicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/管理')">快拍管理<span class="menu-icon glyphicon glyphicon-list-alt"></span></a>-->
+                  <!--</li>-->
               </ul>
           </li>
 		<li role="presentation" class="sidebar-list">
@@ -535,7 +535,7 @@
                         <nav>
                             <ul class="pagination">
                                 <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in crawlerPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                                 <!--<li><a href="#">&raquo;</a></li>-->
                             </ul>
                         </nav>
@@ -639,7 +639,7 @@
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
-                                            <button type="button" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span><span class="sr-only">Plus</span></button>
+                                            <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -793,7 +793,7 @@
                         </div>
                         <nav>
                             <ul class="pagination">
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pendingPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                             </ul>
                         </nav>
                         <div class="pull-right">
@@ -1012,7 +1012,7 @@
                         <nav>
                             <ul class="pagination">
                                 <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in publishedPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                                 <!--<li><a href="#">&raquo;</a></li>-->
                             </ul>
                         </nav>
@@ -1211,7 +1211,7 @@
                         <nav>
                             <ul class="pagination">
                                 <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in revokedPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                                 <!--<li><a href="#">&raquo;</a></li>-->
                             </ul>
                         </nav>
@@ -1315,6 +1315,7 @@
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -1466,7 +1467,7 @@
                         <nav>
                             <ul class="pagination">
                                 <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in tempPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                                 <!--<li><a href="#">&raquo;</a></li>-->
                             </ul>
                         </nav>
@@ -1570,6 +1571,7 @@
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -2160,7 +2162,7 @@
                                     <div class="modal-body">
                                         <form role="form">
                                             <select class="form-control" ng-model="additionChannel" ng-click="consoleLog()">
-                                                <option ng-repeat="x in newChannelNames">{{x.channelName}}</option>
+                                                <option ng-repeat="x in newPictureChannelNames">{{x.channelName}}</option>
                                             </select>
                                         </form>
                                     </div>
@@ -2253,7 +2255,7 @@
                         <nav>
                             <ul class="pagination">
                                 <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in crawlerPicturePageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                                 <!--<li><a href="#">&raquo;</a></li>-->
                             </ul>
                         </nav>
@@ -2448,7 +2450,7 @@
                                     <div class="modal-body">
                                         <form role="form">
                                             <select class="form-control" ng-model="additionChannel">
-                                                <option ng-repeat="x in newChannelNames">{{x.channelName}}</option>
+                                                <option ng-repeat="x in newPictureChannelNames">{{x.channelName}}</option>
                                             </select>
                                         </form>
                                     </div>
@@ -2538,7 +2540,7 @@
                         </div>
                         <nav>
                             <ul class="pagination">
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pendingPicturePageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                             </ul>
                         </nav>
                         <div class="pull-right">
@@ -2739,7 +2741,7 @@
                         </div>
                         <nav>
                             <ul class="pagination">
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in publishePicturePageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                             </ul>
                         </nav>
                         <div class="pull-right">
@@ -2917,7 +2919,7 @@
                         <nav>
                             <ul class="pagination">
                                 <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in revokedPicturePageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                                 <!--<li><a href="#">&raquo;</a></li>-->
                             </ul>
                         </nav>
@@ -3025,6 +3027,7 @@
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -3105,7 +3108,7 @@
                                     <div class="modal-body">
                                         <form role="form">
                                             <select class="form-control" ng-model="additionChannel">
-                                                <option ng-repeat="x in newChannelNames">{{x.channelName}}</option>
+                                                <option ng-repeat="x in newPictureChannelNames">{{x.channelName}}</option>
                                             </select>
                                         </form>
                                     </div>
@@ -3194,7 +3197,7 @@
                         <nav>
                             <ul class="pagination">
                                 <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in tempPicturePageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                                 <!--<li><a href="#">&raquo;</a></li>-->
                             </ul>
                         </nav>
@@ -3302,6 +3305,7 @@
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -3382,7 +3386,7 @@
                                     <div class="modal-body">
                                         <form role="form">
                                             <select class="form-control" ng-model="additionChannel">
-                                                <option ng-repeat="x in newChannelNames">{{x.channelName}}</option>
+                                                <option ng-repeat="x in newPictureChannelNames">{{x.channelName}}</option>
                                             </select>
                                         </form>
                                     </div>

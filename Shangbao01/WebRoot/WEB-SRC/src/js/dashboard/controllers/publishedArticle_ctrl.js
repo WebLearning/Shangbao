@@ -37,6 +37,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         document.getElementById("publishedArticle").className="tab-pane";
         document.getElementById("published").className="tab-pane active";
         document.getElementById("publishedSidebarID").className="sidebar-list";
+        $scope.refreshPublished();
     };
     $scope.testLog=function()
     {
@@ -225,7 +226,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
 
     $scope.getPicUrl=function()
     {
-        var url = document.getElementById("myIFrameID_pending").contentWindow.document.body.innerText;
+        var url = document.getElementById("myIFrameID_published").contentWindow.document.body.innerText;
         //url=url.substr(8);
         //url=$scope.projectName+"/WEB-SRC"+url;
         return url;
@@ -247,7 +248,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     //关闭上传框
     $scope.turnOffUploadModal=function()
     {
-        $('#myModal_addIMG_pending').modal('toggle');
+        $('#myModal_addIMG_published').modal('toggle');
     };
 
 

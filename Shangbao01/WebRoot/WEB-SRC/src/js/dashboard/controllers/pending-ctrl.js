@@ -8,38 +8,38 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         console.log($scope.articleSelectionsUrl);
     };
 
-    $scope.pendingData=null;
-    $scope.orderCondition="";
+//    $scope.pendingData=null;
+//    $scope.orderCondition="";
 
     //4.1点击待审文章，初始化页面，获得待审的第一页数据----------------------------------------------------------------------------------
 
-    $scope.getPendingData=function(pageID){
-
-        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+$scope.orderCondition;
-        //console.log(url);
-        $http.get(url).success(function(data){
-            $scope.pendingData=data;
-            $scope.pageNums=getPageNums($scope.pendingData.pageCount);
-            //console.log("成功获取数据");
-        });
-    };
-    $scope.getPendingData(1);//生成待审页面时即产生第一页数据
-
-    $scope.refreshPending=function()
-    {
-        clearArticleSelections();
-        $scope.orderCondition="";
-        $scope.getPendingData(1);
-    };
+//    $scope.getPendingData=function(pageID){
+//
+//        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+$scope.orderCondition;
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            $scope.pendingData=data;
+//            $scope.pageNums=getPageNums($scope.pendingData.pageCount);
+//            //console.log("成功获取数据");
+//        });
+//    };
+//    $scope.getPendingData(1);//生成待审页面时即产生第一页数据
+//
+//    $scope.refreshPending=function()
+//    {
+//        clearArticleSelections();
+//        $scope.orderCondition="";
+//        $scope.getPendingData(1);
+//    };
 
     //排序---------------------------------------------------------------------------------------------------------------
     var wordsOrderState="desc";
     $scope.orderByWords=function(){
         if(wordsOrderState=="desc"){
-            $scope.orderCondition="/words/"+"asc";
+            $scope.transOrderConditions("/words/asc");
             wordsOrderState="asc";
         }else if(wordsOrderState=="asc"){
-            $scope.orderCondition="/words/"+"desc";
+            $scope.transOrderConditions("/words/desc");
             wordsOrderState="desc";
         }
         $scope.getPendingData(1);
@@ -48,10 +48,10 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     var newsCommendsOrderState="desc";
     $scope.orderByNewsCommends=function(){
         if(newsCommendsOrderState=="desc"){
-            $scope.orderCondition="/newsCommends/"+"asc";
+            $scope.transOrderConditions("/newsCommends/asc");
             newsCommendsOrderState="asc";
         }else if(newsCommendsOrderState=="asc"){
-            $scope.orderCondition="/newsCommends/"+"desc";
+            $scope.transOrderConditions("/newsCommends/desc");
             newsCommendsOrderState="desc";
         }
         $scope.getPendingData(1);
@@ -59,10 +59,10 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
         if(crawlerCommendsOrderState=="desc"){
-            $scope.orderCondition="/crawlerCommends/"+"asc";
+            $scope.transOrderConditions("/crawlerCommends/asc");
             crawlerCommendsOrderState="asc";
         }else if(crawlerCommendsOrderState=="asc"){
-            $scope.orderCondition="/crawlerCommends/"+"desc";
+            $scope.transOrderConditions("/crawlerCommends/desc");
             crawlerCommendsOrderState="desc";
         }
         $scope.getPendingData(1);
@@ -71,10 +71,10 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     var timeOrderState="desc";
     $scope.orderByTime=function(){
         if(timeOrderState=="desc"){
-            $scope.orderCondition="/time/"+"asc";
+            $scope.transOrderConditions("/time/asc");
             timeOrderState="asc";
         }else if(timeOrderState=="asc"){
-            $scope.orderCondition="/time/"+"desc";
+            $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
         $scope.getPendingData(1);
@@ -83,10 +83,10 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     var clicksOrderState="desc";
     $scope.orderByClicks=function(){
         if(clicksOrderState=="desc"){
-            $scope.orderCondition="/clicks/"+"asc";
+            $scope.transOrderConditions("/clicks/asc");
             clicksOrderState="asc";
         }else if(clicksOrderState=="asc"){
-            $scope.orderCondition="/clicks/"+"desc";
+            $scope.transOrderConditions("/clicks/desc");
             clicksOrderState="desc";
         }
         $scope.getPendingData(1);
@@ -95,10 +95,10 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     var likesOrderState="desc";
     $scope.orderByLikes=function(){
         if(likesOrderState=="desc"){
-            $scope.orderCondition="/likes/"+"asc";
+            $scope.transOrderConditions("/likes/asc");
             likesOrderState="asc";
         }else if(likesOrderState=="asc"){
-            $scope.orderCondition="/likes/"+"desc";
+            $scope.transOrderConditions("/likes/desc");
             likesOrderState="desc";
         }
         $scope.getPendingData(1);

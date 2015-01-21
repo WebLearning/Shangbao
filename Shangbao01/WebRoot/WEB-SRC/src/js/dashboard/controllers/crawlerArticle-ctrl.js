@@ -37,6 +37,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         document.getElementById("crawlerArticle").className="tab-pane";
         document.getElementById("crawler").className="tab-pane active";
         document.getElementById("crawlerSidebarID").className="sidebar-list";
+        $scope.refreshCrawler();
     };
     $scope.testLog=function()
     {
@@ -109,7 +110,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         //console.log(picUrl);
         var text='<img src="'+picUrl+'">';
         $scope.articleData.content=text+$scope.articleData.content;
-        $scope.$apply();//相当于刷新一下scope 不然内容加不上
+//        $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 
     //添加关键词和分类
@@ -257,47 +258,47 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     };
 
     //获得顶级目录名----------------------------------------------------------------------------------------------------
-    $scope.newChannelNames=[];
-    $scope.getNewChannelNames=function(){
-        var url=$scope.projectName+'/channel/channels';
-        //console.log(url);
-        $http.get(url).success(function(data){
-            //console.log(data);
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.checkFirstChannel(data[i]);
-                }
-            }else{
-                $scope.newChannelNames=[];
-            }
-        });
-    };
-
-    //判断是否有次级目录-------------------------------------------------------------------------------------------------
-    $scope.checkFirstChannel=function(channelData){
-        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
-        $http.get(url).success(function (data) {
-            if(data.length>0){
-                $scope.getSecondChannelNames(channelData.englishName);
-            }else{
-                $scope.newChannelNames.push(channelData);
-            }
-        });
-    };
-    $scope.getNewChannelNames();
-    //获得次级目录名----------------------------------------------------------------------------------------------------
-    $scope.getSecondChannelNames=function(channelName){
-        var url=$scope.projectName+'/channel/'+channelName+'/channels';
-        //console.log(url);
-        $http.get(url).success(function(data){
-            //console.log(data);
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.newChannelNames.push(data[i]);
-                }
-            }
-        });
-    };
+//    $scope.newChannelNames=[];
+//    $scope.getNewChannelNames=function(){
+//        var url=$scope.projectName+'/channel/channels';
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            //console.log(data);
+//            if(data.length>0){
+//                for(i=0;i<data.length;i++){
+//                    $scope.checkFirstChannel(data[i]);
+//                }
+//            }else{
+//                $scope.newChannelNames=[];
+//            }
+//        });
+//    };
+//
+//    //判断是否有次级目录-------------------------------------------------------------------------------------------------
+//    $scope.checkFirstChannel=function(channelData){
+//        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
+//        $http.get(url).success(function (data) {
+//            if(data.length>0){
+//                $scope.getSecondChannelNames(channelData.englishName);
+//            }else{
+//                $scope.newChannelNames.push(channelData);
+//            }
+//        });
+//    };
+//    $scope.getNewChannelNames();
+//    //获得次级目录名----------------------------------------------------------------------------------------------------
+//    $scope.getSecondChannelNames=function(channelName){
+//        var url=$scope.projectName+'/channel/'+channelName+'/channels';
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            //console.log(data);
+//            if(data.length>0){
+//                for(i=0;i<data.length;i++){
+//                    $scope.newChannelNames.push(data[i]);
+//                }
+//            }
+//        });
+//    };
     //关于上传图片的----------------------------------------------------------------------------------------------
 
 

@@ -9,6 +9,7 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
         document.getElementById("pendingPictureView").className="tab-pane";
         document.getElementById("pendingPicture").className="tab-pane active";
         document.getElementById("pendingPictureSidebarID").className="sidebar-list";
+        $scope.refreshPendingPicture();
     };
     $scope.testLog=function()
     {

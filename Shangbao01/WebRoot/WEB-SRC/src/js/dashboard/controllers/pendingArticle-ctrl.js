@@ -37,6 +37,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         document.getElementById("pendingArticle").className="tab-pane";
         document.getElementById("pendingTrial").className="tab-pane active";
         document.getElementById("pendingSidebarID").className="sidebar-list";
+        $scope.refreshPending();
     };
     $scope.testLog=function()
     {
