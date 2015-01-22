@@ -37,6 +37,17 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
 //    $scope.tableHeadsData=["标题","标题Url","文章ID","作者","时间","来源","分类","等级","点击数","评论数","赞数","摘要","字数","活动","选择"];
 
     //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示
+    $scope.checkSummary=function(str){
+        var checkedStr;
+        if(str==null||str==""){
+            checkedStr="无";
+        }else if(str.length>20){
+            checkedStr=str.substr(0,20)+"...";
+        }else{
+            checkedStr=str;
+        }
+        return checkedStr;
+    };
     $scope.checkIfNull=function(str)
     {
         var checkedStr;

@@ -13,6 +13,7 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
 
     $scope.refreshManagePage=function(){
         $scope.getAppNames();
+        $scope.getManageActivityNames();
         $scope.checkNewChannelDataState();
     };
 
@@ -182,4 +183,39 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
             });
         }
     };
+    //关于活动----------------------------------------------------------------------------------------------------------
+//    function uniques(data){
+////        data=data||[];
+//        var a={};
+//        for(var i=0;i<data.length;i++){
+//            var v=data[i];
+//            if(typeof (a[v])=="undefined"){
+//                a[v]=1;
+//            }
+//        }
+//        data.length=0;
+//        for(var i in a){
+//            data[data.length]=i;
+//        }
+//        return data;
+//    }
+    $scope.manageActivityNames=[];
+//    $scope.oldManageActivityNames=[];
+    $scope.getManageActivityNames=function(){
+        var url=$scope.projectName+'/channel/activities';
+        $http.get(url).success(function(data){
+            if(data.length>0){
+                for(i=0;i<data.length;i++){
+                    $scope.manageActivityNames.push(data[i]);
+                }
+            }
+            else{
+                $scope.manageActivityNames=[];
+            }
+        });
+//        if($scope.oldManageActivityNames.length>0){
+//            $scope.manageActivityNames=uniques($scope.oldManageActivityNames);
+//        }
+    };
+    $scope.getManageActivityNames();
 }]);

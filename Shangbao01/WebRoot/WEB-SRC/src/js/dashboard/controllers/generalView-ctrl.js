@@ -46,6 +46,17 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
 //        });
 //    };
 //    $scope.getNewGeneralViewData();
+    $scope.checkTitle=function(str){
+        var checkedStr;
+        if(str==null||str==""){
+            checkedStr="无";
+        }else if(str.length>10){
+            checkedStr=str.substr(0,12)+"...";
+        }else{
+            checkedStr=str;
+        }
+        return checkedStr;
+    };
 
     //设置文章的位置(上移一位，下移一位)--------------------------------------------------------------------------------
     $scope.upGeneralViewArticle=function(channelEnglishName,index){

@@ -262,7 +262,7 @@
 									            <table class="table table-hover">
 										            <tbody>
 											            <tr ng-repeat="newsItem in newsItems track by $index">
-												            <td>{{newsItem.title}}</td>
+												            <td>{{checkTitle(newsItem.title)}}</td>
 												            <td align="right">
 													            <div class="btn-group">
 														            <button type="button" class="btn btn-default btn-xs" ng-click="upGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
@@ -521,7 +521,7 @@
                                         <td>{{checkIfNull(tileObj.clicks)}}</td>
                                         <td>{{checkIfNull(tileObj.newsCommends)}}/{{checkIfNull(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkIfNull(tileObj.likes)}}</td>
-                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkIfNull(tileObj.words)}}</td>
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
@@ -780,7 +780,7 @@
                                         <td>{{checkIfNull(tileObj.clicks)}}</td>
                                         <td>{{checkIfNull(tileObj.newsCommends)}}/{{checkIfNull(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkIfNull(tileObj.likes)}}</td>
-                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkIfNull(tileObj.words)}}</td>
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
@@ -997,7 +997,7 @@
                                         <td>{{checkIfNull(tileObj.clicks)}}</td>
                                         <td>{{checkIfNull(tileObj.newsCommends)}}/{{checkIfNull(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkIfNull(tileObj.likes)}}</td>
-                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkIfNull(tileObj.words)}}</td>
                                         <!--<td>{{checkIfEmpty(tileObj.pictures)}}</td>-->
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
@@ -1204,7 +1204,7 @@
                                         <td>{{checkIfNull(tileObj.clicks)}}</td>
                                         <td>{{checkIfNull(tileObj.newsCommends)}}/{{checkIfNull(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkIfNull(tileObj.likes)}}</td>
-                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkIfNull(tileObj.words)}}</td>
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
@@ -1461,7 +1461,7 @@
                                         <td>{{checkIfNull(tileObj.clicks)}}</td>
                                         <td>{{checkIfNull(tileObj.newsCommends)}}/{{checkIfNull(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkIfNull(tileObj.likes)}}</td>
-                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkIfNull(tileObj.words)}}</td>
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
@@ -1893,6 +1893,32 @@
                                     </tbody>
 
                                 </table>
+                                <p>&nbsp;</p>
+                                <p>&nbsp;</p>
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>活动名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="y in manageActivityNames">
+                                        <td>{{y.channelIndex}}</td>
+                                        <td>{{y.channelName}}</td>
+                                        <td>
+                                            <a href="">修改</a>
+                                            /
+                                            <a href="" ng-click="deleteChannel(y.channelName,y.englishName,'Activity')">删除</a>
+                                            /
+                                            <a href="">上移</a>
+                                            /
+                                            <a href="">下移</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -2249,7 +2275,7 @@
                                         <td>{{checkNum(tileObj.clicks)}}</td>
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkNum(tileObj.likes)}}</td>
-                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkNum(tileObj.words)}}</td>
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
@@ -2535,7 +2561,7 @@
                                         <td>{{checkNum(tileObj.clicks)}}</td>
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkNum(tileObj.likes)}}</td>
-                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkNum(tileObj.words)}}</td>
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
@@ -2735,7 +2761,7 @@
                                         <td>{{checkNum(tileObj.clicks)}}</td>
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkNum(tileObj.likes)}}</td>
-                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkNum(tileObj.words)}}</td>
                                         <!--<td>{{checkIfEmpty(tileObj.pictures)}}</td>-->
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
@@ -2935,7 +2961,7 @@
                                         <td>{{checkNum(tileObj.clicks)}}</td>
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkNum(tileObj.likes)}}</td>
-                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkNum(tileObj.words)}}</td>
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
@@ -3213,7 +3239,7 @@
                                         <td>{{checkNum(tileObj.clicks)}}</td>
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkNum(tileObj.likes)}}</td>
-                                        <td>{{checkIfNull(tileObj.summary)}}</td>
+                                        <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkNum(tileObj.words)}}</td>
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
