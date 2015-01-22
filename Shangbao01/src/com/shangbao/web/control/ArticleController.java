@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.shangbao.app.service.AppPushService;
 import com.shangbao.model.ArticleState;
+import com.shangbao.model.PushModel;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.ArticleService;
@@ -223,9 +224,12 @@ public class ArticleController {
 		publishTask(idList, time);
 	}
 	
-	@RequestMapping(value="/push", method=RequestMethod.GET)
-	public void pushtest(){
-		appPushService.push();
+	@RequestMapping(value="/push", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public void pushtest(@RequestBody PushModel pushModel){
+		if(pushModel.getArticleId() != 0 && pushModel.getMessage() != null){
+			appPushService.push(pushModel.getMessage(), pushModel.getArticleId());
+		}
 	}
 	
 	private void publishTask(final List<Long> idList, final Long date){

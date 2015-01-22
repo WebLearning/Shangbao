@@ -73,6 +73,12 @@ public class CrawlerGetController {
 	@ResponseBody
 	public CrawlerCommend uploadCrawlerComment(@PathVariable("articleId") Long articleId, @RequestBody CrawlerCommend commend){
 		commend.setArticleId(articleId);
+		if(!commend.getCommendList().isEmpty() && commend.getCommendList().get(1).getCommendId() == null){
+			int count = commend.getCommendList().size();
+			for(int i = 0; i < count; i ++){
+				commend.getCommendList().get(i).setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()) + "" + (int)(Math.random()*100) + "" + (int)(Math.random()*100));
+			}
+		}
 		commendServiceImp.add(commend);
 		return commend;
 	}

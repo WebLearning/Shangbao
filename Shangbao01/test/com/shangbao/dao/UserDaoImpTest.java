@@ -21,7 +21,7 @@ public class UserDaoImpTest {
 		UserDao dao = (UserDao) applicationContext.getBean("userDaoImp");
 		PasswordEncoder encoder = (PasswordEncoder) applicationContext.getBean("passwordEncoder");
 		User user = new User();
-		user.setName("kk");
+		user.setName("test");
 		user.setPasswd(encoder.encodePassword("123", null));
 		//user.setPasswd("123");
 		user.setRole("ROLE_USER");

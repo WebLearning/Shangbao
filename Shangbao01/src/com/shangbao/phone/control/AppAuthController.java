@@ -83,6 +83,23 @@ public class AppAuthController {
 		return appResponseModel;
 	}
 	
+	@RequestMapping(value="/register", method=RequestMethod.GET)
+	@ResponseBody
+	public AppResponseModel registerGet(){
+		User user = new User();
+		user.setName("test");
+		user.setPasswd("123");
+		AppResponseModel appResponseModel = new AppResponseModel();
+		if(userIdentifyService.addUser(user)){
+			appResponseModel.setResultCode(1);
+			appResponseModel.setResultMsg("Register Success");
+		}else{
+			appResponseModel.setResultCode(0);
+			appResponseModel.setResultMsg("Register Failed");
+		}
+		return appResponseModel;
+	}
+	
 	@RequestMapping(value="/phoneidentify/{phone:[\\d]+}", method=RequestMethod.GET)
 	@ResponseBody
 	public AppResponseModel AppPhoneNumIdentify(@PathVariable("phone") String phoneNum){

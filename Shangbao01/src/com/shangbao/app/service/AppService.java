@@ -83,7 +83,11 @@ public class AppService {
 				for(Channel sonChannel : sonChannels){
 					List<Article> articles = appModel.getAppMap().get(sonChannel.getChannelName());
 					if(articles != null){
-						appChannelModel.addColumn(sonChannel.getChannelName(), sonChannel.getEnglishName(), articles.subList(0, titleSize));
+						if(titleSize >= articles.size()){
+							appChannelModel.addColumn(sonChannel.getChannelName(), sonChannel.getEnglishName(), articles.subList(0, articles.size() - 1));
+						}else{
+							appChannelModel.addColumn(sonChannel.getChannelName(), sonChannel.getEnglishName(), articles.subList(0, titleSize));
+						}
 					}
 				}
 			}

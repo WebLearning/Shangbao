@@ -35,6 +35,7 @@ public class AppPushService {
 			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
 			appKey = props.getProperty("push_appKey");
 			masterSecret = props.getProperty("push_masterSecret");
+			url = props.getProperty("push_URL");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,28 +45,34 @@ public class AppPushService {
 		addHeader("Authorization", "Basic " + encoded);
 	}
 	
-	public void push(){
-		String result = restTemplate.postForObject(url, getJson(), String.class);
+	public void push(String message, long newsId){
+		String result = restTemplate.postForObject(url, getJson(message, newsId), String.class);
 		//getJson();
 		System.out.println(result);
 	}
 	
-	private String getJson(){
+	private String getJson(String alert, long newsId){
 		String json = "";
 		Map<String, Object> map = new HashedMap();
 		map.put("platform", "all");
 		map.put("audience", "all");
+		
 		Map<String, Object> notification = new HashedMap();
 		Map<String, Object> ios = new HashedMap();
+		Map<String, Object> android = new HashedMap();
 		Map<String, Object> extras = new HashedMap();
-		ios.put("alert", "Hello World2!");
-		//notification.put("ios", ios);
-		notification.put("alert", "Hello World2!");
-		extras.put("newsId", 773);
-		notification.put("extras", extras);
-		map.put("notification", notification);
 		Map<String, Object> options = new HashedMap();
+		
+		ios.put("alert", alert);
+		android.put("alert", alert);
+		extras.put("newsId", newsId);
+		ios.put("extras", extras);
+		android.put("extras", extras);
+		notification.put("ios", ios);
+		notification.put("android", android);
 		options.put("apns_production", false);
+		
+		map.put("notification", notification);
 		map.put("options", options);
 		ObjectMapper mapper = new ObjectMapper();
 		try {

@@ -168,14 +168,14 @@ public class AppModel {
 	public void redeployChannels(){
 		Channel criteriaChannel = new Channel();
 		criteriaChannel.setState(ChannelState.Father);
-		List<Channel> fatherChannels = channelDaoImp.find(criteriaChannel);
+		List<Channel> fatherChannels = channelDaoImp.find(criteriaChannel, new Sort(Direction.ASC, "channelIndex"));
 		if(fatherChannels != null && !fatherChannels.isEmpty()){
 			for(Channel fatherChannel : fatherChannels){
 				channelEn_Cn.put(fatherChannel.getEnglishName(), fatherChannel.getChannelName());
 				Channel sonCriteriaChannel = new Channel();
 				sonCriteriaChannel.setState(ChannelState.Son);
 				sonCriteriaChannel.setRelated(fatherChannel.getChannelName());
-				List<Channel> sonChannels = channelDaoImp.find(sonCriteriaChannel);
+				List<Channel> sonChannels = channelDaoImp.find(sonCriteriaChannel, new Sort(Direction.ASC, "channelIndex"));
 				addTopChannel(fatherChannel, sonChannels);
 				for(Channel sonChannel : sonChannels){
 					channelEn_Cn.put(sonChannel.getEnglishName(), sonChannel.getChannelName());

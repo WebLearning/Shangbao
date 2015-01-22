@@ -94,10 +94,10 @@ public class AppController {
 	 * 获取商报原创
 	 * @return
 	 */
-	@RequestMapping(value="/{phoneType}/original/{pageNo:[\\d]+}", method=RequestMethod.GET)
+	@RequestMapping(value="/{phoneType}/{channelname}/{pageNo:[\\d]+}", method=RequestMethod.GET)
 	@ResponseBody
-	public ColumnPageModel getOriginal(@PathVariable("pageNo") int pageNo){
-		return appService.getArticlesFromChannel("original", pageNo, 10);
+	public ColumnPageModel getOriginal(@PathVariable("pageNo") int pageNo, @PathVariable("channelname") String channelname){
+		return appService.getArticlesFromChannel(channelname, pageNo, 10);
 	}
 	
 	/**
@@ -107,7 +107,7 @@ public class AppController {
 	@RequestMapping(value="/{phoneType}/{channelName:[a-z,A-Z]+}", method=RequestMethod.GET)
 	@ResponseBody
 	public AppChannelModel getChannelContent(@PathVariable("channelName") String channelName){
-		return appService.getChannelModel(channelName, 2);
+		return appService.getChannelModel(channelName, 10);
 	}
 	
 	/**
