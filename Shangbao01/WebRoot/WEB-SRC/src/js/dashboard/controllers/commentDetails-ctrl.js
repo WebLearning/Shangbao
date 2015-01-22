@@ -291,6 +291,7 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         var url=commentDetailsUrl;
         console.log(url);
         var jsonString=JSON.stringify($scope.inputCommentData);
+        console.log($scope.inputCommentData);
         console.log(jsonString);
         $http.post(url,jsonString).success(function(data){
             console.log("添加成功");

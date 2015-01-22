@@ -74,6 +74,23 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
             alert("提交审核文章成功");
         });
     };
+    $scope.sendMessageData={
+        message:"",
+        articleId:null
+    };
+    $scope.sendMessage=function(){
+//        console.log($scope.articleData.id);
+        $scope.sendMessageData.articleId=$scope.articleData.id;
+//        console.log($scope.sendMessageData.message);
+//        console.log($scope.sendMessageData.articleId);
+        var jsonString=JSON.stringify($scope.sendMessageData);
+        console.log(jsonString);
+        var url=$scope.projectName+'/article/push';
+        console.log(url);
+        $http.post(url,jsonString).success(function(){
+            alert("推送成功");
+        });
+    };
 
     //得到字数
     $scope.calculateWords=function()

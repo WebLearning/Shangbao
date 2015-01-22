@@ -63,7 +63,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         //console.log("test new save");
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
-        //console.log($scope.articleData);
+        console.log($scope.articleData);
         var url=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
         //console.log(url);
         $http.put(url,jsonString).success(function(data) {

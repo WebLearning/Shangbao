@@ -1065,14 +1065,6 @@
                                         <input type="text" class="form-control" ng-model="articleData.time" disabled>
                                         <!--<div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"disabled></span></div>-->
                                     <!--</div>-->
-                                    <!--<input type="text" class="form-control" ng-model="articleData.time" disabled>-->
-                                    <!--<input type="date" class="form-control" ng-model="articleData.time"> 方案一-->
-                                    <!--<div class="input-group date form_datetime" data-date="2014-06-21T15:25:00Z"> 方案二-->
-                                    <!--<span class="input-group-addon">Start</span>-->
-                                    <!--<input class="form-control" size="16" type="text" value="" id="" ng-model="articleData.time">-->
-                                    <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
-                                    <!--<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>-->
-                                    <!--</div>-->
                                 </div>
                                 <label class="col-md-1 control-label">等级</label>
                                 <div class="col-md-5">
@@ -1138,15 +1130,31 @@
                                     <textarea class="form-control" rows="5" ng-model="articleData.content"></textarea>
                                 </div>
                             </div>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#send_published">推送</button>
+                            </div>
                         </form>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
-                        <!-- Modal add picture  -->
-                        <!---->
-                        <!-- Modal add keyword  -->
-
-                        <!-- Modal add channel  -->
+                        <!-- Modal add sendMessage  -->
+                        <div class="modal fade" id="send_published" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">添加推送信息</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" class="form-control" value="articleData.title" ng-model="sendMessageData.message">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="sendMessage()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
