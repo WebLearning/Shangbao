@@ -79,6 +79,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
 //            $scope.getNewChannelNames();
         }else if(str=="快拍成都/新建"){
             clearNewArticleData();
+            $scope.getNewActivityNames();
         }
         else if(str=="文章/爬虫文章"){
             $scope.refreshCrawler();
@@ -103,7 +104,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
         }else if(str=="快拍成都/草稿箱"){
             $scope.refreshTempPicture();
         }else if(str=="评论"){
-
+            $scope.goCommentList();
         }
     };
 
@@ -154,6 +155,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
     var commentDetailsUrl="";
     $scope.commentDetailTitle="";
 
+//全局共用数据----------------------------------------------------------------------------------------------------------
     $scope.orderCondition="";
     $scope.transOrderConditions=function(str){
         $scope.orderCondition=str;
@@ -178,6 +180,31 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
 //        $scope.articleSelections=[];
 //        $scope.articleSelectionsUrl="";
 //    }
+    //获取评论数据----------------------------------------------------------------------------------------------------------
+    $scope.commentData=null;
+    $scope.getCommentData=function(pageID)
+    {
+        var url=$scope.projectName+'/commend/'+pageID.toString()+$scope.orderCondition;
+//        console.log(url);
+        $http.get(url).success(function(data){
+            $scope.commentData=data;
+            $scope.commentPageNums=getPageNums($scope.commentData.pageCount);
+//            console.log("成功获取数据");
+        });
+    };
+    $scope.getCommentData(1);//会在生成页面的时候直接运行!
+
+    $scope.refreshComment=function()
+    {
+        $scope.orderCondition="";
+        $scope.getCommentData(1);
+    };
+    $scope.goCommentList=function()
+    {
+        document.getElementById("comment").className="tab-pane active";
+        document.getElementById("commentDetails").className="tab-pane";
+        $scope.refreshComment();
+    };
 //（1）获取爬虫数据-----------------------------------------------------------------------------------------------------
     $scope.crawlerData=null;
     $scope.getCrawlerData=function(pageID)
@@ -320,6 +347,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
 //        clearArticleSelections();
         $scope.orderCondition="";
         $scope.getCrawlerPictureData(1);
+        $scope.getNewActivityNames();
     };
 //(8)获取快拍待审数据---------------------------------------------------------------------------------------------------
     $scope.pendingPictureData=null;
@@ -359,6 +387,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
         $scope.orderCondition="";
         console.log("test");
         $scope.getPublishedPictureData(1);
+//        $scope.getNewActivityNames();
     };
 //（10）获取快拍已撤销--------------------------------------------------------------------------------------------------
     $scope.revokedPictureData=null;
@@ -378,6 +407,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
 //        clearArticleSelections();
         $scope.orderCondition="";
         $scope.getRevokedPictureData(1);
+        $scope.getNewActivityNames();
     };
 //（11）获取快拍草稿箱数据----------------------------------------------------------------------------------------------
     $scope.tempPictureData=null;
@@ -399,8 +429,24 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
 //        selectByArr([]);
         $scope.orderCondition="";
         $scope.getTempPictureData(1);
+        $scope.getNewActivityNames();
     };
 //(12)获取分类(文章）----------------------------------------------------------------------------------------------------------
+    function uniques(data){
+//        data=data||[];
+        var a={};
+        for(var i=0;i<data.length;i++){
+            var v=data[i];
+            if(typeof (a[v])=="undefined"){
+                a[v]=1;
+            }
+        }
+        data.length=0;
+        for(var i in a){
+            data[data.length]=i;
+        }
+        return data;
+    }
     $scope.newChannelNames=[];
     $scope.getNewChannelNames=function(){
         var url=$scope.projectName+'/channel/channels';
@@ -461,17 +507,22 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
     $scope.getNewPictureChannelNames();
     //活动活动目录------------------------------------------------------------------------------------------------------
     $scope.newActivityNames=[];
+    $scope.oldActivityNames=[];
     $scope.getNewActivityNames=function(){
         var url=$scope.projectName+'/channel/activities';
         $http.get(url).success(function(data){
             if(data.length>0){
                 for(i=0;i<data.length;i++){
-                    $scope.newActivityNames.push(data[i]);
+                    $scope.oldActivityNames.push(data[i]);
                 }
             }else{
-                $scope.newActivityNames=[];
+                $scope.oldActivityNames=[];
             }
         });
+//        console.log($scope.oldActivityNames);
+        if($scope.oldActivityNames.length>0){
+            $scope.newActivityNames=uniques($scope.oldActivityNames);
+        }
     };
     $scope.getNewActivityNames();
 }]);

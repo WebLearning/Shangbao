@@ -1812,7 +1812,7 @@
                                 <nav>
                                     <ul class="pagination">
                                         <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                        <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                        <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in commentPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                                         <!--<li><a href="#">&raquo;</a></li>-->
                                     </ul>
                                 </nav>
@@ -2426,7 +2426,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <button type="button" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                         <h4 class="modal-title">添加关键词</h4>
                                     </div>
                                     <div class="modal-body">

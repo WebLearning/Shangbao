@@ -68,14 +68,15 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
     };
     $scope.addReply=function(){
         var url=commentDetailsUrl+'/'+$scope.addReplyCommentId;
-        console.log(url);
+//        console.log(url);
         var jsonString=JSON.stringify($scope.replyData);
-        console.log(jsonString);
+//        console.log(jsonString);
         $http.post(url,jsonString).success(function(data){
             console.log("添加成功");
         });
+
+        $('#myModal_addReply').modal('toggle');
         $scope.refreshCommentDetails();
-        $('#myModal_addReply').modal('toggle')
     };
     $scope.dateStringToDate=function(dateStr)
     {
@@ -89,11 +90,12 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
 
 
     //返回评论列表--------------------------------------------------------------------------------------------------------
-    $scope.goCommentList=function()
-    {
-        document.getElementById("comment").className="tab-pane active";
-        document.getElementById("commentDetails").className="tab-pane";
-    };
+//    $scope.goCommentList=function()
+//    {
+//        document.getElementById("comment").className="tab-pane active";
+//        document.getElementById("commentDetails").className="tab-pane";
+//        $scope.refreshComment();
+//    };
 
 
     //页面跳转------------------------------------------------------------------------------------------------------------

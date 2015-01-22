@@ -30,27 +30,27 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
         });
     };
 
-    $scope.commentData=null;
-    $scope.orderCondition="";
+//    $scope.commentData=null;
+//    $scope.orderCondition="";
 
     //初始化页面，获取爬虫第一页的数据,返回的是一个titleList-------------------------------------------------------------------
-    $scope.getCommentData=function(pageID)
-    {
-        var url=$scope.projectName+'/commend/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
-        $http.get(url).success(function(data){
-            $scope.commentData=data;
-            $scope.pageNums=getPageNums($scope.commentData.pageCount);
-            console.log("成功获取数据");
-        });
-    };
-    $scope.getCommentData(1);//会在生成页面的时候直接运行!
-
-    $scope.refreshComment=function()
-    {
-        $scope.orderCondition="";
-        $scope.getCommentData(1);
-    };
+//    $scope.getCommentData=function(pageID)
+//    {
+//        var url=$scope.projectName+'/commend/'+pageID.toString()+$scope.orderCondition;
+//        console.log(url);
+//        $http.get(url).success(function(data){
+//            $scope.commentData=data;
+//            $scope.pageNums=getPageNums($scope.commentData.pageCount);
+//            console.log("成功获取数据");
+//        });
+//    };
+//    $scope.getCommentData(1);//会在生成页面的时候直接运行!
+//
+//    $scope.refreshComment=function()
+//    {
+//        $scope.orderCondition="";
+//        $scope.getCommentData(1);
+//    };
 
     //检查表的内容 数据若是NULL则显示"无",状态转化成中文
     $scope.checkIfNull=function(str)
@@ -130,55 +130,61 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
     };
 
     //得到页码数组的函数
-    function getPageNums(pageCount)
-    {
-        if(pageCount==1||pageCount<1){
-            return [1];
-        }else{
-            var arr=[];
-            for(i=0;i<pageCount;i++){
-                arr.push(i+1);
-            }
-            return arr;
-        }
-    }
+//    function getPageNums(pageCount)
+//    {
+//        if(pageCount==1||pageCount<1){
+//            return [1];
+//        }else{
+//            var arr=[];
+//            for(i=0;i<pageCount;i++){
+//                arr.push(i+1);
+//            }
+//            return arr;
+//        }
+//    }
 
     //排序---------------------------------------------------------------------------------------------------------------
     var orderState="none";
     $scope.orderByState=function(){
         if(orderState=="none"){
-            $scope.orderCondition="/state";
+//            $scope.orderCondition="/state";
+            $scope.transOrderConditions("/state");
             orderState="state";
-            $scope.getCommentData(1);
         }else if(orderState=="state"){
-            $scope.orderCondition="";
+            $scope.transOrderConditions("");
             orderState="none"
-            $scope.getCommentData(1);
+//            $scope.getCommentData(1);
         }
+        $scope.getCommentData(1);
     };
     var orderNewsCommends="none";
     $scope.orderByNewsCommends=function(){
         if(orderNewsCommends=="none"){
-            $scope.orderCondition="/newsCommends";
+//            $scope.orderCondition="/newsCommends";
+            $scope.transOrderConditions("/newsCommends");
             orderNewsCommends="newsCommends";
-            $scope.getCommentData(1);
+//            $scope.getCommentData(1);
         }else if(orderNewsCommends=="newsCommends"){
-            $scope.orderCondition="";
+//            $scope.orderCondition="";
+            $scope.transOrderConditions("");
             orderNewsCommends="none";
-            $scope.getCommentData(1);
         }
+        $scope.getCommentData(1);
     };
     var orderCrawlerCommends="none";
     $scope.orderByCrawlerCommends=function(){
         if(orderCrawlerCommends=="none"){
-            $scope.orderCondition="/crawlerCommends";
+//            $scope.orderCondition="/crawlerCommends";
+            $scope.transOrderConditions("/crawlerCommends");
             orderCrawlerCommends="crawlerCommends";
-            $scope.getCommentData(1);
+//            $scope.getCommentData(1);
         }else if(orderCrawlerCommends=="crawlerCommends"){
-            $scope.orderCondition="";
+//            $scope.orderCondition="";
+            $scope.transOrderConditions("");
             orderCrawlerCommends="none";
-            $scope.getCommentData(1);
+//            $scope.getCommentData(1);
         }
+        $scope.getCommentData(1);
     };
 
 }]);

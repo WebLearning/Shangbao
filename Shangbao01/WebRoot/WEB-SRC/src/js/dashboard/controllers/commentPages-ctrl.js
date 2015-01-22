@@ -15,11 +15,11 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
     $scope.getCommentDetailData=function(pageID)
     {
         var url=commentDetailsUrl+"/"+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+//        console.log(url);
         $http.get(url).success(function(data){
             $scope.commentDetailData=data;
             $scope.pageNums=getPageNums($scope.commentDetailData.pageCount);
-            console.log("成功获取数据");
+//            console.log("成功获取数据");
         });
     };
 //    $scope.getCommentDetailData(1);
