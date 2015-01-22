@@ -29,6 +29,24 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         }
         $scope.calculateWords();
     };
+    $scope.sendPictureMessageData={
+        message:"",
+        articleId:null
+    };
+    $scope.sendPictureMessage=function(){
+//        console.log($scope.articleData.id);
+        $scope.sendPictureMessageData.articleId=$scope.articleData.id;
+//        console.log($scope.sendPictureMessageData.message);
+//        console.log($scope.sendPictureMessageData.articleId);
+        var jsonString=JSON.stringify($scope.sendPictureMessageData);
+        console.log(jsonString);
+        var url=$scope.projectName+'/article/push';
+        console.log(url);
+        $http.post(url,jsonString).success(function(){
+            alert("推送成功");
+            $('#send_publishedPicture').modal('toggle');
+        });
+    };
 
     //得到字数
     $scope.calculateWords=function()

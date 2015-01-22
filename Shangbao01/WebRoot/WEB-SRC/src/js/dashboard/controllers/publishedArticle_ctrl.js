@@ -78,6 +78,9 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         message:"",
         articleId:null
     };
+    $scope.valueMessage={
+        Message:"articleData.title"
+    };
     $scope.sendMessage=function(){
 //        console.log($scope.articleData.id);
         $scope.sendMessageData.articleId=$scope.articleData.id;
@@ -89,6 +92,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         console.log(url);
         $http.post(url,jsonString).success(function(){
             alert("推送成功");
+            $('#send_published').modal('toggle');
         });
     };
 

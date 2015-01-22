@@ -58,15 +58,24 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
         }
         //return arr.toString();
     };
+    function formatDate(now){
+        var   year=now.getFullYear();
+        var   month=now.getMonth()+1;
+        var   date=now.getDate();
+        var   hour=now.getHours();
+        var   minute=now.getMinutes();
+        var   second=now.getSeconds();
+        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
+    }
+
     $scope.dateStringToDate=function(dateStr)
     {
         if(dateStr==null||dateStr==""){
             return "无";
         }else{
-            var date=new Date(Date(dateStr));
-            return date.toDateString();
+            var date=new Date(dateStr);
+            return formatDate(date);
         }
-
     };
 
     //文章跳转------------------------------------------------------------------------------------------------------------
