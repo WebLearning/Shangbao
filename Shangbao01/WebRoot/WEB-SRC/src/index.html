@@ -1131,7 +1131,7 @@
                                 </div>
                             </div>
                             <div class="pull-right">
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#send_published">推送</button>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#send_published" ng-click="assignValueMessage()">推送</button>
                             </div>
                         </form>
                         <p>&nbsp;</p>
@@ -1146,7 +1146,7 @@
                                         <h4 class="modal-title">添加推送信息</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="text" class="form-control" ng-value="articleData.title" ng-model="sendMessageData.message">
+                                        <input type="text" id="inputMessage_published" class="form-control" value="" ng-model="sendMessageData.message">
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -2867,7 +2867,7 @@
                                 </div>
                             </div>
                             <div class="pull-right">
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#send_publishedPicture">推送</button>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#send_publishedPicture" ng-click="assignPictureValueMessage()">推送</button>
                             </div>
                         </form>
                         <p>&nbsp;</p>
@@ -2880,7 +2880,7 @@
                                         <h4 class="modal-title">添加推送信息</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="text" class="form-control" value="articleData.title" ng-model="sendPictureMessageData.message">
+                                        <input id="inputMessage_publishedPicture" type="text" class="form-control" value="" ng-model="sendPictureMessageData.message">
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>

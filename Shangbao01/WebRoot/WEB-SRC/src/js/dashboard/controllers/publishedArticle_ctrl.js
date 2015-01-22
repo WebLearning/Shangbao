@@ -78,8 +78,11 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         message:"",
         articleId:null
     };
-    $scope.valueMessage={
-        Message:"articleData.title"
+    $scope.assignValueMessage=function(){
+//        $scope.valueMessage.Message=$scope.articleData.title;
+        var inputMessageid=document.getElementById("inputMessage_published");
+        inputMessageid.value=$scope.articleData.title;
+        inputMessageid.setAttribute("value",inputMessageid.value);
     };
     $scope.sendMessage=function(){
 //        console.log($scope.articleData.id);

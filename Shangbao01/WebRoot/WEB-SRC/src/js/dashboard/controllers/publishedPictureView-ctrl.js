@@ -33,6 +33,12 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         message:"",
         articleId:null
     };
+    $scope.assignPictureValueMessage=function(){
+//        $scope.valueMessage.Message=$scope.articleData.title;
+        var inputMessageid=document.getElementById("inputMessage_publishedPicture");
+        inputMessageid.value=$scope.articleData.title;
+        inputMessageid.setAttribute("value",inputMessageid.value);
+    };
     $scope.sendPictureMessage=function(){
 //        console.log($scope.articleData.id);
         $scope.sendPictureMessageData.articleId=$scope.articleData.id;
