@@ -250,7 +250,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     //上传图片
     $scope.uploadImg=function()
     {
-        document.form_newPicture.action=$scope.projectActionName;
+        document.form_newPicture.action=$scope.projectPicActionName;
         $('#myPictureUploadImgForm').submit();
         $scope.enableConfirmButton();
     };

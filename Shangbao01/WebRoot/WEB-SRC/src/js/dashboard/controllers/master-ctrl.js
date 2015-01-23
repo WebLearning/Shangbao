@@ -13,7 +13,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
     //IP和projectName的全局变量
     $scope.projectName="http://localhost:8080/Shangbao01";
     $scope.projectActionName="http://localhost:8080/Shangbao01/article/upload";
-
+    $scope.projectPicActionName="http://localhost:8080/Shangbao01/picture/upload";
     $scope.articleData={
         activity:"" ,
         author: "",
