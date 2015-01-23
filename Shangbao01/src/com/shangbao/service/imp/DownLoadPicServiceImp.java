@@ -236,6 +236,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 			byte[] bytes;
 			bytes = restTemplate.getForObject(singlePicUrl, byte[].class);
 			String returnUrl = "";
+			String returnSim = "";
 			//FileOutputStream fos;
 			try(FileOutputStream fos = 
 					new FileOutputStream(localPicDir + File.separator + dateString + File.separator +
@@ -243,9 +244,14 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				fos.write(bytes); 
 				returnUrl = localPicDir.split("Shangbao01")[1] + File.separator + dateString
 						 + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"));
-				compressPicUtils.compressPic(new File(path.toFile().getAbsolutePath() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))), 
-											 new File(pathSim.toFile().getAbsoluteFile() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))),
-											 180, 120, false);
+				returnSim = localPicDir.split("Shangbao01")[1] + File.separator + dateString + File.separator + "sim"
+						 + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"));
+//				compressPicUtils.compressPic(new File(path.toFile().getAbsolutePath() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))), 
+//											 new File(pathSim.toFile().getAbsoluteFile() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))),
+//											 800, 0, true);
+				compressPicUtils.compressByThumbnailator(new File(path.toFile().getAbsolutePath() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))),
+														 new File(pathSim.toFile().getAbsoluteFile() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/")))
+				 										 , 800, 0, 0.5, true);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -253,7 +259,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			localPicUrls.add(localHost + returnUrl.replaceAll("\\\\", "/"));
+			localPicUrls.add(localHost + returnSim.replaceAll("\\\\", "/"));
 		}
 		return localPicUrls;
 	}

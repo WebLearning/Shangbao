@@ -425,6 +425,9 @@ public class AppModel {
 		Update update = new Update();
 		update.inc("likes", 1);
 		articleDaoImp.update(criteriaArticle, update);
+		if(articleMap.get(articleId) != null){
+			articleMap.get(articleId).setLikes(articleMap.get(articleId).getLikes() + 1);
+		}
 	}
 	
 	/**
@@ -437,6 +440,9 @@ public class AppModel {
 		Update update = new Update();
 		update.inc("clicks", 1);
 		articleDaoImp.update(criteriaArticle, update);
+		if(articleMap.get(articleId) != null){
+			articleMap.get(articleId).setClicks(articleMap.get(articleId).getClicks() + 1);
+		}
 	}
 	
 	public void postPictures(Article pictureArticle){

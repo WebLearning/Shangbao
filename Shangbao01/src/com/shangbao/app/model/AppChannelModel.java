@@ -70,8 +70,12 @@ public class AppChannelModel {
 			//this.picUrl = article.getPicturesUrl();
 			if(article.getPicturesUrl() != null && !article.getPicturesUrl().isEmpty()){
 				for(String url : article.getPicturesUrl()){
-					String newUrl = url.substring(0, url.lastIndexOf("/")) + "/sim" + url.substring(url.lastIndexOf("/"));
-					picUrl.add(newUrl);
+					if(!article.isTag()){
+						String newUrl = url.substring(0, url.lastIndexOf("/")) + "/sim" + url.substring(url.lastIndexOf("/"));
+						picUrl.add(newUrl);
+					}else{
+						picUrl.add(url);
+					}
 				}
 			}
 			this.summary = article.getSummary();

@@ -124,10 +124,10 @@ public class AppController {
 	 * 获取新闻详细页面
 	 * @return
 	 */
-	@RequestMapping(value="/{phoneType}/articledetail/{articleId:[\\d]+}", method=RequestMethod.GET)
+	@RequestMapping(value="/{phoneType}/articledetail/{articleId:[\\d]+}", method=RequestMethod.GET, produces={"text/html;charset=UTF-8"})
 	@ResponseBody
-	public AppHtml getNews(@PathVariable("articleId") long articleId){
-		return appService.getNewsHtml(articleId);
+	public String getNews(@PathVariable("articleId") long articleId){
+		return appService.getNewsHtml(articleId).html;
 	}
 	
 	/**
@@ -156,7 +156,7 @@ public class AppController {
 	/**
 	 * 发表评论
 	 */
-	@Secured("ROLE_USER")
+	//@Secured("ROLE_USER")
 	@RequestMapping(value="/{phoneType}/{newsId:[\\d]+}/comment", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void sendComment(@PathVariable("newsId") Long articleId, @RequestBody SingleCommend comment){
@@ -195,7 +195,7 @@ public class AppController {
 	/**
 	 * 上传用户图片
 	 */
-	@Secured("ROLE_USER")
+	//@Secured("ROLE_USER")
 	@RequestMapping(value="/sendarticle", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
@@ -211,7 +211,7 @@ public class AppController {
 		return "done";
 	}
 	
-	@Secured("ROLE_USER")
+	//@Secured("ROLE_USER")
 	@RequestMapping(value = "/{userId:[\\d]+}/uploadpic", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
@@ -244,8 +244,9 @@ public class AppController {
 				FileOutputStream fos = new FileOutputStream(fileURL + File.separator + fileNameString);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				compressPicUtils.compressPic(new File(fileURL + File.separator + fileNameString), new File(fileUrlSim + File.separator + fileNameString), 180, 120, true);
-				returnPath = path.toString().split("Shangbao01")[1] + File.separator + fileNameString;
+				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileUrlSim + File.separator + fileNameString), 800, 0, 0.5, true);
+				//returnPath = path.toString().split("Shangbao01")[1] + File.separator + fileNameString;
+				returnPath = path.toString().split("Shangbao01")[1] + File.separator + "sim" + File.separator + fileNameString;
 				System.out.println(returnPath);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

@@ -59,8 +59,12 @@ public class ColumnPageModel {
 			//this.picUrl = article.getPicturesUrl();
 			if(article.getPicturesUrl() != null && !article.getPicturesUrl().isEmpty()){
 				for(String url : article.getPicturesUrl()){
-					String newUrl = url.substring(0, url.lastIndexOf("/")) + "/sim" + url.substring(url.lastIndexOf("/"));
+					String newUrl = url;
+					if(!article.isTag()){ //不是快拍成都的新闻
+						newUrl = url.substring(0, url.lastIndexOf("/")) + "/sim" + url.substring(url.lastIndexOf("/"));
+					}
 					picUrl.add(newUrl);
+					//System.out.println(article.getTitle() + "  " + article.isTag() + " "  + url);
 				}
 			}
 			this.summary = article.getSummary();

@@ -104,7 +104,8 @@
 	
 	<!-- spring task -->
 	<task:scheduled-tasks>   
-        <task:scheduled ref="appService" method="refresh" fixed-delay="10000"/>   
+        <task:scheduled ref="appService" method="refresh" fixed-delay="10000"/> 
+        <task:scheduled ref="downLoadPicServiceImp" method="saveAsArticle" cron="0 0 12 * * ?"/>  
 	</task:scheduled-tasks>
 	
 </beans>
