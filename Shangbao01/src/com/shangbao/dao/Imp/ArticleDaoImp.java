@@ -55,11 +55,19 @@ public class ArticleDaoImp implements ArticleDao {
 					Criteria channelCriteria = Criteria.where("state").is(ArticleState.Published.toString());
 					channelQuery.addCriteria(channelCriteria);
 					channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channelName));
-					channelQuery.limit(1);
+					channelQuery.limit(2);
 					List<Article> articleList = mongoTemplate.find(channelQuery, Article.class);
-					if(articleList != null && !articleList.isEmpty() && articleList.get(0).getChannelIndex().get(channelName) != null){
-						article.getChannelIndex().put(channelName, articleList.get(0).getChannelIndex().get(channelName) + 1);
-					}else{
+					if(articleList != null 
+					   && !articleList.isEmpty() 
+					   && articleList.get(0).getChannelIndex().get(channelName) != null){//有文章
+						if(articleList.get(0).getChannelIndex().get(channelName).equals(Integer.MAX_VALUE)){//有置顶文章
+							if(articleList.get(1) != null && articleList.get(1).getChannelIndex().get(channelName) != null){
+								article.getChannelIndex().put(channelName, articleList.get(1).getChannelIndex().get(channelName) + 1);
+							}
+						}else{//没有置顶文章
+							article.getChannelIndex().put(channelName, articleList.get(0).getChannelIndex().get(channelName) + 1);
+						}
+					}else{//没有文章
 						article.getChannelIndex().put(channelName, 1);
 					}
 				}
@@ -264,19 +272,27 @@ public class ArticleDaoImp implements ArticleDao {
 					Criteria channelCriteria = Criteria.where("state").is(ArticleState.Published.toString());
 					//找出该channel所属文章的最大的index
 					channelQuery.addCriteria(channelCriteria);
+					channelQuery.addCriteria(Criteria.where("channel").is(channel));
 					channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channel));
-					channelQuery.limit(1);
+					channelQuery.limit(2);
 					List<Article> articleList = mongoTemplate.find(channelQuery, Article.class);
 					if(articleList == null || articleList.isEmpty()){
 						//这篇文章是该栏目第一个文章
 						update.set("channelIndex." + channel, 1);
-					}else{
-						//该栏目已经有文章
+					}else if(!articleList.get(0).getChannelIndex().get(channel).equals(Integer.MAX_VALUE)){
+						//该栏目已经有文章,但无置顶文章
 						int index = 1;
 						if(articleList.get(0).getChannelIndex().get(channel) != null){
 							index = articleList.get(0).getChannelIndex().get(channel) + 1;
 						}
 						update.set("channelIndex." + channel, index);
+					}else{
+						//有置顶文章
+						if(articleList.get(1) == null){
+							update.set("channelIndex." + channel, 1);
+						}else{
+							update.set("channelIndex." + channel, articleList.get(1).getChannelIndex().get(channel) + 1);
+						}
 					}
 				}
 			}
@@ -298,18 +314,29 @@ public class ArticleDaoImp implements ArticleDao {
 			//找出该channel所属文章的最大的index
 			channelQuery.addCriteria(channelCriteria);
 			channelQuery.with(new Sort(Direction.DESC, "channelIndex." + channelName));
-			channelQuery.limit(1);
+			channelQuery.limit(2);
 			List<Article> articleList = mongoTemplate.find(channelQuery, Article.class);
 			if(articleList != null && !articleList.isEmpty()){
 				if(articleList.get(0).getId() == articleId)
 					return;
-				int index = articleList.get(0).getChannelIndex().get(channelName);
-				index ++;
+				if(articleList.get(0).getChannelIndex().get(channelName).equals(Integer.MAX_VALUE)){
+					//有置顶文章
+					if(articleList.get(1) == null){
+						return;
+					}else{
+						Integer index = articleList.get(1).getChannelIndex().get(channelName) + 1;
+						Update maxUpdate = new Update();
+						Query maxQuery = new Query();
+						maxQuery.addCriteria(Criteria.where("id").is(articleList.get(0).getId()));
+						maxUpdate.set("channelIndex." + channelName, index);
+						mongoTemplate.updateFirst(maxQuery, maxUpdate, Article.class);
+					}
+				}
 				//将id为articleId的文章置顶
 				Update update = new Update();
 				Query query = new Query();
 				query.addCriteria(Criteria.where("id").is(articleId));
-				update.set("channelIndex." + channelName, index);
+				update.set("channelIndex." + channelName, Integer.MAX_VALUE);
 				WriteResult result = mongoTemplate.updateFirst(query, update, Article.class);
 			}
 		}
@@ -320,6 +347,9 @@ public class ArticleDaoImp implements ArticleDao {
 		Article articleA = mongoTemplate.findById(articleAId, Article.class);
 		Article articleB = mongoTemplate.findById(articleBId, Article.class);
 		if(articleA == null || articleB == null || !articleA.getChannel().contains(channelName) || !articleB.getChannel().contains(channelName)){
+			return;
+		}
+		if(articleA.getChannelIndex().get(channelName).equals(Integer.MAX_VALUE) || articleB.getChannelIndex().get(channelName).equals(Integer.MAX_VALUE)){
 			return;
 		}
 		int indexA = articleB.getChannelIndex().get(channelName);

@@ -120,6 +120,11 @@ public class ChannelServiceImp implements ChannelService{
 
 	@Override
 	public String deleteChannel(Channel channel) {
+		List<Channel> channels = channelDaoImp.find(channel);
+		if(channels.isEmpty() || channels == null){
+			return "error";
+		}
+		channel = channels.get(0);
 		if(channel.getState().equals(ChannelState.Father)){
 			Channel fatherChannel = new Channel();
 			fatherChannel.setState(ChannelState.Son);
@@ -219,14 +224,14 @@ public class ChannelServiceImp implements ChannelService{
 		}
 	}
 	
-	private void updateSonChannelIndex(String fatherEnglistChannel){
+	private void updateSonChannelIndex(String fatherName){
 		Channel fatherChannel = new Channel();
-		fatherChannel.setEnglishName(fatherEnglistChannel);
+		fatherChannel.setChannelName(fatherName);
 		List<Channel> fatherChannels = channelDaoImp.find(fatherChannel);
 		if(fatherChannels == null || fatherChannels.isEmpty()){
 			return;
 		}
-		List<Channel> sonChannels = findAllSonChannels(fatherEnglistChannel);
+		List<Channel> sonChannels = findAllSonChannels(fatherChannels.get(0).getEnglishName());
 		if(sonChannels != null && !sonChannels.isEmpty()){
 			int i = 1;
 			for(Channel sonChannel : sonChannels){

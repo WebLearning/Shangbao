@@ -291,7 +291,7 @@ public class PictureController {
 		Properties props = new Properties();
 		try {
 			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
-			String filePath = props.getProperty("pictureDir") + File.separator +"articlePic";//目录的路径
+			String filePath = props.getProperty("pictureDir") + File.separator +"kuaipaiPic";//目录的路径
 			String filePathSim = filePath + File.separator + "sim";
 			localhostString = props.getProperty("localhost");
 			Path path = Paths.get(filePath);

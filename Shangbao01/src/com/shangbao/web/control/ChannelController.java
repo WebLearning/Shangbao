@@ -83,11 +83,11 @@ public class ChannelController {
 	 * 获取所有的活动
 	 * @return
 	 */
-	@RequestMapping(value="/activities")
-	@ResponseBody
-	public List<Channel> getActivities(){
-		return channelServiceImp.findAllActivities();
-	}
+//	@RequestMapping(value="/activities")
+//	@ResponseBody
+//	public List<Channel> getActivities(){
+//		return channelServiceImp.findAllActivities();
+//	}
 	
 	/**
 	 * 添加一个分类

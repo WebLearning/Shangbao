@@ -107,6 +107,9 @@ public class AppController {
 	@RequestMapping(value="/{phoneType}/{channelName:[a-z,A-Z]+}", method=RequestMethod.GET)
 	@ResponseBody
 	public AppChannelModel getChannelContent(@PathVariable("channelName") String channelName){
+		if(channelName.equals("kuaipai")){
+			return appService.getChannelModel("kuaipai", 1);
+		}
 		return appService.getChannelModel(channelName, 10);
 	}
 	
@@ -274,16 +277,6 @@ public class AppController {
 //		return "sdfsdf";
 //	}
 
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public void appLogIn(@RequestBody User user){
-		if(user.getName() != null && user.getPasswd() != null){
-			BeanFactory factory = new ClassPathXmlApplicationContext();
-			RestTemplate restTemplate = (RestTemplate)factory.getBean("restTemplate");
-			if(restTemplate != null){
-				
-			}
-		}
-	}
 	
 	/**
 	 * 生成验证码的图片
