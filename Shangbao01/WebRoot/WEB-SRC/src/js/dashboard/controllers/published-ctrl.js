@@ -63,15 +63,15 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }
         //return arr.toString();
     };
-    function formatDate(now){
-        var   year=now.getFullYear();
-        var   month=now.getMonth()+1;
-        var   date=now.getDate();
-        var   hour=now.getHours();
-        var   minute=now.getMinutes();
-        var   second=now.getSeconds();
-        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
-    }
+//    function formatDate(now){
+//        var   year=now.getFullYear();
+//        var   month=now.getMonth()+1;
+//        var   date=now.getDate();
+//        var   hour=now.getHours();
+//        var   minute=now.getMinutes();
+//        var   second=now.getSeconds();
+//        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
+//    }
 
     $scope.dateStringToDate=function(dateStr)
     {
@@ -79,7 +79,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             return "无";
         }else{
             var date=new Date(dateStr);
-            return formatDate(date);
+            return $scope.formatDate(date);
         }
     };
     //文章跳转,点击文章名（标题）在新建页面显示文章内容------------------------------------------------------------------------------------------------------------

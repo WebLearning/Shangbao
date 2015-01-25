@@ -73,7 +73,10 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
     //得到字数
     $scope.calculateWords=function()
     {
-        $scope.articleData.words=$scope.articleData.content.length;
+        $scope.articleData.words=$scope.delHtmlTag($scope.articleData.content).length;
+    };
+    $scope.delHtmlTag=function(str){
+        return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     //图片数-----------------------------------------------------
     /*$scope.calculatePictures=function(){
@@ -224,6 +227,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
         $scope.pushPicUrl(url);
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
+        $scope.deletePreviewFrame();
     };
 
     $scope.getPicUrl=function()

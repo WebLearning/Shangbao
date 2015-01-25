@@ -58,6 +58,7 @@
     <script type="text/javascript" src="js/dashboard/controllers/revokedPictureView-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draftPicture-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draftPictureView-ctrl.js"></script>
+    <!--<script type="text/javascript" src="js/dashboard/controllers/managePicture-ctrl.js"></script>-->
     <!--<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">-->
     <!--<script src="js/bootstrap-datetimepicker.js"></script>-->
 
@@ -132,8 +133,8 @@
                   <li role="presentation" class="sidebar-list"id="draftPictureSidebarID">
                       <a ng-href="#draftPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
                   </li>
-                  <!--<li role="presentation" class="sidebar-list" id="commentPictureSidebarID">-->
-                      <!--<a ng-href="#managePicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/管理')">快拍管理<span class="menu-icon glyphicon glyphicon-list-alt"></span></a>-->
+                  <!--<li role="presentation" class="sidebar-list" id="managePictureSidebarID">-->
+                      <!--<a ng-href="#managePicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/活动管理')">活动管理<span class="menu-icon glyphicon glyphicon-list-alt"></span></a>-->
                   <!--</li>-->
               </ul>
           </li>
@@ -378,6 +379,7 @@
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                             <!--<input type="text" ng-model="" placeholder="请输入图片描述" style="width: 100%;height: 30%" >-->
                                         </div>
                                     </div>
@@ -1820,8 +1822,10 @@
                                 <nav>
                                     <ul class="pagination">
                                         <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
+                                        <li><a href="" ng-click="turnToPage((commentData.currentNo)-1)">&laquo;</a></li>
                                         <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in commentPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
                                         <!--<li><a href="#">&raquo;</a></li>-->
+                                        <li ng-class="{disabled: commentData.currentPage == commentData.pageCount}"><a href="" ng-click="turnToPage((commentData.currentNo)+1)">&raquo;</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -1868,8 +1872,8 @@
                                                     <td>{{z.channelIndex}}</td>
                                                     <td>{{z.channelName}}</td>
                                                     <td>
-                                                        <a href="">修改</a>
-                                                        /
+                                                        <!--<a href="">修改</a>-->
+                                                        <!--/-->
                                                         <a href="" ng-click="deleteChannel(z.channelName,z.englishName,'Son')">删除</a>
                                                         /
                                                         <a href="" ng-click="upMove(x.englishName,z.state,z.channelIndex)">上移</a>
@@ -1881,8 +1885,8 @@
                                             </table>
                                         </td>
                                         <td>
-                                            <a href="">修改</a>
-                                            /
+                                            <!--<a href="">修改</a>-->
+                                            <!--/-->
                                             <a href="" ng-click="deleteChannel(x.channelName,x.englishName,'Father')">删除</a>
                                             /
                                             <a href="" ng-click="upMove('top',x.state,x.channelIndex)">上移</a>
@@ -1892,32 +1896,6 @@
                                     </tr>
                                     </tbody>
 
-                                </table>
-                                <p>&nbsp;</p>
-                                <p>&nbsp;</p>
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>序号</th>
-                                        <th>活动名称</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="y in manageActivityNames">
-                                        <td>{{y.channelIndex}}</td>
-                                        <td>{{y.channelName}}</td>
-                                        <td>
-                                            <a href="">修改</a>
-                                            /
-                                            <a href="" ng-click="deleteChannel(y.channelName,y.englishName,'Activity')">删除</a>
-                                            /
-                                            <a href="">上移</a>
-                                            /
-                                            <a href="">下移</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -1991,7 +1969,7 @@
                                             <select class="form-control" ng-model="newChannelDataState" ng-click="checkNewChannelDataState()">
                                                 <option>顶级分类</option>
                                                 <option>下级分类</option>
-                                                <option>活动</option>
+                                                <!--<option>活动</option>-->
                                             </select>
                                         </div>
                                     </div>
@@ -2095,20 +2073,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-1 control-label">活动</label>
-                                <div class="col-md-11">
-                                    <div ng-class="replyBtnStr(newArticleData.activity)">
-                                        <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteActivity()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <div class="caption" align="center">{{newArticleData.activity}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addActivity">添加活动</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-md-1 control-label">活动</label>-->
+                                <!--<div class="col-md-11">-->
+                                    <!--<div ng-class="replyBtnStr(newArticleData.activity)">-->
+                                        <!--<div class="thumbnail">-->
+                                            <!--<button type="button" class="close" ng-click="deleteActivity()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                            <!--<div class="caption" align="center">{{newArticleData.activity}}</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-2">-->
+                                        <!--<button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addActivity">添加活动</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group">
                                 <label class="col-md-1 control-label">图片</label>
                                 <div class="col-md-11">
@@ -2116,6 +2094,7 @@
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -2382,20 +2361,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-1 control-label">活动</label>
-                                <div class="col-md-11">
-                                    <div ng-class="replyBtnStr(articleData.activity)">
-                                        <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteActivity()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <div class="caption" align="center">{{articleData.activity}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addActivity_crawler">添加活动</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-md-1 control-label">活动</label>-->
+                                <!--<div class="col-md-11">-->
+                                    <!--<div ng-class="replyBtnStr(articleData.activity)">-->
+                                        <!--<div class="thumbnail">-->
+                                            <!--<button type="button" class="close" ng-click="deleteActivity()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                            <!--<div class="caption" align="center">{{articleData.activity}}</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-2">-->
+                                        <!--<button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addActivity_crawler">添加活动</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group">
                                 <label class="col-md-1 control-label">图片</label>
                                 <div class="col-md-11">
@@ -2679,20 +2658,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-1 control-label">活动</label>
-                                <div class="col-md-11">
-                                    <div ng-class="replyBtnStr(articleData.activity)">
-                                        <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteActivity()" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <div class="caption" align="center">{{articleData.activity}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="" disabled>添加活动</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-md-1 control-label">活动</label>-->
+                                <!--<div class="col-md-11">-->
+                                    <!--<div ng-class="replyBtnStr(articleData.activity)">-->
+                                        <!--<div class="thumbnail">-->
+                                            <!--<button type="button" class="close" ng-click="deleteActivity()" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                            <!--<div class="caption" align="center">{{articleData.activity}}</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-2">-->
+                                        <!--<button class="btn btn-md btn-default" data-toggle="modal" data-target="" disabled>添加活动</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group">
                                 <label class="col-md-1 control-label">图片</label>
                                 <div class="col-md-11">
@@ -2857,20 +2836,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-1 control-label">活动</label>
-                                <div class="col-md-11">
-                                    <div ng-class="replyBtnStr(articleData.activity)">
-                                        <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteActivity()" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <div class="caption" align="center">{{articleData.activity}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="" disabled>添加分类</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-md-1 control-label">活动</label>-->
+                                <!--<div class="col-md-11">-->
+                                    <!--<div ng-class="replyBtnStr(articleData.activity)">-->
+                                        <!--<div class="thumbnail">-->
+                                            <!--<button type="button" class="close" ng-click="deleteActivity()" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                            <!--<div class="caption" align="center">{{articleData.activity}}</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-2">-->
+                                        <!--<button class="btn btn-md btn-default" data-toggle="modal" data-target="" disabled>添加分类</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group">
                                 <label class="col-md-1 control-label">图片</label>
                                 <div class="col-md-11">
@@ -3062,20 +3041,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-1 control-label">活动</label>
-                                <div class="col-md-11">
-                                    <div ng-class="replyBtnStr(articleData.activity)">
-                                        <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteActivity()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <div class="caption" align="center">{{articleData.activity}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="button" class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addActivity_revoked">添加活动</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-md-1 control-label">活动</label>-->
+                                <!--<div class="col-md-11">-->
+                                    <!--<div ng-class="replyBtnStr(articleData.activity)">-->
+                                        <!--<div class="thumbnail">-->
+                                            <!--<button type="button" class="close" ng-click="deleteActivity()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                            <!--<div class="caption" align="center">{{articleData.activity}}</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-2">-->
+                                        <!--<button type="button" class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addActivity_revoked">添加活动</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group">
                                 <label class="col-md-1 control-label">图片</label>
                                 <div class="col-md-11">
@@ -3340,20 +3319,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-1 control-label">活动</label>
-                                <div class="col-md-11">
-                                    <div ng-class="replyBtnStr(articleData.activity)">
-                                        <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteActivity()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <div class="caption" align="center">{{articleData.activity}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="button" class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addActivity_draft">添加活动</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-md-1 control-label">活动</label>-->
+                                <!--<div class="col-md-11">-->
+                                    <!--<div ng-class="replyBtnStr(articleData.activity)">-->
+                                        <!--<div class="thumbnail">-->
+                                            <!--<button type="button" class="close" ng-click="deleteActivity()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                            <!--<div class="caption" align="center">{{articleData.activity}}</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-2">-->
+                                        <!--<button type="button" class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addActivity_draft">添加活动</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="form-group">
                                 <label class="col-md-1 control-label">图片</label>
                                 <div class="col-md-11">
@@ -3478,9 +3457,84 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="managePicture">
-                快拍管理
-            </div>
+            <!--<div role="tabpanel" class="tab-pane" id="managePicture" ng-controller="managePictureCtrl">-->
+                <!--<div class="row">-->
+                    <!--<div class="col-md-1 col-md-offset-1">-->
+                        <!--<button type="button" class="btn btn-lg btn-info" ng-click="" data-toggle="modal" data-target="#addActivity_picture">添加活动</button>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-1 col-md-offset-7">-->
+                        <!--<button type="button" class="btn btn-md btn-success" ng-click=""><span class="glyphicon glyphicon-refresh"></span></button>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="row">-->
+                    <!--<div class="col-md-9 col-md-offset-1">-->
+                        <!--<div class="panel panel-success">-->
+                            <!--<div class="panel-body">-->
+                                <!--<table class="table table-bordered">-->
+                                    <!--<thead>-->
+                                    <!--<tr>-->
+                                        <!--<th style="width: 10%">序号</th>-->
+                                        <!--<th style="width: 20%">活动名称</th>-->
+                                        <!--<th style="width: 15%">活动时间</th>-->
+                                        <!--<th style="width: 30%">活动介绍</th>-->
+                                        <!--<th style="width: 25%">操作</th>-->
+                                    <!--</tr>-->
+                                    <!--</thead>-->
+                                    <!--<tbody>-->
+                                    <!--<tr ng-repeat="x in manageActivityNames track by $index">-->
+                                        <!--<td>{{x.channelIndex}}</td>-->
+                                        <!--<td>{{x.channelName}}</td>-->
+                                        <!--<td>{{x.startDate}}-{{x.endDate}}</td>-->
+                                        <!--<td>{{x.summary}}</td>-->
+                                        <!--<td>-->
+                                            <!--&lt;!&ndash;<a href="" ng-click="">修改</a>/&ndash;&gt;-->
+                                            <!--<a href="" ng-click="deleteActivity(x.channelName,x.englishName)">删除</a>-->
+                                            <!--/<a href="" ng-click="">上移</a>/<a href="">下移</a>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</tbody>-->
+                                <!--</table>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="modal fade" id="addActivity_picture" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="ture">-->
+                            <!--<div class="modal-dialog">-->
+                                <!--<div class="modal-content">-->
+                                    <!--<div class="modal-header">-->
+                                        <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                        <!--<h4 class="modal-title">添加活动</h4>-->
+                                    <!--</div>-->
+                                    <!--<div class="modal-body">-->
+                                        <!--<form class="form-horizontal" role="form">-->
+                                            <!--<div class="form-group">-->
+                                                <!--<label class="col-md-2 control-label">活动名称</label>-->
+                                                <!--<div class="col-md-8">-->
+                                                    <!--<input type="text" class="form-control" placeholder="活动名称" ng-model="newActivityData.channelName">-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="form-group">-->
+                                                <!--<label class="col-md-2 control-label">英文名称</label>-->
+                                                <!--<div class="col-md-8">-->
+                                                    <!--<input type="text" class="form-control" placeholder="英文名称" ng-model="newActivityData.englishName">-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <!--<div class="form-group">-->
+                                                <!--<label class="col-md-2 control-label">活动介绍</label>-->
+                                                <!--<div class="col-md-8">-->
+                                                    <!--<input type="text" class="form-control" placeholder="活动介绍" ng-model="newActivityData.summary">-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</form>-->
+                                    <!--</div>-->
+                                    <!--<div class="modal-footer">-->
+                                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
+                                        <!--<button type="button" class="btn btn-primary" ng-click="addActivity()">确认</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
 
       </div><!-- End page content -->

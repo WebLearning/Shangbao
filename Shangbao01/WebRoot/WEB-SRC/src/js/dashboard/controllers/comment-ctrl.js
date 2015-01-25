@@ -128,6 +128,11 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
     {
         return(pageNum==$scope.commentData.currentNo);
     };
+    $scope.checkNextPageNumClass=function(pageNum){
+        if(pageNum+1>$scope.commentData.pageCount){
+            return "disabled";
+        }
+    };
 
     //得到页码数组的函数
 //    function getPageNums(pageCount)

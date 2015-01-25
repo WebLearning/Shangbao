@@ -221,6 +221,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
         $scope.pushPicUrl(url);
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
+        $scope.deletePreviewFrame();
     };
 
     $scope.getPicUrl=function()

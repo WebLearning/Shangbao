@@ -14,6 +14,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
     $scope.projectName="http://localhost:8080/Shangbao01";
     $scope.projectActionName="http://localhost:8080/Shangbao01/article/upload";
     $scope.projectPicActionName="http://localhost:8080/Shangbao01/picture/upload";
+
     $scope.articleData={
         activity:"" ,
         author: "",
@@ -79,7 +80,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
 //            $scope.getNewChannelNames();
         }else if(str=="快拍成都/新建"){
             clearNewArticleData();
-            $scope.getNewActivityNames();
+//            $scope.getNewActivityNames();
         }
         else if(str=="文章/爬虫文章"){
             $scope.refreshCrawler();
@@ -135,6 +136,30 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
             }
         }
     }
+    $scope.formatDate=function(now){
+        var   year=now.getFullYear();
+        var   month=now.getMonth()+1;
+        if(month<10){
+            month="0"+month;
+        }
+        var   date=now.getDate();
+        if(date<10){
+            date="0"+date;
+        }
+        var   hour=now.getHours();
+        if(hour<10){
+            hour="0"+hour;
+        }
+        var   minute=now.getMinutes();
+        if(minute<10){
+            minute="0"+minute;
+        }
+        var   second=now.getSeconds();
+        if(second<10){
+            second="0"+second;
+        }
+        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
+    };
 
     //评论数据------------------------------------------------------------------------------------------------------------
     $scope.commentDetailData={
@@ -373,7 +398,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
     $scope.publishedPictureData=null;
     $scope.getPublishedPictureData=function(pageID){
         var url=$scope.projectName+'/picture/Published/'+pageID.toString()+$scope.orderCondition;
-        console.log(url);
+//        console.log(url);
         $http.get(url).success(function(data){
             $scope.publishedPictureData=data;
             $scope.publishePicturePageNums=getPageNums($scope.publishedPictureData.pageCount);

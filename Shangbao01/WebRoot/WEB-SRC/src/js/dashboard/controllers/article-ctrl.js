@@ -127,11 +127,27 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     //得到字数
     $scope.calculateWords=function()
     {
-        $scope.newArticleData.words=$scope.delHtmlTag($scope.newArticleData.content).length;
+        var str1=$scope.delHtmlTag($scope.newArticleData.content);
+        $scope.newArticleData.words=$scope.delStrTrim(str1).length;
     };
 
     $scope.delHtmlTag=function(str){
         return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
+    };
+    $scope.delStrTrim=function(str){
+//        return str.replace(/^(\s*)|(\s*$)/g,"");//去掉字符串中的空格
+//        str=str.replace(/^(\s|\u00A0)+/,'');
+//        for(var i=str.length-1;i>=0;i--){
+//            if(/\S/.test(str.charAt(i))){
+//                str=str.substring(0,i+1);
+//                break;
+//            }
+//        }
+//        return str;
+        while(str.indexOf(" ")!=-1){
+            var str=str.replace(" ","");
+        }
+        return str;
     };
     //图片数-----------------------------------------------------
     /*$scope.calculatePictures=function(){
@@ -178,6 +194,12 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             $scope.newArticleData.channel.push($scope.additionChannel);
             $('#myModal_addChannel').modal('toggle');
         }
+    };
+    $scope.addPictureToEditor=function(picUrl){
+        //console.log(picUrl);
+        var text='<img src="'+picUrl+'">';
+        $scope.newArticleData.content=text+$scope.newArticleData.content;
+//        $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 
 
@@ -277,6 +299,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         $scope.pushPicUrl(url);
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
+        $scope.deletePreviewFrame();
     };
 
     $scope.getPicUrl=function()

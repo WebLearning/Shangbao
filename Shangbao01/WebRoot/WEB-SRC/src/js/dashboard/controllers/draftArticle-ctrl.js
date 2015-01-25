@@ -229,6 +229,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         $scope.pushPicUrl(url);
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
+        $scope.deletePreviewFrame();
     };
 
     $scope.getPicUrl=function()

@@ -13,7 +13,7 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
 
     $scope.refreshManagePage=function(){
         $scope.getAppNames();
-        $scope.getManageActivityNames();
+//        $scope.getManageActivityNames();
         $scope.checkNewChannelDataState();
     };
 
@@ -199,23 +199,23 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
 //        }
 //        return data;
 //    }
-    $scope.manageActivityNames=[];
-//    $scope.oldManageActivityNames=[];
-    $scope.getManageActivityNames=function(){
-        var url=$scope.projectName+'/channel/activities';
-        $http.get(url).success(function(data){
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.manageActivityNames.push(data[i]);
-                }
-            }
-            else{
-                $scope.manageActivityNames=[];
-            }
-        });
-//        if($scope.oldManageActivityNames.length>0){
-//            $scope.manageActivityNames=uniques($scope.oldManageActivityNames);
-//        }
-    };
-    $scope.getManageActivityNames();
+//    $scope.manageActivityNames=[];
+////    $scope.oldManageActivityNames=[];
+//    $scope.getManageActivityNames=function(){
+//        var url=$scope.projectName+'/channel/activities';
+//        $http.get(url).success(function(data){
+//            if(data.length>0){
+//                for(i=0;i<data.length;i++){
+//                    $scope.manageActivityNames.push(data[i]);
+//                }
+//            }
+//            else{
+//                $scope.manageActivityNames=[];
+//            }
+//        });
+////        if($scope.oldManageActivityNames.length>0){
+////            $scope.manageActivityNames=uniques($scope.oldManageActivityNames);
+////        }
+//    };
+//    $scope.getManageActivityNames();
 }]);
