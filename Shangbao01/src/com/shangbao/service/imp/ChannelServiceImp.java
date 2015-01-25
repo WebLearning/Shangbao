@@ -120,6 +120,9 @@ public class ChannelServiceImp implements ChannelService{
 
 	@Override
 	public String deleteChannel(Channel channel) {
+//		if(channel.getState().equals(ChannelState.Father) && channel.getChannelName().equals("快拍成都")){
+//			return "error";
+//		}
 		List<Channel> channels = channelDaoImp.find(channel);
 		if(channels.isEmpty() || channels == null){
 			return "error";

@@ -210,6 +210,7 @@ public class AppController {
 			article.setUid(user.getUid());
 			article.setAuthor(user.getName());
 		}
+		article.setTime(new Date());
 		appService.postPictures(article);
 		return "done";
 	}
