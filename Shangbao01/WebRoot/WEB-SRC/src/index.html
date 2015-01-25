@@ -58,10 +58,20 @@
     <script type="text/javascript" src="js/dashboard/controllers/revokedPictureView-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draftPicture-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draftPictureView-ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/tm.pagination.js"></script>
     <!--<script type="text/javascript" src="js/dashboard/controllers/managePicture-ctrl.js"></script>-->
     <!--<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">-->
     <!--<script src="js/bootstrap-datetimepicker.js"></script>-->
-
+    <style>
+        .page-list .pagination {float:left;}
+        .page-list .pagination span {cursor: pointer;}
+        .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+        .page-list .pagination .separate span:hover {background: none;}
+        .page-list .page-total {float:left; margin: 25px 20px;}
+        .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+        .page-list .page-total input {width: 40px; padding-left:3px;}
+        .page-list .page-total select {width: 50px;}
+    </style>
 
 </head>
 <body ng-controller="MasterCtrl">
@@ -1820,6 +1830,7 @@
                                     </div>
                                 </div>
                                 <nav>
+                                    <tm-pagination conf="commentPaginationConf"></tm-pagination>
                                     <ul class="pagination">
                                         <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
                                         <li><a href="" ng-click="turnToPage((commentData.currentNo)-1)">&laquo;</a></li>

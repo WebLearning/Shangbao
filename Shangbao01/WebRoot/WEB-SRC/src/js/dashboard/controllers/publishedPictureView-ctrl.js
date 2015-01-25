@@ -272,20 +272,20 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     $scope.getNewChannelNames();
 
     //获得活动目录------------------------------------------------------------------------------------------------------
-    $scope.newActivityNames=[];
-    $scope.getNewActivityNames=function(){
-        var url=$scope.projectName+'/channel/activities';
-        $http.get(url).success(function(data){
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.newActivityNames.push(data[i]);
-                }
-            }else{
-                $scope.newActivityNames=[];
-            }
-        });
-    };
-    $scope.getNewActivityNames();
+//    $scope.newActivityNames=[];
+//    $scope.getNewActivityNames=function(){
+//        var url=$scope.projectName+'/channel/activities';
+//        $http.get(url).success(function(data){
+//            if(data.length>0){
+//                for(i=0;i<data.length;i++){
+//                    $scope.newActivityNames.push(data[i]);
+//                }
+//            }else{
+//                $scope.newActivityNames=[];
+//            }
+//        });
+//    };
+//    $scope.getNewActivityNames();
     //关于上传图片的----------------------------------------------------------------------------------------------
 
 }]);

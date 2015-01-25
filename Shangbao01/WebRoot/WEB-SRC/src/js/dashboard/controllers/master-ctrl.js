@@ -1,7 +1,7 @@
 /**
  * Master Controller
  */
-angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$http",function($scope,$http){
+angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCtrl",["$scope","$http",function($scope,$http){
     //菜单的伸缩
     $scope.toggle=true;
 
@@ -207,6 +207,18 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
 //    }
     //获取评论数据----------------------------------------------------------------------------------------------------------
     $scope.commentData=null;
+    $scope.commentPaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+
+        }
+    };
+
     $scope.getCommentData=function(pageID)
     {
         var url=$scope.projectName+'/commend/'+pageID.toString()+$scope.orderCondition;
@@ -214,6 +226,8 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
         $http.get(url).success(function(data){
             $scope.commentData=data;
             $scope.commentPageNums=getPageNums($scope.commentData.pageCount);
+            $scope.commentPaginationConf.currentPage=$scope.commentData.currentNo;
+            $scope.commentPaginationConf.totalItems=(($scope.commentData.pageCount)-1)*20;
 //            console.log("成功获取数据");
         });
     };
@@ -230,6 +244,19 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
         document.getElementById("commentDetails").className="tab-pane";
         $scope.refreshComment();
     };
+//    $scope.paginationConf = {
+//        currentPage: null,
+//        totalItems:null,
+//        itemsPerPage: 20,
+//        pagesLength: 10,
+//        perPageOptions: [10, 20, 30, 40, 50],
+//        rememberPerPage: 'perPageItems',
+//        onChange: function(){
+//
+//        }
+//    };
+//    $scope.paginationConf.currentPage=$scope.commentData.currentNo;
+//    $scope.paginationConf.totalItems=(($scope.commentData.pageCount)-1)*20;
 //（1）获取爬虫数据-----------------------------------------------------------------------------------------------------
     $scope.crawlerData=null;
     $scope.getCrawlerData=function(pageID)
@@ -372,7 +399,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
 //        clearArticleSelections();
         $scope.orderCondition="";
         $scope.getCrawlerPictureData(1);
-        $scope.getNewActivityNames();
+//        $scope.getNewActivityNames();
     };
 //(8)获取快拍待审数据---------------------------------------------------------------------------------------------------
     $scope.pendingPictureData=null;
@@ -432,7 +459,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
 //        clearArticleSelections();
         $scope.orderCondition="";
         $scope.getRevokedPictureData(1);
-        $scope.getNewActivityNames();
+//        $scope.getNewActivityNames();
     };
 //（11）获取快拍草稿箱数据----------------------------------------------------------------------------------------------
     $scope.tempPictureData=null;
@@ -454,7 +481,7 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
 //        selectByArr([]);
         $scope.orderCondition="";
         $scope.getTempPictureData(1);
-        $scope.getNewActivityNames();
+//        $scope.getNewActivityNames();
     };
 //(12)获取分类(文章）----------------------------------------------------------------------------------------------------------
     function uniques(data){
@@ -531,23 +558,23 @@ angular.module("Dashboard", ["ng.ueditor"]).controller("MasterCtrl",["$scope","$
     };
     $scope.getNewPictureChannelNames();
     //活动活动目录------------------------------------------------------------------------------------------------------
-    $scope.newActivityNames=[];
-    $scope.oldActivityNames=[];
-    $scope.getNewActivityNames=function(){
-        var url=$scope.projectName+'/channel/activities';
-        $http.get(url).success(function(data){
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.oldActivityNames.push(data[i]);
-                }
-            }else{
-                $scope.oldActivityNames=[];
-            }
-        });
-//        console.log($scope.oldActivityNames);
-        if($scope.oldActivityNames.length>0){
-            $scope.newActivityNames=uniques($scope.oldActivityNames);
-        }
-    };
-    $scope.getNewActivityNames();
+//    $scope.newActivityNames=[];
+//    $scope.oldActivityNames=[];
+//    $scope.getNewActivityNames=function(){
+//        var url=$scope.projectName+'/channel/activities';
+//        $http.get(url).success(function(data){
+//            if(data.length>0){
+//                for(i=0;i<data.length;i++){
+//                    $scope.oldActivityNames.push(data[i]);
+//                }
+//            }else{
+//                $scope.oldActivityNames=[];
+//            }
+//        });
+////        console.log($scope.oldActivityNames);
+//        if($scope.oldActivityNames.length>0){
+//            $scope.newActivityNames=uniques($scope.oldActivityNames);
+//        }
+//    };
+//    $scope.getNewActivityNames();
 }]);
