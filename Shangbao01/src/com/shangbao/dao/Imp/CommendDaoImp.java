@@ -172,9 +172,10 @@ public class CommendDaoImp implements CommendDao {
 
 	@Override
 	public Page<Article> getPage(int pageNo, int pageSize, Query query) {
+		query.addCriteria(new Criteria().where("state").ne(ArticleState.Deleted.toString()));
 		long totalCount = mongoTemplate.count(query, Article.class);
 		Page<Article> page = new Page<Article>(pageNo, pageSize, totalCount);
-		query.addCriteria(new Criteria().where("state").ne(ArticleState.Deleted.toString()));
+//		query.addCriteria(new Criteria().where("state").ne(ArticleState.Deleted.toString()));
 		query.skip(page.getFirstResult());// skip相当于从那条记录开始
 		query.limit(pageSize);
 		List<Article> datas = mongoTemplate.find(query, Article.class);
