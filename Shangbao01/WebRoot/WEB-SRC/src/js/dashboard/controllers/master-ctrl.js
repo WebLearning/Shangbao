@@ -215,7 +215,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-
+            $scope.getCommentData($scope.commentPaginationConf.currentPage);
         }
     };
 
@@ -226,10 +226,24 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $http.get(url).success(function(data){
             $scope.commentData=data;
             $scope.commentPageNums=getPageNums($scope.commentData.pageCount);
+            $scope.lastCommentPage=$scope.commentData.pageCount;
+//            console.log($scope.lastCommentPage);
             $scope.commentPaginationConf.currentPage=$scope.commentData.currentNo;
-            $scope.commentPaginationConf.totalItems=(($scope.commentData.pageCount)-1)*20;
+            $scope.getLatCommentPageData($scope.lastCommentPage);
+//            $scope.commentPaginationConf.totalItems=(($scope.commentData.pageCount)-1)*20;
 //            console.log("成功获取数据");
         });
+    };
+    $scope.getLatCommentPageData=function(lastPage){
+
+        var url=$scope.projectName+'/commend/'+lastPage+$scope.orderCondition;
+//        console.log(url);
+        $http.get(url).success(function(data){
+            $scope.latCommentPageData=data;
+            $scope.lastCommentPageDataLength=$scope.latCommentPageData.commendList.length;
+            $scope.commentPaginationConf.totalItems=(($scope.latCommentPageData.pageCount)-1)*20+$scope.lastCommentPageDataLength;
+
+    });
     };
     $scope.getCommentData(1);//会在生成页面的时候直接运行!
 
