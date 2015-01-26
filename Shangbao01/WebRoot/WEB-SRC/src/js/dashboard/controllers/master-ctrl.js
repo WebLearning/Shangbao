@@ -229,21 +229,19 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastCommentPage=$scope.commentData.pageCount;
 //            console.log($scope.lastCommentPage);
             $scope.commentPaginationConf.currentPage=$scope.commentData.currentNo;
-            $scope.getLatCommentPageData($scope.lastCommentPage);
+            $scope.getLastCommentPageData($scope.lastCommentPage);
 //            $scope.commentPaginationConf.totalItems=(($scope.commentData.pageCount)-1)*20;
 //            console.log("成功获取数据");
         });
     };
-    $scope.getLatCommentPageData=function(lastPage){
-
+    $scope.getLastCommentPageData=function(lastPage){
         var url=$scope.projectName+'/commend/'+lastPage+$scope.orderCondition;
 //        console.log(url);
         $http.get(url).success(function(data){
             $scope.latCommentPageData=data;
             $scope.lastCommentPageDataLength=$scope.latCommentPageData.commendList.length;
             $scope.commentPaginationConf.totalItems=(($scope.latCommentPageData.pageCount)-1)*20+$scope.lastCommentPageDataLength;
-
-    });
+        });
     };
     $scope.getCommentData(1);//会在生成页面的时候直接运行!
 
@@ -258,21 +256,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         document.getElementById("commentDetails").className="tab-pane";
         $scope.refreshComment();
     };
-//    $scope.paginationConf = {
-//        currentPage: null,
-//        totalItems:null,
-//        itemsPerPage: 20,
-//        pagesLength: 10,
-//        perPageOptions: [10, 20, 30, 40, 50],
-//        rememberPerPage: 'perPageItems',
-//        onChange: function(){
-//
-//        }
-//    };
-//    $scope.paginationConf.currentPage=$scope.commentData.currentNo;
-//    $scope.paginationConf.totalItems=(($scope.commentData.pageCount)-1)*20;
+
 //（1）获取爬虫数据-----------------------------------------------------------------------------------------------------
     $scope.crawlerData=null;
+    $scope.crawlerPaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            $scope.getCrawlerData($scope.crawlerPaginationConf.currentPage);
+        }
+    };
     $scope.getCrawlerData=function(pageID)
     {
         var url=$scope.projectName+'/article/Crawler/'+pageID.toString()+$scope.orderCondition;
@@ -280,7 +277,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $http.get(url).success(function(data){
             $scope.crawlerData=data;
             $scope.crawlerPageNums=getPageNums($scope.crawlerData.pageCount);
+            $scope.lastCrawlerPage=$scope.crawlerData.pageCount;
+//            console.log($scope.lastCommentPage);
+            $scope.crawlerPaginationConf.currentPage=$scope.crawlerData.currentNo;
+            $scope.getLastCrawlerPageData($scope.lastCrawlerPage);
             //console.log("成功获取数据");
+        });
+    };
+    $scope.getLastCrawlerPageData=function(lastPage){
+        var url=$scope.projectName+'/article/Crawler/'+lastPage+$scope.orderCondition;
+//        console.log(url);
+        $http.get(url).success(function(data){
+            $scope.lastCrawlerPageData=data;
+            $scope.lastCrawlerPageDataLength=$scope.lastCrawlerPageData.tileList.length;
+            $scope.crawlerPaginationConf.totalItems=(($scope.lastCrawlerPageData.pageCount)-1)*20+$scope.lastCrawlerPageDataLength;
         });
     };
     $scope.getCrawlerData(1);//会在生成页面的时候直接运行!
@@ -293,14 +303,33 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //(2)获取待审数据-------------------------------------------------------------------------------------------------------
     $scope.pendingData=null;
+    $scope.pendingPaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            $scope.getPendingData($scope.pendingPaginationConf.currentPage);
+        }
+    };
     $scope.getPendingData=function(pageID){
-
         var url=$scope.projectName+'/article/Pending/'+pageID.toString()+$scope.orderCondition;
-        //console.log(url);
         $http.get(url).success(function(data){
             $scope.pendingData=data;
             $scope.pendingPageNums=getPageNums($scope.pendingData.pageCount);
-            //console.log("成功获取数据");
+            $scope.lastPendingPage=$scope.pendingData.pageCount;
+            $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
+            $scope.getLastPendingPageData($scope.lastPendingPage);
+        });
+    };
+    $scope.getLastPendingPageData=function(lastPage){
+        var url=$scope.projectName+'/article/Pending/'+lastPage+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            $scope.lastPendingPageData=data;
+            $scope.lastPendingPageDataLength=$scope.lastPendingPageData.tileList.length;
+            $scope.pendingPaginationConf.totalItems=(($scope.lastPendingPageData.pageCount)-1)*20+$scope.lastPendingPageDataLength;
         });
     };
     $scope.getPendingData(1);//生成待审页面时即产生第一页数据
@@ -313,13 +342,33 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //(3)获取已发布数据-----------------------------------------------------------------------------------------------------
     $scope.publishedData=null;
+    $scope.publishedPaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            $scope.getPublishedData($scope.publishedPaginationConf.currentPage);
+        }
+    };
     $scope.getPublishedData=function(pageID){
         var url=$scope.projectName+'/article/Published/'+pageID.toString()+$scope.orderCondition;
-        //console.log(url);
         $http.get(url).success(function(data){
             $scope.publishedData=data;
             $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
-            //console.log("成功获取数据");
+            $scope.lastPublishedPage=$scope.publishedData.pageCount;
+            $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
+            $scope.getLastPublishedPageData($scope.lastPublishedPage);
+        });
+    };
+    $scope.getLastPublishedPageData=function(lastPage){
+        var url=$scope.projectName+'/article/Published/'+lastPage+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            $scope.lastPublishedPageData=data;
+            $scope.lastPublishedPageDataLength=$scope.lastPublishedPageData.tileList.length;
+            $scope.publishedPaginationConf.totalItems=(($scope.lastPublishedPageData.pageCount)-1)*20+$scope.lastPublishedPageDataLength;
         });
     };
     $scope.getPublishedData(1);//在点击已发布文章时，直接生成第一页内容
@@ -332,6 +381,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //(4)获取已撤销数据-----------------------------------------------------------------------------------------------------
     $scope.revokedData=null;
+    $scope.revokedPaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            $scope.getRevokedData($scope.revokedPaginationConf.currentPage);
+        }
+    };
     $scope.getRevokedData=function(pageID)
     {
         var url=$scope.projectName+'/article/Revocation/'+pageID.toString()+$scope.orderCondition;
@@ -339,7 +399,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $http.get(url).success(function(data){
             $scope.revokedData=data;
             $scope.revokedPageNums=getPageNums($scope.revokedData.pageCount);
-            //console.log("成功获取数据");
+            $scope.lastRevokedPage=$scope.revokedData.pageCount;
+            $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
+            $scope.getLastRevokedPageData($scope.lastRevokedPage);
+        });
+    };
+    $scope.getLastRevokedPageData=function(lastPage){
+        var url=$scope.projectName+'/article/Revocation/'+lastPage+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            $scope.lastRevokedPageData=data;
+            $scope.lastRevokedPageDataLength=$scope.lastRevokedPageData.tileList.length;
+            $scope.revokedPaginationConf.totalItems=(($scope.lastRevokedPageData.pageCount)-1)*20+$scope.lastRevokedPageDataLength;
         });
     };
     $scope.getRevokedData(1);//会在生成页面的时候直接运行!
@@ -353,6 +423,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //(5)获取草稿箱数据--------------------------------------------------------------------------------------------------------
     $scope.tempData=null;
+    $scope.tempPaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            $scope.getTempData($scope.tempPaginationConf.currentPage);
+        }
+    };
     $scope.getTempData=function(pageID)
     {
         var url=$scope.projectName+'/article/Temp/'+pageID.toString()+$scope.orderCondition;
@@ -360,7 +441,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $http.get(url).success(function(data){
             $scope.tempData=data;
             $scope.tempPageNums=getPageNums($scope.tempData.pageCount);
-            //console.log("成功获取数据");
+            $scope.lastTempPage=$scope.tempData.pageCount;
+            $scope.tempPaginationConf.currentPage=$scope.tempData.currentNo;
+            $scope.getLastTempPageData($scope.lastTempPage);
+        });
+    };
+    $scope.getLastTempPageData=function(lastPage){
+        var url=$scope.projectName+'/article/Temp/'+lastPage+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            $scope.lastTempPageData=data;
+            $scope.lastTempPageDataLength=$scope.lastTempPageData.tileList.length;
+            $scope.tempPaginationConf.totalItems=(($scope.lastTempPageData.pageCount)-1)*20+$scope.lastTempPageDataLength;
         });
     };
     $scope.getTempData(1);//会在生成页面的时候直接运行!
@@ -396,6 +487,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //（7）获取快拍爬虫数据-------------------------------------------------------------------------------------------------
     $scope.crawlerPictureData=null;
+    $scope.crawlerPicturePaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            $scope.getCrawlerPictureData($scope.crawlerPicturePaginationConf.currentPage);
+        }
+    };
     $scope.getCrawlerPictureData=function(pageID)
     {
         var url=$scope.projectName+'/picture/Crawler/'+pageID.toString()+$scope.orderCondition;
@@ -404,7 +506,18 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             //console.log(data);
             $scope.crawlerPictureData=data;
             $scope.crawlerPicturePageNums=getPageNums($scope.crawlerPictureData.pageCount);
+            $scope.lastCrawlerPicturePage=$scope.crawlerPictureData.pageCount;
+            $scope.crawlerPicturePaginationConf.currentPage=$scope.crawlerPictureData.currentNo;
+            $scope.getLastCrawlerPicturePageData($scope.lastCrawlerPicturePage);
             //console.log("成功获取数据");
+        });
+    };
+    $scope.getLastCrawlerPicturePageData=function(lastPage){
+        var url=$scope.projectName+'/picture/Crawler/'+lastPage+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            $scope.lastCrawlerPicturePageData=data;
+            $scope.lastCrawlerPicturePageDataLength=$scope.lastCrawlerPicturePageData.tileList.length;
+            $scope.crawlerPicturePaginationConf.totalItems=(($scope.lastCrawlerPicturePageData.pageCount)-1)*20+$scope.lastCrawlerPicturePageDataLength;
         });
     };
     $scope.getCrawlerPictureData(1);//会在生成页面的时候直接运行!
@@ -417,15 +530,33 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //(8)获取快拍待审数据---------------------------------------------------------------------------------------------------
     $scope.pendingPictureData=null;
+    $scope.pendingPicturePaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            $scope.getPendingPictureData($scope.pendingPicturePaginationConf.currentPage);
+        }
+    };
     $scope.getPendingPictureData=function(pageID){
-
         var url=$scope.projectName+'/picture/Pending/'+pageID.toString()+$scope.orderCondition;
-        // console.log(url);
         $http.get(url).success(function(data){
-            //console.log(data);
             $scope.pendingPictureData=data;
             $scope.pendingPicturePageNums=getPageNums($scope.pendingPictureData.pageCount);
-            //console.log("成功获取数据");
+            $scope.lastPendingPicturePage=$scope.pendingPictureData.pageCount;
+            $scope.pendingPicturePaginationConf.currentPage=$scope.pendingPictureData.currentNo;
+            $scope.getLastPendingPicturePageData($scope.lastPendingPicturePage);
+        });
+    };
+    $scope.getLastPendingPicturePageData=function(lastPage){
+        var url=$scope.projectName+'/picture/Pending/'+lastPage+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            $scope.lastPendingPicturePageData=data;
+            $scope.lastPendingPicturePageDataLength=$scope.lastPendingPicturePageData.tileList.length;
+            $scope.pendingPicturePaginationConf.totalItems=(($scope.lastPendingPicturePageData.pageCount)-1)*20+$scope.lastPendingPicturePageDataLength;
         });
     };
     $scope.getPendingPictureData(1);//生成待审页面时即产生第一页数据
@@ -437,13 +568,35 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //(9)获取快拍已发布-----------------------------------------------------------------------------------------------------
     $scope.publishedPictureData=null;
+    $scope.publishedPicturePaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            $scope.getPublishedPictureData($scope.publishedPicturePaginationConf.currentPage);
+        }
+    };
     $scope.getPublishedPictureData=function(pageID){
         var url=$scope.projectName+'/picture/Published/'+pageID.toString()+$scope.orderCondition;
 //        console.log(url);
         $http.get(url).success(function(data){
             $scope.publishedPictureData=data;
             $scope.publishePicturePageNums=getPageNums($scope.publishedPictureData.pageCount);
+            $scope.lastPublishedPicturePage=$scope.publishedPictureData.pageCount;
+            $scope.publishedPicturePaginationConf.currentPage=$scope.publishedPictureData.currentNo;
+            $scope.getLastPublishedPicturePageData($scope.lastPublishedPicturePage);
             //console.log("成功获取数据");
+        });
+    };
+    $scope.getLastPublishedPicturePageData=function(lastPage){
+        var url=$scope.projectName+'/picture/Published/'+lastPage+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            $scope.lastPublishedPicturePageData=data;
+            $scope.lastPublishedPicturePageDataLength=$scope.lastPublishedPicturePageData.tileList.length;
+            $scope.publishedPicturePaginationConf.totalItems=(($scope.lastPublishedPicturePageData.pageCount)-1)*20+$scope.lastPublishedPicturePageDataLength;
         });
     };
     $scope.getPublishedPictureData(1);//在点击已发布文章时，直接生成第一页内容
@@ -457,6 +610,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //（10）获取快拍已撤销--------------------------------------------------------------------------------------------------
     $scope.revokedPictureData=null;
+    $scope.revokedPicturePaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            $scope.getRevokedPictureData($scope.revokedPicturePaginationConf.currentPage);
+        }
+    };
     $scope.getRevokedPictureData=function(pageID)
     {
         var url=$scope.projectName+'/picture/Revocation/'+pageID.toString()+$scope.orderCondition;
@@ -464,7 +628,18 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $http.get(url).success(function(data){
             $scope.revokedPictureData=data;
             $scope.revokedPicturePageNums=getPageNums($scope.revokedPictureData.pageCount);
+            $scope.lastRevokedPicturePage=$scope.revokedPictureData.pageCount;
+            $scope.revokedPicturePaginationConf.currentPage=$scope.revokedPictureData.currentNo;
+            $scope.getLastRevokedPicturePageData($scope.lastRevokedPicturePage);
             //console.log("成功获取数据");
+        });
+    };
+    $scope.getLastRevokedPicturePageData=function(lastPage){
+        var url=$scope.projectName+'/picture/Revocation/'+lastPage+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            $scope.lastRevokedPicturePageData=data;
+            $scope.lastRevokedPicturePageDataLength=$scope.lastRevokedPicturePageData.tileList.length;
+            $scope.revokedPicturePaginationConf.totalItems=(($scope.lastRevokedPicturePageData.pageCount)-1)*20+$scope.lastRevokedPicturePageDataLength;
         });
     };
     $scope.getRevokedPictureData(1);//会在生成页面的时候直接运行!
@@ -477,6 +652,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //（11）获取快拍草稿箱数据----------------------------------------------------------------------------------------------
     $scope.tempPictureData=null;
+    $scope.tempPicturePaginationConf = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            $scope.getTempPictureData($scope.tempPicturePaginationConf.currentPage);
+        }
+    };
     $scope.getTempPictureData=function(pageID)
     {
         var url=$scope.projectName+'/picture/Temp/'+pageID.toString()+$scope.orderCondition;
@@ -484,7 +670,18 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $http.get(url).success(function(data){
             $scope.tempPictureData=data;
             $scope.tempPicturePageNums=getPageNums($scope.tempPictureData.pageCount);
+            $scope.lastTempPicturePage=$scope.tempPictureData.pageCount;
+            $scope.tempPicturePaginationConf.currentPage=$scope.tempPictureData.currentNo;
+            $scope.getLastTempPicturePageData($scope.lastTempPicturePage);
             //console.log("成功获取数据");
+        });
+    };
+    $scope.getLastTempPicturePageData=function(lastPage){
+        var url=$scope.projectName+'/picture/Temp/'+lastPage+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            $scope.lastTempPicturePageData=data;
+            $scope.lastTempPicturePageDataLength=$scope.lastTempPicturePageData.tileList.length;
+            $scope.tempPicturePaginationConf.totalItems=(($scope.lastTempPicturePageData.pageCount)-1)*20+$scope.lastTempPicturePageDataLength;
         });
     };
     $scope.getTempPictureData(1);//会在生成页面的时候直接运行!
