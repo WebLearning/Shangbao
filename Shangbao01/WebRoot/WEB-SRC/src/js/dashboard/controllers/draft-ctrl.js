@@ -9,30 +9,6 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
         console.log($scope.articleSelectionsUrl);
     };
 
-//    $scope.tempData=null;
-//    $scope.orderCondition="";
-
-    //初始化页面，获取草稿箱中第一页的数据,返回的是一个titleList-------------------------------------------------------------------
-//    $scope.getTempData=function(pageID)
-//    {
-//        var url=$scope.projectName+'/article/Temp/'+pageID.toString()+$scope.orderCondition;
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            $scope.tempData=data;
-//            $scope.pageNums=getPageNums($scope.tempData.pageCount);
-//            //console.log("成功获取数据");
-//        });
-//    };
-//    $scope.getTempData(1);//会在生成页面的时候直接运行!
-//
-//    $scope.refreshTemp=function()
-//    {
-//        clearArticleSelections();
-//        selectByArr([]);
-//        $scope.orderCondition="";
-//        $scope.getTempData(1);
-//    };
-
     //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示
     $scope.checkSummary=function(str){
         var checkedStr;
@@ -64,17 +40,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
         }else{
             return arr.toString();
         }
-        //return arr.toString();
     };
-//    function formatDate(now){
-//        var   year=now.getFullYear();
-//        var   month=now.getMonth()+1;
-//        var   date=now.getDate();
-//        var   hour=now.getHours();
-//        var   minute=now.getMinutes();
-//        var   second=now.getSeconds();
-//        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
-//    }
 
     $scope.dateStringToDate=function(dateStr)
     {
@@ -273,7 +239,12 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             $scope.transOrderConditions("/words/desc");
             wordsOrderState="desc";
         }
-        $scope.getTempData(1);
+        if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
+            $scope.getTempData(1);
+        }else{
+            console.log($scope.tempSearchData.content);
+            $scope.getTempSearchData(1);
+        }
     };
 
     var newsCommendsOrderState="desc";
@@ -285,7 +256,11 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             $scope.transOrderConditions("/newsCommends/desc");
             newsCommendsOrderState="desc";
         }
-        $scope.getTempData(1);
+        if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
+            $scope.getTempData(1);
+        }else{
+            $scope.getTempSearchData(1);
+        }
     };
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
@@ -296,7 +271,11 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             $scope.transOrderConditions("/crawlerCommends/desc");
             crawlerCommendsOrderState="desc";
         }
-        $scope.getTempData(1);
+        if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
+            $scope.getTempData(1);
+        }else{
+            $scope.getTempSearchData(1);
+        }
     };
 
     var timeOrderState="desc";
@@ -308,7 +287,11 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
-        $scope.getTempData(1);
+        if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
+            $scope.getTempData(1);
+        }else{
+            $scope.getTempSearchData(1);
+        }
     };
 
     var clicksOrderState="desc";
@@ -320,7 +303,11 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             $scope.transOrderConditions("/clicks/desc");
             clicksOrderState="desc";
         }
-        $scope.getTempData(1);
+        if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
+            $scope.getTempData(1);
+        }else{
+            $scope.getTempSearchData(1);
+        }
     };
 
     var likesOrderState="desc";
@@ -332,7 +319,12 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             $scope.transOrderConditions("/likes/desc");
             likesOrderState="desc";
         }
-        $scope.getTempData(1);
+        if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
+            console.log($scope.tempSearchData.content);
+            $scope.getTempData(1);
+        }else{
+            $scope.getTempSearchData(1);
+        }
     };
 
 }]);

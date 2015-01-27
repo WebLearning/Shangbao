@@ -1,15 +1,5 @@
 angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", function ($scope,$http) {
 
-    /* $http.get('http://localhost:8080/Shangbao01/user/users')
-     .success(function(data) {
-     $scope.editorContent = data;
-     }); */
-
-
-//    //评论数据------------------------------------------------------------------------------------------------------------
-//    $scope.commentDetailData={"currentNo":null,"pageCount":null,"commendList":[]};
-//    var commentDetailsUrl="";
-
     //页面，获取评论第一页的数据,返回的是一个titleList-------------------------------------------------------------------
     $scope.orderCondition="";
     $scope.pageNums="";

@@ -490,8 +490,14 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="crawler" ng-controller="crawlerCtrl">
                 <div class="row">
+                    <!--<div class="col-md-2 col-md-offset-1">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
+                    <!--</div>-->
                     <div class="col-md-2 col-md-offset-1">
-                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="crawlerSearchData.content">
+                            <div class="input-group-addon btn-info" ng-click="getCrawlerSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
+                        </div>
                     </div>
                     <div class="col-md-1 col-md-offset-7">
                         <button type="button" class="btn btn-success" ng-click="refreshCrawler()"><span class="glyphicon glyphicon-refresh"></span></button>
@@ -742,8 +748,14 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="pendingTrial" ng-controller="pendingCtrl">
                 <div class="row">
+                    <!--<div class="col-md-2 col-md-offset-1">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="pendingTestLog()">test</button>-->
+                    <!--</div>-->
                     <div class="col-md-2 col-md-offset-1">
-                        <button type="button" class="btn btn-success" ng-click="pendingTestLog()">test</button>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="pendingSearchData.content">
+                            <div class="input-group-addon btn-info" ng-click="getPendingSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
+                        </div>
                     </div>
                     <div class="col-md-1 col-md-offset-7">
                         <button type="button" class="btn btn-success" ng-click="refreshPending()"><span class="glyphicon glyphicon-refresh"></span></button>
@@ -945,15 +957,20 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="published" ng-controller="publishedCtrl">
-                <div class="row">
-                    <!--<div class="row">-->
+                    <div class="row">
                         <!--<div class="col-md-2 col-md-offset-1">-->
                             <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
                         <!--</div>-->
                         <!--<div class="col-md-1 col-md-offset-7">-->
                             <!--<button type="button" class="btn btn-success" ng-click="refreshPublished()"><span class="glyphicon glyphicon-refresh"></span></button>-->
                         <!--</div>-->
-                    <!--</div>-->
+                        <div class="col-md-2 col-md-offset-1">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="publishedSearchData.content">
+                                <div class="input-group-addon btn-info" ng-click="getPublishedSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-10 col-md-offset-1">
                         <div class="panel panel-success">
                             <div class="panel-body">
@@ -1005,7 +1022,6 @@
                             <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">撤销</button>
                         </div>
                     </div>
-                </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="publishedArticle" ng-controller="publishedArticleCtrl">
                 <div class="row">
@@ -1144,8 +1160,14 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="revoked" ng-controller="revokedCtrl">
                 <div class="row">
+                    <!--<div class="col-md-2 col-md-offset-1">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
+                    <!--</div>-->
                     <div class="col-md-2 col-md-offset-1">
-                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="revokedSearchData.content">
+                            <div class="input-group-addon btn-info" ng-click="getRevokedSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
+                        </div>
                     </div>
                     <div class="col-md-1 col-md-offset-7">
                         <button type="button" class="btn btn-success" ng-click="refreshRevoked()"><span class="glyphicon glyphicon-refresh"></span></button>
@@ -1397,8 +1419,14 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="draft" ng-controller="draftCtrl">
                 <div class="row">
+                    <!--<div class="col-md-2 col-md-offset-1">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
+                    <!--</div>-->
                     <div class="col-md-2 col-md-offset-1">
-                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="tempSearchData.content">
+                            <div class="input-group-addon btn-info" ng-click="getTempSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
+                        </div>
                     </div>
                     <div class="col-md-1 col-md-offset-7">
                         <button type="button" class="btn btn-success" ng-click="refreshTemp()"><span class="glyphicon glyphicon-refresh"></span></button>
@@ -2178,8 +2206,14 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="crawlerPicture" ng-controller="crawlerPictureCtrl">
                 <div class="row">
+                    <!--<div class="col-md-2 col-md-offset-1">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
+                    <!--</div>-->
                     <div class="col-md-2 col-md-offset-1">
-                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="crawlerPictureSearchData.content">
+                            <div class="input-group-addon btn-info" ng-click="getCrawlerPictureSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
+                        </div>
                     </div>
                     <div class="col-md-1 col-md-offset-7">
                         <button type="button" class="btn btn-success" ng-click="refreshCrawlerPicture()"><span class="glyphicon glyphicon-refresh"></span></button>
@@ -2460,8 +2494,14 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="pendingPicture" ng-controller="pendingPictureCtrl">
                 <div class="row">
+                    <!--<div class="col-md-2 col-md-offset-1">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="pendingPictureTestLog()">test</button>-->
+                    <!--</div>-->
                     <div class="col-md-2 col-md-offset-1">
-                        <button type="button" class="btn btn-success" ng-click="pendingPictureTestLog()">test</button>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="pendingPictureSearchData.content">
+                            <div class="input-group-addon btn-info" ng-click="getPendingPictureSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
+                        </div>
                     </div>
                     <div class="col-md-1 col-md-offset-7">
                         <button type="button" class="btn btn-success" ng-click="refreshPendingPicture()"><span class="glyphicon glyphicon-refresh"></span></button>
@@ -2657,8 +2697,14 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="publishedPicture" ng-controller="publishedPictureCtrl">
                 <div class="row">
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                    <!--<div class="col-md-2 col-md-offset-2">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
+                    <!--</div>-->
+                    <div class="col-md-2 col-md-offset-1">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="publishedPictureSearchData.content">
+                            <div class="input-group-addon btn-info" ng-click="getPublishedPictureSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
+                        </div>
                     </div>
                     <div class="col-md-2 col-md-offset-6">
                         <button type="button" class="btn btn-success" ng-click="refreshPublishedPicture()"><span class="glyphicon glyphicon-refresh"></span></button>
