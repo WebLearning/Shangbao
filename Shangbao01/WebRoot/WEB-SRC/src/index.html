@@ -1690,7 +1690,7 @@
                                                 <td>{{checkState(articleComment.state)}}</td>
                                                 <td>{{checkIfNull(articleComment.from)}}</td>
                                                 <td>{{checkIfNull(articleComment.content)}}</td>
-                                                <td>{{articleComment.reply}}<button type="button" data-toggle="modal" data-target="#myModal_addReply" ng-class="replyBtnStr(articleComment.reply,articleComment.commendId)" ng-click="replyTest()">回复</button></td>
+                                                <td>{{articleComment.reply}}<button type="button" data-toggle="modal" data-target="#myModal_addReply" ng-class="replyBtnStr(articleComment.reply,articleComment.commendId)" ng-click="replyTest(articleComment.commendId)">回复</button></td>
                                                 <td>
                                                     <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(articleComment.commendId)" ng-click="selectArticle(articleComment.commendId,selectState)">
                                                 </td>

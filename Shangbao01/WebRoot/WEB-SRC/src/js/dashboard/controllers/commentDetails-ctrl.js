@@ -54,20 +54,20 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
             return "btn btn-xs btn-success sr-only";
         }
     };
-
-    $scope.replyTest=function()
+    $scope.addReplyUrl="";
+    $scope.replyTest=function(commentId)
     {
         console.log("reply test");
-        console.log($scope.addReplyCommentId);
+        console.log(commentId);
         console.log(commentDetailsUrl);
-        var url=commentDetailsUrl+'/'+$scope.addReplyCommentId;
-        console.log(url);
+        $scope.addReplyUrl=commentDetailsUrl+'/'+commentId;
+        console.log($scope.addReplyUrl);
     };
     $scope.replyData={
         reply:""
     };
     $scope.addReply=function(){
-        var url=commentDetailsUrl+'/'+$scope.addReplyCommentId;
+        var url=$scope.addReplyUrl;
 //        console.log(url);
         var jsonString=JSON.stringify($scope.replyData);
 //        console.log(jsonString);
