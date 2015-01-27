@@ -54,7 +54,7 @@ public class CommendServiceImp implements CommendService {
 				&& commends.get(0).getCommendList().size() > 10 * (pageId - 1)) {
 			List<SingleCommend> singleCommends = commends.get(0)
 					.getCommendList();
-			int pageCount = singleCommends.size() / 10 + 1;
+			int pageCount = (singleCommends.size() % 10 == 0 ? singleCommends.size() / 10 : singleCommends.size() / 10 + 1);
 			commendList.setPageCount(pageCount);
 			commendList.setCurrentNo(pageId);
 			commendList.setCommendList(singleCommends.subList(
@@ -82,7 +82,7 @@ public class CommendServiceImp implements CommendService {
 				commendList.setCurrentNo(pageId);
 				commendList.setCommendList(singleCommends.subList(
 						(pageId - 1) * 10,
-						pageId * 10 - 1 > singleCommends.size() ? singleCommends.size() : pageId * 10 - 1));
+						pageId * 10 - 1 >= singleCommends.size() ? singleCommends.size() : pageId * 10));
 				return commendList;
 			}
 		}
