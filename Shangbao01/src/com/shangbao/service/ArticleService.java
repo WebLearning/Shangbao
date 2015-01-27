@@ -37,6 +37,8 @@ public interface ArticleService {
 	public List<Article> find(Article criteriaArticle, Direction direction, String property);
 	
 	public TitleList fuzzyFind(String words, ArticleState state, int pageNo, int pageSize);
+	
+	public TitleList fuzzyFindOrder(String words, ArticleState state, int pageNo, int pageSize, String order, String direction);
 	/**
 	 * 更新一篇文章
 	 * @param article

@@ -411,7 +411,7 @@ public class AppModel {
 			singleCommend.setState(CommendState.published);
 		}
 		singleCommend.setTimeDate(new Date());
-		singleCommend.setCommendId("" + new Date().getTime() + singleCommend.getUserId());
+		singleCommend.setCommendId("" + new Date().getTime() + singleCommend.getUserId() + (int)(Math.random()*1000));
 		NewsCommend newsCommend = new NewsCommend();
 		newsCommend.setArticleId(articleId);
 		List<Commend> commends = commendDaoImp.find(newsCommend);

@@ -71,6 +71,23 @@ public class ArticleServiceImp implements ArticleService {
 	}
 	
 	@Override
+	public TitleList fuzzyFindOrder(String words, ArticleState state, int pageNo, int pageSize, String order, String direction){
+		Page<Article> page = null;
+		if(direction.equals("asc")){
+			page = articleDaoImp.fuzzyFind(words, state, false, pageNo, pageSize, order, Direction.ASC);
+		}else{
+			page = articleDaoImp.fuzzyFind(words, state, false, pageNo, pageSize, order, Direction.DESC);
+		}
+		TitleList titleList = new TitleList();
+		titleList.setCurrentNo(pageNo);
+		titleList.setPageCount(page.getTotalPage());
+		for(Article article : page.getDatas()){
+			titleList.addTitle(article);
+		}
+		return titleList;
+	}
+	
+	@Override
 	public void deleteOne(Article article) {
 		articleDaoImp.delete(article);
 	}

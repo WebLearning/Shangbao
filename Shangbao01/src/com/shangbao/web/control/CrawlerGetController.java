@@ -117,7 +117,7 @@ public class CrawlerGetController {
 				FileOutputStream fos = new FileOutputStream(fileURL + File.separator + fileNameString);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				compressPicUtils.compressPic(new File(fileURL + File.separator + fileNameString), new File(fileURLSim + File.separator + fileNameString), 180, 120, true);
+				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileURLSim + File.separator + fileNameString), 180, 120, 0.5, true);
 				returnPath = returnPath + path.toString().split("Shangbao01")[1] + File.separator + fileNameString;
 				System.out.println(returnPath.replaceAll("\\\\", "/"));
 			} catch (IOException e) {

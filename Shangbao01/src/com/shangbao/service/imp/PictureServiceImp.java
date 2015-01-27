@@ -87,6 +87,23 @@ public class PictureServiceImp implements PictureService{
 	}
 	
 	@Override
+	public TitleList fuzzyFindOrder(String words, ArticleState state, int pageNo, int pageSize, String order, String direction){
+		Page<Article> page = null;
+		if(direction.equals("asc")){
+			page = articleDaoImp.fuzzyFind(words, state, true, pageNo, pageSize, order, Direction.ASC);
+		}else{
+			page = articleDaoImp.fuzzyFind(words, state, true, pageNo, pageSize, order, Direction.DESC);
+		}
+		TitleList titleList = new TitleList();
+		titleList.setCurrentNo(pageNo);
+		titleList.setPageCount(page.getTotalPage());
+		for(Article article : page.getDatas()){
+			titleList.addTitle(article);
+		}
+		return titleList;
+	}
+	
+	@Override
 	public TitleList getOrderedList(ArticleState articleState, int pageNo,
 			String order, String direction) {
 		TitleList titleList = new TitleList();

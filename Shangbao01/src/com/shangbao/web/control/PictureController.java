@@ -118,6 +118,20 @@ public class PictureController {
 		return list;
 	}
 	
+	@RequestMapping(value="/{articleState}/{pageNo}/query/{order:[a-z,A-Z]+}/{direction:asc|desc}", method=RequestMethod.POST)
+	@ResponseBody
+	public TitleList fuzzyFind(@PathVariable ArticleState articleState,
+							   @PathVariable int pageNo,
+							   @PathVariable String order,
+							   @PathVariable String direction,
+							   @RequestBody Article article){
+		TitleList list = new TitleList();
+		if(article.getContent() != null){
+			list = pictureServiceImp.fuzzyFindOrder(article.getContent(), articleState, pageNo, 20, order, direction);
+		}
+		return list;
+	}
+	
 	/**
 	 * 获取一篇图片文章
 	 * 

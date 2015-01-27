@@ -105,7 +105,7 @@ public class CommendServiceImp implements CommendService {
 			commendDaoImp.insert(commend);
 		}else{
 			Update updateElement = new Update();
-			singleCommend.setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()) + (int)(Math.random()*100));
+			singleCommend.setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()) + (int)(Math.random()*1000) + "" + (int)(Math.random()*1000));
 			updateElement.push("commendList", singleCommend);
 			commendDaoImp.update(commend, updateElement);
 		}

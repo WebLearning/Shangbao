@@ -105,12 +105,33 @@ public class ArticleController {
 		return titleList;
 	}
 
+	/**
+	 * 模糊查找
+	 * @param articleState
+	 * @param pageNo
+	 * @param article
+	 * @return
+	 */
 	@RequestMapping(value = "/{articleState}/{pageNo}/query", method=RequestMethod.POST)
 	@ResponseBody
 	public TitleList fuzzeFind(@PathVariable ArticleState articleState, @PathVariable int pageNo, @RequestBody Article article){
 		TitleList list = new TitleList();
 		if(article.getContent() != null){
 			list = articleServiceImp.fuzzyFind(article.getContent(), articleState, pageNo, 20);
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/{articleState}/{pageNo}/query/{order:[a-z,A-Z]+}/{direction:asc|desc}", method=RequestMethod.POST)
+	@ResponseBody
+	public TitleList fuzzeFindOrder(@PathVariable ArticleState articleState,
+								    @PathVariable int pageNo,
+								    @PathVariable String order,
+								    @PathVariable String direction,
+								    @RequestBody Article article){
+		TitleList list = new TitleList();
+		if(article.getContent() != null){
+			list = articleServiceImp.fuzzyFindOrder(article.getContent(), articleState, pageNo, 20, order, direction);
 		}
 		return list;
 	}
@@ -285,7 +306,7 @@ public class ArticleController {
 				FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				compressPicUtils.compressPic(new File(filePath + File.separator + fileName), new File(filePathSim + File.separator + fileName), 180, 150, true);
+				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathSim + File.separator + fileName), 180, 150, 0.5, true);
 				returnString = path.toString().split("Shangbao01")[1] + File.separator + fileName;
 				System.out.println(returnString);
 				return localhostString + returnString.replaceAll("\\\\", "/");
