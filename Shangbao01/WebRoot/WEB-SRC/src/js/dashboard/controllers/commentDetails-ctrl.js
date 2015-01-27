@@ -54,20 +54,20 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
             return "btn btn-xs btn-success sr-only";
         }
     };
-
-    $scope.replyTest=function()
+    $scope.addReplyUrl="";
+    $scope.replyTest=function(commentId)
     {
         console.log("reply test");
-        console.log($scope.addReplyCommentId);
+        console.log(commentId);
         console.log(commentDetailsUrl);
-        var url=commentDetailsUrl+'/'+$scope.addReplyCommentId;
-        console.log(url);
+        $scope.addReplyUrl=commentDetailsUrl+'/'+commentId;
+        console.log($scope.addReplyUrl);
     };
     $scope.replyData={
         reply:""
     };
     $scope.addReply=function(){
-        var url=commentDetailsUrl+'/'+$scope.addReplyCommentId;
+        var url=$scope.addReplyUrl;
 //        console.log(url);
         var jsonString=JSON.stringify($scope.replyData);
 //        console.log(jsonString);
@@ -78,15 +78,7 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         $('#myModal_addReply').modal('toggle');
         $scope.refreshCommentDetails();
     };
-    function formatDate(now){
-        var   year=now.getFullYear();
-        var   month=now.getMonth()+1;
-        var   date=now.getDate();
-        var   hour=now.getHours();
-        var   minute=now.getMinutes();
-        var   second=now.getSeconds();
-        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
-    }
+
 
     $scope.dateStringToDate=function(dateStr)
     {
@@ -94,7 +86,7 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
             return "无";
         }else{
             var date=new Date(dateStr);
-            return formatDate(date);
+            return $scope.formatDate(date);
         }
     };
 

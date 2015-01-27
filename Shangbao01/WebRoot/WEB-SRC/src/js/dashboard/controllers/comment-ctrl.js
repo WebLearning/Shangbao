@@ -134,20 +134,6 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
         }
     };
 
-    //得到页码数组的函数
-//    function getPageNums(pageCount)
-//    {
-//        if(pageCount==1||pageCount<1){
-//            return [1];
-//        }else{
-//            var arr=[];
-//            for(i=0;i<pageCount;i++){
-//                arr.push(i+1);
-//            }
-//            return arr;
-//        }
-//    }
-
     //排序---------------------------------------------------------------------------------------------------------------
     var orderState="none";
     $scope.orderByState=function(){
