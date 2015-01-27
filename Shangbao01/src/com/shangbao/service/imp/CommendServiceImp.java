@@ -59,7 +59,7 @@ public class CommendServiceImp implements CommendService {
 			commendList.setCurrentNo(pageId);
 			commendList.setCommendList(singleCommends.subList(
 					(pageId - 1) * 10,
-					(pageId * 10 - 1 > singleCommends.size() ? singleCommends.size() : pageId * 10 - 1) + 1));
+					pageId * 10 - 1 > singleCommends.size() ? singleCommends.size() + 1 : pageId * 10 - 1));
 			return commendList;
 		}
 		return null;
