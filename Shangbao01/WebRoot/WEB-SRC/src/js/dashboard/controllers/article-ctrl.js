@@ -25,53 +25,6 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         titlePicUrl: null,
         words: null
     };
-    $scope.channelNames=[
-        {channelName:'国内'},
-        {channelName:'商报原创'},
-        {channelName:'活动'},
-        {channelName:'娱乐'}
-    ];
-    //获得顶级目录名----------------------------------------------------------------------------------------------------
-//    $scope.newChannelNames=[];
-//    $scope.getNewChannelNames=function(){
-//        var url=$scope.projectName+'/channel/channels';
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            //console.log(data);
-//            if(data.length>0){
-//                for(i=0;i<data.length;i++){
-//                    $scope.checkFirstChannel(data[i]);
-//                }
-//            }else{
-//                $scope.newChannelNames=[];
-//            }
-//            //console.log($scope.newChannelNames);
-//        });
-//    };
-//    $scope.getNewChannelNames();
-//    //判断是否有次级目录-------------------------------------------------------------------------------------------------
-//    $scope.checkFirstChannel=function(channelData){
-//        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
-//        $http.get(url).success(function (data) {
-//            if(data.length>0){
-//                $scope.getSecondChannelNames(channelData.englishName);
-//            }else{
-//                $scope.newChannelNames.push(channelData);
-//            }
-//        });
-//    };
-//    //获得次级目录名----------------------------------------------------------------------------------------------------
-//    $scope.getSecondChannelNames=function(channelName){
-//        var url=$scope.projectName+'/channel/'+channelName+'/channels';
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            if(data.length>0){
-//                for(i=0;i<data.length;i++){
-//                    $scope.newChannelNames.push(data[i]);
-//                }
-//            }
-//        });
-//    };
 
     $scope.getEditorContent=function()
     {
@@ -135,15 +88,6 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     $scope.delStrTrim=function(str){
-//        return str.replace(/^(\s*)|(\s*$)/g,"");//去掉字符串中的空格
-//        str=str.replace(/^(\s|\u00A0)+/,'');
-//        for(var i=str.length-1;i>=0;i--){
-//            if(/\S/.test(str.charAt(i))){
-//                str=str.substring(0,i+1);
-//                break;
-//            }
-//        }
-//        return str;
         while(str.indexOf(" ")!=-1){
             var str=str.replace(" ","");
         }
@@ -201,9 +145,6 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         $scope.newArticleData.content=text+$scope.newArticleData.content;
 //        $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
-
-
-
     //关于上传图片----------------------------------------------------------------------------------------------
 
     //当input file选择的文件有变化时
@@ -327,11 +268,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     {
         $('#myModal_addIMG').modal('toggle');
     };
-
-
     //关于上传图片的----------------------------------------------------------------------------------------------
-
-
 }]);
 
 

@@ -59,9 +59,6 @@
     <script type="text/javascript" src="js/dashboard/controllers/draftPicture-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draftPictureView-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/tm.pagination.js"></script>
-    <!--<script type="text/javascript" src="js/dashboard/controllers/managePicture-ctrl.js"></script>-->
-    <!--<link href="css/bootstrap-datetimepicker.css" rel="stylesheet">-->
-    <!--<script src="js/bootstrap-datetimepicker.js"></script>-->
     <style>
         .page-list .pagination {float:left;}
         .page-list .pagination span {cursor: pointer;}
@@ -71,6 +68,16 @@
         .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
         .page-list .page-total input {width: 40px; padding-left:3px;}
         .page-list .page-total select {width: 50px;}
+    </style>
+    <style type="text/css">
+        /*.commentDetailPage{margin:2em;}*/
+        /*.commentDetailPage a{text-decoration:none;display:inline-block;line-height:14px;padding:2px 5px;color:#333;border:1px solid #ccc;margin:0 2px;}*/
+        /*.commentDetailPage a:hover,.commentDetailPage a.on{background:#999;color:#fff;border:1px solid #333;}*/
+        /*.commentDetailPage a.unclick,.commentDetailPage a.unclick:hover{background:none;border:1px solid #eee;color:#999;cursor:default;}*/
+        .commentDetailPage{margin:2em;}
+        .commentDetailPage a{text-decoration:none;display:inline-block;line-height:20px;padding:6px 10px;color:#428BCA;border:1px solid #ccc;margin:0px;}
+        .commentDetailPage a:hover,.commentDetailPage a.on{background:#428BCA;color:#fff;border:1px solid #428BCA;}
+        .commentDetailPage a.unclick,.commentDetailPage a.unclick:hover{background:none;border:1px solid #eee;color:#999;cursor:default;}
     </style>
 
 </head>
@@ -143,9 +150,6 @@
                   <li role="presentation" class="sidebar-list"id="draftPictureSidebarID">
                       <a ng-href="#draftPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
                   </li>
-                  <!--<li role="presentation" class="sidebar-list" id="managePictureSidebarID">-->
-                      <!--<a ng-href="#managePicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/活动管理')">活动管理<span class="menu-icon glyphicon glyphicon-list-alt"></span></a>-->
-                  <!--</li>-->
               </ul>
           </li>
 		<li role="presentation" class="sidebar-list">
@@ -247,7 +251,6 @@
             </div>
           </div>
         </div>
-		
 		<!-- Main Content -->
 		<div class="row tab-content">
 			<div role="tabpanel" class="tab-pane active" id="generalView" ng-controller="generalViewCtrl">
@@ -390,7 +393,6 @@
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
-                                            <!--<input type="text" ng-model="" placeholder="请输入图片描述" style="width: 100%;height: 30%" >-->
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -475,7 +477,6 @@
                                                 <option ng-repeat="x in newChannelNames track by $index" ng-click="consoleLog()">{{x.channelName}}</option>
                                             </select>
                                         </form>
-                                        <!--<input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">-->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -504,8 +505,6 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 8%">标题</th>
-                                        <!--<th>标题Url</th>
-                                        <th><a href="" ng-click="orderByArticleId()">文章ID</a></th>-->
                                         <th style="width: 8%">作者</th>
                                         <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
@@ -523,8 +522,6 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in crawlerData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <!--<td>{{checkIfNull(tileObj.titleUrl)}}</td>
-                                        <td>{{checkIfNull(tileObj.articleId)}}</td>-->
                                         <td>{{checkIfNull(tileObj.author)}}</td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
@@ -545,11 +542,6 @@
                             </div>
                         </div>
                         <nav>
-                            <!--<ul class="pagination">-->
-                                <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <!--<li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in crawlerPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>-->
-                                <!--<li><a href="#">&raquo;</a></li>-->
-                            <!--</ul>-->
                             <tm-pagination conf="crawlerPaginationConf"></tm-pagination>
                         </nav>
                         <div class="pull-right">
@@ -737,7 +729,6 @@
                                                 <option ng-repeat="x in newChannelNames">{{x.channelName}}</option>
                                             </select>
                                         </form>
-                                        <!--<input type="text" class="form-control" placeholder="请输入分类" ng-model="additionChannel">-->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -766,8 +757,6 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 8%">标题</th>
-                                        <!--<th>标题Url</th>
-                                        <th><a href="" ng-click="orderByArticleId()">文章ID</a></th>-->
                                         <th style="width: 8%">作者</th>
                                         <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
@@ -806,9 +795,6 @@
                         </div>
                         <nav>
                             <tm-pagination conf="pendingPaginationConf"></tm-pagination>
-                            <!--<ul class="pagination">-->
-                                <!--<li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pendingPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>-->
-                            <!--</ul>-->
                         </nav>
                         <div class="pull-right">
                             <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">撤销</button>
@@ -875,16 +861,6 @@
                                 <div class="col-md-5">
                                     <!--<div >-->
                                         <input type="text" class="form-control" ng-model="articleData.time" disabled>
-                                        <!--<div class="input-group-addon btn-success" ng-click="getCurrentDatetime()" ><span class="glyphicon glyphicon-refresh"disabled></span></div>-->
-                                    <!--</div>-->
-                                    <!--<input type="text" class="form-control" ng-model="articleData.time" disabled>-->
-                                    <!--<input type="date" class="form-control" ng-model="articleData.time"> 方案一-->
-                                    <!--<div class="input-group date form_datetime" data-date="2014-06-21T15:25:00Z"> 方案二-->
-                                    <!--<span class="input-group-addon">Start</span>-->
-                                    <!--<input class="form-control" size="16" type="text" value="" id="" ng-model="articleData.time">-->
-                                    <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
-                                    <!--<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>-->
-                                    <!--</div>-->
                                 </div>
                                 <label class="col-md-1 control-label">等级</label>
                                 <div class="col-md-5">
@@ -970,14 +946,14 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="published" ng-controller="publishedCtrl">
                 <div class="row">
-                    <div class="row">
-                        <div class="col-md-2 col-md-offset-1">
-                            <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
-                        </div>
-                        <div class="col-md-1 col-md-offset-7">
-                            <button type="button" class="btn btn-success" ng-click="refreshPublished()"><span class="glyphicon glyphicon-refresh"></span></button>
-                        </div>
-                    </div>
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 col-md-offset-1">-->
+                            <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-1 col-md-offset-7">-->
+                            <!--<button type="button" class="btn btn-success" ng-click="refreshPublished()"><span class="glyphicon glyphicon-refresh"></span></button>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="col-md-10 col-md-offset-1">
                         <div class="panel panel-success">
                             <div class="panel-body">
@@ -995,7 +971,6 @@
                                         <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
                                         <th style="width: 16%">摘要</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
-                                        <!--<th>图片数</th>-->
                                         <th style="width: 8%">活动</th>
                                         <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
@@ -1025,14 +1000,8 @@
                         </div>
                         <nav>
                             <tm-pagination conf="publishedPaginationConf"></tm-pagination>
-                            <!--<ul class="pagination">-->
-                                <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <!--<li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in publishedPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>-->
-                                <!--<li><a href="#">&raquo;</a></li>-->
-                            <!--</ul>-->
                         </nav>
                         <div class="pull-right">
-                            <!--<button type="button" class="btn btn-info">编辑</button>-->
                             <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">撤销</button>
                         </div>
                     </div>
@@ -1190,8 +1159,6 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 8%">标题</th>
-                                        <!--<th>标题Url</th>
-                                        <th><a href="" ng-click="orderByArticleId()">文章ID</a></th>-->
                                         <th style="width: 8%">作者</th>
                                         <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
@@ -1209,8 +1176,6 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in revokedData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <!--<td>{{checkIfNull(tileObj.titleUrl)}}</td>
-                                        <td>{{checkIfNull(tileObj.articleId)}}</td>-->
                                         <td>{{checkIfNull(tileObj.author)}}</td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
@@ -1233,11 +1198,6 @@
                         </div>
                         <nav>
                             <tm-pagination conf="revokedPaginationConf"></tm-pagination>
-                            <!--<ul class="pagination">-->
-                                <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <!--<li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in revokedPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>-->
-                                <!--<li><a href="#">&raquo;</a></li>-->
-                            <!--</ul>-->
                         </nav>
                         <div class="pull-right">
                             <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">彻底删除</button>
@@ -1490,11 +1450,6 @@
                         </div>
                         <nav>
                             <tm-pagination conf="tempPaginationConf"></tm-pagination>
-                            <!--<ul class="pagination">-->
-                                <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                <!--<li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in tempPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>-->
-                                <!--<li><a href="#">&raquo;</a></li>-->
-                            <!--</ul>-->
                         </nav>
                         <div class="pull-right">
                             <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">彻底删除</button>
@@ -1745,11 +1700,13 @@
                                     </div>
                                 </div>
                                 <nav>
-                                    <ul class="pagination">
+                                    <div class="commentDetailPage" id="commentDetail_page"></div>
+                                    <!--<div>第<input type="text" style="width: 20px">页</div>-->
+                                    <!--<ul class="pagination">-->
                                         <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                        <li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>
+                                        <!--<li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>-->
                                         <!--<li><a href="#">&raquo;</a></li>-->
-                                    </ul>
+                                    <!--</ul>-->
                                 </nav>
                                 <div class="pull-right">
                                     <button type="button" class="btn btn-success" ng-click="deleteCommentSelections()">删除</button>
@@ -1836,13 +1793,6 @@
                                 </div>
                                 <nav>
                                     <tm-pagination conf="commentPaginationConf"></tm-pagination>
-                                    <!--<ul class="pagination">-->
-                                        <!--<li class="disabled"><a href="#">&laquo;</a></li>-->
-                                        <!--<li><a href="" ng-click="turnToPage((commentData.currentNo)-1)">&laquo;</a></li>-->
-                                        <!--<li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in commentPageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>-->
-                                        <!--<li><a href="#">&raquo;</a></li>-->
-                                        <!--<li ng-class="{disabled: commentData.currentPage == commentData.pageCount}"><a href="" ng-click="turnToPage((commentData.currentNo)+1)">&raquo;</a></li>-->
-                                    <!--</ul>-->
                                 </nav>
                             </div>
                         </div>
@@ -2243,7 +2193,6 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 8%">标题</th>
-                                        <!--<th>文章ID</th>-->
                                         <th style="width: 8%">作者</th>
                                         <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
@@ -2261,7 +2210,6 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in crawlerPictureData.tileList">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <!--<td>{{checkIfNull(tileObj.articleId)}}</td>-->
                                         <td>{{checkIfNull(tileObj.author)}}</td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
@@ -2565,9 +2513,6 @@
                         </div>
                         <nav>
                             <tm-pagination conf="pendingPicturePaginationConf"></tm-pagination>
-                            <!--<ul class="pagination">-->
-                                <!--<li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in pendingPicturePageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>-->
-                            <!--</ul>-->
                         </nav>
                         <div class="pull-right">
                             <button type="button" class="btn btn-info" ng-click="deletePictureArticleSelections()">撤销</button>
@@ -2737,7 +2682,6 @@
                                         <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
                                         <th style="width: 16%">摘要</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
-                                        <!--<th>图片数</th>-->
                                         <th style="width: 8%">活动</th>
                                         <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
@@ -2755,7 +2699,6 @@
                                         <td>{{checkNum(tileObj.likes)}}</td>
                                         <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkNum(tileObj.words)}}</td>
-                                        <!--<td>{{checkIfEmpty(tileObj.pictures)}}</td>-->
                                         <td>{{checkIfNull(tileObj.activity)}}</td>
                                         <td>
                                             <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
@@ -2767,9 +2710,6 @@
                         </div>
                         <nav>
                             <tm-pagination conf="publishedPicturePaginationConf"></tm-pagination>
-                            <!--<ul class="pagination">-->
-                                <!--<li ng-class="{active:pageNumClass(pageNum)}" ng-repeat="pageNum in publishePicturePageNums"><a href="" ng-click="turnToPage(pageNum)">{{pageNum}}</a></li>-->
-                            <!--</ul>-->
                         </nav>
                         <div class="pull-right">
                             <button type="button" class="btn btn-info" ng-click="deletePictureArticleSelections()">撤销</button>
@@ -2925,8 +2865,6 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 8%">标题</th>
-                                        <!--<th>标题Url</th>
-                                        <th><a href="" ng-click="orderByArticleId()">文章ID</a></th>-->
                                         <th style="width: 8%">作者</th>
                                         <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
@@ -2944,8 +2882,6 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in revokedPictureData.tileList">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <!--<td>{{checkIfNull(tileObj.titleUrl)}}</td>
-                                        <td>{{checkIfNull(tileObj.articleId)}}</td>-->
                                         <td>{{checkIfNull(tileObj.author)}}</td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
@@ -3463,84 +3399,6 @@
                     </div>
                 </div>
             </div>
-            <!--<div role="tabpanel" class="tab-pane" id="managePicture" ng-controller="managePictureCtrl">-->
-                <!--<div class="row">-->
-                    <!--<div class="col-md-1 col-md-offset-1">-->
-                        <!--<button type="button" class="btn btn-lg btn-info" ng-click="" data-toggle="modal" data-target="#addActivity_picture">添加活动</button>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-1 col-md-offset-7">-->
-                        <!--<button type="button" class="btn btn-md btn-success" ng-click=""><span class="glyphicon glyphicon-refresh"></span></button>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="row">-->
-                    <!--<div class="col-md-9 col-md-offset-1">-->
-                        <!--<div class="panel panel-success">-->
-                            <!--<div class="panel-body">-->
-                                <!--<table class="table table-bordered">-->
-                                    <!--<thead>-->
-                                    <!--<tr>-->
-                                        <!--<th style="width: 10%">序号</th>-->
-                                        <!--<th style="width: 20%">活动名称</th>-->
-                                        <!--<th style="width: 15%">活动时间</th>-->
-                                        <!--<th style="width: 30%">活动介绍</th>-->
-                                        <!--<th style="width: 25%">操作</th>-->
-                                    <!--</tr>-->
-                                    <!--</thead>-->
-                                    <!--<tbody>-->
-                                    <!--<tr ng-repeat="x in manageActivityNames track by $index">-->
-                                        <!--<td>{{x.channelIndex}}</td>-->
-                                        <!--<td>{{x.channelName}}</td>-->
-                                        <!--<td>{{x.startDate}}-{{x.endDate}}</td>-->
-                                        <!--<td>{{x.summary}}</td>-->
-                                        <!--<td>-->
-                                            <!--&lt;!&ndash;<a href="" ng-click="">修改</a>/&ndash;&gt;-->
-                                            <!--<a href="" ng-click="deleteActivity(x.channelName,x.englishName)">删除</a>-->
-                                            <!--/<a href="" ng-click="">上移</a>/<a href="">下移</a>-->
-                                        <!--</td>-->
-                                    <!--</tr>-->
-                                    <!--</tbody>-->
-                                <!--</table>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="modal fade" id="addActivity_picture" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="ture">-->
-                            <!--<div class="modal-dialog">-->
-                                <!--<div class="modal-content">-->
-                                    <!--<div class="modal-header">-->
-                                        <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
-                                        <!--<h4 class="modal-title">添加活动</h4>-->
-                                    <!--</div>-->
-                                    <!--<div class="modal-body">-->
-                                        <!--<form class="form-horizontal" role="form">-->
-                                            <!--<div class="form-group">-->
-                                                <!--<label class="col-md-2 control-label">活动名称</label>-->
-                                                <!--<div class="col-md-8">-->
-                                                    <!--<input type="text" class="form-control" placeholder="活动名称" ng-model="newActivityData.channelName">-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                            <!--<div class="form-group">-->
-                                                <!--<label class="col-md-2 control-label">英文名称</label>-->
-                                                <!--<div class="col-md-8">-->
-                                                    <!--<input type="text" class="form-control" placeholder="英文名称" ng-model="newActivityData.englishName">-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                            <!--<div class="form-group">-->
-                                                <!--<label class="col-md-2 control-label">活动介绍</label>-->
-                                                <!--<div class="col-md-8">-->
-                                                    <!--<input type="text" class="form-control" placeholder="活动介绍" ng-model="newActivityData.summary">-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                        <!--</form>-->
-                                    <!--</div>-->
-                                    <!--<div class="modal-footer">-->
-                                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
-                                        <!--<button type="button" class="btn btn-primary" ng-click="addActivity()">确认</button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
         </div>
 
       </div><!-- End page content -->
@@ -3552,17 +3410,6 @@
   <script>
       //load bootstrap tool tip
       $(function () { $("[data-toggle='tooltip']").tooltip(); });
-      //enable time picker css
-//      function enableTimepicker() {
-//          $(".form_datetime").datetimepicker({
-//              format: "yyyy-mm-dd hh:ii",
-//              autoclose: true,
-//              todayBtn: true,
-//              startDate: "2013-02-14 10:00",
-//              minuteStep: 1
-//          });
-//      }
-//      enableTimepicker();
   </script>
 
 </body></html>
