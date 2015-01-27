@@ -72,5 +72,5 @@ public interface CommendService {
 	 * @param order 排序
 	 * @return
 	 */
-	CommendPage getCommendPage(int pageNo, String order);
+	CommendPage getCommendPage(int pageNo, String order, String direction);
 }

@@ -19,6 +19,7 @@ import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.show.ChannelList;
 import com.shangbao.model.show.Page;
 import com.shangbao.model.show.TitleList;
+import com.shangbao.service.PendTagService;
 import com.shangbao.service.PictureService;
 
 @Service
@@ -27,6 +28,8 @@ public class PictureServiceImp implements PictureService{
 	private ArticleDao articleDaoImp;
 	@Resource
 	private ChannelDao channelDaoImp;
+	@Resource
+	private PendTagService pendTagServiceImp;
 
 	public ArticleDao getArticleDaoImp() {
 		return articleDaoImp;
@@ -60,8 +63,8 @@ public class PictureServiceImp implements PictureService{
 	public TitleList getTiltList(ArticleState articleState, int pageNo) {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
-		query.addCriteria(new Criteria().where("state").is(articleState.toString()));
-		query.addCriteria(new Criteria().where("tag").is(true));
+		query.addCriteria(Criteria.where("state").is(articleState.toString()));
+		query.addCriteria(Criteria.where("tag").is(true));
 		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
@@ -70,14 +73,26 @@ public class PictureServiceImp implements PictureService{
 		}
 		return titleList;
 	}
-
+	
+	@Override
+	public TitleList fuzzyFind(String words, ArticleState state, int pageNo, int pageSize){
+		Page<Article> page = articleDaoImp.fuzzyFind(words, state, true, pageNo, pageSize);
+		TitleList titleList = new TitleList();
+		titleList.setCurrentNo(pageNo);
+		titleList.setPageCount(page.getTotalPage());
+		for(Article article : page.getDatas()){
+			titleList.addTitle(article);
+		}
+		return titleList;
+	}
+	
 	@Override
 	public TitleList getOrderedList(ArticleState articleState, int pageNo,
 			String order, String direction) {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
-		query.addCriteria(new Criteria().where("state").is(articleState.toString()));
-		query.addCriteria(new Criteria().where("tag").is(true));
+		query.addCriteria(Criteria.where("state").is(articleState.toString()));
+		query.addCriteria(Criteria.where("tag").is(true));
 		if(direction.equals("asc")){
 			query.with(new Sort(Direction.ASC, order));
 		}else{
@@ -98,7 +113,11 @@ public class PictureServiceImp implements PictureService{
 		ArticleState targetState = articleState;
 		switch (articleState) {
 		case Temp:
-			targetState = ArticleState.Pending;
+			if(pendTagServiceImp.isTag("article")){
+				targetState = ArticleState.Pending;
+			}else{
+				targetState = ArticleState.Published;
+			}
 			break;
 		case Pending:
 			targetState = ArticleState.Published;
@@ -163,7 +182,7 @@ public class PictureServiceImp implements PictureService{
 	public ChannelList getActivity(int pageNo, int pageSize) {
 		ChannelList channelList = new ChannelList();
 		Query activeQuery = new Query();
-		activeQuery.addCriteria(new Criteria().where("state").is(ChannelState.Activity.toString()));
+		activeQuery.addCriteria(Criteria.where("state").is(ChannelState.Activity.toString()));
 		List<Channel> actives = this.channelDaoImp.getPage(pageNo, pageSize, activeQuery).getDatas();
 		for(Channel channel : actives){
 			Long pictureNum = new Long(0);
@@ -186,7 +205,7 @@ public class PictureServiceImp implements PictureService{
 	public ChannelList getOrderActivity(int pageNo, int pageSize, String order) {
 		ChannelList channelList = new ChannelList();
 		Query activeQuery = new Query();
-		activeQuery.addCriteria(new Criteria().where("state").is(ChannelState.Activity.toString()));
+		activeQuery.addCriteria(Criteria.where("state").is(ChannelState.Activity.toString()));
 		List<Channel> actives = this.channelDaoImp.getPage(pageNo, pageSize, activeQuery).getDatas();
 		for(Channel channel : actives){
 			Long pictureNum = new Long(0);

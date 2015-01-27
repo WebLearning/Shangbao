@@ -15,6 +15,7 @@ public interface PictureService {
 	TitleList getTiltList(ArticleState articleState, int pageNo);
 	TitleList getOrderedList(ArticleState articleState, int pageNo,
 			String order ,String direction);
+	TitleList fuzzyFind(String words, ArticleState state, int pageNo, int pageSize);
 	void setPutState(ArticleState articleState, List<Long> idList);
 	void setDeleteState(ArticleState articleState, List<Long> idList);
 	Article findOne(Long id);

@@ -367,4 +367,35 @@ public class ArticleDaoImp implements ArticleDao {
 			WriteResult resultB = mongoTemplate.updateFirst(queryB, updateB, Article.class);
 		}
 	}
+
+	@Override
+	public List<Article> fuzzyFind(String words, ArticleState state, boolean tag) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("state").is(state.toString()));
+		query.addCriteria(Criteria.where("tag").is(tag));
+		query.addCriteria(Criteria.where("title").regex(words));
+		query.addCriteria(Criteria.where("content").regex(words));
+		query.addCriteria(new Criteria().regex(words));
+		query.with(new Sort(Direction.DESC, "time"));
+		return mongoTemplate.find(query, Article.class);
+	}
+
+	@Override
+	public Page<Article> fuzzyFind(String words, ArticleState state, boolean tag,
+			int pageNo, int pageSize) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("state").is(state.toString()));
+		query.addCriteria(Criteria.where("tag").is(tag));
+		query.addCriteria(new Criteria().orOperator(Criteria.where("content").regex(words), Criteria.where("title").regex(words)));
+		//query.addCriteria(Criteria.where("content").regex(words));
+		System.out.println(query.getQueryObject());
+		long count = mongoTemplate.count(query, Article.class);
+		Page<Article> page = new Page<Article>(pageNo, pageSize, count);
+		query.with(new Sort(Direction.DESC, "time"));
+		query.skip(page.getFirstResult());// skip相当于从那条记录开始
+		query.limit(pageSize);
+		List<Article> datas = mongoTemplate.find(query, Article.class);
+		page.setDatas(datas);
+		return page;
+	}
 }

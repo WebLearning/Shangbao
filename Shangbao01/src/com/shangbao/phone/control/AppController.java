@@ -123,6 +123,12 @@ public class AppController {
 		return appService.getArticlesFromChannel(channelName, pageNo, 10);
 	}
 	
+	@RequestMapping(value="/{phoneType}/query")
+	public ColumnPageModel getFuzzyFind(@RequestBody Article article){
+		
+		return null;
+	}
+	
 	/**
 	 * 获取新闻详细页面
 	 * @return

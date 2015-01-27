@@ -102,6 +102,23 @@ public class PictureController {
 	}
 	
 	/**
+	 * 查询
+	 * @param articleState
+	 * @param pageNo
+	 * @param value
+	 * @return
+	 */
+	@RequestMapping(value="/{articleState}/{pageNo}/query", method=RequestMethod.POST)
+	@ResponseBody
+	public TitleList fuzzyFind(@PathVariable("articleState") ArticleState articleState, @PathVariable("pageNo") int pageNo, @RequestBody Article article){
+		TitleList list = new TitleList();
+		if(article.getContent() != null){
+			list = pictureServiceImp.fuzzyFind(article.getContent(), articleState, pageNo, 20);
+		}
+		return list;
+	}
+	
+	/**
 	 * 获取一篇图片文章
 	 * 
 	 * @param id

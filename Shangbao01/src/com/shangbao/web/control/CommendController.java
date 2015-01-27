@@ -49,11 +49,12 @@ public class CommendController {
 	 * @param order
 	 * @return
 	 */
-	@RequestMapping(value = "/{pageNo:[\\d]+}/{order:[a-z,A-Z]+}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{pageNo:[\\d]+}/{order:[a-z,A-Z]+}/{direction:asc|desc}", method = RequestMethod.GET)
 	@ResponseBody
 	public CommendPage articleOrder(@PathVariable("pageNo") int pageNo,
-			@PathVariable("order") String order) {
-		return commendServiceImp.getCommendPage(pageNo, order);
+			@PathVariable("order") String order,
+			@PathVariable("direction") String direction) {
+		return commendServiceImp.getCommendPage(pageNo, order, direction);
 	}
 
 	/**

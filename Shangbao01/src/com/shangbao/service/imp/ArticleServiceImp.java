@@ -19,12 +19,15 @@ import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.Page;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.ArticleService;
+import com.shangbao.service.PendTagService;
 
 @Service
 public class ArticleServiceImp implements ArticleService {
 
 	@Resource
 	private ArticleDao articleDaoImp;
+	@Resource
+	private PendTagService pendTagServiceImp;
 	
 	public ArticleDao getArticleDaoImp() {
 		return articleDaoImp;
@@ -55,6 +58,18 @@ public class ArticleServiceImp implements ArticleService {
 		return articleDaoImp.find(criteriaArticle);
 	}
 
+	@Override
+	public TitleList fuzzyFind(String words, ArticleState state, int pageNo, int pageSize){
+		Page<Article> page = articleDaoImp.fuzzyFind(words, state, false, pageNo, pageSize);
+		TitleList titleList = new TitleList();
+		titleList.setCurrentNo(pageNo);
+		titleList.setPageCount(page.getTotalPage());
+		for(Article article : page.getDatas()){
+			titleList.addTitle(article);
+		}
+		return titleList;
+	}
+	
 	@Override
 	public void deleteOne(Article article) {
 		articleDaoImp.delete(article);
@@ -100,8 +115,8 @@ public class ArticleServiceImp implements ArticleService {
 	public TitleList getTiltList(ArticleState articleState, int pageNo) {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
-		query.addCriteria(new Criteria().where("state").is(articleState.toString()));
-		query.addCriteria(new Criteria().where("tag").is(false));
+		query.addCriteria(Criteria.where("state").is(articleState.toString()));
+		query.addCriteria(Criteria.where("tag").is(false));
 		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
@@ -116,8 +131,8 @@ public class ArticleServiceImp implements ArticleService {
 			String order, String direction) {
 		TitleList titleList = new TitleList();
 		Query query = new Query();
-		query.addCriteria(new Criteria().where("state").is(articleState.toString()));
-		query.addCriteria(new Criteria().where("tag").is(false));
+		query.addCriteria(Criteria.where("state").is(articleState.toString()));
+		query.addCriteria(Criteria.where("tag").is(false));
 		if(direction.equals("asc")){
 			query.with(new Sort(Direction.ASC, order));
 		}else{
@@ -138,7 +153,11 @@ public class ArticleServiceImp implements ArticleService {
 		ArticleState targetState = articleState;
 		switch (articleState) {
 		case Temp:
-			targetState = ArticleState.Pending;
+			if(pendTagServiceImp.isTag("article")){
+				targetState = ArticleState.Pending;
+			}else{
+				targetState = ArticleState.Published;
+			}
 			break;
 		case Pending:
 			targetState = ArticleState.Published;

@@ -105,6 +105,16 @@ public class ArticleController {
 		return titleList;
 	}
 
+	@RequestMapping(value = "/{articleState}/{pageNo}/query", method=RequestMethod.POST)
+	@ResponseBody
+	public TitleList fuzzeFind(@PathVariable ArticleState articleState, @PathVariable int pageNo, @RequestBody Article article){
+		TitleList list = new TitleList();
+		if(article.getContent() != null){
+			list = articleServiceImp.fuzzyFind(article.getContent(), articleState, pageNo, 20);
+		}
+		return list;
+	}
+	
 	/**
 	 * 获取一篇文章
 	 * 

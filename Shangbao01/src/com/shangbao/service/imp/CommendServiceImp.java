@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -58,7 +59,7 @@ public class CommendServiceImp implements CommendService {
 			commendList.setCurrentNo(pageId);
 			commendList.setCommendList(singleCommends.subList(
 					(pageId - 1) * 10,
-					pageId * 10 - 1 > singleCommends.size() ? singleCommends.size() : pageId * 10 - 1));
+					(pageId * 10 - 1 > singleCommends.size() ? singleCommends.size() : pageId * 10 - 1) + 1));
 			return commendList;
 		}
 		return null;
@@ -146,7 +147,7 @@ public class CommendServiceImp implements CommendService {
 	public void reply(Commend commend, String commendId, String reply) {
 		Update updateElement = new Update();
 		Query query = new Query();
-		query.addCriteria(new Criteria().where("commendList.commendId").is(commendId));
+		query.addCriteria(Criteria.where("commendList.commendId").is(commendId));
 		updateElement.set("commendList.$.reply", reply);
 		commendDaoImp.update(commend, query, updateElement);
 	}
@@ -158,7 +159,7 @@ public class CommendServiceImp implements CommendService {
 		updateElement.set("commendList.$.state", CommendState.published.toString());
 		for(String commendId : singleCommendIds){
 			Query query = new Query();
-			query.addCriteria(new Criteria().where("commendList.commendId").is(commendId));
+			query.addCriteria(Criteria.where("commendList.commendId").is(commendId));
 			commendDaoImp.update(commend, query, updateElement);
 			commendCount ++;
 		}
@@ -236,11 +237,15 @@ public class CommendServiceImp implements CommendService {
 	}
 
 	@Override
-	public CommendPage getCommendPage(int pageNo, String order) {
+	public CommendPage getCommendPage(int pageNo, String order, String direction) {
 		CommendPage commendPage = new CommendPage();
 		List<CommendForArticle> commendList = new ArrayList<CommendForArticle>();
 		Query query = new Query();
-		query.with(new Sort(order));
+		if(direction.equals("asc")){
+			query.with(new Sort(Direction.ASC, order));
+		}else{
+			query.with(new Sort(Direction.DESC, order));
+		}
 		Page<Article> page = commendDaoImp.getPage(pageNo, 20, query);
 		commendPage.setCurrentNo(pageNo);
 		commendPage.setPageCount(page.getTotalPage());

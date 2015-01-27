@@ -1,6 +1,8 @@
 package com.shangbao.app.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -8,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +37,7 @@ import com.shangbao.model.persistence.CrawlerCommend;
 import com.shangbao.model.persistence.NewsCommend;
 import com.shangbao.model.persistence.StartPictures;
 import com.shangbao.model.show.SingleCommend;
+import com.shangbao.service.PendTagService;
 
 @Component
 @Scope("singleton")
@@ -42,6 +47,8 @@ public class AppModel {
 	private ChannelDao channelDaoImp;
 	private CommendDao commendDaoImp;
 	private StartPicturesDao startPicturesDaoImp;
+	@Resource
+	private PendTagService pendTagServiceImp;
 	
 	private final Map<String, List<String>> startPictures = new ConcurrentHashMap<String, List<String>>();//启动显示图片
 	private final Map<String, List<Article>> appMap = new ConcurrentHashMap<String, List<Article>>();//每个channel包含的文章
@@ -159,6 +166,15 @@ public class AppModel {
 				}
 			}
 		}
+		Collections.sort(singleCommends, new Comparator<SingleCommend>() {
+			@Override
+			public int compare(SingleCommend o1, SingleCommend o2) {
+				if(o1.getTimeDate() != null && o2.getTimeDate() != null){
+					return o2.getTimeDate().compareTo(o1.getTimeDate());
+				}
+				return 0;
+			}
+		});
 		this.commends.put(articleId, singleCommends);
 	}
 	
@@ -389,7 +405,11 @@ public class AppModel {
 	 */
 	public void addComment(Long articleId, SingleCommend singleCommend){
 		Update update = new Update();
-		singleCommend.setState(CommendState.unpublished);
+		if(pendTagServiceImp.isTag("comment")){
+			singleCommend.setState(CommendState.unpublished);
+		}else{
+			singleCommend.setState(CommendState.published);
+		}
 		singleCommend.setTimeDate(new Date());
 		singleCommend.setCommendId("" + new Date().getTime() + singleCommend.getUserId());
 		NewsCommend newsCommend = new NewsCommend();
