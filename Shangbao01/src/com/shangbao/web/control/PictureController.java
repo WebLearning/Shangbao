@@ -87,6 +87,7 @@ public class PictureController {
 	 * @param time
 	 */
 	@RequestMapping(value = "/newPicture/timingpublish/{time:[\\d]+}", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
 	public void addAndTimePublish(@RequestBody Article article, @PathVariable("time") Long time){
 		article.setState(ArticleState.Temp);
 		article.setTag(true);

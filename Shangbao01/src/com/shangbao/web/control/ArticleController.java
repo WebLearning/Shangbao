@@ -15,6 +15,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.annotation.Resource;
+import javax.enterprise.inject.New;
 
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
@@ -99,6 +100,7 @@ public class ArticleController {
 	 * @param time
 	 */
 	@RequestMapping(value = "/newArticle/timingpublish/{time:[\\d]+}", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
 	public void addAndTimePublish(@RequestBody Article article, @PathVariable("time") Long time){
 		article.setState(ArticleState.Temp);
 		String message = getLog("新建并定时发布");
@@ -106,6 +108,7 @@ public class ArticleController {
 			article.getLogs().add(message);
 		}
 		Long id = articleServiceImp.addGetId(article);
+		System.out.println("定时发布文章id：" + id);
 		List<Long> articleIds = new ArrayList<>();
 		articleIds.add(id);
 		publishTask(articleIds, time, null);
@@ -327,7 +330,12 @@ public class ArticleController {
 			
 			@Override
 			public void run() {
-				articleServiceImp.setPutState(ArticleState.Pending, idList, message);
+				if(message == null){
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+					articleServiceImp.setPutState(ArticleState.Pending, idList, sdf.format(new Date()));
+				}else{
+					articleServiceImp.setPutState(ArticleState.Pending, idList, message);
+				}
 			}
 		}, date);
 	}
