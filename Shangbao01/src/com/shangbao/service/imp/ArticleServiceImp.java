@@ -183,7 +183,11 @@ public class ArticleServiceImp implements ArticleService {
 			targetState = ArticleState.Temp;
 			break;
 		case Crawler:
-			targetState = ArticleState.Temp;
+			if(pendTagServiceImp.isTag("article")){
+				targetState = ArticleState.Temp;
+			}else{
+				targetState = ArticleState.Published;
+			}
 			break;
 		default:
 			break;

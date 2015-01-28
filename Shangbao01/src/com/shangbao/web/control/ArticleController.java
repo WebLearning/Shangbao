@@ -35,6 +35,7 @@ import com.shangbao.model.PushModel;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.ArticleService;
+import com.shangbao.service.PendTagService;
 import com.shangbao.utils.CompressPicUtils;
 
 @Controller
@@ -46,6 +47,8 @@ public class ArticleController {
 	private CompressPicUtils compressPicUtils;
 	@Resource
 	private AppPushService appPushService;
+	@Resource
+	private PendTagService pendTagServiceImp;
 
 	/**
 	 * 新建文章
@@ -72,6 +75,12 @@ public class ArticleController {
 //		article.setState(ArticleState.Pending);
 //		articleServiceImp.add(article);
 //	}
+	
+	@RequestMapping(value = "/ispending", method=RequestMethod.GET)
+	@ResponseBody
+	public boolean isPending(){
+		return pendTagServiceImp.isTag("article");
+	}
 	
 	/**
 	 * 标题列表分页

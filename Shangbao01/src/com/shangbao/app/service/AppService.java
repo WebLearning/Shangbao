@@ -153,11 +153,12 @@ public class AppService {
 			if(appModel.getArticleMap().containsKey(articleId)){
 				//appHtml.html = appModel.getArticleMap().get(articleId).getContent();
 				appHtml.html = articleToHtml(appModel.getArticleMap().get(articleId));
-				int clicks = appModel.getArticleMap().get(articleId).getClicks() + 1;
-				Update update = new Update();
-				update.inc("clicks", 1);
-				articleDaoImp.update(appModel.getArticleMap().get(articleId), update);
-				appModel.getArticleMap().get(articleId).setClicks(clicks);
+//				int clicks = appModel.getArticleMap().get(articleId).getClicks() + 1;
+//				Update update = new Update();
+//				update.inc("clicks", 1);
+//				articleDaoImp.update(appModel.getArticleMap().get(articleId), update);
+//				appModel.getArticleMap().get(articleId).setClicks(clicks);
+				appModel.addClick(articleId);
 				appHtml.articleId = articleId;
 			}else{
 				Article articleInMongo = articleServiceImp.findOne(articleId);
@@ -165,10 +166,11 @@ public class AppService {
 					appModel.getArticleMap().put(articleId, articleInMongo);
 					//appHtml.html = articleInMongo.getContent();
 					appHtml.html = articleToHtml(articleInMongo);
-					appHtml.articleId = articleId;
-					Update update = new Update();
-					update.inc("clicks", 1);
-					articleDaoImp.update(articleInMongo, update);
+//					appHtml.articleId = articleId;
+//					Update update = new Update();
+//					update.inc("clicks", 1);
+//					articleDaoImp.update(articleInMongo, update);
+					appModel.addClick(articleId);
 					return appHtml;
 				}
 			}

@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +20,8 @@ import com.shangbao.service.UserService;
 public class UserController {
 	@Resource
 	private UserService userService;
+	@Resource
+	private PasswordEncoder passwordEncoder;
 	
 	public UserService getUserService() {
 		return userService;
@@ -32,5 +37,15 @@ public class UserController {
 		return userService.listUsers();
 	}
 	
-	
+	@RequestMapping(value="/register", method=RequestMethod.POST)
+	@ResponseBody
+	public User register(@RequestBody User user){
+		if(user.getName() != null && user.getPasswd() != null){
+			user.setRole("ROLE_ADMIN");
+			user.setPasswd(passwordEncoder.encodePassword(user.getPasswd(), null));
+			userService.addUser(user);
+			return user;
+		}
+		return null;
+	}
 }

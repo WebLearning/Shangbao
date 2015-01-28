@@ -447,10 +447,12 @@ public class AppModel {
 		Article criteriaArticle = new Article();
 		criteriaArticle.setId(articleId);
 		Update update = new Update();
-		update.inc("likes", 1);
-		articleDaoImp.update(criteriaArticle, update);
 		if(articleMap.get(articleId) != null){
-			articleMap.get(articleId).setLikes(articleMap.get(articleId).getLikes() + 1);
+			synchronized (AppModel.class) {
+				articleMap.get(articleId).setLikes(articleMap.get(articleId).getLikes() + 1);
+			}
+			update.set("likes", articleMap.get(articleId).getLikes());
+			articleDaoImp.update(criteriaArticle, update);
 		}
 	}
 	
@@ -462,10 +464,12 @@ public class AppModel {
 		Article criteriaArticle = new Article();
 		criteriaArticle.setId(articleId);
 		Update update = new Update();
-		update.inc("clicks", 1);
-		articleDaoImp.update(criteriaArticle, update);
 		if(articleMap.get(articleId) != null){
-			articleMap.get(articleId).setClicks(articleMap.get(articleId).getClicks() + 1);
+			synchronized (AppModel.class) {
+				articleMap.get(articleId).setClicks(articleMap.get(articleId).getClicks() + 1);
+			}
+			update.set("clicks", articleMap.get(articleId).getClicks());
+			articleDaoImp.update(criteriaArticle, update);
 		}
 	}
 	

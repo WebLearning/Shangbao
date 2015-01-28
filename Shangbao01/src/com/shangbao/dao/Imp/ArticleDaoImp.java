@@ -388,7 +388,7 @@ public class ArticleDaoImp implements ArticleDao {
 		query.addCriteria(Criteria.where("tag").is(tag));
 		query.addCriteria(new Criteria().orOperator(Criteria.where("content").regex(words), Criteria.where("title").regex(words)));
 		//query.addCriteria(Criteria.where("content").regex(words));
-		System.out.println(query.getQueryObject());
+		//System.out.println(query.getQueryObject());
 		long count = mongoTemplate.count(query, Article.class);
 		Page<Article> page = new Page<Article>(pageNo, pageSize, count);
 		query.with(new Sort(Direction.DESC, "time"));
