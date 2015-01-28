@@ -39,7 +39,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         time: "",
         title: "",
         titlePicUrl: null,
-        words: null
+        words: null,
+        logs:[]
     };
 
     $scope.newArticleData={
@@ -76,6 +77,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         //如果是点击新建文章就清除文章里的数据
         if(str=="文章/新建"){
             clearNewArticleData();
+            $scope.setButtonInNewArticleForPending();
+            $scope.setButtonInNewArticleForPublish();
         }else if(str=="快拍成都/新建"){
             clearNewArticleData();
         }else if(str=="文章/爬虫文章"){
@@ -1068,4 +1071,55 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getNewPictureChannelNames();
+//----------------------------------------------------------------------------------------------------------------------
+    //新加功能按钮------------------------------------------------------------------------------------------------------
+    //判断设置中选择的是哪一个radio框-----------------------------------------------------------------------------------
+    $scope.setStates="";
+    $scope.getSetState=function(){
+        var url=$scope.projectName+"/article/ispending";
+        $http.get(url).success(function(data){
+            console.log(data);
+            $scope.setStates=data;
+            console.log($scope.setStates);
+            var vv=document.getElementsByName("radios");
+            for(var i=0;i<vv.length;i++){
+                if(vv.item(i).value==$scope.setStates){
+                    vv.item(i).checked=true;
+                }
+            }
+        });
+    };
+    $scope.getSetState();
+    $scope.selectSetStates="";
+    //设置radio选项框---------------------------------------------------------------------------------------------------
+    $scope.setRadioState=function(){
+        var v=document.getElementsByName("radios");
+        for(var i=0;i< v.length;i++){
+            if(v.item(i).checked){
+                var ss= v.item(i).value;
+                $scope.selectSetStates=ss;
+                console.log(ss);
+                console.log($scope.selectSetStates);
+            }
+        }
+        var url=$scope.projectName+"/setting/settag/article/"+$scope.selectSetStates;
+        $http.get(url).success(function(){
+            alert("设置成功");
+        });
+    };
+    //文章新建添加按钮--------------------------------------------------------------------------------------------------
+    $scope.setButtonInNewArticleForPending=function(){
+        if($scope.setStates=="true"){
+            return "btn btn-md btn-info";
+        }else{
+            return "btn btn-md btn-info sr-only";
+        }
+    };
+    $scope.setButtonInNewArticleForPublish=function(){
+        if($scope.setStates=="true"){
+            return "btn btn-md btn-info sr-only";
+        }else{
+            return "btn btn-md btn-info";
+        }
+    };
 }]);

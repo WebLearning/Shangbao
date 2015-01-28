@@ -409,7 +409,10 @@
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" ng-click="clearArticle()">清除所有内容</button>
-                                <button type="button" class="btn btn-success" ng-click="saveArticle()">保存至草稿箱</button>
+                                <button type="button" id="button_newArticle" class="btn btn-success" ng-click="saveArticle()" value="">保存至草稿箱</button>
+                                <button type="button" ng-class="setButtonInNewArticleForPending()" ng-click="pendArticleInNewArticle()">提交审核</button>
+                                <button type="button" ng-class="setButtonInNewArticleForPublish()" ng-click="publishedArticleInNewArticle()">发布</button>
+                                <button type="button" ng-class="setButtonInNewArticleForPublish()" data-toggle="modal" data-target="#Select_TimeInNewArticle">定时发布</button>
                             </div>
                         </form>
                         <p>&nbsp;</p>
@@ -485,6 +488,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade" id="Select_TimeInNewArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">选择定时发布时间</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="datetime-local" class="form-control" placeholder="请输入时间" ng-model="publishTimeInNewArticle">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="publishArticleInNewArticleTiming()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -1986,7 +2007,42 @@
                 </div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="settings">
-                settings
+                <div class="row">
+                    <div class="col-md-2">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>设置是否需要提交审核</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <form>
+                                        <div class="radio">
+                                            <label>
+                                                是<input type="radio" name="radios" id="yes" value="true" ng-init="" ng-click="">
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                否<input type="radio" name="radios" id="no" value="false" ng-init="" ng-click="">
+                                            </label>
+                                        </div>
+                                    </form>
+                                    <div class="pull-right">
+                                        <button type="button" class="btn btn-info" ng-click="setRadioState()">确认</button>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-2 col-md-offset-5">
+                        <button type="button" class="btn btn-success" ng-click="getSetState()">test</button>
+                    </div>
+                </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="newPicture" ng-controller="newPictureCtrl">
                 <div class="row">

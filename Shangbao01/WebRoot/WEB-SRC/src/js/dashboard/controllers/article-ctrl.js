@@ -68,14 +68,44 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         });
         $scope.clearArticle();
     };
-
-//    $scope.putArticle=function(){
-//        $scope.calculateWords();
-//        var jsonString=JSON.stringify($scope.newArticleData);
-//        $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
-//            alert("提交审核文章成功");
-//        });
-//    };
+    $scope.pendArticleInNewArticle=function(){
+        $scope.calculateWords();
+        var url=$scope.projectName+"/article/newArticle/pend";
+        var jsonString=JSON.stringify($scope.newArticleData);
+        $http.post(url,jsonString).success(function(){
+            alert("提交成功！");
+            $scope.clearArticle();
+        });
+    };
+    $scope.publishedArticleInNewArticle=function(){
+        $scope.calculateWords();
+        var url=$scope.projectName+"/article/newArticle/pend";
+        var jsonString=JSON.stringify($scope.newArticleData);
+        $http.post(url,jsonString).success(function(){
+            alert("发送成功！");
+            $scope.clearArticle();
+        });
+    };
+    $scope.publishArticleInNewArticleTiming=function()
+    {
+        var myDate=new Date();
+        var myDateTime=myDate.getTime();
+        var str1=$scope.publishTimeInNewArticle.substr(0,10);
+        var str2=$scope.publishTimeInNewArticle.substr(11,16);
+        var str3=str1.concat(" ");
+        var str4=str3.concat(str2);
+        var str5=new Date(str4);
+        var myPublishedTime=str5.getTime();
+        var time=myPublishedTime-myDateTime;
+        console.log(time);
+        var url=$scope.projectName+"/article/newArticle/timingpublish/"+time;
+        console.log(url);
+        $http.get(url).success(function(){
+            alert("定时成功");
+            $('#Select_TimeInNewArticle').modal('toggle');
+            $scope.clearArticle();
+        });
+    };
 
     //得到字数
     $scope.calculateWords=function()
