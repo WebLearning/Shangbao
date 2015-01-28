@@ -573,7 +573,26 @@
                         </nav>
                         <div class="pull-right">
                             <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">彻底删除</button>
-                            <button type="button" class="btn btn-info" ng-click="saveArticleSelections()">转至草稿箱</button>
+                            <button type="button" ng-class="setButtonInNewArticleForPending()" ng-click="saveArticleSelections()">转至草稿箱</button>
+                            <button type="button" ng-class="setButtonInNewArticleForPublish()" ng-click="publishArticleSelectionsNowOutCrawler()">发布</button>
+                            <button type="button" ng-class="setButtonInNewArticleForPublish()" data-toggle="modal" data-target="#Select_TimeOutCrawler">定时发布</button>
+                        </div>
+                        <div class="modal fade" id="Select_TimeOutCrawler" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">选择定时发布时间</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="datetime-local" class="form-control" placeholder="请输入时间" ng-model="publishTimeOutCrawler">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="publishArticleSelectionsTimingOutCrawler()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -688,12 +707,31 @@
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" ng-click="clearArticle()">清除所有内容</button>
-                                <button type="button" class="btn btn-success" ng-click="saveArticle()">保存</button>
+                                <button type="button" ng-class="setButtonInNewArticleForPending()" ng-click="saveArticle()">转至草稿箱</button>
+                                <button type="button" ng-class="setButtonInNewArticleForPublish()" ng-click="publishArticleNowInCrawler()">发布</button>
+                                <button type="button" ng-class="setButtonInNewArticleForPublish()" data-toggle="modal" data-target="#Select_TimeInCrawler">定时发布</button>
                             </div>
                         </form>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
+                        <div class="modal fade" id="Select_TimeInCrawler" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">选择定时发布时间</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="datetime-local" class="form-control" placeholder="请输入时间" ng-model="publishTimeInCrawler">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="publishArticleTimingInCrawler()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Modal add picture  -->
                         <div class="modal fade" id="myModal_addIMG_crawler" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -2008,11 +2046,11 @@
 			</div>
 			<div role="tabpanel" class="tab-pane" id="settings">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>设置是否需要提交审核</th>
+                                <th>设置是否使用标准版（需要提交审核）</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -2030,16 +2068,47 @@
                                             </label>
                                         </div>
                                     </form>
+                                    <br>
                                     <div class="pull-right">
                                         <button type="button" class="btn btn-info" ng-click="setRadioState()">确认</button>
                                     </div>
-
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-2 col-md-offset-5">
+                    <div class="col-md-3">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>设置是否需要审查评论</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <form>
+                                        <div class="radio">
+                                            <label>
+                                                是<input type="radio" name="radios1" id="yes1" value="true" ng-init="" ng-click="">
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                否<input type="radio" name="radios1" id="no1" value="false" ng-init="" ng-click="">
+                                            </label>
+                                        </div>
+                                    </form>
+                                    <br>
+                                    <div class="pull-right">
+                                        <button type="button" class="btn btn-info" ng-click="setCommentRadioState()">确认</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-2">
                         <button type="button" class="btn btn-success" ng-click="getSetState()">test</button>
                     </div>
                 </div>

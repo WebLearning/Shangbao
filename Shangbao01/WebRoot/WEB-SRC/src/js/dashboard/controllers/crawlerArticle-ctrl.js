@@ -64,12 +64,57 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
-        var url=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
+        var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function(){
+            console.log("保存");
+        });
+        var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         //console.log(url);
-        $http.put(url,jsonString).success(function(data) {
-            alert("保存文章成功");
+        $http.put(url).success(function(data) {
+            alert("转草稿箱成功");
         });
     };
+    $scope.publishArticleNowInCrawler=function()
+    {
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        console.log($scope.articleData);
+        var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function(){
+            console.log("保存");
+        });
+        var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        $http.put(url).success(function(){
+            alert("发布成功");
+        });
+    };
+    $scope.publishArticleTimingInCrawler=function()
+    {
+        var myDate=new Date();
+        var myDateTime=myDate.getTime();
+        var str1=$scope.publishTimeInCrawler.substr(0,10);
+        var str2=$scope.publishTimeInCrawler.substr(11,16);
+        var str3=str1.concat(" ");
+        var str4=str3.concat(str2);
+        var str5=new Date(str4);
+        var myPublishedTime=str5.getTime();
+        var time=myPublishedTime-myDateTime;
+        console.log(time);
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        console.log($scope.articleData);
+        var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function(){
+            console.log("保存");
+        });
+        var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
+        console.log(url);
+        $http.get(url).success(function(){
+            alert("定时成功");
+            $('#Select_TimeInCrawler').modal('toggle');
+        });
+    };
+
 
     //得到字数
     $scope.calculateWords=function()

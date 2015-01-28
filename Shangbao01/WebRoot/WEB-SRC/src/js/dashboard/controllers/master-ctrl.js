@@ -75,15 +75,18 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     {
         $scope.curPage=str;
         $scope.getSetState();
+        $scope.getCommentSetState();
+        $scope.setButtonInNewArticleForPending();
+        $scope.setButtonInNewArticleForPublish();
         //如果是点击新建文章就清除文章里的数据
         if(str=="文章/新建"){
             clearNewArticleData();
-            $scope.setButtonInNewArticleForPending();
-            $scope.setButtonInNewArticleForPublish();
+//            $scope.setButtonInNewArticleForPending();
+//            $scope.setButtonInNewArticleForPublish();
         }else if(str=="快拍成都/新建"){
             clearNewArticleData();
-            $scope.setButtonInNewArticleForPending();
-            $scope.setButtonInNewArticleForPublish();
+//            $scope.setButtonInNewArticleForPending();
+//            $scope.setButtonInNewArticleForPublish();
         }else if(str=="文章/爬虫文章"){
             clearCrawlerSearchData();
             $scope.refreshCrawler();
@@ -1081,7 +1084,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.getSetState=function(){
         var url=$scope.projectName+"/article/ispending";
         $http.get(url).success(function(data){
-            console.log(data);
+//            console.log(data);
             $scope.setStates=data;
             console.log($scope.setStates);
             var vv=document.getElementsByName("radios");
@@ -1101,11 +1104,44 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             if(v.item(i).checked){
                 var ss= v.item(i).value;
                 $scope.selectSetStates=ss;
-                console.log(ss);
+//                console.log(ss);
                 console.log($scope.selectSetStates);
             }
         }
         var url=$scope.projectName+"/setting/settag/article/"+$scope.selectSetStates;
+        $http.get(url).success(function(){
+            alert("设置成功");
+        });
+    };
+    //设置审查评论的状态------------------------------------------------------------------------------------------------
+    $scope.setCommentStates="";
+    $scope.getCommentSetState=function(){
+        var url=$scope.projectName+"/setting/istag/comment";
+        $http.get(url).success(function(data){
+//            console.log(data);
+            $scope.setCommentStates=data;
+//            console.log($scope.setCommentStates);
+            var vv=document.getElementsByName("radios1");
+            for(var i=0;i<vv.length;i++){
+                if(vv.item(i).value==$scope.setCommentStates){
+                    vv.item(i).checked=true;
+                }
+            }
+        });
+    };
+    $scope.getCommentSetState();
+    $scope.selectSetCommentStates="";
+    $scope.setCommentRadioState=function(){
+        var v=document.getElementsByName("radios1");
+        for(var i=0;i< v.length;i++){
+            if(v.item(i).checked){
+                var sss= v.item(i).value;
+                $scope.selectSetCommentStates=sss;
+//                console.log(ss);
+                console.log($scope.selectSetCommentStates);
+            }
+        }
+        var url=$scope.projectName+"/setting/settag/comment/"+$scope.selectSetCommentStates;
         $http.get(url).success(function(){
             alert("设置成功");
         });
