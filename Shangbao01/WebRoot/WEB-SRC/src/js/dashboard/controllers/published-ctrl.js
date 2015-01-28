@@ -8,28 +8,6 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         console.log($scope.articleSelections);
         console.log($scope.articleSelectionsUrl);
     };
-
-//    $scope.publishedData=null;
-//    $scope.orderCondition="";
-
-    //初始化页面，获取已发布文章的第一页数据，返回的是一个titleList-----------------------------------------------------
-//    $scope.getPublishedData=function(pageID){
-//        var url=$scope.projectName+'/article/Published/'+pageID.toString()+$scope.orderCondition;
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            $scope.publishedData=data;
-//            $scope.pageNums=getPageNums($scope.publishedData.pageCount);
-//            //console.log("成功获取数据");
-//        });
-//    };
-//    $scope.getPublishedData(1);//在点击已发布文章时，直接生成第一页内容
-//
-//    $scope.refreshPublished=function()
-//    {
-//        clearArticleSelections();
-//        $scope.orderCondition="";
-//        $scope.getPublishedData(1);
-//    };
     //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示---------------------
     $scope.checkSummary=function(str){
         var checkedStr;
@@ -61,17 +39,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }else{
             return arr;
         }
-        //return arr.toString();
     };
-//    function formatDate(now){
-//        var   year=now.getFullYear();
-//        var   month=now.getMonth()+1;
-//        var   date=now.getDate();
-//        var   hour=now.getHours();
-//        var   minute=now.getMinutes();
-//        var   second=now.getSeconds();
-//        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
-//    }
 
     $scope.dateStringToDate=function(dateStr)
     {
@@ -133,7 +101,12 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             $scope.transOrderConditions("/words/desc");
             wordsOrderState="desc";
         }
-        $scope.getPublishedData(1);
+        if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
+            $scope.getPublishedData(1);
+        }else{
+            console.log($scope.publishedSearchData.content);
+            $scope.getPublishedSearchData(1);
+        }
     };
 
     var newsCommendsOrderState="desc";
@@ -145,7 +118,12 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             $scope.transOrderConditions("/newsCommends/desc");
             newsCommendsOrderState="desc";
         }
-        $scope.getPublishedData(1);
+        if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
+            $scope.getPublishedData(1);
+        }else{
+            console.log($scope.publishedSearchData.content);
+            $scope.getPublishedSearchData(1);
+        }
     };
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
@@ -156,7 +134,12 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             $scope.transOrderConditions("/crawlerCommends/desc");
             crawlerCommendsOrderState="desc";
         }
-        $scope.getPublishedData(1);
+        if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
+            $scope.getPublishedData(1);
+        }else{
+            console.log($scope.publishedSearchData.content);
+            $scope.getPublishedSearchData(1);
+        }
     };
 
     var timeOrderState="desc";
@@ -168,7 +151,12 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
-        $scope.getPublishedData(1);
+        if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
+            $scope.getPublishedData(1);
+        }else{
+            console.log($scope.publishedSearchData.content);
+            $scope.getPublishedSearchData(1);
+        }
     };
 
     var clicksOrderState="desc";
@@ -180,7 +168,12 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             $scope.transOrderConditions("/clicks/desc");
             clicksOrderState="desc";
         }
-        $scope.getPublishedData(1);
+        if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
+            $scope.getPublishedData(1);
+        }else{
+            console.log($scope.publishedSearchData.content);
+            $scope.getPublishedSearchData(1);
+        }
     };
 
     var likesOrderState="desc";
@@ -192,7 +185,12 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             $scope.transOrderConditions("/likes/desc");
             likesOrderState="desc";
         }
-        $scope.getPublishedData(1);
+        if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
+            $scope.getPublishedData(1);
+        }else{
+            console.log($scope.publishedSearchData.content);
+            $scope.getPublishedSearchData(1);
+        }
     };
 
     //页面跳转------------------------------------------------------------------------------------------------------------
@@ -206,20 +204,6 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
     {
         return(pageNum==$scope.publishedData.currentNo);
     };
-
-    //得到页码数组的函数
-//    function getPageNums(pageCount)
-//    {
-//        if(pageCount==1||pageCount<1){
-//            return [1];
-//        }else{
-//            var arr=[];
-//            for(i=0;i<pageCount;i++){
-//                arr.push(i+1);
-//            }
-//            return arr;
-//        }
-//    }
     //文章的选取和操作------------------------------------------------------------------------------------------------------
     //文章的选取
     $scope.articleSelections=[];

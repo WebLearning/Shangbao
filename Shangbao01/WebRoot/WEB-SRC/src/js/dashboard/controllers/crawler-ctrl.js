@@ -265,7 +265,12 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             $scope.transOrderConditions("/words/desc");
             wordsOrderState="desc";
         }
-        $scope.getCrawlerData(1);
+        if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
+            $scope.getCrawlerData(1);
+        }else{
+            console.log($scope.crawlerSearchData.content);
+            $scope.getCrawlerSearchData(1);
+        }
     };
 
     var newsCommendsOrderState="desc";
@@ -277,7 +282,12 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             $scope.transOrderConditions("/newsCommends/desc");
             newsCommendsOrderState="desc";
         }
-        $scope.getCrawlerData(1);
+        if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
+            $scope.getCrawlerData(1);
+        }else{
+            console.log($scope.crawlerSearchData.content);
+            $scope.getCrawlerSearchData(1);
+        }
     };
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
@@ -288,7 +298,12 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             $scope.transOrderConditions("/crawlerCommends/desc");
             crawlerCommendsOrderState="desc";
         }
-        $scope.getCrawlerData(1);
+        if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
+            $scope.getCrawlerData(1);
+        }else{
+            console.log($scope.crawlerSearchData.content);
+            $scope.getCrawlerSearchData(1);
+        }
     };
 
     var timeOrderState="desc";
@@ -300,7 +315,12 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
-        $scope.getCrawlerData(1);
+        if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
+            $scope.getCrawlerData(1);
+        }else{
+            console.log($scope.crawlerSearchData.content);
+            $scope.getCrawlerSearchData(1);
+        }
     };
 
     var clicksOrderState="desc";
@@ -312,7 +332,12 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             $scope.transOrderConditions("/clicks/desc");
             clicksOrderState="desc";
         }
-        $scope.getCrawlerData(1);
+        if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
+            $scope.getCrawlerData(1);
+        }else{
+            console.log($scope.crawlerSearchData.content);
+            $scope.getCrawlerSearchData(1);
+        }
     };
 
     var likesOrderState="desc";
@@ -324,13 +349,15 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             $scope.transOrderConditions("/likes/desc");
             likesOrderState="desc";
         }
-        $scope.getCrawlerData(1);
+        if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
+            $scope.getCrawlerData(1);
+        }else{
+            console.log($scope.crawlerSearchData.content);
+            $scope.getCrawlerSearchData(1);
+        }
     };
 
 }]);
-
-
-
 //    $scope.goCrawlerList=function()
 //    {
 //        document.getElementById("crawlerArticle_article").className="tab-pane";

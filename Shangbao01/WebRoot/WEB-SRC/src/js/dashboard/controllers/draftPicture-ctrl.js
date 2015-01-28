@@ -9,30 +9,6 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
         console.log($scope.articleSelectionsUrl);
     };
 
-//    $scope.tempPictureData=null;
-//    $scope.orderCondition="";
-
-    //初始化页面，获取草稿箱中第一页的数据,返回的是一个titleList-------------------------------------------------------------------
-//    $scope.getTempPictureData=function(pageID)
-//    {
-//        var url=$scope.projectName+'/picture/Temp/'+pageID.toString()+$scope.orderCondition;
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            $scope.tempPictureData=data;
-//            $scope.pageNums=getPageNums($scope.tempPictureData.pageCount);
-//            //console.log("成功获取数据");
-//        });
-//    };
-//    $scope.getTempPictureData(1);//会在生成页面的时候直接运行!
-//
-//    $scope.refreshTempPicture=function()
-//    {
-//        clearArticleSelections();
-//        selectByArr([]);
-//        $scope.orderCondition="";
-//        $scope.getTempPictureData(1);
-//    };
-
     //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示
     $scope.checkSummary=function(str){
         var checkedStr;
@@ -72,19 +48,9 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
             checkedStr="无数据";
             return checkedStr;
         }else{
-            return arr.toString();
+            return arr;
         }
-        //return arr.toString();
     };
-//    function formatDate(now){
-//        var   year=now.getFullYear();
-//        var   month=now.getMonth()+1;
-//        var   date=now.getDate();
-//        var   hour=now.getHours();
-//        var   minute=now.getMinutes();
-//        var   second=now.getSeconds();
-//        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
-//    }
 
     $scope.dateStringToDate=function(dateStr)
     {
@@ -147,20 +113,6 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
     {
         return(pageNum==$scope.tempPictureData.currentNo);
     };
-
-    //得到页码数组的函数
-//    function getPageNums(pageCount)
-//    {
-//        if(pageCount==1||pageCount<1){
-//            return [1];
-//        }else{
-//            var arr=[];
-//            for(i=0;i<pageCount;i++){
-//                arr.push(i+1);
-//            }
-//            return arr;
-//        }
-//    }
 
     //文章的选取和操作------------------------------------------------------------------------------------------------------
     //文章的选取
@@ -283,7 +235,12 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
             $scope.transOrderConditions("/words/desc");
             wordsOrderState="desc";
         }
-        $scope.getTempPictureData(1);
+        if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+            $scope.getTempPictureData(1);
+        }else{
+            console.log($scope.tempPictureSearchData.content);
+            $scope.getTempPictureSearchData(1);
+        }
     };
 
     var newsCommendsOrderState="desc";
@@ -295,7 +252,12 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
             $scope.transOrderConditions("/newsCommends/desc");
             newsCommendsOrderState="desc";
         }
-        $scope.getTempPictureData(1);
+        if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+            $scope.getTempPictureData(1);
+        }else{
+            console.log($scope.tempPictureSearchData.content);
+            $scope.getTempPictureSearchData(1);
+        }
     };
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
@@ -306,7 +268,12 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
             $scope.transOrderConditions("/crawlerCommends/desc");
             crawlerCommendsOrderState="desc";
         }
-        $scope.getTempPictureData(1);
+        if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+            $scope.getTempPictureData(1);
+        }else{
+            console.log($scope.tempPictureSearchData.content);
+            $scope.getTempPictureSearchData(1);
+        }
     };
 
     var timeOrderState="desc";
@@ -318,7 +285,12 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
             $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
-        $scope.getTempPictureData(1);
+        if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+            $scope.getTempPictureData(1);
+        }else{
+            console.log($scope.tempPictureSearchData.content);
+            $scope.getTempPictureSearchData(1);
+        }
     };
 
     var clicksOrderState="desc";
@@ -330,7 +302,12 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
             $scope.transOrderConditions("/clicks/desc");
             clicksOrderState="desc";
         }
-        $scope.getTempPictureData(1);
+        if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+            $scope.getTempPictureData(1);
+        }else{
+            console.log($scope.tempPictureSearchData.content);
+            $scope.getTempPictureSearchData(1);
+        }
     };
 
     var likesOrderState="desc";
@@ -342,7 +319,12 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
             $scope.transOrderConditions("/likes/desc");
             likesOrderState="desc";
         }
-        $scope.getTempPictureData(1);
+        if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+            $scope.getTempPictureData(1);
+        }else{
+            console.log($scope.tempPictureSearchData.content);
+            $scope.getTempPictureSearchData(1);
+        }
     };
 
 }]);

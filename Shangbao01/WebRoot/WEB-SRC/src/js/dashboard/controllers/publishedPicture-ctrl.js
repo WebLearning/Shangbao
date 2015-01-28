@@ -8,27 +8,6 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
         console.log($scope.articleSelections);
         console.log($scope.articleSelectionsUrl);
     };
-//    $scope.publishedPictureData=null;
-//    $scope.orderCondition="";
-
-    //初始化页面，获取已发布文章的第一页数据，返回的是一个titleList-----------------------------------------------------
-//    $scope.getPublishedPictureData=function(pageID){
-//        var url=$scope.projectName+'/picture/Published/'+pageID.toString()+$scope.orderCondition;
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            $scope.publishedPictureData=data;
-//            $scope.pageNums=getPageNums($scope.publishedPictureData.pageCount);
-//            //console.log("成功获取数据");
-//        });
-//    };
-//    $scope.getPublishedPictureData(1);//在点击已发布文章时，直接生成第一页内容
-//
-//    $scope.refreshPublishedPicture=function()
-//    {
-//        clearArticleSelections();
-//        $scope.orderCondition="";
-//        $scope.getPublishedPictureData(1);
-//    };
     //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示---------------------
     $scope.checkSummary=function(str){
         var checkedStr;
@@ -70,17 +49,7 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
         }else{
             return arr;
         }
-        //return arr.toString();
     };
-//    function formatDate(now){
-//        var   year=now.getFullYear();
-//        var   month=now.getMonth()+1;
-//        var   date=now.getDate();
-//        var   hour=now.getHours();
-//        var   minute=now.getMinutes();
-//        var   second=now.getSeconds();
-//        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
-//    }
 
     $scope.dateStringToDate=function(dateStr)
     {
@@ -142,7 +111,12 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
             $scope.transOrderConditions("/words/desc");
             wordsOrderState="desc";
         }
-        $scope.getPublishedPictureData(1);
+        if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+            $scope.getPublishedPictureData(1);
+        }else{
+            console.log($scope.publishedPictureSearchData.content);
+            $scope.getPublishedPictureSearchData(1);
+        }
     };
 
     var newsCommendsOrderState="desc";
@@ -154,7 +128,12 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
             $scope.transOrderConditions("/newsCommends/desc");
             newsCommendsOrderState="desc";
         }
-        $scope.getPublishedPictureData(1);
+        if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+            $scope.getPublishedPictureData(1);
+        }else{
+            console.log($scope.publishedPictureSearchData.content);
+            $scope.getPublishedPictureSearchData(1);
+        }
     };
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
@@ -165,7 +144,12 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
             $scope.transOrderConditions("/crawlerCommends/desc");
             crawlerCommendsOrderState="desc";
         }
-        $scope.getPublishedPictureData(1);
+        if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+            $scope.getPublishedPictureData(1);
+        }else{
+            console.log($scope.publishedPictureSearchData.content);
+            $scope.getPublishedPictureSearchData(1);
+        }
     };
 
     var timeOrderState="desc";
@@ -177,7 +161,12 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
             $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
-        $scope.getPublishedPictureData(1);
+        if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+            $scope.getPublishedPictureData(1);
+        }else{
+            console.log($scope.publishedPictureSearchData.content);
+            $scope.getPublishedPictureSearchData(1);
+        }
     };
 
     var clicksOrderState="desc";
@@ -189,7 +178,12 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
             $scope.transOrderConditions("/clicks/desc");
             clicksOrderState="desc";
         }
-        $scope.getPublishedPictureData(1);
+        if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+            $scope.getPublishedPictureData(1);
+        }else{
+            console.log($scope.publishedPictureSearchData.content);
+            $scope.getPublishedPictureSearchData(1);
+        }
     };
 
     var likesOrderState="desc";
@@ -201,7 +195,12 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
             $scope.transOrderConditions("/likes/desc");
             likesOrderState="desc";
         }
-        $scope.getPublishedPictureData(1);
+        if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+            $scope.getPublishedPictureData(1);
+        }else{
+            console.log($scope.publishedPictureSearchData.content);
+            $scope.getPublishedPictureSearchData(1);
+        }
     };
 
     //页面跳转------------------------------------------------------------------------------------------------------------

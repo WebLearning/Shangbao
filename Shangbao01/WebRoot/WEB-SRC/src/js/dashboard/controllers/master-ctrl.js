@@ -105,8 +105,10 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             clearPublishedPictureSearchData();
             $scope.refreshPublishedPicture();
         }else if(str=="快拍成都/已撤销"){
+            clearRevokedPictureSearchData();
             $scope.refreshRevokedPicture();
         }else if(str=="快拍成都/草稿箱"){
+            clearTempPictureSearchData();
             $scope.refreshTempPicture();
         }else if(str=="评论"){
             $scope.goCommentList();
@@ -298,7 +300,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     //(a)搜索爬虫-------------------------------------------------------------------------------------------------------
     $scope.getCrawlerSearchData=function(pageID){
-        var url=$scope.projectName+'/article/Crawler/'+pageID.toString()+'/query';
+        var url=$scope.projectName+'/article/Crawler/'+pageID.toString()+'/query'+$scope.orderCondition;
         console.log(url);
         console.log($scope.crawlerSearchData);
         $http.post(url,$scope.crawlerSearchData).success(function(data){
@@ -311,7 +313,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getLastCrawlerSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Crawler/'+lastPage+'/query';
+        var url=$scope.projectName+'/article/Crawler/'+lastPage+'/query'+$scope.orderCondition;
         $http.post(url,$scope.crawlerSearchData).success(function(data){
             $scope.lastCrawlerPageData=data;
             $scope.lastCrawlerPageDataLength=$scope.lastCrawlerPageData.tileList.length;
@@ -373,7 +375,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     //(b)搜索待审数据---------------------------------------------------------------------------------------------------
     $scope.getPendingSearchData=function(pageID){
-        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+'/query';
+        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+'/query'+$scope.orderCondition;
         console.log($scope.pendingSearchData);
         $http.post(url,$scope.pendingSearchData).success(function(data){
             console.log(data);
@@ -385,7 +387,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getLastPendingSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Pending/'+lastPage+'/query';
+        var url=$scope.projectName+'/article/Pending/'+lastPage+'/query'+$scope.orderCondition;
         $http.post(url,$scope.pendingSearchData).success(function(data){
             $scope.lastPendingPageData=data;
             $scope.lastPendingPageDataLength=$scope.lastPendingPageData.tileList.length;
@@ -447,7 +449,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     //(c)搜索已发布数据-------------------------------------------------------------------------------------------------
     $scope.getPublishedSearchData=function(pageID){
-        var url=$scope.projectName+'/article/Published/'+pageID.toString()+'/query';
+        var url=$scope.projectName+'/article/Published/'+pageID.toString()+'/query'+$scope.orderCondition;
         console.log($scope.publishedSearchData);
         $http.post(url,$scope.publishedSearchData).success(function(data){
             console.log(data);
@@ -459,7 +461,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getLastPublishedSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Published/'+lastPage+'/query';
+        var url=$scope.projectName+'/article/Published/'+lastPage+'/query'+$scope.orderCondition;
         $http.post(url,$scope.publishedSearchData).success(function(data){
             $scope.lastPublishedPageData=data;
             $scope.lastPublishedPageDataLength=$scope.lastPublishedPageData.tileList.length;
@@ -523,7 +525,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     //(d)搜索已撤销数据-------------------------------------------------------------------------------------------------
     $scope.getRevokedSearchData=function(pageID){
-        var url=$scope.projectName+'/article/Revocation/'+pageID.toString()+'/query';
+        var url=$scope.projectName+'/article/Revocation/'+pageID.toString()+'/query'+$scope.orderCondition;
         console.log($scope.revokedSearchData);
         $http.post(url,$scope.revokedSearchData).success(function(data){
             console.log(data);
@@ -535,7 +537,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getLastRevokedSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Revocation/'+lastPage+'/query';
+        var url=$scope.projectName+'/article/Revocation/'+lastPage+'/query'+$scope.orderCondition;
         $http.post(url,$scope.revokedSearchData).success(function(data){
             $scope.lastRevokedPageData=data;
             $scope.lastRevokedPageDataLength=$scope.lastRevokedPageData.tileList.length;
@@ -599,6 +601,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     //(e)搜索草稿数据---------------------------------------------------------------------------------------------------
     $scope.getTempSearchData=function(pageID){
         var url=$scope.projectName+'/article/Temp/'+pageID.toString()+'/query'+$scope.orderCondition;
+        console.log(url);
         console.log($scope.tempSearchData);
         $http.post(url,$scope.tempSearchData).success(function(data){
             console.log(data);
@@ -690,7 +693,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     //(f)搜索快拍爬虫数据--------------------------------------------------------------------------------------------------
     $scope.getCrawlerPictureSearchData=function(pageID){
-        var url=$scope.projectName+'/picture/Crawler/'+pageID.toString()+'/query';
+        var url=$scope.projectName+'/picture/Crawler/'+pageID.toString()+'/query'+$scope.orderCondition;
         console.log(url);
         console.log($scope.crawlerPictureSearchData);
         $http.post(url,$scope.crawlerPictureSearchData).success(function(data){
@@ -703,7 +706,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getLastCrawlerPictureSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/picture/Crawler/'+lastPage+'/query';
+        var url=$scope.projectName+'/picture/Crawler/'+lastPage+'/query'+$scope.orderCondition;
         $http.post(url,$scope.crawlerPictureSearchData).success(function(data){
             $scope.lastCrawlerPicturePageData=data;
             $scope.lastCrawlerPicturePageDataLength=$scope.lastCrawlerPicturePageData.tileList.length;
@@ -765,7 +768,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     //搜索快拍待审数据--------------------------------------------------------------------------------------------------
     $scope.getPendingPictureSearchData=function(pageID){
-        var url=$scope.projectName+'/picture/Pending/'+pageID.toString()+'/query';
+        var url=$scope.projectName+'/picture/Pending/'+pageID.toString()+'/query'+$scope.orderCondition;
         console.log(url);
         console.log($scope.pendingPictureSearchData);
         $http.post(url,$scope.pendingPictureSearchData).success(function(data){
@@ -778,7 +781,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getLastPendingPictureSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/picture/Pending/'+lastPage+'/query';
+        var url=$scope.projectName+'/picture/Pending/'+lastPage+'/query'+$scope.orderCondition;
         $http.post(url,$scope.pendingPictureSearchData).success(function(data){
             $scope.lastPendingPicturePageData=data;
             $scope.lastPendingPicturePageDataLength=$scope.lastPendingPicturePageData.tileList.length;
@@ -841,7 +844,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     //搜索快拍已发布数据------------------------------------------------------------------------------------------------
     $scope.getPublishedPictureSearchData=function(pageID){
-        var url=$scope.projectName+'/picture/Published/'+pageID.toString()+'/query';
+        var url=$scope.projectName+'/picture/Published/'+pageID.toString()+'/query'+$scope.orderCondition;
         console.log(url);
         console.log($scope.publishedPictureSearchData);
         $http.post(url,$scope.publishedPictureSearchData).success(function(data){
@@ -854,7 +857,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getLastPublishedPictureSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/picture/Published/'+lastPage+'/query';
+        var url=$scope.projectName+'/picture/Published/'+lastPage+'/query'+$scope.orderCondition;
         $http.post(url,$scope.publishedPictureSearchData).success(function(data){
             $scope.lastPublishedPicturePageData=data;
             $scope.lastPublishedPicturePageDataLength=$scope.lastPublishedPicturePageData.tileList.length;
@@ -863,6 +866,9 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //（10）获取快拍已撤销--------------------------------------------------------------------------------------------------
     $scope.revokedPictureData=null;
+    $scope.revokedPictureSearchData={
+        content:""
+    };
     $scope.revokedPicturePaginationConf = {
         currentPage: null,
         totalItems:null,
@@ -871,7 +877,11 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            $scope.getRevokedPictureData($scope.revokedPicturePaginationConf.currentPage);
+            if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+                $scope.getRevokedPictureData($scope.revokedPicturePaginationConf.currentPage);
+            }else{
+                $scope.getRevokedPictureSearchData($scope.revokedPicturePaginationConf.currentPage);
+            }
         }
     };
     $scope.getRevokedPictureData=function(pageID)
@@ -894,13 +904,47 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getRevokedPictureData(1);//会在生成页面的时候直接运行!
+    function clearRevokedPictureSearchData(){
+        for(p in $scope.revokedPictureSearchData){
+            $scope.revokedPictureSearchData[p]="";
+        }
+    }
     $scope.refreshRevokedPicture=function()
     {
         $scope.orderCondition="";
-        $scope.getRevokedPictureData(1);
+        if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+            $scope.getRevokedPictureData(1);
+        }else{
+            $scope.getRevokedPictureSearchData(1);
+        }
+    };
+    //搜索快拍已撤销数据------------------------------------------------------------------------------------------------
+    $scope.getRevokedPictureSearchData=function(pageID){
+        var url=$scope.projectName+'/picture/Revocation/'+pageID.toString()+'/query'+$scope.orderCondition;
+        console.log(url);
+        console.log($scope.revokedPictureSearchData);
+        $http.post(url,$scope.revokedPictureSearchData).success(function(data){
+            console.log(data);
+            $scope.revokedPictureData=data;
+            $scope.revokedPicturePageNums=getPageNums($scope.revokedPictureData.pageCount);
+            $scope.lastRevokedPicturePage=$scope.revokedPictureData.pageCount;
+            $scope.revokedPicturePaginationConf.currentPage=$scope.revokedPictureData.currentNo;
+            $scope.getLastRevokedPictureSearchPageData($scope.lastRevokedPicturePage);
+        });
+    };
+    $scope.getLastRevokedPictureSearchPageData=function(lastPage){
+        var url=$scope.projectName+'/picture/Revocation/'+lastPage+'/query'+$scope.orderCondition;
+        $http.post(url,$scope.revokedPictureSearchData).success(function(data){
+            $scope.lastRevokedPicturePageData=data;
+            $scope.lastRevokedPicturePageDataLength=$scope.lastRevokedPicturePageData.tileList.length;
+            $scope.revokedPicturePaginationConf.totalItems=(($scope.lastRevokedPicturePageData.pageCount)-1)*20+$scope.lastRevokedPicturePageDataLength;
+        });
     };
 //（11）获取快拍草稿箱数据----------------------------------------------------------------------------------------------
     $scope.tempPictureData=null;
+    $scope.tempPictureSearchData={
+        content:""
+    };
     $scope.tempPicturePaginationConf = {
         currentPage: null,
         totalItems:null,
@@ -909,7 +953,11 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            $scope.getTempPictureData($scope.tempPicturePaginationConf.currentPage);
+            if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+                $scope.getTempPictureData($scope.tempPicturePaginationConf.currentPage);
+            }else{
+                $scope.getTempPictureSearchData($scope.tempPicturePaginationConf.currentPage);
+            }
         }
     };
     $scope.getTempPictureData=function(pageID)
@@ -932,11 +980,41 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getTempPictureData(1);//会在生成页面的时候直接运行!
-
+    function clearTempPictureSearchData(){
+        for(p in $scope.tempPictureSearchData){
+            $scope.tempPictureSearchData[p]="";
+        }
+    }
     $scope.refreshTempPicture=function()
     {
         $scope.orderCondition="";
-        $scope.getTempPictureData(1);
+        if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+            $scope.getTempPictureData(1);
+        }else{
+            $scope.getTempPictureSearchData(1);
+        }
+    };
+    //搜索快拍草稿数据--------------------------------------------------------------------------------------------------
+    $scope.getTempPictureSearchData=function(pageID){
+        var url=$scope.projectName+'/picture/Temp/'+pageID.toString()+'/query'+$scope.orderCondition;
+        console.log(url);
+        console.log($scope.tempPictureSearchData);
+        $http.post(url,$scope.tempPictureSearchData).success(function(data){
+            console.log(data);
+            $scope.tempPictureData=data;
+            $scope.tempPicturePageNums=getPageNums($scope.tempPictureData.pageCount);
+            $scope.lastTempPicturePage=$scope.tempPictureData.pageCount;
+            $scope.tempPicturePaginationConf.currentPage=$scope.tempPictureData.currentNo;
+            $scope.getLastTempPictureSearchPageData($scope.lastTempPicturePage);
+        });
+    };
+    $scope.getLastTempPictureSearchPageData=function(lastPage){
+        var url=$scope.projectName+'/picture/Temp/'+lastPage+'/query'+$scope.orderCondition;
+        $http.post(url,$scope.tempPictureSearchData).success(function(data){
+            $scope.lastTempPicturePageData=data;
+            $scope.lastTempPicturePageDataLength=$scope.lastTempPicturePageData.tileList.length;
+            $scope.tempPicturePaginationConf.totalItems=(($scope.lastTempPicturePageData.pageCount)-1)*20+$scope.lastTempPicturePageDataLength;
+        });
     };
 //(12)获取分类(文章）----------------------------------------------------------------------------------------------------------
     $scope.newChannelNames=[];

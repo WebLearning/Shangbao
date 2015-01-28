@@ -2899,7 +2899,13 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="revokedPicture" ng-controller="revokedPictureCtrl">
                 <div class="row">
-                    <div class="col-md-1 col-md-offset-10">
+                    <div class="col-md-2 col-md-offset-1">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="revokedPictureSearchData.content">
+                            <div class="input-group-addon btn-info" ng-click="getRevokedPictureSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-md-offset-6">
                         <button type="button" class="btn btn-md btn-success" ng-click="refreshRevokedPicture()"><span class="glyphicon glyphicon-refresh"></span></button>
                     </div>
                 </div>
@@ -3173,6 +3179,12 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="draftPicture" ng-controller="draftPictureCtrl">
                 <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="tempPictureSearchData.content">
+                            <div class="input-group-addon btn-info" ng-click="getTempPictureSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
+                        </div>
+                    </div>
                     <div class="col-md-1 col-md-offset-10">
                         <button type="button" class="btn btn-success" ng-click="refreshTempPicture()"><span class="glyphicon glyphicon-refresh"></span></button>
                     </div>

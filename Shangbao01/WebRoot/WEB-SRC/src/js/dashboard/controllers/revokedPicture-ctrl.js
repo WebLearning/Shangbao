@@ -9,29 +9,6 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
         console.log($scope.articleSelectionsUrl);
     };
 
-//    $scope.revokedPictureData=null;
-//    $scope.orderCondition="";
-
-    //初始化页面，获取爬虫第一页的数据,返回的是一个titleList-------------------------------------------------------------------
-//    $scope.getRevokedPictureData=function(pageID)
-//    {
-//        var url=$scope.projectName+'/picture/Revocation/'+pageID.toString()+$scope.orderCondition;
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            $scope.revokedPictureData=data;
-//            $scope.pageNums=getPageNums($scope.revokedPictureData.pageCount);
-//            //console.log("成功获取数据");
-//        });
-//    };
-//    $scope.getRevokedPictureData(1);//会在生成页面的时候直接运行!
-//
-//    $scope.refreshRevokedPicture=function()
-//    {
-//        clearArticleSelections();
-//        $scope.orderCondition="";
-//        $scope.getRevokedPictureData(1);
-//    };
-
     //初始化表头
 //    $scope.tableHeadsData=["标题","标题Url","文章ID","作者","时间","来源","分类","等级","点击数","评论数","赞数","摘要","字数","活动","选择"];
 
@@ -76,18 +53,7 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
         }else{
             return arr;
         }
-        //return arr.toString();
     };
-//    function formatDate(now){
-//        var   year=now.getFullYear();
-//        var   month=now.getMonth()+1;
-//        var   date=now.getDate();
-//        var   hour=now.getHours();
-//        var   minute=now.getMinutes();
-//        var   second=now.getSeconds();
-//        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
-//    }
-
     $scope.dateStringToDate=function(dateStr)
     {
         if(dateStr==null||dateStr==""){
@@ -150,20 +116,6 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
     {
         return(pageNum==$scope.revokedPictureData.currentNo);
     };
-
-    //得到页码数组的函数
-//    function getPageNums(pageCount)
-//    {
-//        if(pageCount==1||pageCount<1){
-//            return [1];
-//        }else{
-//            var arr=[];
-//            for(i=0;i<pageCount;i++){
-//                arr.push(i+1);
-//            }
-//            return arr;
-//        }
-//    }
 
     //文章的选取和操作------------------------------------------------------------------------------------------------------
     //文章的选取
@@ -285,7 +237,12 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
             $scope.transOrderConditions("/words/desc");
             wordsOrderState="desc";
         }
-        $scope.getRevokedPictureData(1);
+        if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+            $scope.getRevokedPictureData(1);
+        }else{
+            console.log($scope.revokedPictureSearchData.content);
+            $scope.getRevokedPictureSearchData(1);
+        }
     };
 
     var newsCommendsOrderState="desc";
@@ -297,7 +254,12 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
             $scope.transOrderConditions("/newsCommends/desc");
             newsCommendsOrderState="desc";
         }
-        $scope.getRevokedPictureData(1);
+        if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+            $scope.getRevokedPictureData(1);
+        }else{
+            console.log($scope.revokedPictureSearchData.content);
+            $scope.getRevokedPictureSearchData(1);
+        }
     };
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
@@ -308,7 +270,12 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
             $scope.transOrderConditions("/crawlerCommends/desc");
             crawlerCommendsOrderState="desc";
         }
-        $scope.getRevokedPictureData(1);
+        if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+            $scope.getRevokedPictureData(1);
+        }else{
+            console.log($scope.revokedPictureSearchData.content);
+            $scope.getRevokedPictureSearchData(1);
+        }
     };
 
     var timeOrderState="desc";
@@ -320,7 +287,12 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
             $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
-        $scope.getRevokedPictureData(1);
+        if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+            $scope.getRevokedPictureData(1);
+        }else{
+            console.log($scope.revokedPictureSearchData.content);
+            $scope.getRevokedPictureSearchData(1);
+        }
     };
 
     var clicksOrderState="desc";
@@ -332,7 +304,12 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
             $scope.transOrderConditions("/clicks/desc");
             clicksOrderState="desc";
         }
-        $scope.getRevokedPictureData(1);
+        if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+            $scope.getRevokedPictureData(1);
+        }else{
+            console.log($scope.revokedPictureSearchData.content);
+            $scope.getRevokedPictureSearchData(1);
+        }
     };
 
     var likesOrderState="desc";
@@ -344,6 +321,11 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
             $scope.transOrderConditions("/likes/desc");
             likesOrderState="desc";
         }
-        $scope.getRevokedPictureData(1);
+        if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+            $scope.getRevokedPictureData(1);
+        }else{
+            console.log($scope.revokedPictureSearchData.content);
+            $scope.getRevokedPictureSearchData(1);
+        }
     };
 }]);
