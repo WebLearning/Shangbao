@@ -134,6 +134,9 @@ public class ArticleServiceImp implements ArticleService {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("state").is(articleState.toString()));
 		query.addCriteria(Criteria.where("tag").is(false));
+		if(articleState.equals(ArticleState.Crawler)){
+			query.with(new Sort(Direction.DESC, "time"));
+		}
 		Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
