@@ -34,39 +34,6 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         {channelName:'娱乐'}
     ];
     //获得顶级目录名----------------------------------------------------------------------------------------------------
-//    $scope.newPictureChannelNames=[];
-//    $scope.getNewChannelNames=function(){
-//        var url=$scope.projectName+'/channel/kuaipai/channels';
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            //console.log(data);
-//            if(data.length>0){
-//                for(i=0;i<data.length;i++){
-//                    $scope.newPictureChannelNames.push(data[i]);
-//                }
-//            }else{
-//                $scope.newPictureChannelNames=[];
-//            }
-//            //console.log($scope.newPictureChannelNames);
-//        });
-//    };
-//    $scope.getNewChannelNames();
-//    //活动活动目录------------------------------------------------------------------------------------------------------
-//    $scope.newActivityNames=[];
-//    $scope.getNewActivityNames=function(){
-//        var url=$scope.projectName+'/channel/activities';
-//        $http.get(url).success(function(data){
-//            if(data.length>0){
-//                for(i=0;i<data.length;i++){
-//                    $scope.newActivityNames.push(data[i]);
-//                }
-//            }else{
-//                $scope.newActivityNames=[];
-//            }
-//        });
-//    };
-//    $scope.getNewActivityNames();
-    //
     $scope.getEditorContent=function()
     {
         //导入数据
@@ -109,6 +76,45 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
             alert("保存成功");
         });
         $scope.clearArticle();
+    };
+    $scope.pendArticleInNewPicture=function(){
+        $scope.calculateWords();
+        var url=$scope.projectName+"/picture/newPicture/pend";
+        var jsonString=JSON.stringify($scope.newArticleData);
+        $http.post(url,jsonString).success(function(){
+            alert("提交成功！");
+            $scope.clearArticle();
+        });
+    };
+    $scope.publishedArticleInNewPicture=function(){
+        $scope.calculateWords();
+        var url=$scope.projectName+"/picture/newPicture/pend";
+        var jsonString=JSON.stringify($scope.newArticleData);
+        $http.post(url,jsonString).success(function(){
+            alert("发送成功！");
+            $scope.clearArticle();
+        });
+    };
+    $scope.publishArticleInNewPictureTiming=function()
+    {
+        var myDate=new Date();
+        var myDateTime=myDate.getTime();
+        var str1=$scope.publishTimeInNewPicture.substr(0,10);
+        var str2=$scope.publishTimeInNewPicture.substr(11,16);
+        var str3=str1.concat(" ");
+        var str4=str3.concat(str2);
+        var str5=new Date(str4);
+        var myPublishedTime=str5.getTime();
+        var time=myPublishedTime-myDateTime;
+        console.log(time);
+        var url=$scope.projectName+"/picture/newPicture/timingpublish/"+time;
+        var jsonString=JSON.stringify($scope.newArticleData);
+        console.log(url);
+        $http.post(url,jsonString).success(function(){
+            alert("定时成功");
+            $('#Select_TimeInNewPicture').modal('toggle');
+            $scope.clearArticle();
+        });
     };
 
 

@@ -74,6 +74,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.changeCurPage = function(str)
     {
         $scope.curPage=str;
+        $scope.getSetState();
         //如果是点击新建文章就清除文章里的数据
         if(str=="文章/新建"){
             clearNewArticleData();
@@ -81,6 +82,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.setButtonInNewArticleForPublish();
         }else if(str=="快拍成都/新建"){
             clearNewArticleData();
+            $scope.setButtonInNewArticleForPending();
+            $scope.setButtonInNewArticleForPublish();
         }else if(str=="文章/爬虫文章"){
             clearCrawlerSearchData();
             $scope.refreshCrawler();
