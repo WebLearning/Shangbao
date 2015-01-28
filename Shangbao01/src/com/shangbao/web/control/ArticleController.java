@@ -18,6 +18,8 @@ import javax.annotation.Resource;
 
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +35,7 @@ import com.shangbao.app.service.AppPushService;
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.PushModel;
 import com.shangbao.model.persistence.Article;
+import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.ArticleService;
 import com.shangbao.service.PendTagService;
@@ -59,9 +62,11 @@ public class ArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	public void add(@RequestBody Article article) {
 		article.setState(ArticleState.Temp);
+		String message = getLog("创建");
+		if(message != null){
+			article.getLogs().add(message);
+		}
 		articleServiceImp.add(article);
-//		System.out.println("newArticle");
-//		System.out.println(article.getTitle());
 	}
 
 	/**
@@ -74,8 +79,16 @@ public class ArticleController {
 	public void addPending(@RequestBody Article article){
 		if(pendTagServiceImp.isTag("article")){
 			article.setState(ArticleState.Pending);
+			String message = getLog("新建并提交审核");
+			if(message != null){
+				article.getLogs().add(message);
+			}
 		}else{
 			article.setState(ArticleState.Published);
+			String message = getLog("新建并直接发布");
+			if(message != null){
+				article.getLogs().add(message);
+			}
 		}
 		articleServiceImp.add(article);
 	}
@@ -88,10 +101,14 @@ public class ArticleController {
 	@RequestMapping(value = "/newArticle/timingpublish/{time:[\\d]+}", method = RequestMethod.POST)
 	public void addAndTimePublish(@RequestBody Article article, @PathVariable("time") Long time){
 		article.setState(ArticleState.Temp);
+		String message = getLog("新建并定时发布");
+		if(message != null){
+			article.getLogs().add(message);
+		}
 		Long id = articleServiceImp.addGetId(article);
 		List<Long> articleIds = new ArrayList<>();
 		articleIds.add(id);
-		publishTask(articleIds, time);
+		publishTask(articleIds, time, null);
 	}
 	
 	/**
@@ -197,6 +214,10 @@ public class ArticleController {
 				|| state.equals(ArticleState.Temp)
 				|| state.equals(ArticleState.Published)) {
 			article.setId(id);
+			String message = getLog("修改");
+			if(message != null){
+				article.getLogs().add(message);
+			}
 			articleServiceImp.update(article);
 		}
 	}
@@ -217,10 +238,11 @@ public class ArticleController {
 			@PathVariable("pageNo") int pageNo, @PathVariable("ids") String id) {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
+		String message = getLog("状态转换");
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		articleServiceImp.setPutState(articleState, idList);
+		articleServiceImp.setPutState(articleState, idList, message);
 		return articleServiceImp.getTiltList(articleState, pageNo);
 	}
 
@@ -234,10 +256,11 @@ public class ArticleController {
 			@PathVariable("direction") String direction) {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
+		String message = getLog("状态转换");
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		articleServiceImp.setPutState(articleState, idList);
+		articleServiceImp.setPutState(articleState, idList, message);
 		return articleServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
 
@@ -249,10 +272,11 @@ public class ArticleController {
 			@PathVariable("pageNo") int pageNo, @PathVariable("ids") String id) {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
+		String message = getLog("状态转换");
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		articleServiceImp.setDeleteState(articleState, idList);
+		articleServiceImp.setDeleteState(articleState, idList, message);
 		return articleServiceImp.getTiltList(articleState, pageNo);
 	}
 
@@ -266,10 +290,11 @@ public class ArticleController {
 			@PathVariable("direction") String direction) {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
+		String message = getLog("状态转换");
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		articleServiceImp.setDeleteState(articleState, idList);
+		articleServiceImp.setDeleteState(articleState, idList, message);
 		return articleServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
 
@@ -281,10 +306,11 @@ public class ArticleController {
 	public void timingPublish(@PathVariable("ids") String ids, @PathVariable("time") Long time){
 		String[] idStrings = ids.split("_");
 		List<Long> idList = new ArrayList<>();
+		String message = getLog("状态转换");
 		for(String id : idStrings){
 			idList.add(Long.parseLong(id));
 		}
-		publishTask(idList, time);
+		publishTask(idList, time, message);
 	}
 	
 	@RequestMapping(value="/push", method=RequestMethod.POST)
@@ -295,13 +321,13 @@ public class ArticleController {
 		}
 	}
 	
-	private void publishTask(final List<Long> idList, final Long date){
+	private void publishTask(final List<Long> idList, final Long date, final String message){
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			
 			@Override
 			public void run() {
-				articleServiceImp.setPutState(ArticleState.Pending, idList);
+				articleServiceImp.setPutState(ArticleState.Pending, idList, message);
 			}
 		}, date);
 	}
@@ -353,5 +379,14 @@ public class ArticleController {
 	@RequestMapping(value ="/upload", method = RequestMethod.GET)
 	public String uploadPage(){
 		return "upload";
+	}
+	
+	private String getLog(String message){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(user == null){
+			return null;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+		return sdf.format(new Date()) + " " + user.getId() + " " + user.getName() + " " + message;
 	}
 }

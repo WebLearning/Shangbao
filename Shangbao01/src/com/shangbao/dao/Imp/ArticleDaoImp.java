@@ -1,6 +1,7 @@
 package com.shangbao.dao.Imp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -68,6 +69,9 @@ public class ArticleDaoImp implements ArticleDao {
 							article.getChannelIndex().put(channelName, articleList.get(0).getChannelIndex().get(channelName) + 1);
 						}
 					}else{//没有文章
+						if(article.getChannelIndex() == null){
+							article.setChannelIndex(new HashMap<String, Integer>());
+						}
 						article.getChannelIndex().put(channelName, 1);
 					}
 				}
@@ -301,6 +305,15 @@ public class ArticleDaoImp implements ArticleDao {
 //		System.out.println(update.getUpdateObject());
 		WriteResult result = mongoTemplate.updateFirst(query, update, Article.class);
 	}
+	
+	@Override
+	public void addMessage(String message, Article criteriaArticle) {
+		// TODO Auto-generated method stub
+		Query query = getQuery(criteriaArticle);
+		Update update = new Update();
+		update.push("logs", message);
+		mongoTemplate.updateFirst(query, update, Article.class);
+	}
 
 	@Override
 	public void setTopArticle(String channelName, Long articleId) {
@@ -414,4 +427,5 @@ public class ArticleDaoImp implements ArticleDao {
 		page.setDatas(datas);
 		return page;
 	}
+
 }

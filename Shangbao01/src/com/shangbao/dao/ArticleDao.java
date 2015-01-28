@@ -13,6 +13,7 @@ import com.shangbao.model.show.Page;
 public interface ArticleDao extends MongoDao<Article> {
 	void update(Article article);
 	void setState(ArticleState state, Article criteriaArticle);
+	void addMessage(String message, Article criteriaArticle);
 	Page<Article> getPage(int pageNo, int pageSize, Query query);
 	List<Article> find(Article criteriaArticle, Direction direction, String property);
 	List<Article> fuzzyFind(String words, ArticleState state, boolean tag);

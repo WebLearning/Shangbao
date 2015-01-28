@@ -39,6 +39,7 @@ public class Article {
 	private int likes;//点赞数
 	private String from;//来源
 	private Map<String, Integer> channelIndex = new HashMap<String, Integer>();//文章在所属目录中的index
+	private List<String> logs = new ArrayList<>();//文章的操作记录
 	
 	
 	
@@ -192,6 +193,12 @@ public class Article {
 	}
 	public void setChannelIndex(Map<String, Integer> channelIndex) {
 		this.channelIndex = channelIndex;
+	}
+	public List<String> getLogs() {
+		return logs;
+	}
+	public void setLogs(List<String> logs) {
+		this.logs = logs;
 	}
 	/**
 	 * 添加关键字

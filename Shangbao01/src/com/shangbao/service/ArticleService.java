@@ -71,9 +71,9 @@ public interface ArticleService {
 	 * @param articleState
 	 * @param id
 	 */
-	public void setPutState(ArticleState articleState, List<Long> idList);
+	public void setPutState(ArticleState articleState, List<Long> idList, String message);
 	
-	public void setDeleteState(ArticleState articleState, List<Long> idList);
+	public void setDeleteState(ArticleState articleState, List<Long> idList, String message);
 	
 	void updateCrawler(Article article);
 }

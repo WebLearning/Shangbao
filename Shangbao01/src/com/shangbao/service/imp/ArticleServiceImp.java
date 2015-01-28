@@ -166,27 +166,45 @@ public class ArticleServiceImp implements ArticleService {
 	}
 
 	@Override
-	public void setPutState(ArticleState articleState, List<Long> idList) {
+	public void setPutState(ArticleState articleState, List<Long> idList, String message) {
 		ArticleState targetState = articleState;
 		switch (articleState) {
 		case Temp:
 			if(pendTagServiceImp.isTag("article")){
 				targetState = ArticleState.Pending;
+				if(message != null){
+					message += " 提交审核";
+				}
 			}else{
 				targetState = ArticleState.Published;
+				if(message != null){
+					message += " 直接发布";
+				}
 			}
 			break;
 		case Pending:
 			targetState = ArticleState.Published;
+			if(message != null){
+				message += " 发布";
+			}
 			break;
 		case Revocation:
 			targetState = ArticleState.Temp;
+			if(message != null){
+				message += " 转暂存";
+			}
 			break;
 		case Crawler:
 			if(pendTagServiceImp.isTag("article")){
 				targetState = ArticleState.Temp;
+				if(message != null){
+					message += " 转草稿";
+				}
 			}else{
 				targetState = ArticleState.Published;
+				if(message != null){
+					message += " 直接发布";
+				}
 			}
 			break;
 		default:
@@ -196,27 +214,45 @@ public class ArticleServiceImp implements ArticleService {
 			Article criteriaArticle = new Article();
 			criteriaArticle.setId(id);
 			articleDaoImp.setState(targetState, criteriaArticle);
+			if(message != null){
+				articleDaoImp.addMessage(message, criteriaArticle);
+			}
 		}
 	}
 	
 	@Override
-	public void setDeleteState(ArticleState articleState, List<Long> idList){
+	public void setDeleteState(ArticleState articleState, List<Long> idList, String message){
 		ArticleState targetState = articleState;
 		switch (articleState) {
 		case Crawler:
 			targetState = ArticleState.Deleted;
+			if(message != null){
+				message += " 删除";
+			}
 			break;
 		case Temp:
 			targetState = ArticleState.Revocation;
+			if(message != null){
+				message += " 撤销";
+			}
 			break;
 		case Pending:
 			targetState = ArticleState.Revocation;
+			if(message != null){
+				message += " 撤销";
+			}
 			break;
 		case Published:
 			targetState = ArticleState.Revocation;
+			if(message != null){
+				message += " 撤销";
+			}
 			break;
 		case Revocation:
-			targetState = ArticleState.Deleted;	
+			targetState = ArticleState.Deleted;
+			if(message != null){
+				message += " 删除";
+			}
 			break;
 
 		default:
@@ -226,10 +262,9 @@ public class ArticleServiceImp implements ArticleService {
 			Article criteriaArticle = new Article();
 			criteriaArticle.setId(id);
 			articleDaoImp.setState(targetState, criteriaArticle);
+			if(message != null){
+				articleDaoImp.addMessage(message, criteriaArticle);
+			}
 		}
-	}
-	
-	private void setArticleIndex(){
-		
 	}
 }
