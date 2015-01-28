@@ -50,6 +50,9 @@ public class ArticleDaoImp implements ArticleDao {
 			//查找当前文章所属于分类
 			List<String> channels = article.getChannel();
 			if(channels != null && !channels.isEmpty()){
+				if(article.getChannelIndex() == null){
+					article.setChannelIndex(new HashMap<String, Integer>());
+				}
 				for(String channelName : channels){
 					//找出该channel所属文章的最大的index
 					Query channelQuery = new Query();
@@ -69,9 +72,6 @@ public class ArticleDaoImp implements ArticleDao {
 							article.getChannelIndex().put(channelName, articleList.get(0).getChannelIndex().get(channelName) + 1);
 						}
 					}else{//没有文章
-						if(article.getChannelIndex() == null){
-							article.setChannelIndex(new HashMap<String, Integer>());
-						}
 						article.getChannelIndex().put(channelName, 1);
 					}
 				}
