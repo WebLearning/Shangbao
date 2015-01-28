@@ -99,8 +99,9 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         var time=myPublishedTime-myDateTime;
         console.log(time);
         var url=$scope.projectName+"/article/newArticle/timingpublish/"+time;
+        var jsonString=JSON.stringify($scope.newArticleData);
         console.log(url);
-        $http.get(url).success(function(){
+        $http.post(url,jsonString).success(function(){
             alert("定时成功");
             $('#Select_TimeInNewArticle').modal('toggle');
             $scope.clearArticle();
