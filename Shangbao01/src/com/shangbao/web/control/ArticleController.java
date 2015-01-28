@@ -60,22 +60,44 @@ public class ArticleController {
 	public void add(@RequestBody Article article) {
 		article.setState(ArticleState.Temp);
 		articleServiceImp.add(article);
-		System.out.println("newArticle");
-		System.out.println(article.getTitle());
+//		System.out.println("newArticle");
+//		System.out.println(article.getTitle());
 	}
 
-//	/**
-//	 * 新建文章
-//	 * 提交审核
-//	 * @param article
-//	 */
-//	@RequestMapping(value = "/newArticle", method = RequestMethod.PUT)
-//	@ResponseStatus(HttpStatus.OK)
-//	public void addPending(@RequestBody Article article){
-//		article.setState(ArticleState.Pending);
-//		articleServiceImp.add(article);
-//	}
+	/**
+	 * 新建文章
+	 * 提交审核
+	 * @param article
+	 */
+	@RequestMapping(value = "/newArticle/pend", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public void addPending(@RequestBody Article article){
+		if(pendTagServiceImp.isTag("article")){
+			article.setState(ArticleState.Pending);
+		}else{
+			article.setState(ArticleState.Published);
+		}
+		articleServiceImp.add(article);
+	}
 	
+	/**
+	 * 在新建模块下的定时发布
+	 * @param article
+	 * @param time
+	 */
+	@RequestMapping(value = "/newArticle/timingpublish/{time:[\\d]+}", method = RequestMethod.POST)
+	public void addAndTimePublish(@RequestBody Article article, @PathVariable("time") Long time){
+		article.setState(ArticleState.Temp);
+		Long id = articleServiceImp.addGetId(article);
+		List<Long> articleIds = new ArrayList<>();
+		articleIds.add(id);
+		publishTask(articleIds, time);
+	}
+	
+	/**
+	 * 获取是否需要待审
+	 * @return
+	 */
 	@RequestMapping(value = "/ispending", method=RequestMethod.GET)
 	@ResponseBody
 	public boolean isPending(){
@@ -172,7 +194,8 @@ public class ArticleController {
 			@PathVariable("id") Long id, @RequestBody Article article) {
 		if (state.equals(ArticleState.Crawler)
 				|| state.equals(ArticleState.Revocation)
-				|| state.equals(ArticleState.Temp)) {
+				|| state.equals(ArticleState.Temp)
+				|| state.equals(ArticleState.Published)) {
 			article.setId(id);
 			articleServiceImp.update(article);
 		}

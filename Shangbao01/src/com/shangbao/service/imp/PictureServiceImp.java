@@ -44,6 +44,10 @@ public class PictureServiceImp implements PictureService{
 		this.articleDaoImp.insert(article);
 	}
 	
+	public Long addGetId(Article article){
+		return articleDaoImp.insertAndGetId(article);
+	}
+	
 	@Override
 	public void add(Channel activity) {
 		this.channelDaoImp.insert(activity);

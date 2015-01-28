@@ -11,6 +11,7 @@ import com.shangbao.model.show.TitleList;
 public interface PictureService {
 	void add(Article article);
 	void add(Channel activity);
+	Long addGetId(Article article);
 	void delete(List<Channel> activity);
 	TitleList getTiltList(ArticleState articleState, int pageNo);
 	TitleList getOrderedList(ArticleState articleState, int pageNo,

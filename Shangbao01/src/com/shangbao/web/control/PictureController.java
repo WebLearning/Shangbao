@@ -35,6 +35,7 @@ import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.show.ChannelList;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.DownLoadPicService;
+import com.shangbao.service.PendTagService;
 import com.shangbao.service.PictureService;
 import com.shangbao.utils.CompressPicUtils;
 
@@ -47,6 +48,8 @@ public class PictureController {
 	private DownLoadPicService downLoadPicServiceImp;
 	@Resource
 	private CompressPicUtils compressPicUtils;
+	@Resource
+	private PendTagService pendTagServiceImp;
 	
 	/**
 	 * 新建图片
@@ -66,13 +69,32 @@ public class PictureController {
 	 * 提交审核图片
 	 * @param article
 	 */
-//	@RequestMapping(value="/newPicture", method=RequestMethod.PUT)
-//	@ResponseStatus(HttpStatus.OK)
-//	public void addPicturePending(@RequestBody Article article){
-//		article.setState(ArticleState.Pending);//状态设置为待审
-//		article.setTag(true);//设置为图片新闻
-//		this.pictureServiceImp.add(article);
-//	}
+	@RequestMapping(value="/newPicture/pend", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public void addPicturePending(@RequestBody Article article){
+		if(pendTagServiceImp.isTag("article")){
+			article.setState(ArticleState.Pending);//状态设置为待审
+		}else{
+			article.setState(ArticleState.Published);
+		}
+		article.setTag(true);//设置为图片新闻
+		this.pictureServiceImp.add(article);
+	}
+	
+	/**
+	 * 在新建模块下的定时发布
+	 * @param article
+	 * @param time
+	 */
+	@RequestMapping(value = "/newPicture/timingpublish/{time:[\\d]+}", method = RequestMethod.POST)
+	public void addAndTimePublish(@RequestBody Article article, @PathVariable("time") Long time){
+		article.setState(ArticleState.Temp);
+		article.setTag(true);
+		Long id = pictureServiceImp.addGetId(article);
+		List<Long> articleIds = new ArrayList<>();
+		articleIds.add(id);
+		publishTask(articleIds, time);
+	}
 	
 	/**
 	 * 获得图片标题列表
