@@ -201,6 +201,18 @@ public class ArticleController {
 	}
 	
 	/**
+	 * 获取一篇文章的操作日志
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}/log", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> getArticleLogs(@PathVariable("id") Long id){
+		Article article = articleServiceImp.findOne(id);
+		return article.getLogs();
+	}
+	
+	/**
 	 * 修改一篇文章
 	 * 
 	 * @param state
@@ -309,7 +321,7 @@ public class ArticleController {
 	public void timingPublish(@PathVariable("ids") String ids, @PathVariable("time") Long time){
 		String[] idStrings = ids.split("_");
 		List<Long> idList = new ArrayList<>();
-		String message = getLog("状态转换");
+		String message = getLog("定时发布：");
 		for(String id : idStrings){
 			idList.add(Long.parseLong(id));
 		}

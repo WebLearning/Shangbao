@@ -204,7 +204,7 @@ public class AppController {
 	/**
 	 * 上传用户图片
 	 */
-	//@Secured("ROLE_USER")
+	@Secured("ROLE_USER")
 	@RequestMapping(value="/sendarticle", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
@@ -215,13 +215,17 @@ public class AppController {
 			User user = (User)context.getAuthentication().getPrincipal();
 			article.setUid(user.getUid());
 			article.setAuthor(user.getName());
+			List<String> logs = new ArrayList<>();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+			logs.add(sdf.format(new Date()) + "" + user.getUid() + " " + user.getName() + " 创建");
+			article.setLogs(logs);
 		}
 		article.setTime(new Date());
 		appService.postPictures(article);
 		return "done";
 	}
 	
-	//@Secured("ROLE_USER")
+	@Secured("ROLE_USER")
 	@RequestMapping(value = "/{userId:[\\d]+}/uploadpic", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody

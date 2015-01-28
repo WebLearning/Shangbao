@@ -18,8 +18,8 @@ public interface PictureService {
 			String order ,String direction);
 	TitleList fuzzyFind(String words, ArticleState state, int pageNo, int pageSize);
 	TitleList fuzzyFindOrder(String words, ArticleState state, int pageNo, int pageSize, String order, String direction);
-	void setPutState(ArticleState articleState, List<Long> idList);
-	void setDeleteState(ArticleState articleState, List<Long> idList);
+	void setPutState(ArticleState articleState, List<Long> idList, String message);
+	void setDeleteState(ArticleState articleState, List<Long> idList, String message);
 	Article findOne(Long id);
 	void update(Article article);
 	ChannelList getActivity(int pageNo, int pageSize);

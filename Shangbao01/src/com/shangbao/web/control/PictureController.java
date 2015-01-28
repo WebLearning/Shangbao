@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +33,7 @@ import com.shangbao.model.ArticleState;
 import com.shangbao.model.ChannelState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Channel;
+import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.ChannelList;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.DownLoadPicService;
@@ -61,6 +63,10 @@ public class PictureController {
 	public void addPicture(@RequestBody Article article){
 		article.setState(ArticleState.Temp);//状态设置为暂存
 		article.setTag(true);//设置为图片新闻
+		String message = getLog("创建");
+		if(message != null){
+			article.getLogs().add(message);
+		}
 		this.pictureServiceImp.add(article);
 	}
 	
@@ -74,8 +80,16 @@ public class PictureController {
 	public void addPicturePending(@RequestBody Article article){
 		if(pendTagServiceImp.isTag("article")){
 			article.setState(ArticleState.Pending);//状态设置为待审
+			String message = getLog("新建并提交审核");
+			if(message != null){
+				article.getLogs().add(message);
+			}
 		}else{
 			article.setState(ArticleState.Published);
+			String message = getLog("新建并直接发布");
+			if(message != null){
+				article.getLogs().add(message);
+			}
 		}
 		article.setTag(true);//设置为图片新闻
 		this.pictureServiceImp.add(article);
@@ -91,10 +105,14 @@ public class PictureController {
 	public void addAndTimePublish(@RequestBody Article article, @PathVariable("time") Long time){
 		article.setState(ArticleState.Temp);
 		article.setTag(true);
+		String message = getLog("新建并定时发布");
+		if(message != null){
+			article.getLogs().add(message);
+		}
 		Long id = pictureServiceImp.addGetId(article);
 		List<Long> articleIds = new ArrayList<>();
 		articleIds.add(id);
-		publishTask(articleIds, time);
+		publishTask(articleIds, time, null);
 	}
 	
 	/**
@@ -168,6 +186,18 @@ public class PictureController {
 		return article;
 	}
 
+	/**
+	 * 获取一篇文章的操作日志
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+/log}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> getArticleLogs(@PathVariable("id") Long id){
+		Article article = pictureServiceImp.findOne(id);
+		return article.getLogs();
+	}
+	
 	
 	/**
 	 * 修改一篇图片文章
@@ -184,6 +214,10 @@ public class PictureController {
 				|| state.equals(ArticleState.Revocation)
 				|| state.equals(ArticleState.Temp)) {
 			article.setId(id);
+			String message = getLog("修改");
+			if(message != null){
+				article.getLogs().add(message);
+			}
 			pictureServiceImp.update(article);
 		}
 	}
@@ -204,10 +238,11 @@ public class PictureController {
 			@PathVariable("pageNo") int pageNo, @PathVariable("ids") String id) {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
+		String message = getLog("状态转换");
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		pictureServiceImp.setPutState(articleState, idList);
+		pictureServiceImp.setPutState(articleState, idList, message);
 		return pictureServiceImp.getTiltList(articleState, pageNo);
 	}
 
@@ -222,10 +257,11 @@ public class PictureController {
 			@PathVariable("direction") String direction) {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
+		String message = getLog("状态转换");
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		pictureServiceImp.setPutState(articleState, idList);
+		pictureServiceImp.setPutState(articleState, idList, message);
 		return pictureServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
 	
@@ -239,10 +275,11 @@ public class PictureController {
 	public void timingPublish(@PathVariable("ids") String ids, @PathVariable("time") Long time){
 		String[] idStrings = ids.split("_");
 		List<Long> idList = new ArrayList<>();
+		String message = getLog("定时发布：");
 		for(String id : idStrings){
 			idList.add(Long.parseLong(id));
 		}
-		publishTask(idList, time);
+		publishTask(idList, time, message);
 	}
 
 	@RequestMapping(value = "/{articleState}/{pageNo}/statechange/{ids:[\\d]+(?:_[\\d]+)*}", method = RequestMethod.DELETE)
@@ -253,10 +290,11 @@ public class PictureController {
 			@PathVariable("pageNo") int pageNo, @PathVariable("ids") String id) {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
+		String message = getLog("状态转换");
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		pictureServiceImp.setDeleteState(articleState, idList);
+		pictureServiceImp.setDeleteState(articleState, idList, message);
 		return pictureServiceImp.getTiltList(articleState, pageNo);
 	}
 
@@ -271,19 +309,25 @@ public class PictureController {
 			@PathVariable("direction") String direction) {
 		String[] idsString = id.split("_");
 		List<Long> idList = new ArrayList<Long>();
+		String message = getLog("状态转换");
 		for (String idString : idsString) {
 			idList.add(Long.parseLong(idString));
 		}
-		pictureServiceImp.setDeleteState(articleState, idList);
+		pictureServiceImp.setDeleteState(articleState, idList, message);
 		return pictureServiceImp.getOrderedList(articleState, pageNo, order, direction);
 	}
 	
-	private void publishTask(final List<Long> idList, final Long date){
+	private void publishTask(final List<Long> idList, final Long date, final String message){
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				pictureServiceImp.setPutState(ArticleState.Pending, idList);
+				if(message == null){
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+					pictureServiceImp.setPutState(ArticleState.Pending, idList, sdf.format(new Date()));
+				}else{
+					pictureServiceImp.setPutState(ArticleState.Pending, idList, message);
+				}
 			}
 		}, date);
 	}
@@ -388,5 +432,14 @@ public class PictureController {
 
 	public void setDownLoadPicServiceImp(DownLoadPicService downLoadPicServiceImp) {
 		this.downLoadPicServiceImp = downLoadPicServiceImp;
+	}
+	
+	private String getLog(String message){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(user == null){
+			return null;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+		return sdf.format(new Date()) + " " + user.getId() + " " + user.getName() + " " + message;
 	}
 }
