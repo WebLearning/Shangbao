@@ -293,7 +293,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
                 var url=$scope.projectName+"/article/Published/"+($scope.publishedData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.refreshPublished();
+                    $scope.refreshPublished(1);
                     alert("撤销成功");
                 });
             }

@@ -64,9 +64,14 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
         //console.log($scope.articleData);
-        var url=$scope.projectName+'/picture/Revocation/1/'+$scope.articleData.id;
-        $http.put(url,jsonString).success(function(data) {
+        var url1=$scope.projectName+'/picture/Revocation/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function(data) {
             alert("保存文章成功");
+        });
+        var url=$scope.projectName+"/picture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        //console.log(url);
+        $http.put(url).success(function() {
+            alert("转草稿箱成功");
         });
     };
 

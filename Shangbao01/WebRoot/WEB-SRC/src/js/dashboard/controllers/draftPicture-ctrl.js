@@ -204,11 +204,11 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
                 var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getTempPictureData(1);
+                    $scope.refreshTempPicture();
                     alert("删除成功");
                 });
-            };
-        };
+            }
+        }
     };
 
     $scope.submitPictureArticleSelections=function()
@@ -219,10 +219,48 @@ angular.module("Dashboard").controller("draftPictureCtrl",["$scope","$http", fun
             var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.getTempPictureData(1);
+                $scope.refreshTempPicture();
                 alert("提交成功");
             });
-        };
+        }
+    };
+    $scope.publishArticleNowOutDraftPicture=function()
+    {
+        if($scope.articleSelectionsUrl==""){
+            alert("未选取文章");
+        }else{
+            var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
+            $http.put(url).success(function(){
+                clearArticleSelections();
+                $scope.refreshTempPicture();
+                alert("发布成功");
+            });
+        }
+    };
+    $scope.publishArticleTimingOutDraftPicture=function()
+    {
+        var myDate=new Date();
+        var myDateTime=myDate.getTime();
+        var str1=$scope.publishTimeOutDraftPicture.substr(0,10);
+        var str2=$scope.publishTimeOutDraftPicture.substr(11,16);
+        var str3=str1.concat(" ");
+        var str4=str3.concat(str2);
+        var str5=new Date(str4);
+        var myPublishedTime=str5.getTime();
+        var time=myPublishedTime-myDateTime;
+        console.log(time);
+        if($scope.articleSelectionsUrl==""){
+            alert("未选取文章");
+        }else{
+            var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleSelectionsUrl+"/"+time;
+            console.log(url);
+            $http.get(url).success(function(){
+                alert("定时成功");
+                $('#Select_TimeOutDraftPicture').modal('toggle');
+                clearArticleSelections();
+                $scope.refreshTempPicture();
+            });
+        }
     };
 
     //排序---------------------------------------------------------------------------------------------------------------

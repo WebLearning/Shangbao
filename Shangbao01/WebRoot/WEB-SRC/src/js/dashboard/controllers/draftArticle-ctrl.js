@@ -70,6 +70,70 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
             alert("保存文章成功");
         });
     };
+    $scope.deleteArticleInDraft=function()
+    {
+        var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        $http.delete(url).success(function(){
+            alert("删除成功");
+        });
+    };
+    $scope.submitArticleForPendingInDraft=function()
+    {
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        //console.log($scope.articleData);
+        var url1=$scope.projectName+'/article/Temp/1/'+$scope.articleData.id;
+        //console.log(url);
+        $http.put(url1,jsonString).success(function(data) {
+            alert("保存文章成功");
+        });
+        var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        $http.put(url).success(function(){
+            alert("提交成功");
+        });
+    };
+    $scope.publishArticleNowInDraft=function()
+    {
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        //console.log($scope.articleData);
+        var url1=$scope.projectName+'/article/Temp/1/'+$scope.articleData.id;
+        //console.log(url);
+        $http.put(url1,jsonString).success(function(data) {
+            alert("保存文章成功");
+        });
+        var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        $http.put(url).success(function(){
+           alert("发布成功");
+        });
+    };
+    $scope.publishArticleTimingInDraft=function()
+    {
+        var myDate=new Date();
+        var myDateTime=myDate.getTime();
+        var str1=$scope.publishTimeInDraft.substr(0,10);
+        var str2=$scope.publishTimeInDraft.substr(11,16);
+        var str3=str1.concat(" ");
+        var str4=str3.concat(str2);
+        var str5=new Date(str4);
+        var myPublishedTime=str5.getTime();
+        var time=myPublishedTime-myDateTime;
+        console.log(time);
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        //console.log($scope.articleData);
+        var url1=$scope.projectName+'/article/Temp/1/'+$scope.articleData.id;
+        //console.log(url);
+        $http.put(url1,jsonString).success(function(data) {
+            alert("保存文章成功");
+        });
+        var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
+        console.log(url);
+        $http.get(url).success(function(){
+            alert("定时成功");
+            $('#Select_TimeInDraft').modal('toggle');
+        });
+    };
 
     //得到字数
     $scope.calculateWords=function()
