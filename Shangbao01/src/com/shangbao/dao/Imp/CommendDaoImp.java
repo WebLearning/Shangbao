@@ -40,7 +40,9 @@ public class CommendDaoImp implements CommendDao {
 
 	@Override
 	public void delete(Commend criteriaElement) {
-		// TODO Auto-generated method stub
+		if(criteriaElement.getArticleId() > 0){
+			if(criteriaElement instanceof )
+		}
 	}
 
 	@Override
@@ -172,7 +174,7 @@ public class CommendDaoImp implements CommendDao {
 
 	@Override
 	public Page<Article> getPage(int pageNo, int pageSize, Query query) {
-		query.addCriteria(new Criteria().where("state").ne(ArticleState.Deleted.toString()));
+		query.addCriteria(Criteria.where("state").ne(ArticleState.Deleted.toString()));
 		long totalCount = mongoTemplate.count(query, Article.class);
 		Page<Article> page = new Page<Article>(pageNo, pageSize, totalCount);
 //		query.addCriteria(new Criteria().where("state").ne(ArticleState.Deleted.toString()));
@@ -187,15 +189,15 @@ public class CommendDaoImp implements CommendDao {
 	public Query getQuery(Commend commend) {
 		Query query = new Query();
 		if (commend.getArticleId() > 0) {
-			query.addCriteria(new Criteria().where("articleId").is(
+			query.addCriteria(Criteria.where("articleId").is(
 					commend.getArticleId()));
 		}
 		if (commend.getArticleTitle() != null) {
-			query.addCriteria(new Criteria().where("articleTitle").is(
+			query.addCriteria(Criteria.where("articleTitle").is(
 					commend.getArticleTitle()));
 		}
 		if (commend.getState() != null) {
-			query.addCriteria(new Criteria().where("state").is(
+			query.addCriteria(Criteria.where("state").is(
 					commend.getState().toString()));
 		}
 		return query;

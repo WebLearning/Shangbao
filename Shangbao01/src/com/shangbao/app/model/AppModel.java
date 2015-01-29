@@ -195,8 +195,7 @@ public class AppModel {
 				addTopChannel(fatherChannel, sonChannels);
 				for(Channel sonChannel : sonChannels){
 					channelEn_Cn.put(sonChannel.getEnglishName(), sonChannel.getChannelName());
-					if(fatherChannel.getChannelName().equals("快拍成都") && !sonChannel.getChannelName().equals("最新图片")
-							&& !sonChannel.getChannelName().equals("最热图片")){
+					if(sonChannel.getChannelName().startsWith("#")){
 						activities.add(sonChannel);
 					}
 				}

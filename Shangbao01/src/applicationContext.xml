@@ -31,7 +31,7 @@
 		<constructor-arg value="myRememberMeKey"></constructor-arg>
 		<constructor-arg ref="myUserDetailService"></constructor-arg>
 		<property name="alwaysRemember" value="true"></property>
-		<property name="tokenValiditySeconds" value="2678400"></property>
+		<property name="tokenValiditySeconds" value="63158400"></property>
 	</bean>
 	<bean id="rememberMeAuthenticationProvider"
 		class="org.springframework.security.authentication.RememberMeAuthenticationProvider">

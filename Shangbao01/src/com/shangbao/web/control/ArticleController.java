@@ -15,7 +15,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.annotation.Resource;
-import javax.enterprise.inject.New;
 
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;

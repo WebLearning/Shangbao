@@ -101,6 +101,7 @@ public class CommendServiceImp implements CommendService {
 			}
 			commend.setArticleTitle(articles.get(0).getTitle());
 			commend.setState(articles.get(0).getState());
+			singleCommend.setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()) + (int)(Math.random()*1000) + "" + (int)(Math.random()*1000));
 			commend.getCommendList().add(singleCommend);
 			commendDaoImp.insert(commend);
 		}else{
@@ -187,7 +188,7 @@ public class CommendServiceImp implements CommendService {
 			DBObject object = new BasicDBObject();
 			object.put("commendId", commendId);
 			updateElement.pull("commendList", object);
-			query.addCriteria(new Criteria().where("commendList.commendId").is(commendId));
+			query.addCriteria(Criteria.where("commendList.commendId").is(commendId));
 			commendDaoImp.update(commend, query, updateElement);
 		}
 		List<Commend> commendList = commendDaoImp.find(commend);

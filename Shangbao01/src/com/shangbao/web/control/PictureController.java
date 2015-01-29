@@ -212,7 +212,8 @@ public class PictureController {
 			@PathVariable("id") Long id, @RequestBody Article article) {
 		if (state.equals(ArticleState.Crawler)
 				|| state.equals(ArticleState.Revocation)
-				|| state.equals(ArticleState.Temp)) {
+				|| state.equals(ArticleState.Temp)
+				|| state.equals(ArticleState.Published)) {
 			article.setId(id);
 			String message = getLog("修改");
 			if(message != null){

@@ -205,6 +205,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				article.setUid(Long.parseLong(title.uid));
 				article.setPicturesUrl(localUrls);
 				article.setTitle(title.title);
+				article.setTime(new Date());
 				article.setAuthor(title.nickname);
 				articleServiceImp.add(article);
 			}

@@ -216,9 +216,11 @@ public class ArticleServiceImp implements ArticleService {
 		for(Long id : idList){
 			Article criteriaArticle = new Article();
 			criteriaArticle.setId(id);
-			articleDaoImp.setState(targetState, criteriaArticle);
-			if(message != null){
-				articleDaoImp.addMessage(message, criteriaArticle);
+			synchronized (this) {
+				articleDaoImp.setState(targetState, criteriaArticle);
+				if(message != null){
+					articleDaoImp.addMessage(message, criteriaArticle);
+				}
 			}
 		}
 	}
@@ -264,9 +266,11 @@ public class ArticleServiceImp implements ArticleService {
 		for(Long id : idList){
 			Article criteriaArticle = new Article();
 			criteriaArticle.setId(id);
-			articleDaoImp.setState(targetState, criteriaArticle);
-			if(message != null){
-				articleDaoImp.addMessage(message, criteriaArticle);
+			synchronized (this) {
+				articleDaoImp.setState(targetState, criteriaArticle);
+				if(message != null){
+					articleDaoImp.addMessage(message, criteriaArticle);
+				}
 			}
 		}
 	}

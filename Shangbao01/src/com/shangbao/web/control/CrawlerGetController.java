@@ -150,11 +150,23 @@ public class CrawlerGetController {
 	 * @return
 	 */
 	@RequestMapping(value = "/update/comment/{articleId}")
+	@ResponseBody
 	public Long updateComment(@PathVariable("articleId") Long articleId, @RequestBody List<SingleCommend> singleCommends){
 		Commend commend = new CrawlerCommend();
 		commend.setArticleId(articleId);
 		commendServiceImp.update(commend, singleCommends);
 		return null;
+	}
+	
+	@RequestMapping(value="/delete/article/{articleId:[\\d]+}", method=RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteCrawlerArticle(@PathVariable("articleId") Long id){
+		Article article = new Article();
+		article.setId(id);
+		Commend commend = new Commend();
+		commend.setArticleId(id);
+		articleServiceImp.deleteOne(article);
+		//commendServiceImp.d
 	}
 	
 	private String stringToBody(Article article){
