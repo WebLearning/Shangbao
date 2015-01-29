@@ -41,7 +41,7 @@ public class CommendDaoImp implements CommendDao {
 	@Override
 	public void delete(Commend criteriaElement) {
 		if(criteriaElement.getArticleId() > 0){
-			if(criteriaElement instanceof )
+			//if(criteriaElement instanceof )
 		}
 	}
 
