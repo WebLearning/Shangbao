@@ -30,34 +30,42 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
         }
         $scope.calculateWords();
     };
-
+    $scope.saveStateInCrawlerPic1="";
     $scope.savePictureArticle=function(){
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
         var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function() {
+        $http.put(url1,jsonString).success(function(data) {
+            $scope.saveStateInCrawlerPic1=data;
             console.log("保存文章成功");
-        });
-        var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-        //console.log(url);
-        $http.put(url).success(function() {
-            alert("转草稿箱成功");
+            if($scope.saveStateInCrawlerPic1=="true"){
+                var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+                //console.log(url);
+                $http.put(url).success(function() {
+                    alert("转草稿箱成功");
+                });
+            }
         });
     };
+    $scope.saveStateInCrawlerPic2="";
     $scope.publishArticleNowInCrawlerPicture=function()
     {
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(){
+        $http.put(url1,jsonString).success(function(data){
+            $scope.saveStateInCrawlerPic2=data;
             console.log("保存");
-        });
-        var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-        $http.put(url).success(function(){
-            alert("发布成功");
+            if($scope.saveStateInCrawlerPic2=="true"){
+                var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+                $http.put(url).success(function(){
+                    alert("发布成功");
+                });
+            }
         });
     };
+    $scope.saveStateInCrawlerPic3="";
     $scope.publishArticleTimingInCrawlerPicture=function()
     {
         var myDate=new Date();
@@ -74,14 +82,17 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(){
+        $http.put(url1,jsonString).success(function(data){
+            $scope.saveStateInCrawlerPic3=data;
             console.log("保存");
-        });
-        var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
-        console.log(url);
-        $http.get(url).success(function(){
-            alert("定时成功");
-            $('#Select_TimeInCrawlerPicture').modal('toggle');
+            if($scope.saveStateInCrawlerPic3=="true"){
+                var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
+                console.log(url);
+                $http.get(url).success(function(){
+                    alert("定时成功");
+                    $('#Select_TimeInCrawlerPicture').modal('toggle');
+                });
+            }
         });
     };
 

@@ -66,6 +66,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
         //console.log($scope.articleData);
         var url=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
         $http.put(url,jsonString).success(function(data) {
+//            $scope.saveStateInDraftPic1=data;
             alert("保存文章成功");
         });
     };
@@ -76,6 +77,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             alert("删除成功");
         });
     };
+    $scope.saveStateInDraftPic1="";
     $scope.submitPictureArticleInDraftPicture=function()
     {
         $scope.calculateWords();
@@ -83,13 +85,18 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
         //console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
         $http.put(url1,jsonString).success(function(data) {
+            $scope.saveStateInDraftPic1=data;
+            console.log(data);
             alert("保存文章成功");
-        });
-        var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-        $http.put(url).success(function(){
-            alert("提交成功");
+            var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+            if($scope.saveStateInDraftPic1=="true"){
+                $http.put(url).success(function(){
+                    alert("提交成功");
+                });
+            }
         });
     };
+    $scope.saveStateInDraftPic2="";
     $scope.publishArticleTimingInDraftPicture=function()
     {
         var myDate=new Date();
@@ -107,13 +114,16 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
         //console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
         $http.put(url1,jsonString).success(function(data) {
+            $scope.saveStateInDraftPic2=data;
             alert("保存文章成功");
-        });
-        var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
-        console.log(url);
-        $http.get(url).success(function(){
-            alert("定时成功");
-            $('#Select_TimeInDraftPicture').modal('toggle');
+            var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
+            console.log(url);
+            if($scope.saveStateInDraftPic2=="true"){
+                $http.get(url).success(function(){
+                    alert("定时成功");
+                    $('#Select_TimeInDraftPicture').modal('toggle');
+                });
+            }
         });
     };
 

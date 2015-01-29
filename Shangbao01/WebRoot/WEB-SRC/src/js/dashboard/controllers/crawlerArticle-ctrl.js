@@ -58,36 +58,44 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         }
         $scope.calculateWords();
     };
-
+    $scope.saveStateInCrawler1="";
     $scope.saveArticle=function(){
         //console.log("test new save");
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(){
+        $http.put(url1,jsonString).success(function(data){
+            $scope.saveStateInCrawler1=data;
             console.log("保存");
-        });
-        var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-        //console.log(url);
-        $http.put(url).success(function(data) {
-            alert("转草稿箱成功");
+            if($scope.saveStateInCrawler1=="true"){
+                var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+                //console.log(url);
+                $http.put(url).success(function() {
+                    alert("转草稿箱成功");
+                });
+            }
         });
     };
+    $scope.saveStateInCrawler2="";
     $scope.publishArticleNowInCrawler=function()
     {
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(){
+        $http.put(url1,jsonString).success(function(data){
+            $scope.saveStateInCrawler2=data;
             console.log("保存");
-        });
-        var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-        $http.put(url).success(function(){
-            alert("发布成功");
+            if($scope.saveStateInCrawler2=="true"){
+                var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+                $http.put(url).success(function(){
+                    alert("发布成功");
+                });
+            }
         });
     };
+    $scope.saveStateInCrawler3="";
     $scope.publishArticleTimingInCrawler=function()
     {
         var myDate=new Date();
@@ -104,14 +112,17 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(){
+        $http.put(url1,jsonString).success(function(data){
+            $scope.saveStateInCrawler3=data;
             console.log("保存");
-        });
-        var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
-        console.log(url);
-        $http.get(url).success(function(){
-            alert("定时成功");
-            $('#Select_TimeInCrawler').modal('toggle');
+            if($scope.saveStateInCrawler3=="true"){
+                var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
+                console.log(url);
+                $http.get(url).success(function(){
+                    alert("定时成功");
+                    $('#Select_TimeInCrawler').modal('toggle');
+                });
+            }
         });
     };
 

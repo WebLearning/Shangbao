@@ -58,7 +58,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
         }
         $scope.calculateWords();
     };
-
+    $scope.saveStateInRevoked1="";
     $scope.saveArticle=function(){
         //console.log("test new save");
         $scope.calculateWords();
@@ -66,12 +66,15 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
         //console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Revocation/1/'+$scope.articleData.id;
         $http.put(url1,jsonString).success(function(data) {
+            $scope.saveStateInRevoked1=data;
             alert("保存文章成功");
-        });
-        var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-        //console.log(url);
-        $http.put(url).success(function(data) {
-            alert("转草稿箱成功");
+            if($scope.saveStateInRevoked1=="true"){
+                var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+                //console.log(url);
+                $http.put(url).success(function(data) {
+                    alert("转草稿箱成功");
+                });
+            }
         });
     };
 
