@@ -31,15 +31,57 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
         $scope.calculateWords();
     };
 
-    $scope.saveArticle=function(){
-        //console.log("test new save");
+    $scope.savePictureArticle=function(){
         $scope.calculateWords();
         var jsonString=JSON.stringify($scope.articleData);
-        //console.log($scope.articleData);
-        var url=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
+        var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function() {
+            console.log("保存文章成功");
+        });
+        var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         //console.log(url);
-        $http.put(url,jsonString).success(function(data) {
-            alert("保存文章成功");
+        $http.put(url).success(function() {
+            alert("转草稿箱成功");
+        });
+    };
+    $scope.publishArticleNowInCrawlerPicture=function()
+    {
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        console.log($scope.articleData);
+        var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function(){
+            console.log("保存");
+        });
+        var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        $http.put(url).success(function(){
+            alert("发布成功");
+        });
+    };
+    $scope.publishArticleTimingInCrawlerPicture=function()
+    {
+        var myDate=new Date();
+        var myDateTime=myDate.getTime();
+        var str1=$scope.publishTimeInCrawlerPicture.substr(0,10);
+        var str2=$scope.publishTimeInCrawlerPicture.substr(11,16);
+        var str3=str1.concat(" ");
+        var str4=str3.concat(str2);
+        var str5=new Date(str4);
+        var myPublishedTime=str5.getTime();
+        var time=myPublishedTime-myDateTime;
+        console.log(time);
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        console.log($scope.articleData);
+        var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function(){
+            console.log("保存");
+        });
+        var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
+        console.log(url);
+        $http.get(url).success(function(){
+            alert("定时成功");
+            $('#Select_TimeInCrawlerPicture').modal('toggle');
         });
     };
 
@@ -252,41 +294,6 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     {
         $('#myPictureModal_addIMG_crawler').modal('toggle');
     };
-
-    //获得顶级目录名----------------------------------------------------------------------------------------------------
-//    $scope.newChannelNames=[];
-//    $scope.getNewChannelNames=function(){
-//        var url=$scope.projectName+'/channel/kuaipai/channels';
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            //console.log(data);
-//            if(data.length>0){
-//                for(i=0;i<data.length;i++){
-//                    $scope.newChannelNames.push(data[i]);
-//                }
-//            }else{
-//                $scope.newChannelNames=[];
-//            }
-//            //console.log($scope.newChannelNames);
-//        });
-//    };
-//    $scope.getNewChannelNames();
-//
-//    //获得活动目录------------------------------------------------------------------------------------------------------
-//    $scope.newActivityNames=[];
-//    $scope.getNewActivityNames=function(){
-//        var url=$scope.projectName+'/channel/activities';
-//        $http.get(url).success(function(data){
-//            if(data.length>0){
-//                for(i=0;i<data.length;i++){
-//                    $scope.newActivityNames.push(data[i]);
-//                }
-//            }else{
-//                $scope.newActivityNames=[];
-//            }
-//        });
-//    };
-//    $scope.getNewActivityNames();
     //关于上传图片的----------------------------------------------------------------------------------------------
 
 }]);

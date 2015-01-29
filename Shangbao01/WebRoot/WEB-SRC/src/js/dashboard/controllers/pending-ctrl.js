@@ -308,11 +308,11 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
                 var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getPendingData(1);
+                    $scope.refreshPending();
                     alert("撤销成功");
                 });
-            };
-        };
+            }
+        }
     };
 //立刻发布--------------------------------------------------------------------------------------------------------
     $scope.publishArticleSelectionsNow=function()
@@ -323,7 +323,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.getPendingData(1);
+                $scope.refreshPending();
                 alert("发布成功");
             });
         }
@@ -360,7 +360,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
                     alert("定时成功");
                     $('#Select_Time').modal('toggle');
                     clearArticleSelections();
-                    $scope.getPendingData(1);
+                    $scope.refreshPending();
                 });
             }
     };

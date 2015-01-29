@@ -935,13 +935,13 @@
                                 </div>
                                 <label class="col-md-1 control-label">等级</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章等级" ng-model="articleData.level"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章等级" ng-model="articleData.level" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">摘要</label>
                                 <div class="col-md-11">
-                                    <input type="text" class="form-control" placeholder="请输入文章摘要" ng-model="articleData.summary"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章摘要" ng-model="articleData.summary" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -949,14 +949,14 @@
                                 <div class="col-md-11">
                                     <div class="col-md-2" ng-repeat="keyword in articleData.keyWord">
                                         <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteKeyword($index)"disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <button type="button" class="close" ng-click="deleteKeyword($index)" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">
                                                 {{keyword}}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addKeyword_pending"disabled>添加关键词</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addKeyword_pending" disabled>添加关键词</button>
                                     </div>
                                 </div>
                             </div>
@@ -965,14 +965,14 @@
                                 <div class="col-md-11">
                                     <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteChannel($index)"disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <button type="button" class="close" ng-click="deleteChannel($index)" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">
                                                 {{channel}}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addChannel_pending"disabled>添加分类</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addChannel_pending" disabled>添加分类</button>
                                     </div>
                                 </div>
                             </div>
@@ -981,12 +981,12 @@
                                 <div class="col-md-11">
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deletePicUrl($index)"disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <button type="button" class="close" ng-click="deletePicUrl($index)" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addIMG_pending"disabled>添加图片</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addIMG_pending" disabled>添加图片</button>
                                     </div>
                                 </div>
                             </div>
@@ -997,12 +997,28 @@
                                     <textarea class="form-control" rows="5" ng-model="articleData.content"></textarea>
                                 </div>
                             </div>
-                            <!--<div class="pull-right">-->
-                                <!--<button type="button" class="btn btn-default" ng-click="clearArticle()">清除所有内容</button>-->
-                                <!--<button type="button" class="btn btn-success" ng-click="saveArticle()">保存</button>-->
-                                <!--<button type="button" class="btn btn-info" ng-click="putArticle()">提交审核</button>
-                                <!--<button type="button" class="btn btn-default">预览</button>-->
-                            <!--</div>-->
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-danger" ng-click="deleteArticleInPending()">撤销</button>
+                                <button type="button" class="btn btn-info"ng-click="publishArticleNowInPending()">发布</button>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Select_TimeInPending">定时发布</button>
+                            </div>
+                            <div class="modal fade" id="Select_TimeInPending" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title">选择定时发布时间</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="datetime-local" class="form-control" placeholder="请输入时间" ng-model="publishTimeInPending">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                            <button type="button" class="btn btn-primary" ng-click="publishArticleTimingInPending()">确认</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
@@ -1100,40 +1116,40 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">标题</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章标题" ng-model="articleData.title"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章标题" ng-model="articleData.title">
                                 </div>
                                 <label class="col-md-1 control-label">副标题</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章副标题" ng-model="articleData.subTitle"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章副标题" ng-model="articleData.subTitle">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">来源</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章来源" ng-model="articleData.from"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章来源" ng-model="articleData.from">
                                 </div>
                                 <label class="col-md-1 control-label">作者</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章作者" ng-model="articleData.author"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章作者" ng-model="articleData.author">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">时间</label>
                                 <div class="col-md-5">
-                                    <!--<div class="input-group">-->
-                                        <input type="text" class="form-control" ng-model="articleData.time" disabled>
-                                        <!--<div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"disabled></span></div>-->
-                                    <!--</div>-->
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-model="articleData.time">
+                                        <div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"></span></div>
+                                    </div>
                                 </div>
                                 <label class="col-md-1 control-label">等级</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章等级" ng-model="articleData.level"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章等级" ng-model="articleData.level">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">摘要</label>
                                 <div class="col-md-11">
-                                    <input type="text" class="form-control" placeholder="请输入文章摘要" ng-model="articleData.summary"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章摘要" ng-model="articleData.summary">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -1141,14 +1157,14 @@
                                 <div class="col-md-11">
                                     <div class="col-md-2" ng-repeat="keyword in articleData.keyWord">
                                         <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteKeyword($index)"disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <button type="button" class="close" ng-click="deleteKeyword($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">
                                                 {{keyword}}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addKeyword_pending"disabled>添加关键词</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addKeyword_published">添加关键词</button>
                                     </div>
                                 </div>
                             </div>
@@ -1157,14 +1173,14 @@
                                 <div class="col-md-11">
                                     <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteChannel($index)"disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <button type="button" class="close" ng-click="deleteChannel($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">
                                                 {{channel}}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addChannel_pending"disabled>添加分类</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addChannel_published">添加分类</button>
                                     </div>
                                 </div>
                             </div>
@@ -1173,12 +1189,13 @@
                                 <div class="col-md-11">
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deletePicUrl($index)"disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addIMG_pending"disabled>添加图片</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addIMG_published">添加图片</button>
                                     </div>
                                 </div>
                             </div>
@@ -1190,6 +1207,8 @@
                                 </div>
                             </div>
                             <div class="pull-right">
+                                <button type="button" class="btn btn-danger" ng-click="deleteArticleInPublished()">撤销</button>
+                                <button type="button" class="btn btn-info" ng-click="saveArticleInPublished()">保存修改</button>
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#send_published" ng-click="assignValueMessage()">推送</button>
                             </div>
                         </form>
@@ -1210,6 +1229,73 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                         <button type="button" class="btn btn-primary" ng-click="sendMessage()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="myModal_addIMG_published" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">添加图片</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-5" id="previewFrame_published"></div>
+                                                <div class="col-md-7">
+                                                    <form name="form_published"  action="" method="post" enctype="multipart/form-data" target="myIFrame_published" id="myUploadImgForm_published">
+                                                        <input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<iframe name="myIFrame_crawler" id="myIFrameID_crawler" style="display: none"></iframe>-->
+                                        <iframe name="myIFrame_published" id="myIFrameID_published"></iframe>
+                                    </div>
+                                    <div class="modal-footer" id="modalFooterID_published">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-default" disabled>上传</button>
+                                        <button type="button" class="btn btn-default" disabled>确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="myModal_addChannel_published" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">添加分类</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <select class="form-control" ng-model="additionChannel" >
+                                                <option ng-repeat="x in newChannelNames">{{x.channelName}}</option>
+                                            </select>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="addChannel()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="myModal_addKeyword_published" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">添加关键词</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" class="form-control" placeholder="请输入关键词" ng-model="additionKeyword">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="addKeyword()">确认</button>
                                     </div>
                                 </div>
                             </div>
@@ -2413,7 +2499,26 @@
                         </nav>
                         <div class="pull-right">
                             <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">彻底删除</button>
-                            <button type="button" class="btn btn-success" ng-click="saveArticleSelections()">保存至快拍草稿箱</button>
+                            <button type="button" ng-class="setButtonInNewArticleForPending()" ng-click="savePictureArticleSelections()">保存至快拍草稿箱</button>
+                            <button type="button" ng-class="setButtonInNewArticleForPublish()" ng-click="publishedPictureArticleSelectionsOutCrawlerPictureNow()">发布</button>
+                            <button type="button" ng-class="setButtonInNewArticleForPublish()" data-toggle="modal" data-target="#Select_TimeOutCrawlerPicture">定时发布</button>
+                        </div>
+                        <div class="modal fade" id="Select_TimeOutCrawlerPicture" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">选择定时发布时间</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="datetime-local" class="form-control" placeholder="请输入时间" ng-model="publishTimeOutCrawlerPicture">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="publishedPictureArticleSelectionsTimingOutCrawlerPicture()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2538,7 +2643,9 @@
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" ng-click="clearArticle()">清除所有内容</button>
-                                <button type="button" class="btn btn-success" ng-click="saveArticle()">保存</button>
+                                <button type="button" ng-class="setButtonInNewArticleForPending()" ng-click="savePictureArticle()">保存至快拍草稿箱</button>
+                                <button type="button" ng-class="setButtonInNewArticleForPublish()" ng-click="publishArticleNowInCrawlerPicture()">发布</button>
+                                <button type="button" ng-class="setButtonInNewArticleForPublish()" data-toggle="modal" data-target="#Select_TimeInCrawlerPicture">定时发布</button>
                             </div>
                         </form>
                         <p>&nbsp;</p>
@@ -2630,6 +2737,23 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                         <button type="button" class="btn btn-primary" ng-click="addActivity()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="Select_TimeInCrawlerPicture" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">选择定时发布时间</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="datetime-local" class="form-control" placeholder="请输入时间" ng-model="publishTimeInCrawlerPicture">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="publishArticleTimingInCrawlerPicture()">确认</button>
                                     </div>
                                 </div>
                             </div>
@@ -2836,6 +2960,28 @@
                                     <textarea class="form-control" rows="5" ng-model="articleData.content"></textarea>
                                 </div>
                             </div>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-danger" ng-click="deletePictureArticleInPending()">撤销</button>
+                                <button type="button" class="btn btn-info" ng-click="publishPictureArticleInPending()">发布</button>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Select_TimePictureInPending">定时发布</button>
+                            </div>
+                            <div class="modal fade" id="Select_TimePictureInPending" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title">选择定时发布时间</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="datetime-local" class="form-control" placeholder="请输入时间" ng-model="publishTimePictureInPending">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                            <button type="button" class="btn btn-primary" ng-click="publishPictureArticleInPendingTiming()">确认</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -2920,37 +3066,37 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">标题</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入标题" ng-model="articleData.title" disabled>
+                                    <input type="text" class="form-control" placeholder="请输入标题" ng-model="articleData.title">
                                 </div>
                                 <label class="col-md-1 control-label">副标题</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入副标题" ng-model="articleData.subTitle" disabled>
+                                    <input type="text" class="form-control" placeholder="请输入副标题" ng-model="articleData.subTitle">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">来源</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入来源" ng-model="articleData.from" disabled>
+                                    <input type="text" class="form-control" placeholder="请输入来源" ng-model="articleData.from">
                                 </div>
                                 <label class="col-md-1 control-label">作者</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入作者" ng-model="articleData.author" disabled>
+                                    <input type="text" class="form-control" placeholder="请输入作者" ng-model="articleData.author">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">时间</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入时间" ng-model="articleData.time" disabled>
+                                    <input type="text" class="form-control" placeholder="请输入时间" ng-model="articleData.time">
                                 </div>
                                 <label class="col-md-1 control-label">等级</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入等级" ng-model="articleData.level" disabled>
+                                    <input type="text" class="form-control" placeholder="请输入等级" ng-model="articleData.level">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">摘要</label>
                                 <div class="col-md-11">
-                                    <input type="text" class="form-control" placeholder="请输入摘要" ng-model="articleData.summary" disabled>
+                                    <input type="text" class="form-control" placeholder="请输入摘要" ng-model="articleData.summary">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -2958,12 +3104,12 @@
                                 <div class="col-md-11">
                                     <div class="col-md-2" ng-repeat="keyword in articleData.keyWord">
                                         <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteKeyword($index)" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <button type="button" class="close" ng-click="deleteKeyword($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">{{keyword}}</div>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="" disabled>添加关键词</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addKeyword_published">添加关键词</button>
                                     </div>
                                 </div>
                             </div>
@@ -2972,40 +3118,27 @@
                                 <div class="col-md-11">
                                     <div class="col-md-2" ng-repeat="channel in articleData.channel track by $index">
                                         <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deleteChannel($index)" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <button type="button" class="close" ng-click="deleteChannel($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <div class="caption" align="center">{{channel}}</div>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="" disabled>添加分类</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addChannel_published">添加分类</button>
                                     </div>
                                 </div>
                             </div>
-                            <!--<div class="form-group">-->
-                                <!--<label class="col-md-1 control-label">活动</label>-->
-                                <!--<div class="col-md-11">-->
-                                    <!--<div ng-class="replyBtnStr(articleData.activity)">-->
-                                        <!--<div class="thumbnail">-->
-                                            <!--<button type="button" class="close" ng-click="deleteActivity()" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
-                                            <!--<div class="caption" align="center">{{articleData.activity}}</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="col-md-2">-->
-                                        <!--<button class="btn btn-md btn-default" data-toggle="modal" data-target="" disabled>添加分类</button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
                             <div class="form-group">
                                 <label class="col-md-1 control-label">图片</label>
                                 <div class="col-md-11">
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deletePicUrl($index)" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="" disabled>添加图片</button>
+                                        <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addIMG_published">添加图片</button>
                                     </div>
                                 </div>
                             </div>
@@ -3017,6 +3150,8 @@
                                 </div>
                             </div>
                             <div class="pull-right">
+                                <button type="button" class="btn btn-danger" ng-click="deletePictureArticleSelections()">撤销</button>
+                                <button type="button" class="btn btn-info" ng-click="saveArticleInPublished()">保存修改</button>
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#send_publishedPicture" ng-click="assignPictureValueMessage()">推送</button>
                             </div>
                         </form>
@@ -3035,6 +3170,73 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                         <button type="button" class="btn btn-primary" ng-click="sendPictureMessage()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="myPictureModal_addIMG_published" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">添加图片</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-5" id="previewPictureFrame_published"></div>
+                                                <div class="col-md-7">
+                                                    <form name="form_publishedPicture"  action="" method="post" enctype="multipart/form-data" target="myPictureIFrame_published" id="myPictureUploadImgForm_published">
+                                                        <input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<iframe name="myIFrame_crawler" id="myIFrameID_crawler" style="display: none"></iframe>-->
+                                        <iframe name="myPictureIFrame_published" id="myPictureIFrameID_published"></iframe>
+                                    </div>
+                                    <div class="modal-footer" id="modalPictureFooterID_published">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-default" disabled>上传</button>
+                                        <button type="button" class="btn btn-default" disabled>确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="myPictureModal_addChannel_published" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">添加分类</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form">
+                                            <select class="form-control" ng-model="additionChannel" >
+                                                <option ng-repeat="x in newPictureChannelNames">{{x.channelName}}</option>
+                                            </select>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="addChannel()">确认</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="myPictureModal_addKeyword_published" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">添加关键词</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" class="form-control" placeholder="请输入关键词" ng-model="additionKeyword">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" ng-click="addKeyword()">确认</button>
                                     </div>
                                 </div>
                             </div>

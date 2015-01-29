@@ -59,21 +59,21 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         $scope.calculateWords();
     };
 
-    $scope.saveArticle=function(){
-        $scope.calculateWords();
-        var jsonString=JSON.stringify($scope.articleData);
-        $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
-            alert("保存文章成功");
-        });
-    };
-
-    $scope.putArticle=function(){
-        $scope.calculateWords();
-        var jsonString=JSON.stringify($scope.articleData);
-        $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
-            alert("提交审核文章成功");
-        });
-    };
+//    $scope.saveArticle=function(){
+//        $scope.calculateWords();
+//        var jsonString=JSON.stringify($scope.articleData);
+//        $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
+//            alert("保存文章成功");
+//        });
+//    };
+//
+//    $scope.putArticle=function(){
+//        $scope.calculateWords();
+//        var jsonString=JSON.stringify($scope.articleData);
+//        $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
+//            alert("提交审核文章成功");
+//        });
+//    };
     $scope.sendMessageData={
         message:"",
         articleId:null
@@ -96,6 +96,25 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         $http.post(url,jsonString).success(function(){
             alert("推送成功");
             $('#send_published').modal('toggle');
+        });
+    };
+    $scope.deleteArticleInPublished=function()
+    {
+        var url=$scope.projectName+"/article/Published/"+($scope.publishedData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        $http.delete(url).success(function(){
+            alert("撤销成功");
+            $scope.clearArticle();
+            // clearArticleSelections();
+            // $scope.getPublishedData(1);
+        });
+    };
+    $scope.saveArticleInPublished=function(){
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        console.log($scope.articleData);
+        var url1=$scope.projectName+'/article/Published/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function(){
+            alert("保存成功");
         });
     };
 
@@ -132,6 +151,12 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     {
         $scope.articleData.picturesUrl.splice(index,1);
     };
+    $scope.addPictureToEditor=function(picUrl){
+        //console.log(picUrl);
+        var text='<img src="'+picUrl+'">';
+        $scope.articleData.content=text+$scope.articleData.content;
+//        $scope.$apply();//相当于刷新一下scope 不然内容加不上
+    };
 
     //添加关键词和分类
     $scope.addKeyword=function()
@@ -140,7 +165,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
             alert("没有任何输入");
         }else{
             $scope.articleData.keyWord.push($scope.additionKeyword);
-            $('#myModal_addKeyword_pending').modal('toggle');
+            $('#myModal_addKeyword_published').modal('toggle');
         }
     };
 
@@ -150,7 +175,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
             alert("没有任何输入");
         }else{
             $scope.articleData.channel.push($scope.additionChannel);
-            $('#myModal_addChannel_pending').modal('toggle');
+            $('#myModal_addChannel_published').modal('toggle');
         }
     };
 
@@ -183,7 +208,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     {
         var docObj = obj;
         var preViewUrl = window.URL.createObjectURL(docObj.files[0]);
-        var imgObjPreview=document.getElementById("imgPreview");
+        var imgObjPreview=document.getElementById("imgPreview_published");
         imgObjPreview.src = preViewUrl;
     };
 
@@ -191,20 +216,20 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     {
         var tempHtml='<div class="thumbnail">'
             +'<button type="button" class="close" onclick="angular.element(this).scope().deletePreviewFrame()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
-            +'<img id="imgPreview">'
+            +'<img id="imgPreview_published">'
             +'</div>';
 
-        document.getElementById("previewFrame_pending").innerHTML=tempHtml;
+        document.getElementById("previewFrame_published").innerHTML=tempHtml;
     };
 
     $scope.deletePreviewFrame=function()
     {
-        document.getElementById("previewFrame_pending").innerHTML="";
+        document.getElementById("previewFrame_published").innerHTML="";
     };
 
     $scope.refreshImgInput=function()
     {
-        document.getElementById("myUploadImgForm_pending").innerHTML='<input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>';
+        document.getElementById("myUploadImgForm_published").innerHTML='<input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>';
     };
 
     //上传按钮的改变（主要）
@@ -214,13 +239,14 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
             +'<button type="button" class="btn btn-default" disabled>上传</button>'
             +'<button type="button" class="btn btn-default" disabled>确认</button>';
 
-        document.getElementById("modalFooterID_pending").innerHTML=tempString;
+        document.getElementById("modalFooterID_published").innerHTML=tempString;
     };
 
     //上传图片
     $scope.uploadImg=function()
     {
-        $('#myUploadImgForm_pending').submit();
+        document.form_published.action=$scope.projectActionName;
+        $('#myUploadImgForm_published').submit();
         $scope.enableConfirmButton();
     };
 
@@ -231,7 +257,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
             +'<button type="button" class="btn btn-success" onclick="angular.element(this).scope().uploadImg()">上传</button>'
             +'<button type="button" class="btn btn-primary" onclick="angular.element(this).scope().addPicUrl()">确认</button>';
 
-        document.getElementById("modalFooterID_pending").innerHTML=tempString;
+        document.getElementById("modalFooterID_published").innerHTML=tempString;
     };
 
     $scope.disableConfirmButton=function()
@@ -240,7 +266,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
             +'<button type="button" class="btn btn-success" onclick="angular.element(this).scope().uploadImg()">上传</button>'
             +'<button type="button" class="btn btn-default" disabled>确认</button>';
 
-        document.getElementById("modalFooterID_pending").innerHTML=tempString;
+        document.getElementById("modalFooterID_published").innerHTML=tempString;
     };
 
     $scope.addPicUrl=function()
@@ -249,11 +275,12 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         $scope.pushPicUrl(url);
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
+        $scope.deletePreviewFrame();
     };
 
     $scope.getPicUrl=function()
     {
-        var url = document.getElementById("myIFrameID_published").contentWindow.document.body.innerText;
+        var url = document.getElementById("myIFrameID_published").contentDocument.body.innerHTML;
         //url=url.substr(8);
         //url=$scope.projectName+"/WEB-SRC"+url;
         return url;

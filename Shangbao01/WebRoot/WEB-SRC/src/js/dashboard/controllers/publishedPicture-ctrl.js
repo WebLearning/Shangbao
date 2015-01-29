@@ -320,7 +320,7 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
                     $scope.getPublishedPictureData(1);
                     alert("撤销成功");
                 });
-            };
-        };
+            }
+        }
     };
 }]);

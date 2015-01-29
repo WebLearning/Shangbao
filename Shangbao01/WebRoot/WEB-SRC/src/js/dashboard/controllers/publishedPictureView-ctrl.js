@@ -53,6 +53,22 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
             $('#send_publishedPicture').modal('toggle');
         });
     };
+    $scope.deletePictureArticleSelections=function()
+    {
+        var url=$scope.projectName+"/picture/Published/"+($scope.publishedPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        $http.delete(url).success(function(){
+            alert("撤销成功");
+        });
+    };
+    $scope.saveArticleInPublished=function(){
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        console.log($scope.articleData);
+        var url1=$scope.projectName+'/picture/Published/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function(){
+            alert("保存成功");
+        });
+    };
 
     //得到字数
     $scope.calculateWords=function()
@@ -91,6 +107,12 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     $scope.deletePicUrl=function(index)
     {
         $scope.articleData.picturesUrl.splice(index,1);
+    };
+    $scope.addPictureToEditor=function(picUrl){
+        //console.log(picUrl);
+        var text='<img src="'+picUrl+'">';
+        $scope.articleData.content=text+$scope.articleData.content;
+//        $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 
     //添加关键词和分类
@@ -195,6 +217,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     //上传图片
     $scope.uploadImg=function()
     {
+        document.form_publishedPicture.action=$scope.projectActionName;
         $('#myPictureUploadImgForm_published').submit();
         $scope.enableConfirmButton();
     };
@@ -224,6 +247,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         $scope.pushPicUrl(url);
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
+        $scope.deletePreviewFrame();
     };
 
     $scope.getPicUrl=function()
@@ -252,40 +276,6 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         $('#myPictureModal_addIMG_published').modal('toggle');
     };
 
-    //获得顶级目录名----------------------------------------------------------------------------------------------------
-    $scope.newChannelNames=[];
-    $scope.getNewChannelNames=function(){
-        var url=$scope.projectName+'/channel/kuaipai/channels';
-        //console.log(url);
-        $http.get(url).success(function(data){
-            //console.log(data);
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.newChannelNames.push(data[i]);
-                }
-            }else{
-                $scope.newChannelNames=[];
-            }
-            //console.log($scope.newChannelNames);
-        });
-    };
-    $scope.getNewChannelNames();
-
-    //获得活动目录------------------------------------------------------------------------------------------------------
-//    $scope.newActivityNames=[];
-//    $scope.getNewActivityNames=function(){
-//        var url=$scope.projectName+'/channel/activities';
-//        $http.get(url).success(function(data){
-//            if(data.length>0){
-//                for(i=0;i<data.length;i++){
-//                    $scope.newActivityNames.push(data[i]);
-//                }
-//            }else{
-//                $scope.newActivityNames=[];
-//            }
-//        });
-//    };
-//    $scope.getNewActivityNames();
     //关于上传图片的----------------------------------------------------------------------------------------------
 
 }]);

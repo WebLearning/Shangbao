@@ -234,11 +234,11 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
                 var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getCrawlerData(1);
+                    $scope.refreshCrawler();
                     alert("删除成功");
                 });
-            };
-        };
+            }
+        }
     };
 
     $scope.saveArticleSelections=function()

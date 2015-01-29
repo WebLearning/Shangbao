@@ -298,8 +298,8 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
                     $scope.getPendingPictureData(1);
                     alert("撤销成功");
                 });
-            };
-        };
+            }
+        }
     };
 //立刻发布--------------------------------------------------------------------------------------------------------
     $scope.publishPictureArticleSelections=function()
@@ -313,7 +313,7 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
                 $scope.getPendingPictureData(1);
                 alert("发布成功");
             });
-        };
+        }
     };
     //定时发布----------------------------------------------------------------------------------------------------------
     $scope.publishPictureArticleSelectionsTiming=function()

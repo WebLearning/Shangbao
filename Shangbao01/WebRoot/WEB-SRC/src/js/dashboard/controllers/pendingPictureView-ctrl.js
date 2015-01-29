@@ -248,21 +248,48 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     };
     $scope.getNewChannelNames();
 
-    //获得活动目录------------------------------------------------------------------------------------------------------
-//    $scope.newActivityNames=[];
-//    $scope.getNewActivityNames=function(){
-//        var url=$scope.projectName+'/channel/activities';
-//        $http.get(url).success(function(data){
-//            if(data.length>0){
-//                for(i=0;i<data.length;i++){
-//                    $scope.newActivityNames.push(data[i]);
-//                }
-//            }else{
-//                $scope.newActivityNames=[];
-//            }
-//        });
-//    };
-//    $scope.getNewActivityNames();
+    //添加功能----------------------------------------------------------------------------------------------------------
+    $scope.deletePictureArticleInPending=function()
+    {
+        var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        $http.delete(url).success(function(){
+//            clearArticleSelections();
+//            $scope.getPendingPictureData(1);
+            alert("撤销成功");
+        });
+    };
+    $scope.publishPictureArticleInPending=function()
+    {
+       var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+       $http.put(url).success(function(){
+//                clearArticleSelections();
+//                $scope.getPendingPictureData(1);
+           alert("发布成功");
+       });
+    };
+    $scope.publishPictureArticleInPendingTiming=function()
+    {
+        var myDate=new Date();
+        var myDateTime=myDate.getTime();
+        var str1=$scope.publishTimePictureInPending.substr(0,10);
+        var str2=$scope.publishTimePictureInPending.substr(11,16);
+        var str3=str1.concat(" ");
+        var str4=str3.concat(str2);
+        var str5=new Date(str4);
+        var myPublishedTime=str5.getTime();
+//            console.log(myDateTime);
+//            console.log(myPublishedTime);
+        var time=myPublishedTime-myDateTime;
+        console.log(time);
+        var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
+        console.log(url);
+        $http.get(url).success(function(){
+            alert("定时成功");
+           $('#Select_TimePictureInPending').modal('toggle');
+//         clearArticleSelections();
+//                $scope.getPendingPictureData(1);
+        });
+    };
     //关于上传图片的----------------------------------------------------------------------------------------------
 
 }]);

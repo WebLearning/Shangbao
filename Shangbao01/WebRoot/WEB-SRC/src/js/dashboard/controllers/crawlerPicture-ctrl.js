@@ -203,14 +203,14 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
                 var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getCrawlerPictureData(1);
+                    $scope.refreshCrawlerPicture();
                     alert("删除成功");
                 });
-            };
-        };
+            }
+        }
     };
 
-    $scope.saveArticleSelections=function()
+    $scope.savePictureArticleSelections=function()
     {
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
@@ -218,10 +218,47 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
             var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.getCrawlerPictureData(1);
+                $scope.refreshCrawlerPicture();
                 alert("转暂存成功");
             });
-        };
+        }
+    };
+    $scope.publishedPictureArticleSelectionsOutCrawlerPictureNow=function(){
+        if($scope.articleSelectionsUrl==""){
+            alert("未选取文章");
+        }else{
+            var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
+            $http.put(url).success(function(){
+                clearArticleSelections();
+                $scope.refreshCrawlerPicture();
+                alert("发布成功");
+            });
+        }
+    };
+    $scope.publishedPictureArticleSelectionsTimingOutCrawlerPicture=function()
+    {
+        var myDate=new Date();
+        var myDateTime=myDate.getTime();
+        var str1=$scope.publishTimeOutCrawlerPicture.substr(0,10);
+        var str2=$scope.publishTimeOutCrawlerPicture.substr(11,16);
+        var str3=str1.concat(" ");
+        var str4=str3.concat(str2);
+        var str5=new Date(str4);
+        var myPublishedTime=str5.getTime();
+        var time=myPublishedTime-myDateTime;
+        console.log(time);
+        if($scope.articleSelectionsUrl==""){
+            alert("未选取文章");
+        }else{
+            var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleSelectionsUrl+"/"+time;
+            console.log(url);
+            $http.get(url).success(function(){
+                alert("定时成功");
+                $('#Select_TimeOutCrawlerPicture').modal('toggle');
+                clearArticleSelections();
+                $scope.refreshCrawlerPicture();
+            });
+        }
     };
     //排序---------------------------------------------------------------------------------------------------------------
     var wordsOrderState="desc";

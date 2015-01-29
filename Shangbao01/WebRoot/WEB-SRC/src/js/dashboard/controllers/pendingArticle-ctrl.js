@@ -74,6 +74,47 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
             alert("提交审核文章成功");
         });
     };
+    $scope.deleteArticleInPending=function()
+    {
+        var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        $http.delete(url).success(function(){
+//            clearArticleSelections();
+//            $scope.getPendingData(1);
+            alert("撤销成功");
+        });
+    };
+    $scope.publishArticleNowInPending=function()
+    {
+        var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+           $http.put(url).success(function(){
+//                clearArticleSelections();
+//                $scope.getPendingData(1);
+               alert("发布成功");
+           });
+    };
+    $scope.publishArticleTimingInPending=function()
+    {
+        var myDate=new Date();
+        var myDateTime=myDate.getTime();
+        var str1=$scope.publishTimeInPending.substr(0,10);
+        var str2=$scope.publishTimeInPending.substr(11,16);
+        var str3=str1.concat(" ");
+        var str4=str3.concat(str2);
+        var str5=new Date(str4);
+        var myPublishedTime=str5.getTime();
+//            console.log(myDateTime);
+//            console.log(myPublishedTime);
+        var time=myPublishedTime-myDateTime;
+        console.log(time);
+        var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
+        console.log(url);
+        $http.get(url).success(function(){
+            alert("定时成功");
+            $('#Select_TimeInPending').modal('toggle');
+//                clearArticleSelections();
+//                $scope.getPendingData(1);
+        });
+    };
 
     //得到字数
     $scope.calculateWords=function()
