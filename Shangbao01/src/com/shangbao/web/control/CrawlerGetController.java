@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -151,13 +153,18 @@ public class CrawlerGetController {
 	 */
 	@RequestMapping(value = "/update/comment/{articleId}")
 	@ResponseBody
-	public Long updateComment(@PathVariable("articleId") Long articleId, @RequestBody List<SingleCommend> singleCommends){
+	public Long updateComment(@PathVariable("articleId") Long articleId, @RequestBody SingleCommend[] singleCommendArray){
 		Commend commend = new CrawlerCommend();
 		commend.setArticleId(articleId);
+		List<SingleCommend> singleCommends = Arrays.asList(singleCommendArray);
 		commendServiceImp.update(commend, singleCommends);
 		return null;
 	}
 	
+	/**
+	 * 删除爬虫文章
+	 * @param id
+	 */
 	@RequestMapping(value="/delete/article/{articleId:[\\d]+}", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteCrawlerArticle(@PathVariable("articleId") Long id){
@@ -166,7 +173,7 @@ public class CrawlerGetController {
 		Commend commend = new Commend();
 		commend.setArticleId(id);
 		articleServiceImp.deleteOne(article);
-		//commendServiceImp.d
+		commendServiceImp.delete(commend);
 	}
 	
 	private String stringToBody(Article article){

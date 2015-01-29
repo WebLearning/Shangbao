@@ -41,7 +41,14 @@ public class CommendDaoImp implements CommendDao {
 	@Override
 	public void delete(Commend criteriaElement) {
 		if(criteriaElement.getArticleId() > 0){
-			//if(criteriaElement instanceof )
+			if(criteriaElement instanceof NewsCommend){
+				mongoTemplate.remove(getQuery(criteriaElement), NewsCommend.class);
+			}else if(criteriaElement instanceof CrawlerCommend){
+				mongoTemplate.remove(getQuery(criteriaElement), CrawlerCommend.class);
+			}else{
+				mongoTemplate.remove(getQuery(criteriaElement), NewsCommend.class);
+				mongoTemplate.remove(getQuery(criteriaElement), CrawlerCommend.class);
+			}
 		}
 	}
 
@@ -49,6 +56,11 @@ public class CommendDaoImp implements CommendDao {
 	public void deleteAll() {
 	}
 
+	@Override
+	public void save(Commend commend){
+
+	}
+	
 	@Override
 	public boolean update(Commend criteriaElement, Commend updateElement) {
 		// TODO Auto-generated method stub
@@ -206,6 +218,8 @@ public class CommendDaoImp implements CommendDao {
 	@Override
 	public void update(Commend commend, Update update) {
 		Query query = getQuery(commend);
+		System.out.println(query.getQueryObject());
+		//System.out.println(update.getUpdateObject());
 		if (commend instanceof NewsCommend) {
 			WriteResult result = mongoTemplate.updateFirst(query, update, NewsCommend.class);
 		} else if (commend instanceof CrawlerCommend) {

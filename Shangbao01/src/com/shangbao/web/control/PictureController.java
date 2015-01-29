@@ -207,8 +207,8 @@ public class PictureController {
 	 * @param article
 	 */
 	@RequestMapping(value = "/{articleState}/{pageNo}/{id:[\\d]+}", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.OK)
-	public void modifyOne(@PathVariable("articleState") ArticleState state,
+	@ResponseBody
+	public boolean modifyOne(@PathVariable("articleState") ArticleState state,
 			@PathVariable("id") Long id, @RequestBody Article article) {
 		if (state.equals(ArticleState.Crawler)
 				|| state.equals(ArticleState.Revocation)
@@ -220,7 +220,9 @@ public class PictureController {
 				article.getLogs().add(message);
 			}
 			pictureServiceImp.update(article);
+			return true;
 		}
+		return false;
 	}
 	
 	/**

@@ -60,6 +60,8 @@ public interface CommendService {
 	 */
 	void delete(Commend commend, List<String> singleCommendIds);
 	
+	void delete(Commend commend);
+	
 	/**
 	 * 获取所有文章评论信息
 	 * @param pageNo 页码

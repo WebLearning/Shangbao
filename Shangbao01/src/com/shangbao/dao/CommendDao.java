@@ -17,4 +17,5 @@ public interface CommendDao extends MongoDao<Commend> {
 	void update(Commend commend, Update update);
 	void update(Commend commend, Query query, Update update);
 	Page<Article> getPage(int pageNo, int pageSize, Query query);
+	void save(Commend commend);
 }

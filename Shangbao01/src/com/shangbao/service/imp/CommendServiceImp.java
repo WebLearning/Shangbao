@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -31,6 +32,7 @@ import com.shangbao.model.show.CommendPage;
 import com.shangbao.model.show.Page;
 import com.shangbao.model.show.SingleCommend;
 import com.shangbao.service.CommendService;
+import com.shangbao.service.PendTagService;
 
 @Service
 public class CommendServiceImp implements CommendService {
@@ -40,6 +42,9 @@ public class CommendServiceImp implements CommendService {
 	
 	@Resource
 	private ArticleDao articleDaoImp;
+	
+	@Resource
+	private PendTagService pendTagServiceImp;
 
 	@Override
 	public void add(Commend commend){
@@ -101,11 +106,21 @@ public class CommendServiceImp implements CommendService {
 			}
 			commend.setArticleTitle(articles.get(0).getTitle());
 			commend.setState(articles.get(0).getState());
+			if(pendTagServiceImp.isTag("comment") || commend instanceof CrawlerCommend){
+				singleCommend.setState(CommendState.unpublished);
+			}else{
+				singleCommend.setState(CommendState.published);
+			}
 			singleCommend.setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()) + (int)(Math.random()*1000) + "" + (int)(Math.random()*1000));
 			commend.getCommendList().add(singleCommend);
 			commendDaoImp.insert(commend);
 		}else{
 			Update updateElement = new Update();
+			if(pendTagServiceImp.isTag("comment") || commend instanceof CrawlerCommend){
+				singleCommend.setState(CommendState.unpublished);
+			}else{
+				singleCommend.setState(CommendState.published);
+			}
 			singleCommend.setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()) + (int)(Math.random()*1000) + "" + (int)(Math.random()*1000));
 			updateElement.push("commendList", singleCommend);
 			commendDaoImp.update(commend, updateElement);
@@ -119,6 +134,9 @@ public class CommendServiceImp implements CommendService {
 			articleDaoImp.update(article, update);
 		}else{
 			update.inc("newsCommends", 1);
+			if(!pendTagServiceImp.isTag("comment")){
+				update.inc("newsCommendsPublish", 1);
+			}
 			articleDaoImp.update(article, update);
 		}
 	}
@@ -131,6 +149,7 @@ public class CommendServiceImp implements CommendService {
 
 	@Override
 	public void update(Commend commend, List<SingleCommend> singeCommends) {
+		List<Commend> commends = commendDaoImp.find(commend);
 		Update update = new Update();
 		List<SingleCommend> singleUpdateCommends = new ArrayList<>();
 		if(singeCommends != null && !singeCommends.isEmpty()){
@@ -139,7 +158,14 @@ public class CommendServiceImp implements CommendService {
 				singleCommend.setState(CommendState.unpublished);
 				singleUpdateCommends.add(singleCommend);
 			}
-			update.pushAll("commendList", singleUpdateCommends.toArray());
+			if(commends == null || commends.isEmpty()){
+				commend.setCommendList(singleUpdateCommends);
+				commendDaoImp.insert(commend);
+				return;
+			}
+			for(SingleCommend singleCommend : singleUpdateCommends){
+				update.push("commendList", singleCommend);
+			}
 			commendDaoImp.update(commend, update);
 		}
 	}
@@ -220,6 +246,11 @@ public class CommendServiceImp implements CommendService {
 				articleDaoImp.update(article, update);
 			}
 		}
+	}
+	
+	@Override
+	public void delete(Commend commend){
+		commendDaoImp.delete(commend);
 	}
 
 	@Override
