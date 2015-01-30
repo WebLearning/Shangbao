@@ -38,4 +38,6 @@ public interface UserService {
 	List<Article> findCollectArticle(User criteriaUser);
 	
 	void deleteCollectionArticle(User criteriaUser, Long articleId);
+	
+	boolean updatePasswd(User criteriaUser, String oldPasswd, String newPasswd);
 }

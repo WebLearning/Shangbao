@@ -64,11 +64,28 @@ public class UserController {
 		return null;
 	}
 	
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	@ResponseBody
+	public boolean updateUser(@RequestBody Update update){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(update.oldPasswd != null & update.newPasswd != null){
+			String oldPasswd = passwordEncoder.encodePassword(update.oldPasswd, null);
+			String newPasswd = passwordEncoder.encodePassword(update.newPasswd, null);
+			return userService.updatePasswd(user, oldPasswd, newPasswd);
+		}
+		return false;
+	}
+	
 	@RequestMapping(value="/userinfo", method=RequestMethod.GET)
 	@ResponseBody
 	public User getUserInfo(){
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		user.setPasswd("");
 		return user;
+	}
+	
+	public class Update{
+		public String oldPasswd;
+		public String newPasswd;
 	}
 }

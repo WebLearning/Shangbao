@@ -92,4 +92,16 @@ public class UserServiceImp implements UserService {
 		}
 	}
 
+	@Override
+	public boolean updatePasswd(User criteriaUser, String oldPasswd,
+			String newPasswd) {
+		User user = userDaoImp.findById(criteriaUser.getId());
+		if(user != null && user.getPasswd().equals(oldPasswd)){
+			user.setPasswd(newPasswd);
+			userDaoImp.save(user);
+			return true;
+		}
+		return false;
+	}
+
 }
