@@ -1,5 +1,6 @@
 package com.shangbao.phone.control;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -129,6 +130,7 @@ public class AppUserController {
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(user.getName() != null && user.getId() > 0){
 			List<Article> articles = userServiceImp.findCollectArticle(user);
+			Collections.reverse(articles);
 			Page<Article> page = new Page<>(pageNo, 10, articles.size());
 			columnPageModel.setCurrentNo(pageNo);
 			columnPageModel.setPageCount(page.getTotalPage());

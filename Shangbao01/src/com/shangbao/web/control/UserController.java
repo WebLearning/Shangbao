@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.shangbao.model.PasswdModel;
 import com.shangbao.model.persistence.User;
 import com.shangbao.service.UserService;
 
@@ -66,11 +67,11 @@ public class UserController {
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	@ResponseBody
-	public boolean updateUser(@RequestBody Update update){
+	public boolean updateUser(@RequestBody PasswdModel passwdModel){
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(update.oldPasswd != null & update.newPasswd != null){
-			String oldPasswd = passwordEncoder.encodePassword(update.oldPasswd, null);
-			String newPasswd = passwordEncoder.encodePassword(update.newPasswd, null);
+		if(passwdModel.getNewPasswd() != null & passwdModel.getOldPasswd() != null){
+			String oldPasswd = passwordEncoder.encodePassword(passwdModel.getNewPasswd(), null);
+			String newPasswd = passwordEncoder.encodePassword(passwdModel.getOldPasswd(), null);
 			return userService.updatePasswd(user, oldPasswd, newPasswd);
 		}
 		return false;
@@ -82,10 +83,5 @@ public class UserController {
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		user.setPasswd("");
 		return user;
-	}
-	
-	public class Update{
-		public String oldPasswd;
-		public String newPasswd;
 	}
 }
