@@ -204,40 +204,68 @@
             </div>
             <div class="user pull-right">
               <div class="item dropdown">
-                <a ng-href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                  <img src="img/avatar.jpg">
+                <a ng-href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    <!--<img src="img/avatar.jpg">-->
+                    <i class="glyphicon glyphicon-bell"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-right">
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li>
+                    <a href="" data-toggle="modal" data-target="#modify_passWord1">修改密码</a>
+                  </li>
+                  <li>
+                     <a href="">忘记密码</a>
+                  </li>
+                  <li class="divider"></li>
                   <li class="dropdown-header">
-                    QK
+                    <a href="">退出</a>
                   </li>
-                  <li class="divider"></li>
-                  <li class="link">
-                    <a href="#">
-                      概况
-                    </a>
+                  <li>
+                    <a href="">测试</a>
                   </li>
-                  <li class="link">
-                    <a href="#">
-                      菜单1
-                    </a>
-                  </li>
-                  <li class="link">
-                    <a href="#">
-                      菜单2
-                    </a>
-                  </li>
-                  <li class="divider"></li>
-                  <li class="link">
-                    <a href="#">
-                      登出
-                    </a>
-                  </li>
-                </ul>               
+                </ul>
+                  <div class="modal fade" id="modify_passWord1" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                  <!--<div class="pull-left">-->
+                                      <h4 class="modal-title">修改密码</h4>
+                                  <!--</div>                                 -->
+                              </div>
+                              <div class="modal-body">
+                                  <form class="form-horizontal" role="form">
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">旧密码</label>
+                                          <div class="col-md-8">
+                                              <input type="password" class="form-control" id="change_oldPasswd1" placeholder="请输入新密码" ng-model="changePassWord.oldPasswd">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">新密码</label>
+                                          <div class="col-md-8">
+                                              <input type="password" class="form-control" id="change_passwd11" placeholder="请输入新密码" ng-model="changePassWord.newPasswd">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">确认新密码</label>
+                                          <div class="col-md-8">
+                                              <input type="password" class="form-control" id="change_passwd21" placeholder="请再次输入新密码" ng-model="newPassword1">
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                  <button type="button" class="btn btn-primary" ng-click="modifyPassWord1()">确认</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
               </div>
               <div class="item dropdown">
                <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                  <i class="glyphicon glyphicon-bell"></i>
+                  <!--<i class="glyphicon glyphicon-bell"></i>-->
+                   <img src="img/avatar.jpg">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                   <li class="dropdown-header">
@@ -2239,7 +2267,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <table class="table table-bordered" text-align="right">
                             <thead>
                             <tr>
@@ -2251,19 +2279,19 @@
                                 <td>
                                     <form class="form-horizontal" role="form">
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">用户名</label>
+                                            <label class="col-md-3 control-label">账号</label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" id="add_userName" placeholder="请输入用户名" ng-model="addUserInfo.name">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">输入密码</label>
+                                            <label class="col-md-3 control-label">密码</label>
                                             <div class="col-md-9">
                                                 <input type="password" class="form-control" id="add_passWord" placeholder="请输入密码" ng-model="addUserInfo.passwd">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">再次输入密码</label>
+                                            <label class="col-md-3 control-label">确认密码</label>
                                             <div class="col-md-9">
                                                 <input type="password" class="form-control" id="add_passwd" placeholder="请再次输入密码" ng-model="elsePassword">
                                             </div>
@@ -2281,7 +2309,43 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="testTooltip">测试tooltip</button>
+                        <a href="" data-toggle="modal" data-target="#modify_passWord">修改密码</a>
+                    </div>
+                    <div class="modal fade" id="modify_passWord" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title">修改密码</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">旧密码</label>
+                                            <div class="col-md-8">
+                                                <input type="password" class="form-control" id="change_oldPasswd" placeholder="请输入新密码" ng-model="changePassWord.oldPasswd">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">新密码</label>
+                                            <div class="col-md-8">
+                                                <input type="password" class="form-control" id="change_passwd1" placeholder="请输入新密码" ng-model="changePassWord.newPasswd">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">确认新密码</label>
+                                            <div class="col-md-8">
+                                                <input type="password" class="form-control" id="change_passwd2" placeholder="请再次输入新密码" ng-model="newPassword1">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <button type="button" class="btn btn-primary" ng-click="modifyPassWord()">确认</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

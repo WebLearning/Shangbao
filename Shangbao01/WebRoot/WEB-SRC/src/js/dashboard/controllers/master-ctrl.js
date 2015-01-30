@@ -1181,6 +1181,51 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }else{
             $http.post(url,$scope.addUserInfo).success(function(){
                 alert("注册成功！");
+                $scope.clearUserInfo();
+                $scope.addUserInfo.name="";
+            });
+        }
+    };
+    //修改密码-----------------------------------------------------------------------------------------------------------
+    $scope.changePassWord={
+        oldPasswd:"",
+        newPasswd:""
+    };
+    $scope.clearModifyPassword=function(){
+        $scope.changePassWord.newPasswd="";
+        $scope.newPassword1="";
+    };
+    $scope.newPassword1="";
+    $scope.modifyPassWord=function(){
+        var url=$scope.projectName+"/user/update";
+        console.log(url);
+        console.log($scope.changePassWord);
+        if($scope.changePassWord.newPasswd!=$scope.newPassword1){
+            alert("两次输入的新密码不一致！");
+            $scope.clearModifyPassword();
+        }else{
+            $http.post(url,$scope.changePassWord).success(function(data){
+                console.log(data);
+                $scope.clearModifyPassword();
+                $scope.changePassWord.oldPasswd="";
+                $('#modify_passWord').modal('toggle');
+            });
+        }
+    };
+    //测试修改密码------------------------------------------------------------------------------------------------------
+    $scope.modifyPassWord1=function(){
+        var url=$scope.projectName+"/user/update";
+        console.log(url);
+        console.log($scope.changePassWord);
+        if($scope.changePassWord.newPasswd!=$scope.newPassword1){
+            alert("两次输入的新密码不一致！");
+            $scope.clearModifyPassword();
+        }else{
+            $http.post(url,$scope.changePassWord).success(function(data){
+                console.log(data);
+                $scope.clearModifyPassword();
+                $scope.changePassWord.oldPasswd="";
+                $('#modify_passWord1').modal('toggle');
             });
         }
     };
