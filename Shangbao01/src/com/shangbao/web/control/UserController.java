@@ -70,8 +70,8 @@ public class UserController {
 	public boolean updateUser(@RequestBody PasswdModel passwdModel){
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(passwdModel.getNewPasswd() != null & passwdModel.getOldPasswd() != null){
-			String oldPasswd = passwordEncoder.encodePassword(passwdModel.getNewPasswd(), null);
-			String newPasswd = passwordEncoder.encodePassword(passwdModel.getOldPasswd(), null);
+			String oldPasswd = passwordEncoder.encodePassword(passwdModel.getOldPasswd(), null);
+			String newPasswd = passwordEncoder.encodePassword(passwdModel.getNewPasswd(), null);
 			return userService.updatePasswd(user, oldPasswd, newPasswd);
 		}
 		return false;
