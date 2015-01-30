@@ -2,6 +2,7 @@ package com.shangbao.service;
 
 import java.util.List;
 
+import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.TitleList;
 
@@ -32,4 +33,7 @@ public interface UserService {
 	
 	TitleList getUserArticle(User user);
 	
+	void collectArticle(User criteriaUser, Long articleId);
+	
+	List<Article> findCollectArticle(User criteriaUser);
 }

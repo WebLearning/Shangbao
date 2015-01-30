@@ -6,19 +6,24 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.shangbao.app.model.ColumnPageModel;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.User;
+import com.shangbao.model.show.Page;
 import com.shangbao.service.ArticleService;
 import com.shangbao.service.UserService;
 
@@ -82,6 +87,45 @@ public class AppUserController {
 		return columnPageModel;
 	}
 
+	/**
+	 * 用户收藏一篇文章
+	 * @param articleId
+	 */
+	@RequestMapping(value="/colletion/articles/{articleId}", method=RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public void collectArticle(@PathVariable("articleId") Long articleId){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(user.getName() != null && user.getId() > 0){
+			userServiceImp.collectArticle(user, articleId);
+		}
+	}
+	
+	
+	
+	/**
+	 * 获取用户收藏的文章
+	 * @param pageNo
+	 * @return
+	 */
+	@RequestMapping(value="/colletion/articles/{pageNo}", method=RequestMethod.GET)
+	@ResponseBody
+	public ColumnPageModel getCollectionArticle(@PathVariable("pageNo") int pageNo){
+		ColumnPageModel columnPageModel = new ColumnPageModel();
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(user.getName() != null && user.getId() > 0){
+			List<Article> articles = userServiceImp.findCollectArticle(user);
+			Page<Article> page = new Page<>(pageNo, 10, articles.size());
+			columnPageModel.setCurrentNo(pageNo);
+			columnPageModel.setPageCount(page.getTotalPage());
+			int index = 1;
+			for(Article article : articles.subList(page.getFirstResult(), page.getLastResult())){
+				columnPageModel.addNewsTitle(article, index);
+				index ++;
+			}
+		}
+		return columnPageModel;
+	}
+	
 	public UserService getUserServiceImp() {
 		return userServiceImp;
 	}

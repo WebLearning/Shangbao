@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.shangbao.dao.ArticleDao;
 import com.shangbao.dao.UserDao;
+import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.TitleList;
@@ -18,29 +19,29 @@ import com.shangbao.service.UserService;
 public class UserServiceImp implements UserService {
 
 	@Resource
-	private UserDao userDao;
+	private UserDao userDaoImp;
 	@Resource 
 	private ArticleDao articleDaoImp;
 	
 	@Override
 	public void addUser(User user) {
-		userDao.insert(user);
+		userDaoImp.insert(user);
 	}
 
 	@Override
 	public List<User> listUsers() {
-		List<User> userList = userDao.findAll();
+		List<User> userList = userDaoImp.findAll();
 		return userList;
 	}
 
 	@Override
 	public void deleteOne(User user) {
-		userDao.delete(user);
+		userDaoImp.delete(user);
 	}
 
 	@Override
 	public User findOne(User user) {
-		return userDao.find(user).get(0);
+		return userDaoImp.find(user).get(0);
 	}
 
 	@Override
@@ -53,6 +54,33 @@ public class UserServiceImp implements UserService {
 		List<Article> articles = new ArrayList<>();
 		
 		return articles;
+	}
+
+	@Override
+	public void collectArticle(User criteriaUser, Long articleId) {
+		User user = userDaoImp.findById(criteriaUser.getId());
+		if(user.getCollection() != null && user.getCollection().contains(articleId)){
+			return;
+		}else{
+			user.getCollection().add(articleId);
+			userDaoImp.save(user);
+		}
+	}
+
+	@Override
+	public List<Article> findCollectArticle(User criteriaUser) {
+		List<Article> articleList = new ArrayList<>();
+		User user = userDaoImp.findById(criteriaUser.getId());
+		List<Long> articleIdList = user.getCollection();
+		if(articleIdList != null && !articleIdList.isEmpty()){
+			for(Long articleId : articleIdList){
+				Article article = articleDaoImp.findById(articleId);
+				if(article.getState().equals(ArticleState.Published)){
+					articleList.add(article);
+				}
+			}
+		}
+		return articleList;
 	}
 
 }

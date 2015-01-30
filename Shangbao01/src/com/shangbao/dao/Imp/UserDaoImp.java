@@ -114,7 +114,11 @@ public class UserDaoImp implements UserDao {
 //        Update update = Update.update("name", user.getName()).set("age", user.getAge());  
 //        mongoTemplate.updateMulti(query, update, User.class); 
     	return false;
-    }  
+    }
+    
+    public void save(User user){
+    	mongoTemplate.save(user);
+    }
      
     public List<User> find(User user){
     	Query query = this.getQuery(user);

@@ -27,6 +27,7 @@ public class User implements UserDetails {
 	private Date birthday;
 	private int qq;
 	private String role;
+	private List<Long> collection = new ArrayList<>();
 	
 	public String getRole() {
 		return role;
@@ -97,6 +98,12 @@ public class User implements UserDetails {
 	}
 	public void setQq(int qq) {
 		this.qq = qq;
+	}
+	public List<Long> getCollection() {
+		return collection;
+	}
+	public void setCollection(List<Long> collection) {
+		this.collection = collection;
 	}
 	public String toString(){
 		return "ID:" + "  Name:" + this.name + "  Passwd:" + this.passwd + " Role:" + this.role;

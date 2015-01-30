@@ -10,4 +10,5 @@ import com.shangbao.model.show.TitleList;
 
 public interface UserDao extends MongoDao<User> {
 	Page<User> getPage(int pageNo, int pageSize, Query query);
+	void save(User user);
 }
