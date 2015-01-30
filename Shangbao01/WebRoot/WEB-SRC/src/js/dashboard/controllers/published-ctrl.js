@@ -71,7 +71,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
     $scope.transDataToArticleData=function(data)
     {
         for(p in $scope.articleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 for(i in data[p]){
                     $scope.articleData[p][i]=data[p][i];
                 }

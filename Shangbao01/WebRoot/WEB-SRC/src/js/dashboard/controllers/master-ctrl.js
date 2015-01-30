@@ -1161,4 +1161,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             return "btn btn-md btn-info";
         }
     };
+    //添加用户----------------------------------------------------------------------------------------------------------
+    $scope.addUserInfo={
+        name:"",
+        passwd:""
+    };
+    $scope.addUserInformation=function(){
+        var url=$scope.projectName+"/user/register";
+        console.log(url);
+        console.log($scope.addUserInfo);
+        $http.post(url,$scope.addUserInfo).success(function(){
+            alert("注册成功！");
+        })
+    };
 }]);
