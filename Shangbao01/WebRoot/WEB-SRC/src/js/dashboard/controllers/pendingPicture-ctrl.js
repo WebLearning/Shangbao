@@ -343,6 +343,18 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
             });
         }
     };
+    $scope.checkModifyNoteInPendingPicture=function(id){
+        var url=$scope.projectName+"/article/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/"+id+"/log";
+        console.log(url);
+        $http.get(url).success(function(data){
+            console.log(data);
+            if(data.length>0){
+                alert("操作记录："+"["+data+"]");
+            }else{
+                alert("无记录");
+            }
+        });
+    };
 
     //页面跳转------------------------------------------------------------------------------------------------------------
     $scope.turnToPage=function(pageNum)

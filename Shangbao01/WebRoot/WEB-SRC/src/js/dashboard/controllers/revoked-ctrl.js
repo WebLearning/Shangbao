@@ -184,7 +184,7 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
             $scope.articleSelectionsUrl="";
         }
         $scope.getRevokedData($scope.revokedData.currentNo);
-    };
+    }
     //对选取的文章进行操作
     $scope.deleteArticleSelections=function()
     {
@@ -199,8 +199,8 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
                     $scope.getRevokedData(1);
                     alert("删除成功");
                 });
-            };
-        };
+            }
+        }
     };
 
     $scope.saveArticleSelections=function()
@@ -214,9 +214,20 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
                 $scope.getRevokedData(1);
                 alert("转暂存成功");
             });
-        };
+        }
     };
-
+    $scope.checkModifyNoteInRevoked=function(id){
+        var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/"+id+"/log";
+        console.log(url);
+        $http.get(url).success(function(data){
+            console.log(data);
+            if(data.length>0){
+                alert("操作记录："+"["+data+"]");
+            }else{
+                alert("无记录");
+            }
+        });
+    };
     //排序---------------------------------------------------------------------------------------------------------------
     var wordsOrderState="desc";
     $scope.orderByWords=function(){

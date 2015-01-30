@@ -22,6 +22,7 @@
   <script type="text/javascript" src="js/angular-cookies.js"></script>
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <script type="text/javascript" src="js/bootstrapCtrl.js"></script>
+    <script type="text/javascript" src="js/bootstrap-popover.js"></script>
 
     <script type="text/javascript" src="../ueditor/ueditor.config.js"></script>
     <script type="text/javascript" src="../ueditor/ueditor.all.js"></script>
@@ -549,7 +550,7 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in crawlerData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td><a href="" ng-click="checkModifyNoteInCrawler(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
@@ -803,20 +804,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th>修改记录</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="log1 in articleData.logs">
-                                <td>{{log1}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="pendingTrial" ng-controller="pendingCtrl">
@@ -859,7 +846,7 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in pendingData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td><a href="" ng-click="checkModifyNoteInPending(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
@@ -1067,25 +1054,24 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 8%">标题</th>
-                                        <th style="width: 6%">作者</th>
+                                        <th style="width: 8%">作者</th>
                                         <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 6%">来源</th>
-                                        <th style="width: 8%">分类</th>
-                                        <th style="width: 4%">等级</th>
+                                        <th style="width: 10%">分类</th>
+                                        <th style="width: 5%">等级</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <th style="width: 12%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
                                         <th style="width: 16%">摘要</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
                                         <th style="width: 8%">活动</th>
                                         <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
-                                        <th style="width: 6%">查看记录</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="tileObj in publishedData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td><a href="" ng-click="checkModifyNote(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
@@ -1100,7 +1086,6 @@
                                         <td>
                                             <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
                                         </td>
-                                        <td><button type="button" class="btn btn-sm btn-default" data-toggle="tooltip" data-placement="right" title="" ng-click="">查看</button></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -1317,20 +1302,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th>修改记录</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="log1 in articleData.logs track by $index">
-                                <td style="color: #a9a9a9">{{log1}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="revoked" ng-controller="revokedCtrl">
@@ -1373,7 +1344,7 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in revokedData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td><a href="" ng-click="checkModifyNoteInRevoked(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
@@ -1632,7 +1603,7 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in tempData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td><a href="" ng-click="checkModifyNoteInDraft(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
@@ -2268,7 +2239,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <table class="table table-bordered" text-align="right">
                             <thead>
                             <tr>
@@ -2286,9 +2257,15 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-3 control-label">密码</label>
+                                            <label class="col-md-3 control-label">输入密码</label>
                                             <div class="col-md-9">
                                                 <input type="password" class="form-control" id="add_passWord" placeholder="请输入密码" ng-model="addUserInfo.passwd">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">再次输入密码</label>
+                                            <div class="col-md-9">
+                                                <input type="password" class="form-control" id="add_passwd" placeholder="请再次输入密码" ng-model="elsePassword">
                                             </div>
                                         </div>
                                     </form>
@@ -2584,7 +2561,7 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in crawlerPictureData.tileList">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td><a href="" ng-click="checkModifyNoteInCrawlerPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
@@ -2910,7 +2887,7 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in pendingPictureData.tileList">
                                         <td><a href="" ng-click="goNewPictureArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td><a href="" ng-click="checkModifyNoteInPendingPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
@@ -3135,7 +3112,7 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in publishedPictureData.tileList">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td><a href="" ng-click="checkModifyNoteInPublishedPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
@@ -3393,7 +3370,7 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in revokedPictureData.tileList">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td><a href="" ng-click="checkModifyNoteInRevokedPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
@@ -3673,7 +3650,7 @@
                                     <tbody>
                                     <tr ng-repeat="tileObj in tempPictureData.tileList">
                                         <td><a href="" ng-click="goNewPictureArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td>{{checkIfNull(tileObj.author)}}</td>
+                                        <td><a href="" ng-click="checkModifyNoteInDraftPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>

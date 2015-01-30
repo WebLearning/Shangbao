@@ -329,14 +329,6 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }
     };
     //定时发布----------------------------------------------------------------------------------------------------------
-//    $scope.pulishedTiming=function(){
-//        if($scope.articleSelectionUrl==""){
-//            alert("未选取文章");
-//        }else{
-//            return "#Select_Time";
-//        }
-//    };
-//    $scope.Time="";
     $scope.publishArticleSelectionsTiming=function()
     {
             var myDate=new Date();
@@ -363,6 +355,18 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
                     $scope.refreshPending();
                 });
             }
+    };
+    $scope.checkModifyNoteInPending=function(id){
+        var url=$scope.projectName+"/article/Crawler/"+($scope.pendingData.currentNo).toString()+"/"+id+"/log";
+        console.log(url);
+        $http.get(url).success(function(data){
+            console.log(data);
+            if(data.length>0){
+                alert("操作记录："+"["+data+"]");
+            }else{
+                alert("无记录");
+            }
+        });
     };
 
     //页面跳转------------------------------------------------------------------------------------------------------------

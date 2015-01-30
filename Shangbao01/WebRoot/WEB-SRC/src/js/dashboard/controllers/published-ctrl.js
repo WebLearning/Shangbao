@@ -299,4 +299,17 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
             }
         }
     };
+    //查看修改记录------------------------------------------------------------------------------------------------------
+    $scope.checkModifyNote=function(id){
+        var url=$scope.projectName+"/article/Published/"+($scope.publishedData.currentNo).toString()+"/"+id+"/log";
+        console.log(url);
+        $http.get(url).success(function(data){
+            console.log(data);
+            if(data.length>0){
+                alert("操作记录："+"["+data+"]");
+            }else{
+                alert("无记录");
+            }
+        });
+    };
 }]);

@@ -266,6 +266,19 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             });
         }
     };
+    //查看修改记录------------------------------------------------------------------------------------------------------
+    $scope.checkModifyNoteInDraft=function(id){
+        var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/"+id+"/log";
+        console.log(url);
+        $http.get(url).success(function(data){
+            console.log(data);
+            if(data.length>0){
+                alert("操作记录："+"["+data+"]");
+            }else{
+                alert("无记录");
+            }
+        });
+    };
 
     //排序---------------------------------------------------------------------------------------------------------------
     var wordsOrderState="desc";

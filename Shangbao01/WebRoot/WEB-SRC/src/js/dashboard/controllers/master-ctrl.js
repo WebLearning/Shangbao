@@ -1166,12 +1166,22 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         name:"",
         passwd:""
     };
+    $scope.elsePassword="";
+    $scope.clearUserInfo=function(){
+        $scope.addUserInfo.passwd="";
+        $scope.elsePassword="";
+    };
     $scope.addUserInformation=function(){
         var url=$scope.projectName+"/user/register";
         console.log(url);
         console.log($scope.addUserInfo);
-        $http.post(url,$scope.addUserInfo).success(function(){
-            alert("注册成功！");
-        })
+        if($scope.addUserInfo.passwd!=$scope.elsePassword){
+            alert("两次输入密码不一致！");
+            $scope.clearUserInfo();
+        }else{
+            $http.post(url,$scope.addUserInfo).success(function(){
+                alert("注册成功！");
+            });
+        }
     };
 }]);
