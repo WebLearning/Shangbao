@@ -36,4 +36,6 @@ public interface UserService {
 	void collectArticle(User criteriaUser, Long articleId);
 	
 	List<Article> findCollectArticle(User criteriaUser);
+	
+	void deleteCollectionArticle(User criteriaUser, Long articleId);
 }

@@ -83,4 +83,13 @@ public class UserServiceImp implements UserService {
 		return articleList;
 	}
 
+	@Override
+	public void deleteCollectionArticle(User criteriaUser, Long articleId) {
+		User user = userDaoImp.findById(criteriaUser.getId());
+		if(user.getCollection() != null && user.getCollection().contains(articleId)){
+			user.getCollection().remove(articleId);
+			userDaoImp.save(user);
+		}
+	}
+
 }

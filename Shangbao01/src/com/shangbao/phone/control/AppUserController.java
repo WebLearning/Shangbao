@@ -91,7 +91,7 @@ public class AppUserController {
 	 * 用户收藏一篇文章
 	 * @param articleId
 	 */
-	@RequestMapping(value="/colletion/articles/{articleId}", method=RequestMethod.POST)
+	@RequestMapping(value="/collection/articles/{articleId}", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public void collectArticle(@PathVariable("articleId") Long articleId){
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -100,14 +100,25 @@ public class AppUserController {
 		}
 	}
 	
-	
+	/**
+	 * 删除用户的一篇收藏文章
+	 * @param articleId
+	 */
+	@RequestMapping(value="/collection/articles/{articleId}", method=RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteArticles(@PathVariable("articleId") Long articleId){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(user.getName() != null && user.getId() > 0){
+			userServiceImp.deleteCollectionArticle(user, articleId);
+		}
+	}
 	
 	/**
 	 * 获取用户收藏的文章
 	 * @param pageNo
 	 * @return
 	 */
-	@RequestMapping(value="/colletion/articles/{pageNo}", method=RequestMethod.GET)
+	@RequestMapping(value="/collection/articles/{pageNo}", method=RequestMethod.GET)
 	@ResponseBody
 	public ColumnPageModel getCollectionArticle(@PathVariable("pageNo") int pageNo){
 		ColumnPageModel columnPageModel = new ColumnPageModel();

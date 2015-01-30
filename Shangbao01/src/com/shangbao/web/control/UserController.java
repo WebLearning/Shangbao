@@ -17,7 +17,7 @@ import com.shangbao.model.persistence.User;
 import com.shangbao.service.UserService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping(value="/user")
 public class UserController {
 	@Resource
 	private UserService userService;
