@@ -135,44 +135,44 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
     };
 
     //排序---------------------------------------------------------------------------------------------------------------
-    var orderState="none";
+    var orderState="desc";
     $scope.orderByState=function(){
-        if(orderState=="none"){
+        if(orderState=="desc"){
 //            $scope.orderCondition="/state";
-            $scope.transOrderConditions("/state");
-            orderState="state";
-        }else if(orderState=="state"){
-            $scope.transOrderConditions("");
-            orderState="none"
+            $scope.transOrderConditions("/state/asc");
+            orderState="asc";
+        }else if(orderState=="asc"){
+            $scope.transOrderConditions("/state/desc");
+            orderState="desc";
 //            $scope.getCommentData(1);
         }
         $scope.getCommentData(1);
     };
-    var orderNewsCommends="none";
+    var orderNewsCommends="desc";
     $scope.orderByNewsCommends=function(){
-        if(orderNewsCommends=="none"){
+        if(orderNewsCommends=="desc"){
 //            $scope.orderCondition="/newsCommends";
-            $scope.transOrderConditions("/newsCommends");
-            orderNewsCommends="newsCommends";
+            $scope.transOrderConditions("/newsCommends/asc");
+            orderNewsCommends="asc";
 //            $scope.getCommentData(1);
-        }else if(orderNewsCommends=="newsCommends"){
+        }else if(orderNewsCommends=="asc"){
 //            $scope.orderCondition="";
-            $scope.transOrderConditions("");
-            orderNewsCommends="none";
+            $scope.transOrderConditions("/newsCommends/desc");
+            orderNewsCommends="desc";
         }
         $scope.getCommentData(1);
     };
-    var orderCrawlerCommends="none";
+    var orderCrawlerCommends="desc";
     $scope.orderByCrawlerCommends=function(){
-        if(orderCrawlerCommends=="none"){
+        if(orderCrawlerCommends=="desc"){
 //            $scope.orderCondition="/crawlerCommends";
-            $scope.transOrderConditions("/crawlerCommends");
-            orderCrawlerCommends="crawlerCommends";
+            $scope.transOrderConditions("/crawlerCommends/asc");
+            orderCrawlerCommends="asc";
 //            $scope.getCommentData(1);
-        }else if(orderCrawlerCommends=="crawlerCommends"){
+        }else if(orderCrawlerCommends=="asc"){
 //            $scope.orderCondition="";
-            $scope.transOrderConditions("");
-            orderCrawlerCommends="none";
+            $scope.transOrderConditions("/crawlerCommends/desc");
+            orderCrawlerCommends="desc";
 //            $scope.getCommentData(1);
         }
         $scope.getCommentData(1);
