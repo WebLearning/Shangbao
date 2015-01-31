@@ -21,7 +21,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     $scope.clearArticle=function()
     {
         for(p in $scope.articleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
             }else{
                 $scope.articleData[p]="";

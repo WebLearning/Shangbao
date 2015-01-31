@@ -22,7 +22,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     {
         //导入数据
         for(p in $scope.articleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 for(i in $scope.recvData[p]){
                     $scope.articleData[p][i]=$scope.recvData[p][i];
                 }
@@ -50,7 +50,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     $scope.clearArticle=function()
     {
         for(p in $scope.articleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
             }else{
                 $scope.articleData[p]="";

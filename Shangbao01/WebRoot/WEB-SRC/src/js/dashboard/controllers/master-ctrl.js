@@ -32,6 +32,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         newsCommends: null,
         newsCommendsPublish: null,
         picturesUrl: [],
+        logs:[],
         subTitle: "",
         summary: "",
         state:null,
@@ -39,8 +40,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         time: "",
         title: "",
         titlePicUrl: null,
-        words: null,
-        logs:[]
+        words: null
+//        logs:[]
     };
 
     $scope.newArticleData={

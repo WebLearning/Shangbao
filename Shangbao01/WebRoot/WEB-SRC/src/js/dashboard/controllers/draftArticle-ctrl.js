@@ -50,7 +50,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     $scope.clearArticle=function()
     {
         for(p in $scope.articleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
             }else{
                 $scope.articleData[p]="";
