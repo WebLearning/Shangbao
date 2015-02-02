@@ -157,6 +157,27 @@ public class AppUserController {
 			User updateUser = new User();
 			updateUser.setUid(user.getUid());
 			updateUser.setPasswd(passwdModel.getNewPasswd());
+			if(user.getName() != null){
+				updateUser.setName(user.getName());
+			}
+			if(user.getAvatar() != null){
+				updateUser.setAvatar(user.getAvatar());
+			}
+			if(user.getEmail() != null){
+				updateUser.setEmail(user.getEmail());
+			}
+			if(user.getSex() == 0 || user.getSex() == 1){
+				updateUser.setSex(user.getSex());
+			}
+			if(user.getBirthday() != null){
+				updateUser.setBirthday(user.getBirthday());
+			}
+			if(user.getQq() > 0){
+				updateUser.setQq(user.getQq());
+			}
+			if(user.getPhone() > 0){
+				updateUser.setPhone(user.getPhone());
+			}
 			if(!userIdentifyService.updateUser(updateUser)){
 				return false;
 			}
@@ -175,6 +196,27 @@ public class AppUserController {
 			User updateUser = new User();
 			updateUser.setUid(user.getUid());
 			updateUser.setPasswd(newpasswd);
+			if(user.getName() != null){
+				updateUser.setName(user.getName());
+			}
+			if(user.getAvatar() != null){
+				updateUser.setAvatar(user.getAvatar());
+			}
+			if(user.getEmail() != null){
+				updateUser.setEmail(user.getEmail());
+			}
+			if(user.getSex() == 0 || user.getSex() == 1){
+				updateUser.setSex(user.getSex());
+			}
+			if(user.getBirthday() != null){
+				updateUser.setBirthday(user.getBirthday());
+			}
+			if(user.getQq() > 0){
+				updateUser.setQq(user.getQq());
+			}
+			if(user.getPhone() > 0){
+				updateUser.setPhone(user.getPhone());
+			}
 			if(!userIdentifyService.updateUser(updateUser)){
 				return false;
 			}

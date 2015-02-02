@@ -60,7 +60,7 @@ public class UserIdentifyService {
 		}
 		if(!props.getProperty("remoteUrl").isEmpty()){
 			String url = props.getProperty("remoteUrl");
-			if(url.substring(url.length() - 1) != "/"){
+			if(url.toCharArray()[url.length() - 1] != '/'){
 				remoteUrl = url + "/";
 			}else{
 				remoteUrl = url;
@@ -173,8 +173,27 @@ public class UserIdentifyService {
 	public boolean updateUser(User user){
 		if(user.getUid() > 0 && user.getPasswd() != null){
 			MultiValueMap<String, Object> userMap = new LinkedMultiValueMap<>();
-			userMap.add("uid", user.getUid());
+			userMap.add("uid", user.getUid().toString());
 			userMap.add("psw", user.getPasswd());
+			userMap.add("nickname", user.getName());
+			if(user.getAvatar() != null){
+				userMap.add("avatar", user.getAvatar());
+			}
+			if(user.getEmail() != null){
+				userMap.add("email", user.getEmail());
+			}
+			if(user.getSex() == 0 || user.getSex() == 1){
+				userMap.add("sex", user.getSex() + "");
+			}
+			if(user.getBirthday() != null){
+				userMap.add("birthday", user.getBirthday().getTime() / 1000);
+			}
+			if(user.getQq() > 0){
+				userMap.add("qq", user.getQq() + "");
+			}
+			if(user.getPhone() > 0){
+				userMap.add("phone", user.getPhone() + "");
+			}
 			String responseUser = restTemplate.postForObject(remoteUrl + "editUser", userMap, String.class);
 			System.out.println(responseUser);
 			if(responseUser.toCharArray()[14] == '0'){

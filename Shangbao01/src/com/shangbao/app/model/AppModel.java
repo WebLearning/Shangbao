@@ -472,6 +472,19 @@ public class AppModel {
 		}
 	}
 	
+	public void addJsClick(Long articleId){
+		Article criteriaArticle = new Article();
+		criteriaArticle.setId(articleId);
+		Update update = new Update();
+		if(articleMap.get(articleId) != null){
+			synchronized (this){
+				articleMap.get(articleId).setJs_clicks(articleMap.get(articleId).getJs_clicks() + 1);
+			}
+			update.set("js_clicks", articleMap.get(articleId).getJs_clicks());
+			articleDaoImp.update(criteriaArticle, update);
+		}
+	}
+	
 	public void postPictures(Article pictureArticle){
 		pictureArticle.setTag(true);
 		pictureArticle.setState(ArticleState.Temp);

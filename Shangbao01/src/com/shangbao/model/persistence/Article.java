@@ -36,6 +36,7 @@ public class Article {
 	private int crawlerCommends;//爬虫评论数
 	private int crawlerCommendsPublish;//爬虫评论发表数
 	private int clicks;//点击数
+	private int js_clicks;//前端统计的点击数
 	private int likes;//点赞数
 	private String from;//来源
 	private Map<String, Integer> channelIndex = new HashMap<String, Integer>();//文章在所属目录中的index
@@ -174,6 +175,12 @@ public class Article {
 	}
 	public void setClicks(int clicks) {
 		this.clicks = clicks;
+	}
+	public int getJs_clicks() {
+		return js_clicks;
+	}
+	public void setJs_clicks(int js_clicks) {
+		this.js_clicks = js_clicks;
 	}
 	public String getFrom() {
 		return from;

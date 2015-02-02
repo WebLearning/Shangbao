@@ -139,6 +139,12 @@ public class AppController {
 		return appService.getNewsHtml(articleId).html;
 	}
 	
+	@RequestMapping(value="/js/addclick/{articleId}", method=RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+	public void addClicks(@PathVariable("articleId") long articleId){
+		appService.addJsClick(articleId);
+	}
+	
 	/**
 	 * 获取新闻评论
 	 * @return

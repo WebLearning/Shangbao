@@ -1,8 +1,11 @@
 package com.shangbao.phone.control;
 
+import java.awt.image.BufferedImage;
 import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,15 +19,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.google.code.kaptcha.Constants;
+import com.google.code.kaptcha.Producer;
 import com.shangbao.app.model.AppResponseModel;
 import com.shangbao.app.service.UserIdentifyService;
+import com.shangbao.model.PasswdModel;
 import com.shangbao.model.persistence.User;
 
 
 @RequestMapping("/auth")
 @Controller
 public class AppAuthController {
-
+	
 	@Resource
 	private UserIdentifyService userIdentifyService;
 	
@@ -86,7 +92,7 @@ public class AppAuthController {
 	@ResponseBody
 	public AppResponseModel registerGet(){
 		User user = new User();
-		user.setName("test");
+		user.setName("update");
 		user.setPasswd("123");
 		AppResponseModel appResponseModel = new AppResponseModel();
 		if(userIdentifyService.addUser(user)){
@@ -107,6 +113,41 @@ public class AppAuthController {
 		if(code != null){
 			appResponseModel.setResultCode(1);
 			appResponseModel.setResultMsg(code);
+		}
+		return appResponseModel;
+	}
+	
+	@RequestMapping(value="/phoneidentify/{phone:[\\d]+}", method=RequestMethod.POST)
+	@ResponseBody
+	public AppResponseModel resetPhoneIdentify(@PathVariable("phone") String phoneNum, HttpServletRequest request){
+		AppResponseModel appResponseModel = new AppResponseModel();
+		String code = userIdentifyService.identifyUserPhone(phoneNum);
+		if(code != null){
+			request.getSession().setAttribute("PHONE_TEXT", code);
+			appResponseModel.setResultCode(1);
+			appResponseModel.setResultMsg("message sended");
+		}else{
+			appResponseModel.setResultCode(0);
+			appResponseModel.setResultMsg("error");
+		}
+		return appResponseModel;
+	}
+	
+	@RequestMapping(value="/resetpasswd", method=RequestMethod.POST)
+	@ResponseBody
+	public AppResponseModel setNewPasswd(HttpServletRequest request, @RequestBody PasswdModel passwdModel){
+		AppResponseModel appResponseModel = new AppResponseModel();
+		String phoneText = (String)request.getSession().getAttribute("PHONE_TEXT");
+		if(passwdModel.getOldPasswd() != null && passwdModel.getNewPasswd() != null){
+			if(phoneText.equals(passwdModel.getOldPasswd())){
+				
+			}else{
+				appResponseModel.setResultCode(0);
+				appResponseModel.setResultMsg("wrong identify code");
+			}
+		}else{
+			appResponseModel.setResultCode(0);
+			appResponseModel.setResultMsg("param error");
 		}
 		return appResponseModel;
 	}
