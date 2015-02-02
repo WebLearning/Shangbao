@@ -67,7 +67,7 @@ public class CommendServiceImp implements CommendService {
 					pageId * 10 - 1 >= singleCommends.size() ? singleCommends.size() : pageId * 10));
 			return commendList;
 		}
-		return null;
+		return commendList;
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class CommendServiceImp implements CommendService {
 				return commendList;
 			}
 		}
-		return null;
+		return commendList;
 	}
 
 	@Override
