@@ -40,6 +40,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         time: "",
         title: "",
         titlePicUrl: null,
+        js_clicks:null,
         words: null
 //        logs:[]
     };
@@ -75,6 +76,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.changeCurPage = function(str)
     {
         $scope.curPage=str;
+        clearArticleData();
         $scope.getSetState();
         $scope.getCommentSetState();
         $scope.setButtonInNewArticleForPending();
@@ -121,9 +123,10 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             clearTempPictureSearchData();
             $scope.refreshTempPicture();
         }else if(str=="评论"){
-            $scope.goCommentList();
+            $scope.refreshCommentCur();
         }
     };
+
     function clearArticleData(){
         for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
@@ -248,11 +251,18 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $scope.orderCondition="";
         $scope.getCommentData($scope.commentData.currentNo);
     };
+    $scope.refreshCommentCur=function(){
+        $scope.orderCondition="";
+        document.getElementById("comment").className="tab-pane active";
+        document.getElementById("commentDetails").className="tab-pane";
+        $scope.getCommentData(1);
+    };
     $scope.goCommentList=function()
     {
         document.getElementById("comment").className="tab-pane active";
         document.getElementById("commentDetails").className="tab-pane";
-        $scope.refreshComment();
+//        $scope.refreshComment();
+        $scope.getCommentData($scope.commentData.currentNo);
     };
 //（1）获取爬虫数据-----------------------------------------------------------------------------------------------------
     $scope.crawlerData=null;
