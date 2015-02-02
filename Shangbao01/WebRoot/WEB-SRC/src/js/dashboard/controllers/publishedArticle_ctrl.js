@@ -31,13 +31,20 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
             }
         }
     };
+    $scope.backCurPublished=function(){
+        if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
+            $scope.getPublishedData($scope.publishedData.currentNo);
+        }else{
+            $scope.getPublishedSearchData($scope.publishedData.currentNo);
+        }
+    };
     $scope.goPublished=function()
     {
         $scope.clearArticle();
         document.getElementById("publishedArticle").className="tab-pane";
         document.getElementById("published").className="tab-pane active";
         document.getElementById("publishedSidebarID").className="sidebar-list";
-        $scope.refreshPublished();
+        $scope.backCurPublished();
     };
     $scope.testLog=function()
     {

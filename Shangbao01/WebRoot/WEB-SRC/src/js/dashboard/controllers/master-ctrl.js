@@ -246,7 +246,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.refreshComment=function()
     {
         $scope.orderCondition="";
-        $scope.getCommentData(1);
+        $scope.getCommentData($scope.commentData.currentNo);
     };
     $scope.goCommentList=function()
     {
@@ -699,7 +699,6 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }else{
             $scope.getCrawlerPictureSearchData(1);
         }
-
     };
     //(f)搜索快拍爬虫数据--------------------------------------------------------------------------------------------------
     $scope.getCrawlerPictureSearchData=function(pageID){
@@ -1229,5 +1228,9 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $('#modify_passWord1').modal('toggle');
             });
         }
+    };
+    //退出登录----------------------------------------------------------------------------------------------------------
+    $scope.exitLog=function(){
+        alert("成功退出");
     };
 }]);

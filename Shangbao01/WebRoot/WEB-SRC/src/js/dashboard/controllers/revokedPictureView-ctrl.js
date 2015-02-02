@@ -31,13 +31,20 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
             }
         }
     };
+    $scope.backCurRevokedPicture=function(){
+        if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+            $scope.getRevokedPictureData($scope.revokedPictureData.currentNo);
+        }else{
+            $scope.getRevokedPictureSearchData($scope.revokedPictureData.currentNo);
+        }
+    };
     $scope.goRevokedPicture=function()
     {
         $scope.clearPictureArticle();
         document.getElementById("revokedPictureView").className="tab-pane";
         document.getElementById("revokedPicture").className="tab-pane active";
         document.getElementById("revokedPictureSidebarID").className="sidebar-list";
-        $scope.refreshRevokedPicture();
+        $scope.backCurRevokedPicture();
     };
     $scope.testLog=function()
     {

@@ -9,12 +9,16 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
         var url=commentDetailsUrl+"/"+pageID.toString()+$scope.orderCondition;
 //        console.log(url);
         $http.get(url).success(function(data){
-            $scope.commentDetailData=data;
-            $scope.pageNums=getPageNums($scope.commentDetailData.pageCount);
-            $scope.currentPage=$scope.commentDetailData.currentNo;
-            setPage($scope.commentDetailData.pageCount,$scope.commentDetailData.currentNo);
+//            if(data.length>0){
+                $scope.commentDetailData=data;
+                $scope.pageNums=getPageNums($scope.commentDetailData.pageCount);
+                $scope.currentPage=$scope.commentDetailData.currentNo;
+                setPage($scope.commentDetailData.pageCount,$scope.commentDetailData.currentNo);
 //            console.log("成功获取数据");
-
+//            }else{
+//                $scope.commentDetailData="";
+//                setPage(1,1);
+//            }
         });
     };
     function setPage(count,pageIndex){
@@ -25,7 +29,10 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
         //总页数少于10全部显示，大于10显示前3，后3，中间3，其余...
         if(pageIndex==1){
             a[a.length]="<a href=\"#\" class=\"prev unclick\">&laquo;</a>";
-        }else{
+        }else if(pageIndex==0){
+            a[a.length]="<a href=\"#\" class=\"prev unclick\">暂无数据</a>";
+        }
+        else{
             a[a.length]="<a href=\"#\" class=\"prev\">&laquo;</a>";
         }
         function setPageList(){
@@ -47,23 +54,26 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
                 for(var i=1;i<=5;i++){
                     setPageList();
                 }
-                a[a.length]="...<a href=\"#\">" + count + "</a>";
+                a[a.length]=". . .<a href=\"#\">" + count + "</a>";
             }else if(pageIndex>=count-3){
-                a[a.length]="<a href=\"#\">1</a>...";
+                a[a.length]="<a href=\"#\">1</a>. . .";
                 for(var i=count-4;i<=count;i++){
                     setPageList();
                 }
             }else{//当前页在中间部分
-                a[a.length]="<a href=\"#\">1</a>...";
+                a[a.length]="<a href=\"#\">1</a>. . .";
                 for(var i=pageIndex-2;i<=pageIndex+2;i++){
                     setPageList();
                 }
-                a[a.length]="...<a href=\"#\">" + count + "</a>";
+                a[a.length]=". . .<a href=\"#\">" + count + "</a>";
             }
         }
-        if(pageIndex==count){
+        if(pageIndex==count&&pageIndex!=0){
             a[a.length]="<a href=\"#\" class=\"next unclick\">&raquo;</a>";
-        }else{
+        }else if(pageIndex==0&&count==0){
+            a[a.length]="<a href=\"#\" class=\"next unclick\"></a>";
+        }
+        else{
             a[a.length]="<a href=\"#\" class=\"next\">&raquo;</a>";
         }
         document.getElementById("commentDetail_page").innerHTML= a.join("");

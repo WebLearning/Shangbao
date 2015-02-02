@@ -73,10 +73,12 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
 //        console.log(jsonString);
         $http.post(url,jsonString).success(function(data){
             console.log("添加成功");
+            $('#myModal_addReply').modal('toggle');
+            $scope.getCommentDetailData($scope.commentDetailData.currentNo);
         });
-
-        $('#myModal_addReply').modal('toggle');
-        $scope.refreshCommentDetails();
+//
+//        $('#myModal_addReply').modal('toggle');
+//        $scope.refreshCommentDetails();
     };
 
 
@@ -208,8 +210,8 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
                     $scope.getCommentDetailData(1);
                     alert("删除成功");
                 });
-            };
-        };
+            }
+        }
     };
 
     $scope.publishCommentSelections=function()
@@ -223,7 +225,7 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
                 $scope.getCommentDetailData(1);
                 alert("发布成功");
             });
-        };
+        }
     };
 
     //排序---------------------------------------------------------------------------------------------------------------
@@ -297,11 +299,10 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
         console.log(jsonString);
         $http.post(url,jsonString).success(function(data){
             console.log("添加成功");
+            $('#myModal_addComment').modal('toggle');
+            //$scope.getCommentDetailData(1);
+            $scope.getCommentDetailData($scope.commentDetailData.currentNo);
         });
-
-        $('#myModal_addComment').modal('toggle');
-        //$scope.getCommentDetailData(1);
-        $scope.refreshCommentDetails();
     };
 }]);
 

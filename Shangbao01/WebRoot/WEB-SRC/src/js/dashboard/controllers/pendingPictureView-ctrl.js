@@ -3,13 +3,20 @@
  **/
 angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http",function($scope,$http){
 
+    $scope.backCurPendingPicture=function(){
+        if($scope.pendingPictureSearchData.content==""||$scope.pendingPictureSearchData.content==null){
+            $scope.getPendingPictureData($scope.pendingPictureData.currentNo);
+        }else{
+            $scope.getPendingPictureSearchData($scope.pendingPictureData.currentNo);
+        }
+    };
     $scope.goPendingPicture=function()
     {
         $scope.clearArticle();
         document.getElementById("pendingPictureView").className="tab-pane";
         document.getElementById("pendingPicture").className="tab-pane active";
         document.getElementById("pendingPictureSidebarID").className="sidebar-list";
-        $scope.refreshPendingPicture();
+        $scope.backCurPendingPicture();
     };
     $scope.testLog=function()
     {

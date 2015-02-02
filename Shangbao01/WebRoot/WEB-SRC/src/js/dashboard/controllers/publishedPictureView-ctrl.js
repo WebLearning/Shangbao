@@ -3,13 +3,20 @@
  */
 angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$http",function($scope,$http){
 
+    $scope.backCurPublishedPicture=function(){
+        if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+            $scope.getPublishedPictureData($scope.publishedPictureData.currentNo);
+        }else{
+            $scope.getPublishedPictureSearchData($scope.publishedPictureData.currentNo);
+        }
+    };
     $scope.goPublishedPicture=function()
     {
         $scope.clearArticle();
         document.getElementById("publishedPictureView").className="tab-pane";
         document.getElementById("publishedPicture").className="tab-pane active";
         document.getElementById("publishedPictureSidebarID").className="sidebar-list";
-        $scope.refreshPublishedPicture();
+        $scope.backCurPublishedPicture();
     };
     $scope.testLog=function()
     {
