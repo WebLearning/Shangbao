@@ -31,13 +31,20 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             }
         }
     };
+    $scope.backCurDraftPicture=function(){
+        if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+            $scope.getTempPictureData($scope.tempPictureData.currentNo);
+        }else{
+            $scope.getTempPictureSearchData($scope.tempPictureData.currentNo);
+        }
+    };
     $scope.goDraftPicture=function()
     {
         $scope.clearPictureArticle();
         document.getElementById("draftPictureView").className="tab-pane";
         document.getElementById("draftPicture").className="tab-pane active";
         document.getElementById("draftPictureSidebarID").className="sidebar-list";
-        $scope.refreshTempPicture();
+        $scope.backCurDraftPicture();
     };
     $scope.testLog=function()
     {
