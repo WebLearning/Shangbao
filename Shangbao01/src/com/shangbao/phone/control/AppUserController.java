@@ -24,6 +24,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.shangbao.app.model.ColumnPageModel;
+import com.shangbao.app.service.UserIdentifyService;
+import com.shangbao.model.PasswdModel;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.Page;
@@ -40,6 +42,8 @@ public class AppUserController {
 	private ArticleService articleServiceImp;
 	@Resource
 	private PasswordEncoder passwordEncoder;
+	@Resource
+	private UserIdentifyService userIdentifyService;
 	
 	
 	/**
@@ -145,11 +149,35 @@ public class AppUserController {
 	
 	@RequestMapping(value="/update/passwd", method=RequestMethod.POST)
 	@ResponseBody
-	public boolean updatePasswd(@RequestBody Update update){
+	public boolean updatePasswd(@RequestBody PasswdModel passwdModel){
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(user != null && update.newPasswd != null && update.oldPasswd != null){
-			String oldPasswd = passwordEncoder.encodePassword(update.oldPasswd, null);
-			String newPasswd = passwordEncoder.encodePassword(update.newPasswd, null);
+		if(user != null && user.getUid() > 0 && passwdModel.getNewPasswd() != null && passwdModel.getOldPasswd() != null){
+			String oldPasswd = passwordEncoder.encodePassword(passwdModel.getOldPasswd(), null);
+			String newPasswd = passwordEncoder.encodePassword(passwdModel.getNewPasswd(), null);
+			User updateUser = new User();
+			updateUser.setUid(user.getUid());
+			updateUser.setPasswd(passwdModel.getNewPasswd());
+			if(!userIdentifyService.updateUser(updateUser)){
+				return false;
+			}
+			return userServiceImp.updatePasswd(user, oldPasswd, newPasswd);
+		}
+		return false;
+	}
+	
+	@RequestMapping(value="/update/passwd/{oldpass}/{newpass}", method=RequestMethod.GET)
+	@ResponseBody
+	public boolean updateGetPasswd(@PathVariable("oldpass") String oldpasswd, @PathVariable("newpass") String newpasswd){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(user != null && user.getUid() > 0 && newpasswd != null && oldpasswd != null){
+			String oldPasswd = passwordEncoder.encodePassword(oldpasswd, null);
+			String newPasswd = passwordEncoder.encodePassword(newpasswd, null);
+			User updateUser = new User();
+			updateUser.setUid(user.getUid());
+			updateUser.setPasswd(newpasswd);
+			if(!userIdentifyService.updateUser(updateUser)){
+				return false;
+			}
 			return userServiceImp.updatePasswd(user, oldPasswd, newPasswd);
 		}
 		return false;
@@ -172,10 +200,5 @@ public class AppUserController {
 
 	public void setArticleServiceImp(ArticleService articleServiceImp) {
 		this.articleServiceImp = articleServiceImp;
-	}
-	
-	public class Update{
-		public String oldPasswd;
-		public String newPasswd;
 	}
 }

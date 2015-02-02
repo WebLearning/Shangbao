@@ -170,6 +170,20 @@ public class UserIdentifyService {
 		return false;
 	}
 	
+	public boolean updateUser(User user){
+		if(user.getUid() > 0 && user.getPasswd() != null){
+			MultiValueMap<String, Object> userMap = new LinkedMultiValueMap<>();
+			userMap.add("uid", user.getUid());
+			userMap.add("psw", user.getPasswd());
+			String responseUser = restTemplate.postForObject(remoteUrl + "editUser", userMap, String.class);
+			System.out.println(responseUser);
+			if(responseUser.toCharArray()[14] == '0'){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public boolean userExist(String account, int accountType){
 		String result = restTemplate.getForObject(remoteUrl + "isExists/" + account + "/" + accountType, String.class);
 		System.out.println(result);

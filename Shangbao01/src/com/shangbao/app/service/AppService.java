@@ -109,6 +109,9 @@ public class AppService {
 		}
 		ColumnPageModel columnPageModel = new ColumnPageModel();
 		List<Article> articles = appModel.getAppMap().get(channelName);
+		if(articles == null || articles.isEmpty()){
+			return columnPageModel;
+		}
 		Page<Article> page = new Page<Article>(pageNo, pageSize, articles.size());
 		if(articles != null){
 			int toIndex = page.getLastResult();

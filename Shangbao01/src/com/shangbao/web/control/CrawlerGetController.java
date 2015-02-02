@@ -57,9 +57,11 @@ public class CrawlerGetController {
 	@ResponseBody
 	public Long uploadCrawlerArticle(@RequestBody Article article){
 		if(article != null){
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
 			article.setState(ArticleState.Crawler);
 			//article.setContent(articleToHtml(article));
 			article.setContent(stringToBody(article));
+			article.getLogs().add(sdf.format(new Date()) + " " + "爬虫上传");
 			return articleServiceImp.addGetId(article);
 		}
 		return null;
@@ -170,10 +172,14 @@ public class CrawlerGetController {
 	public void deleteCrawlerArticle(@PathVariable("articleId") Long id){
 		Article article = new Article();
 		article.setId(id);
+		article.setTag(false);
+		article.setState(ArticleState.Crawler);
 		Commend commend = new Commend();
 		commend.setArticleId(id);
-		articleServiceImp.deleteOne(article);
-		commendServiceImp.delete(commend);
+		if(articleServiceImp.find(article) != null && !articleServiceImp.find(article).isEmpty()){
+			articleServiceImp.deleteOne(article);
+			commendServiceImp.delete(commend);
+		}
 	}
 	
 	private String stringToBody(Article article){

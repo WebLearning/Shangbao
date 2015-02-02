@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
+import com.shangbao.app.model.ColumnPageModel;
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.Page;
@@ -39,6 +40,8 @@ public interface ArticleService {
 	public TitleList fuzzyFind(String words, ArticleState state, int pageNo, int pageSize);
 	
 	public TitleList fuzzyFindOrder(String words, ArticleState state, int pageNo, int pageSize, String order, String direction);
+	
+	public ColumnPageModel appFuzzyFind(String words, boolean tag, int pageNo, int pageSize);
 	/**
 	 * 更新一篇文章
 	 * @param article

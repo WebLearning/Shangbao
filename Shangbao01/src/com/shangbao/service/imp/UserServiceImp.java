@@ -75,8 +75,12 @@ public class UserServiceImp implements UserService {
 		if(articleIdList != null && !articleIdList.isEmpty()){
 			for(Long articleId : articleIdList){
 				Article article = articleDaoImp.findById(articleId);
-				if(article.getState().equals(ArticleState.Published)){
-					articleList.add(article);
+				if(article != null){
+					if(article.getState().equals(ArticleState.Published)){
+						articleList.add(article);
+					}
+				}else{
+					deleteCollectionArticle(criteriaUser, articleId);
 				}
 			}
 		}

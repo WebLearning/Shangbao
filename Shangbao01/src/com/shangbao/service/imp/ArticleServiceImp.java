@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import com.shangbao.app.model.ColumnPageModel;
 import com.shangbao.dao.ArticleDao;
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
@@ -62,12 +63,32 @@ public class ArticleServiceImp implements ArticleService {
 	public TitleList fuzzyFind(String words, ArticleState state, int pageNo, int pageSize){
 		Page<Article> page = articleDaoImp.fuzzyFind(words, state, false, pageNo, pageSize);
 		TitleList titleList = new TitleList();
+		if(page.getDatas() == null || page.getDatas().isEmpty()){
+			return titleList;
+		}
 		titleList.setCurrentNo(pageNo);
 		titleList.setPageCount(page.getTotalPage());
 		for(Article article : page.getDatas()){
 			titleList.addTitle(article);
 		}
 		return titleList;
+	}
+	
+	@Override
+	public ColumnPageModel appFuzzyFind(String words, boolean tag, int pageNo, int pageSize){
+		ColumnPageModel columnPageModel = new ColumnPageModel();
+		Page<Article> page = articleDaoImp.fuzzyFind(words, ArticleState.Published, tag, pageNo, pageSize);
+		if(page.getDatas() == null || page.getDatas().isEmpty()){
+			return columnPageModel;
+		}
+		columnPageModel.setCurrentNo(pageNo);
+		columnPageModel.setPageCount(page.getTotalPage());
+		int index = 1;
+		for(Article article : page.getDatas()){
+			columnPageModel.addNewsTitle(article, index);
+			index ++;
+		}
+		return columnPageModel;
 	}
 	
 	@Override
