@@ -1257,6 +1257,16 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     //设置app打开图片---------------------------------------------------------------------------------------------------
 
+    //显示当前登录用户名------------------------------------------------------------------------------------------------
+    $scope.userInfo_name="";
+    $scope.getCurUserName=function(){
+        var url=$scope.projectName+"/user/userinfo";
+        $http.get(url).success(function(data){
+            console.log(data.name);
+            $scope.userInfo_name=data.name;
+        })
+    };
+    $scope.getCurUserName();
     //退出登录----------------------------------------------------------------------------------------------------------
     $scope.exitLog=function(){
         alert("成功退出");
