@@ -167,11 +167,15 @@ public class UserDaoImp implements UserDao {
      * @return 
      */  
     public User findAndModify(User criteriaUser, User updateUser) {
-		return updateUser;  
+    	return null;
 //        Query query = getQuery(criteriaUser);  
 //        Update update = Update.update("age", updateUser.getAge()).set("name", updateUser.getName());  
 //        return mongoTemplate.findAndModify(query, update, User.class);  
-    }  
+    }
+    
+    public User findAndModify(User criteriaUser, Update update){
+    	return mongoTemplate.findAndModify(getQuery(criteriaUser), update, User.class);
+    }
       
     /** 
      * 查询出来后 删除 
@@ -218,7 +222,7 @@ public class UserDaoImp implements UserDao {
             Criteria criteria = Criteria.where("passwd").is(criteriaUser.getPasswd());  
             query.addCriteria(criteria);  
         }
-        if (criteriaUser.getPhone() != 0) {
+        if (criteriaUser.getPhone() != null) {
         	Criteria criteria = Criteria.where("phone").is(criteriaUser.getPhone());  
             query.addCriteria(criteria);
         }

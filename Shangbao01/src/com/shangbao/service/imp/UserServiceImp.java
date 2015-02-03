@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.dao.ArticleDao;
@@ -106,6 +107,24 @@ public class UserServiceImp implements UserService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public User updateUser(User criteriaUser, User updateUser) {
+		Update update = new Update();
+		if(updateUser.getUsername() != null){
+			update.set("userName", updateUser.getUsername());
+		}
+		if(updateUser.getAvatar() != null){
+			update.set("avatar", updateUser.getAvatar());
+		}
+		if(updateUser.getQq() != null){
+			update.set("qq", updateUser.getQq());
+		}
+		if(updateUser.getBirthday() != null){
+			update.set("birthday", updateUser.getBirthday());
+		}
+		return userDaoImp.findAndModify(criteriaUser, update);
 	}
 
 }

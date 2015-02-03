@@ -1,6 +1,7 @@
 package com.shangbao.app.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.shangbao.model.persistence.Article;
@@ -61,6 +62,8 @@ public class AppChannelModel {
 		public String title;
 		public List<String> picUrl = new ArrayList<>();
 		public String summary;
+		public Date time;
+		public int clicks;
 		public Integer indexId;
 		public Long newsId;
 		public AppTitle(){	
@@ -79,6 +82,8 @@ public class AppChannelModel {
 				}
 			}
 			this.summary = article.getSummary();
+			this.time = article.getTime();
+			this.clicks = article.getClicks();
 			indexId = id;
 			this.newsId = article.getId();
 		}

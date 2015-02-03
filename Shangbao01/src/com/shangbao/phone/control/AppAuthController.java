@@ -25,6 +25,7 @@ import com.shangbao.app.model.AppResponseModel;
 import com.shangbao.app.service.UserIdentifyService;
 import com.shangbao.model.PasswdModel;
 import com.shangbao.model.persistence.User;
+import com.shangbao.service.UserService;
 
 
 @RequestMapping("/auth")
@@ -33,6 +34,8 @@ public class AppAuthController {
 	
 	@Resource
 	private UserIdentifyService userIdentifyService;
+	@Resource
+	private UserService userServiceImp;
 	
 	@RequestMapping(value="/login/{username}/{passwd}", method=RequestMethod.GET)
 	@ResponseBody
@@ -59,7 +62,7 @@ public class AppAuthController {
 		AppResponseModel appResponseModel = new AppResponseModel();
 		if(user.getName() != null && user.getPasswd() != null){
 			userDetails = userIdentifyService.identifyUser(user.getName(), user.getPasswd(), 2, request, response);
-		}else if(user.getPhone() != 0 && user.getPasswd() != null){
+		}else if(user.getPhone() != null && user.getPasswd() != null){
 			userDetails = userIdentifyService.identifyUser(user.getPhone() + "", user.getPasswd(), 1, request, response);
 		}else if(user.getEmail() != null && user.getPasswd() != null){
 			userDetails = userIdentifyService.identifyUser(user.getEmail(), user.getPasswd(), 3, request, response);
@@ -92,7 +95,8 @@ public class AppAuthController {
 	@ResponseBody
 	public AppResponseModel registerGet(){
 		User user = new User();
-		user.setName("update");
+		user.setName("phoneTest");
+		user.setPhone("15196612209");
 		user.setPasswd("123");
 		AppResponseModel appResponseModel = new AppResponseModel();
 		if(userIdentifyService.addUser(user)){
@@ -109,6 +113,15 @@ public class AppAuthController {
 	@ResponseBody
 	public AppResponseModel AppPhoneNumIdentify(@PathVariable("phone") String phoneNum){
 		AppResponseModel appResponseModel = new AppResponseModel();
+		//判断该手机是否已经注册
+		User criteriaUser = new User();
+		criteriaUser.setPhone(phoneNum);
+		User user = userServiceImp.findOne(criteriaUser);
+		if(user != null){
+			appResponseModel.setResultCode(0);
+			appResponseModel.setResultMsg("Phone has been rejisted");
+			return appResponseModel;
+		}
 		String code = userIdentifyService.identifyUserPhone(phoneNum);
 		if(code != null){
 			appResponseModel.setResultCode(1);
@@ -117,13 +130,20 @@ public class AppAuthController {
 		return appResponseModel;
 	}
 	
-	@RequestMapping(value="/phoneidentify/{phone:[\\d]+}", method=RequestMethod.POST)
+	/**
+	 * 找回密码时发送手机验证码
+	 * @param phoneNum
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="/resetpasswd/phoneidentify/{phone:[\\d]+}", method=RequestMethod.GET)
 	@ResponseBody
 	public AppResponseModel resetPhoneIdentify(@PathVariable("phone") String phoneNum, HttpServletRequest request){
 		AppResponseModel appResponseModel = new AppResponseModel();
 		String code = userIdentifyService.identifyUserPhone(phoneNum);
 		if(code != null){
 			request.getSession().setAttribute("PHONE_TEXT", code);
+			request.getSession().setAttribute("PHONE_NUM", phoneNum);
 			appResponseModel.setResultCode(1);
 			appResponseModel.setResultMsg("message sended");
 		}else{
@@ -133,22 +153,108 @@ public class AppAuthController {
 		return appResponseModel;
 	}
 	
+	/**
+	 * 重置密码
+	 * @param request
+	 * @param passwdModel
+	 * @return
+	 */
 	@RequestMapping(value="/resetpasswd", method=RequestMethod.POST)
 	@ResponseBody
 	public AppResponseModel setNewPasswd(HttpServletRequest request, @RequestBody PasswdModel passwdModel){
 		AppResponseModel appResponseModel = new AppResponseModel();
 		String phoneText = (String)request.getSession().getAttribute("PHONE_TEXT");
-		if(passwdModel.getOldPasswd() != null && passwdModel.getNewPasswd() != null){
+		String phoneNum = (String)request.getSession().getAttribute("PHONE_NUM");
+		if(phoneNum != null && passwdModel.getOldPasswd() != null && passwdModel.getNewPasswd() != null){
 			if(phoneText.equals(passwdModel.getOldPasswd())){
-				
+				//设置新的密码
+				User criteriaUser = new User();
+				criteriaUser.setPhone(phoneNum);
+				User user = userServiceImp.findOne(criteriaUser);
+				if(user == null){
+					appResponseModel.setResultCode(0);
+					appResponseModel.setResultMsg("User Not Found");
+					request.getSession().removeAttribute("PHONE_TEXT");
+					request.getSession().removeAttribute("PHONE_NUM");
+					return appResponseModel;
+				}else{
+					user.setPasswd(passwdModel.getNewPasswd());
+					if(!userIdentifyService.updateUser(user)){
+						userServiceImp.updatePasswd(user, user.getPasswd(), passwdModel.getNewPasswd());
+						appResponseModel.setResultCode(1);
+						appResponseModel.setResultMsg("SUCCESS");
+					}else{
+						appResponseModel.setResultCode(0);
+						appResponseModel.setResultMsg("ERROR");
+					}
+				}
 			}else{
 				appResponseModel.setResultCode(0);
 				appResponseModel.setResultMsg("wrong identify code");
+				request.getSession().removeAttribute("PHONE_TEXT");
+				request.getSession().removeAttribute("PHONE_NUM");
 			}
 		}else{
 			appResponseModel.setResultCode(0);
 			appResponseModel.setResultMsg("param error");
+			request.getSession().removeAttribute("PHONE_TEXT");
+			request.getSession().removeAttribute("PHONE_NUM");
 		}
+		request.getSession().removeAttribute("PHONE_TEXT");
+		request.getSession().removeAttribute("PHONE_NUM");
+		return appResponseModel;
+	}
+	
+	/**
+	 * 测试用
+	 * @param request
+	 * @param phoneCode
+	 * @param newPasswd
+	 * @return
+	 */
+	@RequestMapping(value="/resetpasswd/{phoneText}/{newPasswd}", method=RequestMethod.GET)
+	@ResponseBody
+	public AppResponseModel setNewPasswdGET(HttpServletRequest request,@PathVariable("phoneText") String phoneCode, @PathVariable("newPasswd") String newPasswd){
+		AppResponseModel appResponseModel = new AppResponseModel();
+		String phoneText = (String)request.getSession().getAttribute("PHONE_TEXT");
+		String phoneNum = (String)request.getSession().getAttribute("PHONE_NUM");
+		if(phoneNum != null && phoneCode != null && newPasswd != null){
+			if(phoneText.equals(phoneCode)){
+				//设置新的密码
+				User criteriaUser = new User();
+				criteriaUser.setPhone(phoneNum);
+				User user = userServiceImp.findOne(criteriaUser);
+				if(user == null){
+					appResponseModel.setResultCode(0);
+					appResponseModel.setResultMsg("User Not Found");
+					request.getSession().removeAttribute("PHONE_TEXT");
+					request.getSession().removeAttribute("PHONE_NUM");
+					return appResponseModel;
+				}else{
+					user.setPasswd(newPasswd);
+					if(userIdentifyService.updateUser(user)){
+						userServiceImp.updatePasswd(user, user.getPasswd(), newPasswd);
+						appResponseModel.setResultCode(1);
+						appResponseModel.setResultMsg("SUCCESS");
+					}else{
+						appResponseModel.setResultCode(0);
+						appResponseModel.setResultMsg("ERROR");
+					}
+				}
+			}else{
+				appResponseModel.setResultCode(0);
+				appResponseModel.setResultMsg("wrong identify code");
+				request.getSession().removeAttribute("PHONE_TEXT");
+				request.getSession().removeAttribute("PHONE_NUM");
+			}
+		}else{
+			appResponseModel.setResultCode(0);
+			appResponseModel.setResultMsg("param error");
+			request.getSession().removeAttribute("PHONE_TEXT");
+			request.getSession().removeAttribute("PHONE_NUM");
+		}
+		request.getSession().removeAttribute("PHONE_TEXT");
+		request.getSession().removeAttribute("PHONE_NUM");
 		return appResponseModel;
 	}
 	

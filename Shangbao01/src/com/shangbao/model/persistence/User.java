@@ -20,12 +20,12 @@ public class User implements UserDetails {
 	private Long uid;
 	private String name;
 	private String passwd;
-	private int phone;
+	private String phone;
 	private String avatar;//头像
 	private String email;
 	private int sex;
 	private Date birthday;
-	private int qq;
+	private String qq;
 	private String role;
 	private List<Long> collection = new ArrayList<>();
 	
@@ -63,10 +63,10 @@ public class User implements UserDetails {
 		this.passwd = passwd;
 	}
 	
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public String getAvatar() {
@@ -93,10 +93,10 @@ public class User implements UserDetails {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	public int getQq() {
+	public String getQq() {
 		return qq;
 	}
-	public void setQq(int qq) {
+	public void setQq(String qq) {
 		this.qq = qq;
 	}
 	public List<Long> getCollection() {

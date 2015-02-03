@@ -40,4 +40,6 @@ public interface UserService {
 	void deleteCollectionArticle(User criteriaUser, Long articleId);
 	
 	boolean updatePasswd(User criteriaUser, String oldPasswd, String newPasswd);
+	
+	User updateUser(User criteriaUser, User updateUser);
 }

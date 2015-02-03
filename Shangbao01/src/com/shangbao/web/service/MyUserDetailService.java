@@ -43,7 +43,7 @@ public class MyUserDetailService implements UserDetailsService {
 	
 	public UserDetails loadUserByPhone(String phone){
 		User user = new User();
-		user.setPhone(Integer.parseInt(phone));
+		user.setPhone(phone);
 		List<User>ulist = userDaoImp.find(user);
 		if(ulist.size() == 1){
 			return (UserDetails) (ulist.toArray())[0];

@@ -1,11 +1,19 @@
 package com.shangbao.phone.control;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -18,11 +26,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.shangbao.app.model.AppResponseModel;
 import com.shangbao.app.model.ColumnPageModel;
 import com.shangbao.app.service.UserIdentifyService;
 import com.shangbao.model.PasswdModel;
@@ -31,6 +42,7 @@ import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.Page;
 import com.shangbao.service.ArticleService;
 import com.shangbao.service.UserService;
+import com.shangbao.utils.CompressPicUtils;
 
 @Controller
 @RequestMapping("/appuser")
@@ -44,7 +56,8 @@ public class AppUserController {
 	private PasswordEncoder passwordEncoder;
 	@Resource
 	private UserIdentifyService userIdentifyService;
-	
+	@Resource
+	private CompressPicUtils compressPicUtils;
 	
 	/**
 	 * 获取当前用户信息
@@ -147,9 +160,28 @@ public class AppUserController {
 		return columnPageModel;
 	}
 	
+	@RequestMapping(value="/update/user", method=RequestMethod.POST)
+	@ResponseBody
+	public User updateUser(@RequestBody User postUser){
+		User user = null;
+		User criteriaUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		postUser.setUid(criteriaUser.getUid());
+		user = userServiceImp.updateUser(criteriaUser, postUser);
+		if(user != null){
+			userIdentifyService.updateUser(postUser);
+		}
+		return user;
+	}
+	
+	/**
+	 * 更新用户密码
+	 * @param passwdModel
+	 * @return
+	 */
 	@RequestMapping(value="/update/passwd", method=RequestMethod.POST)
 	@ResponseBody
-	public boolean updatePasswd(@RequestBody PasswdModel passwdModel){
+	public AppResponseModel updatePasswd(@RequestBody PasswdModel passwdModel){
+		AppResponseModel model = new AppResponseModel();
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(user != null && user.getUid() > 0 && passwdModel.getNewPasswd() != null && passwdModel.getOldPasswd() != null){
 			String oldPasswd = passwordEncoder.encodePassword(passwdModel.getOldPasswd(), null);
@@ -172,23 +204,41 @@ public class AppUserController {
 			if(user.getBirthday() != null){
 				updateUser.setBirthday(user.getBirthday());
 			}
-			if(user.getQq() > 0){
+			if(user.getQq() != null){
 				updateUser.setQq(user.getQq());
 			}
-			if(user.getPhone() > 0){
+			if(user.getPhone() != null){
 				updateUser.setPhone(user.getPhone());
 			}
-			if(!userIdentifyService.updateUser(updateUser)){
-				return false;
+			if(!userServiceImp.updatePasswd(user, oldPasswd, newPasswd)){
+				model.setResultCode(0);
+				model.setResultMsg("OldPasswd error");
+				return model;
 			}
-			return userServiceImp.updatePasswd(user, oldPasswd, newPasswd);
+			if(!userIdentifyService.updateUser(updateUser)){
+				model.setResultCode(0);
+				model.setResultMsg("Very Bad Thing");
+				return model;
+			}
+			model.setResultCode(1);
+			model.setResultMsg("SUCCESS");
+			return model;
 		}
-		return false;
+		model.setResultCode(0);
+		model.setResultMsg("Param error");
+		return model;
 	}
 	
+	/**
+	 * 测试用
+	 * @param oldpasswd
+	 * @param newpasswd
+	 * @return
+	 */
 	@RequestMapping(value="/update/passwd/{oldpass}/{newpass}", method=RequestMethod.GET)
 	@ResponseBody
-	public boolean updateGetPasswd(@PathVariable("oldpass") String oldpasswd, @PathVariable("newpass") String newpasswd){
+	public AppResponseModel updateGetPasswd(@PathVariable("oldpass") String oldpasswd, @PathVariable("newpass") String newpasswd){
+		AppResponseModel model = new AppResponseModel();
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(user != null && user.getUid() > 0 && newpasswd != null && oldpasswd != null){
 			String oldPasswd = passwordEncoder.encodePassword(oldpasswd, null);
@@ -211,18 +261,29 @@ public class AppUserController {
 			if(user.getBirthday() != null){
 				updateUser.setBirthday(user.getBirthday());
 			}
-			if(user.getQq() > 0){
+			if(user.getQq() != null){
 				updateUser.setQq(user.getQq());
 			}
-			if(user.getPhone() > 0){
+			if(user.getPhone() != null){
 				updateUser.setPhone(user.getPhone());
 			}
-			if(!userIdentifyService.updateUser(updateUser)){
-				return false;
+			if(!userServiceImp.updatePasswd(user, oldPasswd, newPasswd)){
+				model.setResultCode(0);
+				model.setResultMsg("OldPasswd error");
+				return model;
 			}
-			return userServiceImp.updatePasswd(user, oldPasswd, newPasswd);
+			if(!userIdentifyService.updateUser(updateUser)){
+				model.setResultCode(0);
+				model.setResultMsg("Very Bad Thing");
+				return model;
+			}
+			model.setResultCode(1);
+			model.setResultMsg("SUCCESS");
+			return model;
 		}
-		return false;
+		model.setResultCode(0);
+		model.setResultMsg("Param error");
+		return model;
 	}
 	
 	public UserService getUserServiceImp() {
@@ -242,5 +303,53 @@ public class AppUserController {
 
 	public void setArticleServiceImp(ArticleService articleServiceImp) {
 		this.articleServiceImp = articleServiceImp;
+	}
+	
+	
+	/**
+	 * 上传用户头像
+	 * @param file
+	 * @return
+	 */
+	@RequestMapping(value = "/upload/avatar", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public String uploadAvtar(@RequestParam(value = "file", required = true) MultipartFile file){
+		String returnUrl = null; // 返回的图片URL
+		String localhostString = null; //当前主机的地址
+		String filePath = null; // 存储用户头像图片的绝对路径
+		String simFilePath = null; // 存储用户头像压缩图片的绝对路径
+		byte[] bytes;
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(!file.isEmpty()){
+			Properties props = new Properties();
+			try {
+				bytes = file.getBytes();
+				props=PropertiesLoaderUtils.loadAllProperties("config.properties");
+				localhostString = props.getProperty("localhost");
+				filePath = props.getProperty("pictureDir") + File.separator +  "userPic" + File.separator + user.getId() + File.separator + "avatar";
+				simFilePath = filePath + File.separator + "sim";
+				Path path = Paths.get(filePath);
+				Path simPath = Paths.get(simFilePath);
+				if(Files.notExists(path)){
+					Files.createDirectories(path);
+				}
+				if(Files.notExists(simPath)){
+					Files.createDirectories(simPath);
+				}
+				FileOutputStream fos = new FileOutputStream(filePath + File.separator + "avatar");
+				fos.write(bytes); // 写入文件
+				fos.close();
+				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + "avatar"),
+														 new File(simFilePath + File.separator + "avatar"),
+														 60, 60, 0.5, false);
+				returnUrl = (localhostString + simFilePath.split("Shangbao01")[1] + File.separator + "avatar").replaceAll("\\\\", "/");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println(returnUrl);
+		return returnUrl;
 	}
 }

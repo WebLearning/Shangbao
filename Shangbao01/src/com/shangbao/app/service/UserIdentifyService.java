@@ -117,10 +117,10 @@ public class UserIdentifyService {
 					user.setPasswd(passwordEncoder.encodePassword(password, null));
 					user.setName(userInfo.getNickname());
 					if(userInfo.getPhone() != null && !userInfo.getPhone().isEmpty()){
-						user.setPhone(Integer.parseInt(userInfo.getPhone()));
+						user.setPhone(userInfo.getPhone());
 					}
 					if(userInfo.getQq() != null && !userInfo.getQq().isEmpty()){
-						user.setQq(Integer.parseInt(userInfo.getQq()));
+						user.setQq(userInfo.getQq());
 					}
 					if(userInfo.getSex() != null && !userInfo.getSex().isEmpty()){
 						user.setSex(Integer.parseInt(userInfo.getSex()));
@@ -152,16 +152,16 @@ public class UserIdentifyService {
 		userMap.add("psw", user.getPasswd());
 		if(user.getAvatar() != null)
 			userMap.add("avatar", user.getAvatar());
-		if(user.getPhone() != 0)
-			userMap.add("phone", user.getPhone() + "");
+		if(user.getPhone() != null)
+			userMap.add("phone", user.getPhone());
 		if(user.getEmail() != null)
 			userMap.add("email", user.getEmail());
 		if(user.getSex() == 0 || user.getSex() == 1)
 			userMap.add("sex", user.getSex() + "");
 		if(user.getBirthday() != null)
 			userMap.add("birthday", user.getBirthday().getTime()/1000 + "");
-		if(user.getQq() != 0)
-			userMap.add("qq", user.getQq() + "");
+		if(user.getQq() != null)
+			userMap.add("qq", user.getQq());
 		String responseUser = restTemplate.postForObject(remoteUrl + "addUser", userMap, String.class);
 		System.out.println(responseUser);
 		if(responseUser.toCharArray()[14] == '0'){
@@ -174,8 +174,12 @@ public class UserIdentifyService {
 		if(user.getUid() > 0 && user.getPasswd() != null){
 			MultiValueMap<String, Object> userMap = new LinkedMultiValueMap<>();
 			userMap.add("uid", user.getUid().toString());
-			userMap.add("psw", user.getPasswd());
-			userMap.add("nickname", user.getName());
+			if(user.getPasswd() != null){
+				userMap.add("psw", user.getPasswd());
+			}
+			if(user.getName() != null){
+				userMap.add("nickname", user.getName());
+			}
 			if(user.getAvatar() != null){
 				userMap.add("avatar", user.getAvatar());
 			}
@@ -188,11 +192,11 @@ public class UserIdentifyService {
 			if(user.getBirthday() != null){
 				userMap.add("birthday", user.getBirthday().getTime() / 1000);
 			}
-			if(user.getQq() > 0){
-				userMap.add("qq", user.getQq() + "");
+			if(user.getQq() != null){
+				userMap.add("qq", user.getQq());
 			}
-			if(user.getPhone() > 0){
-				userMap.add("phone", user.getPhone() + "");
+			if(user.getPhone() != null){
+				userMap.add("phone", user.getPhone());
 			}
 			String responseUser = restTemplate.postForObject(remoteUrl + "editUser", userMap, String.class);
 			System.out.println(responseUser);
@@ -256,5 +260,6 @@ public class UserIdentifyService {
 			return code + "";
 		}
 		return null;
+		//return "14321";
 	}
 }

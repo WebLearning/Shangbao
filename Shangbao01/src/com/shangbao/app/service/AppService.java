@@ -52,6 +52,9 @@ public class AppService {
 			}
 		}
 		List<Channel> channels = appModel.getTopChannels();
+		if(channels.isEmpty() || channels == null){
+			return frontPageModel;
+		}
 		for(Channel channel : channels){
 			frontPageModel.addChannel(channel.getChannelName(), appUrlPrefix + channel.getEnglishName());
 		}
