@@ -1196,6 +1196,22 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             });
         }
     };
+    $scope.addUserInformation1=function(){
+        var url=$scope.projectName+"/user/register";
+        console.log(url);
+        console.log($scope.addUserInfo);
+        if($scope.addUserInfo.passwd!=$scope.elsePassword){
+            alert("两次输入密码不一致！");
+            $scope.clearUserInfo();
+        }else{
+            $http.post(url,$scope.addUserInfo).success(function(){
+                alert("注册成功！");
+                $scope.clearUserInfo();
+                $scope.addUserInfo.name="";
+                $('#addUser_1').modal('toggle');
+            });
+        }
+    };
     //修改密码-----------------------------------------------------------------------------------------------------------
     $scope.changePassWord={
         oldPasswd:"",
@@ -1239,6 +1255,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             });
         }
     };
+    //设置app打开图片---------------------------------------------------------------------------------------------------
+
     //退出登录----------------------------------------------------------------------------------------------------------
     $scope.exitLog=function(){
         alert("成功退出");

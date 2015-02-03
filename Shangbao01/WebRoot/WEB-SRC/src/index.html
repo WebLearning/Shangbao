@@ -203,27 +203,30 @@
               </div>
             </div>
             <div class="user pull-right">
-              <div class="item dropdown">
-                <a ng-href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                    <!--<img src="img/avatar.jpg">-->
-                    <i class="glyphicon glyphicon-bell"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                  <li>
-                    <a href="" data-toggle="modal" data-target="#modify_passWord1">修改密码</a>
-                  </li>
-                  <li>
-                     <a href="">忘记密码</a>
-                  </li>
-                  <li class="divider"></li>
-                  <li class="dropdown-header">
-                    <a href="" ng-click="exitLog()">退出</a>
-                  </li>
-                  <li>
-                    <a href="">测试</a>
-                  </li>
-                </ul>
-                  <div class="modal fade" id="modify_passWord1" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="item dropdown">
+                    <a ng-href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <!--<img src="img/avatar.jpg">-->
+                        <i class="glyphicon glyphicon-bell"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li>
+                            <a href="" data-toggle="modal" data-target="#addUser_1">注册账号</a>
+                        </li>
+                        <li>
+                            <a href="" data-toggle="modal" data-target="#modify_passWord1">修改密码</a>
+                        </li>
+                        <li>
+                            <a href="">忘记密码</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">
+                            <a href="" ng-click="exitLog()">退出</a>
+                        </li>
+                  <!--<li>-->
+                    <!--<a href="" data-toggle="modal" data-target="#addUser_1">注册</a>-->
+                  <!--</li>-->
+                    </ul>
+                    <div class="modal fade" id="modify_passWord1" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                           <div class="modal-content">
                               <div class="modal-header">
@@ -261,41 +264,79 @@
                           </div>
                       </div>
                   </div>
-              </div>
-              <div class="item dropdown">
-               <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                  <!--<i class="glyphicon glyphicon-bell"></i>-->
-                   <img src="img/avatar.jpg">
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li class="dropdown-header">
-                    通知
-                  </li>
-                  <li class="divider"></li>
-                  <li>
-                    <a href="#">服务器关闭</a>
-                  </li>
-                </ul>
-              </div>
+                    <div class="modal fade" id="addUser_1" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                  <!--<div class="pull-left">-->
+                                  <h4 class="modal-title">注册账号</h4>
+                                  <!--</div>                                 -->
+                              </div>
+                              <div class="modal-body">
+                                  <form class="form-horizontal" role="form">
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">账号</label>
+                                          <div class="col-md-8">
+                                              <input type="text" class="form-control" id="add_userName1" placeholder="请输入账号" ng-model="addUserInfo.name">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">密码</label>
+                                          <div class="col-md-8">
+                                              <input type="password" class="form-control" id="add_password1" placeholder="请输入密码" ng-model="addUserInfo.passwd">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">确认密码</label>
+                                          <div class="col-md-8">
+                                              <input type="password" class="form-control" id="add_passwd1" placeholder="请再次输入密码" ng-model="elsePassword">
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                  <button type="button" class="btn btn-primary" ng-click="addUserInformation1()">确认</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="item dropdown">
+                    <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                        <!--<i class="glyphicon glyphicon-bell"></i>-->
+                        <img src="img/avatar.jpg">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-header">
+                            通知
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">服务器关闭</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
           </div>
         </div>
 		<!-- Main Content -->
 		<div class="row tab-content">
 			<div role="tabpanel" class="tab-pane active" id="generalView" ng-controller="generalViewCtrl">
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-1">
-                        <button type="button" class="btn btn-success" ng-click="testData()">test</button>
-                    </div>
-                    <div class="col-md-2 col-md-offset-6">
-                        <button type="button" class="btn btn-success" ng-click="refreshGeneralView()"><span class="glyphicon glyphicon-refresh"></span></button>
-                    </div>
-                </div>
+                <!--<div class="row">-->
+                    <!--<div class="col-md-2 col-md-offset-1">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="testData()">test</button>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-2 col-md-offset-6">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="refreshGeneralView()"><span class="glyphicon glyphicon-refresh"></span></button>-->
+                    <!--</div>-->
+                <!--</div>-->
 				<div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
-					            <div class="col-lg-4" ng-repeat="section in newGeneralViewSections">
+					            <div class="col-lg-6" ng-repeat="section in newGeneralViewSections">
 						            <div class="widget">
 							            <div class="widget-title">
 								            <i class="glyphicon glyphicon-tasks"></i> {{section.ChannelName}}
@@ -543,7 +584,7 @@
                     <!--<div class="col-md-2 col-md-offset-1">-->
                         <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
                     <!--</div>-->
-                    <div class="col-md-2 col-md-offset-1">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="crawlerSearchData.content">
                             <div class="input-group-addon btn-info" ng-click="getCrawlerSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
@@ -554,38 +595,38 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th style="width: 10%">标题</th>
-                                        <th style="width: 8%">作者</th>
-                                        <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
+                                        <th style="width: 16%">标题</th>
+                                        <!--<th style="width: 8%">作者</th>-->
+                                        <th style="width: 10%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
-                                        <th style="width: 10%">分类</th>
+                                        <th style="width: 16%">分类</th>
                                         <th style="width: 5%">等级</th>
-                                        <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
+                                        <!--<th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>-->
+                                        <th style="width: 12%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <!--<th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>-->
                                         <th style="width: 20%">摘要</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
+                                        <th style="width: 6%"><a href="" ng-click="orderByWords()">字数</a></th>
                                         <!--<th style="width: 8%">活动</th>-->
-                                        <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
+                                        <th style="width: 7%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="tileObj in crawlerData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
-                                        <td><a href="" ng-click="checkModifyNoteInCrawler(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
+                                        <!--<td><a href="" ng-click="checkModifyNoteInCrawler(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>-->
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
                                         <td>{{checkIfNull(tileObj.level)}}</td>
-                                        <td>{{checkNum(tileObj.clicks)}}</td>
+                                        <!--<td>{{checkNum(tileObj.clicks)}}</td>-->
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
-                                        <td>{{checkNum(tileObj.likes)}}</td>
+                                        <!--<td>{{checkNum(tileObj.likes)}}</td>-->
                                         <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkNum(tileObj.words)}}</td>
                                         <!--<td>{{checkIfNull(tileObj.activity)}}</td>-->
@@ -839,7 +880,7 @@
                     <!--<div class="col-md-2 col-md-offset-1">-->
                         <!--<button type="button" class="btn btn-success" ng-click="pendingTestLog()">test</button>-->
                     <!--</div>-->
-                    <div class="col-md-2 col-md-offset-1">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="pendingSearchData.content">
                             <div class="input-group-addon btn-info" ng-click="getPendingSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
@@ -850,25 +891,25 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th style="width: 10%">标题</th>
+                                        <th style="width: 13%">标题</th>
                                         <th style="width: 8%">作者</th>
                                         <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
-                                        <th style="width: 10%">分类</th>
+                                        <th style="width: 15%">分类</th>
                                         <th style="width: 5%">等级</th>
-                                        <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
+                                        <!--<th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>-->
+                                        <th style="width: 13%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <!--<th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>-->
                                         <th style="width: 20%">摘要</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByWords()" >字数</a></th>
                                         <!--<th style="width: 8%">活动</th>-->
-                                        <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
+                                        <th style="width: 5%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -879,9 +920,9 @@
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
                                         <td>{{checkIfNull(tileObj.level)}}</td>
-                                        <td>{{checkNum(tileObj.clicks)}}</td>
+                                        <!--<td>{{checkNum(tileObj.clicks)}}</td>-->
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
-                                        <td>{{checkNum(tileObj.likes)}}</td>
+                                        <!--<td>{{checkNum(tileObj.likes)}}</td>-->
                                         <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkNum(tileObj.words)}}</td>
                                         <!--<td>{{checkIfNull(tileObj.activity)}}</td>-->
@@ -1068,14 +1109,14 @@
                         <!--<div class="col-md-1 col-md-offset-7">-->
                             <!--<button type="button" class="btn btn-success" ng-click="refreshPublished()"><span class="glyphicon glyphicon-refresh"></span></button>-->
                         <!--</div>-->
-                        <div class="col-md-2 col-md-offset-1">
+                        <div class="col-md-3">
                             <div class="input-group">
                                 <input type="text" class="form-control" ng-model="publishedSearchData.content">
                                 <div class="input-group-addon btn-info" ng-click="getPublishedSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
@@ -1337,7 +1378,7 @@
                     <!--<div class="col-md-2 col-md-offset-1">-->
                         <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
                     <!--</div>-->
-                    <div class="col-md-2 col-md-offset-1">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="revokedSearchData.content">
                             <div class="input-group-addon btn-info" ng-click="getRevokedSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
@@ -1348,7 +1389,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
@@ -1596,7 +1637,7 @@
                     <!--<div class="col-md-2 col-md-offset-1">-->
                         <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
                     <!--</div>-->
-                    <div class="col-md-2 col-md-offset-1">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="tempSearchData.content">
                             <div class="input-group-addon btn-info" ng-click="getTempSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
@@ -1607,7 +1648,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
@@ -1615,14 +1656,14 @@
                                     <tr>
                                         <th style="width: 10%">标题</th>
                                         <th style="width: 8%">作者</th>
-                                        <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
+                                        <th style="width: 10%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
                                         <th style="width: 10%">分类</th>
                                         <th style="width: 5%">等级</th>
                                         <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
                                         <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
-                                        <th style="width: 20%">摘要</th>
+                                        <th style="width: 18%">摘要</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
                                         <!--<th style="width: 8%">活动</th>-->
                                         <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
@@ -1903,7 +1944,7 @@
                                 <button type="button" class="btn btn-success pull-right" ng-click="refreshCommentDetails()"><span class="glyphicon glyphicon-refresh"></span></button>
                                 <button type="button" class="btn btn-success pull-right" ng-click="testLog()">test</button>
                             </div>
-                            <div class="col-md-10 col-md-offset-1">
+                            <div class="col-md-12">
                                 <div class="panel panel-success">
                                     <div class="panel-body">
                                         <table class="table table-hover">
@@ -2007,7 +2048,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
+                            <div class="col-md-12">
                                 <div class="panel panel-success">
                                     <div class="panel-body">
                                         <table class="table table-hover">
@@ -2055,7 +2096,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-info">
                             <div class="panel-body">
                                 <table class="table table-bordered">
@@ -2266,86 +2307,72 @@
                         <button type="button" class="btn btn-success" ng-click="getSetState()">test</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <table class="table table-bordered" text-align="right">
-                            <thead>
-                            <tr>
-                                <th>增加用户</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <form class="form-horizontal" role="form">
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">账号</label>
-                                            <div class="col-md-9">
-                                                <input type="text" class="form-control" id="add_userName" placeholder="请输入用户名" ng-model="addUserInfo.name">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">密码</label>
-                                            <div class="col-md-9">
-                                                <input type="password" class="form-control" id="add_passWord" placeholder="请输入密码" ng-model="addUserInfo.passwd">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-3 control-label">确认密码</label>
-                                            <div class="col-md-9">
-                                                <input type="password" class="form-control" id="add_passwd" placeholder="请再次输入密码" ng-model="elsePassword">
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <br>
-                                    <div class="pull-right">
-                                        <button type="button" class="btn btn-info" ng-click="addUserInformation()">提交</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
                 <!--<div class="row">-->
-                    <!--<div class="col-md-2">-->
-                        <!--<a href="" data-toggle="modal" data-target="#modify_passWord">修改密码</a>-->
-                    <!--</div>-->
-                    <!--<div class="modal fade" id="modify_passWord" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">-->
-                        <!--<div class="modal-dialog">-->
-                            <!--<div class="modal-content">-->
-                                <!--<div class="modal-header">-->
-                                    <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
-                                    <!--<h4 class="modal-title">修改密码</h4>-->
-                                <!--</div>-->
-                                <!--<div class="modal-body">-->
+                    <!--<div class="col-md-3">-->
+                        <!--<table class="table table-bordered">-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                                <!--<th>app开启图片</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--<tr>-->
+                                <!--<td>-->
                                     <!--<form class="form-horizontal" role="form">-->
                                         <!--<div class="form-group">-->
-                                            <!--<label class="col-md-3 control-label">旧密码</label>-->
-                                            <!--<div class="col-md-8">-->
-                                                <!--<input type="password" class="form-control" id="change_oldPasswd" placeholder="请输入新密码" ng-model="changePassWord.oldPasswd">-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label class="col-md-3 control-label">新密码</label>-->
-                                            <!--<div class="col-md-8">-->
-                                                <!--<input type="password" class="form-control" id="change_passwd1" placeholder="请输入新密码" ng-model="changePassWord.newPasswd">-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="form-group">-->
-                                            <!--<label class="col-md-3 control-label">确认新密码</label>-->
-                                            <!--<div class="col-md-8">-->
-                                                <!--<input type="password" class="form-control" id="change_passwd2" placeholder="请再次输入新密码" ng-model="newPassword1">-->
+                                            <!--<div class="col-md-12">-->
+                                                <!--&lt;!&ndash;<div class="col-md-2" ng-repeat="picUrl in newArticleData.picturesUrl track by $index">&ndash;&gt;-->
+                                                <!--<div class="col-md-8">-->
+                                                    <!--<div class="thumbnail">-->
+                                                        <!--<button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                                        <!--<img ng-src="{{picUrl}}" style="width: 160px;height: 180px">-->
+                                                        <!--&lt;!&ndash;<button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>&ndash;&gt;-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-md-2">-->
+                                                    <!--<button class="btn btn-md btn-default" data-toggle="modal" data-target="#add_appIMG">修改图片</button>-->
+                                                <!--</div>-->
                                             <!--</div>-->
                                         <!--</div>-->
                                     <!--</form>-->
-                                <!--</div>-->
-                                <!--<div class="modal-footer">-->
-                                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
-                                    <!--<button type="button" class="btn btn-primary" ng-click="modifyPassWord()">确认</button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="row">-->
+                    <!--<div class="col-md-10">-->
+                        <!--<table class="table table-bordered">-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                                <!--<th>app首次开启图片</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--<tr>-->
+                                <!--<td>-->
+                                    <!--<form class="form-horizontal" role="form">-->
+                                        <!--<div class="form-group">-->
+                                            <!--<div class="col-md-12">-->
+                                                <!--&lt;!&ndash;<div class="col-md-2" ng-repeat="picUrl in newArticleData.picturesUrl track by $index">&ndash;&gt;-->
+                                                <!--<div class="col-md-2" ng-repeat="picUrl in appPicData.picturesUrl track by $index">-->
+                                                    <!--<div class="thumbnail">-->
+                                                        <!--<button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                                                        <!--<img ng-src="{{picUrl}}" style="width: 160px;height: 180px">-->
+                                                        <!--&lt;!&ndash;<button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>&ndash;&gt;-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-md-2">-->
+                                                    <!--<button class="btn btn-md btn-default" data-toggle="modal" data-target="#add_appIMGS">添加图片</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</form>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
                     <!--</div>-->
                 <!--</div>-->
             </div>
@@ -2590,7 +2617,7 @@
                     <!--<div class="col-md-2 col-md-offset-1">-->
                         <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
                     <!--</div>-->
-                    <div class="col-md-2 col-md-offset-1">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="crawlerPictureSearchData.content">
                             <div class="input-group-addon btn-info" ng-click="getCrawlerPictureSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
@@ -2601,25 +2628,25 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th style="width: 10%">标题</th>
-                                        <th style="width: 8%">作者</th>
-                                        <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
-                                        <th style="width: 8%">来源</th>
+                                        <th style="width: 20%">标题</th>
+                                        <th style="width: 10%">作者</th>
+                                        <th style="width: 10%"><a href="" ng-click="orderByTime()">时间</a></th>
+                                        <th style="width: 10%">来源</th>
                                         <th style="width: 10%">分类</th>
-                                        <th style="width: 5%">等级</th>
-                                        <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
-                                        <th style="width: 20%">摘要</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
+                                        <th style="width: 10%">等级</th>
+                                        <!--<th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>-->
+                                        <th style="width: 20%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <!--<th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>-->
+                                        <!--<th style="width: 20%">摘要</th>-->
+                                        <!--<th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>-->
                                         <!--<th style="width: 8%">活动</th>-->
-                                        <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
+                                        <th style="width: 10%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -2630,11 +2657,11 @@
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
                                         <td>{{checkIfNull(tileObj.level)}}</td>
-                                        <td>{{checkNum(tileObj.clicks)}}</td>
+                                        <!--<td>{{checkNum(tileObj.clicks)}}</td>-->
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
-                                        <td>{{checkNum(tileObj.likes)}}</td>
-                                        <td>{{checkSummary(tileObj.summary)}}</td>
-                                        <td>{{checkNum(tileObj.words)}}</td>
+                                        <!--<td>{{checkNum(tileObj.likes)}}</td>-->
+                                        <!--<td>{{checkSummary(tileObj.summary)}}</td>-->
+                                        <!--<td>{{checkNum(tileObj.words)}}</td>-->
                                         <!--<td>{{checkIfNull(tileObj.activity)}}</td>-->
                                         <td>
                                             <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
@@ -2916,7 +2943,7 @@
                     <!--<div class="col-md-2 col-md-offset-1">-->
                         <!--<button type="button" class="btn btn-success" ng-click="pendingPictureTestLog()">test</button>-->
                     <!--</div>-->
-                    <div class="col-md-2 col-md-offset-1">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="pendingPictureSearchData.content">
                             <div class="input-group-addon btn-info" ng-click="getPendingPictureSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
@@ -2927,25 +2954,25 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th style="width: 10%">标题</th>
-                                        <th style="width: 8%">作者</th>
-                                        <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
-                                        <th style="width: 8%">来源</th>
+                                        <th style="width: 15%">标题</th>
+                                        <th style="width: 10%">作者</th>
+                                        <th style="width: 10%"><a href="" ng-click="orderByTime()">时间</a></th>
+                                        <th style="width: 10%">来源</th>
                                         <th style="width: 10%">分类</th>
                                         <th style="width: 5%">等级</th>
-                                        <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
+                                        <!--<th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>-->
+                                        <th style="width: 15%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <!--<th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>-->
                                         <th style="width: 20%">摘要</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByWords()" >字数</a></th>
+                                        <!--<th style="width: 5%"><a href="" ng-click="orderByWords()" >字数</a></th>-->
                                         <!--<th style="width: 8%">活动</th>-->
-                                        <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
+                                        <th style="width: 5%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -2956,11 +2983,11 @@
                                         <td>{{checkIfNull(tileObj.from)}}</td>
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
                                         <td>{{checkIfNull(tileObj.level)}}</td>
-                                        <td>{{checkNum(tileObj.clicks)}}</td>
+                                        <!--<td>{{checkNum(tileObj.clicks)}}</td>-->
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
-                                        <td>{{checkNum(tileObj.likes)}}</td>
+                                        <!--<td>{{checkNum(tileObj.likes)}}</td>-->
                                         <td>{{checkSummary(tileObj.summary)}}</td>
-                                        <td>{{checkNum(tileObj.words)}}</td>
+                                        <!--<td>{{checkNum(tileObj.words)}}</td>-->
                                         <!--<td>{{checkIfNull(tileObj.activity)}}</td>-->
                                         <td>
                                             <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
@@ -3141,7 +3168,7 @@
                     <!--<div class="col-md-2 col-md-offset-2">-->
                         <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
                     <!--</div>-->
-                    <div class="col-md-2 col-md-offset-1">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="publishedPictureSearchData.content">
                             <div class="input-group-addon btn-info" ng-click="getPublishedPictureSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
@@ -3152,25 +3179,25 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th style="width: 10%">标题</th>
+                                        <th style="width: 15%">标题</th>
                                         <th style="width: 8%">作者</th>
-                                        <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
+                                        <th style="width: 10%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
                                         <th style="width: 10%">分类</th>
                                         <th style="width: 5%">等级</th>
                                         <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <th style="width: 13%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
-                                        <th style="width: 20%">摘要</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
+                                        <th style="width: 15%">摘要</th>
+                                        <!--<th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>-->
                                         <!--<th style="width: 8%">活动</th>-->
-                                        <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
+                                        <th style="width: 5%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -3185,7 +3212,7 @@
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkNum(tileObj.likes)}}</td>
                                         <td>{{checkSummary(tileObj.summary)}}</td>
-                                        <td>{{checkNum(tileObj.words)}}</td>
+                                        <!--<td>{{checkNum(tileObj.words)}}</td>-->
                                         <!--<td>{{checkIfNull(tileObj.activity)}}</td>-->
                                         <td>
                                             <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
@@ -3399,7 +3426,7 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="revokedPicture" ng-controller="revokedPictureCtrl">
                 <div class="row">
-                    <div class="col-md-2 col-md-offset-1">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="revokedPictureSearchData.content">
                             <div class="input-group-addon btn-info" ng-click="getRevokedPictureSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
@@ -3410,25 +3437,25 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th style="width: 10%">标题</th>
+                                        <th style="width: 15%">标题</th>
                                         <th style="width: 8%">作者</th>
-                                        <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
+                                        <th style="width: 10%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
                                         <th style="width: 10%">分类</th>
                                         <th style="width: 5%">等级</th>
                                         <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <th style="width: 13%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
-                                        <th style="width: 20%">摘要</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
+                                        <th style="width: 15%">摘要</th>
+                                        <!--<th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>-->
                                         <!--<th style="width: 8%">活动</th>-->
-                                        <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
+                                        <th style="width: 5%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -3443,7 +3470,7 @@
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkNum(tileObj.likes)}}</td>
                                         <td>{{checkSummary(tileObj.summary)}}</td>
-                                        <td>{{checkNum(tileObj.words)}}</td>
+                                        <!--<td>{{checkNum(tileObj.words)}}</td>-->
                                         <!--<td>{{checkIfNull(tileObj.activity)}}</td>-->
                                         <td>
                                             <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
@@ -3679,7 +3706,7 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="draftPicture" ng-controller="draftPictureCtrl">
                 <div class="row">
-                    <div class="col-md-2 col-md-offset-1">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" ng-model="tempPictureSearchData.content">
                             <div class="input-group-addon btn-info" ng-click="getTempPictureSearchData('1')"><span class="glyphicon glyphicon-search"></span></div>
@@ -3690,25 +3717,25 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th style="width: 10%">标题</th>
+                                        <th style="width: 15%">标题</th>
                                         <th style="width: 8%">作者</th>
-                                        <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
+                                        <th style="width: 10%"><a href="" ng-click="orderByTime()">时间</a></th>
                                         <th style="width: 8%">来源</th>
                                         <th style="width: 10%">分类</th>
                                         <th style="width: 5%">等级</th>
                                         <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <th style="width: 13%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
-                                        <th style="width: 20%">摘要</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
+                                        <th style="width: 15%">摘要</th>
+                                        <!--<th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>-->
                                         <!--<th style="width: 8%">活动</th>-->
-                                        <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
+                                        <th style="width: 5%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -3723,7 +3750,7 @@
                                         <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
                                         <td>{{checkNum(tileObj.likes)}}</td>
                                         <td>{{checkSummary(tileObj.summary)}}</td>
-                                        <td>{{checkNum(tileObj.words)}}</td>
+                                        <!--<td>{{checkNum(tileObj.words)}}</td>-->
                                         <!--<td>{{checkIfNull(tileObj.activity)}}</td>-->
                                         <td>
                                             <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(tileObj.articleId)" ng-click="selectArticle(tileObj.articleId,selectState)">
