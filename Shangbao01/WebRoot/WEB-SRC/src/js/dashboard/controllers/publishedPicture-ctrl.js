@@ -13,8 +13,8 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
         var checkedStr;
         if(str==null||str==""){
             checkedStr="无";
-        }else if(str.length>20){
-            checkedStr=str.substr(0,20)+"...";
+        }else if(str.length>26){
+            checkedStr=str.substr(0,26)+"...";
         }else{
             checkedStr=str;
         }

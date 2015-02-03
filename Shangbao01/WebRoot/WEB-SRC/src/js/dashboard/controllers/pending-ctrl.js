@@ -139,8 +139,8 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         var checkedStr;
         if(str==null||str==""){
             checkedStr="无";
-        }else if(str.length>20){
-            checkedStr=str.substr(0,20)+"...";
+        }else if(str.length>26){
+            checkedStr=str.substr(0,26)+"...";
         }else{
             checkedStr=str;
         }
@@ -165,6 +165,16 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }else{
             return arr;
         }
+    };
+    $scope.checkNum=function(str)
+    {
+        var checkedStr;
+        if(str==null||str==""||str=="0"){
+            checkedStr="0";
+        }else{
+            checkedStr=str;
+        }
+        return checkedStr;
     };
 
     $scope.dateStringToDate=function(dateStr)
