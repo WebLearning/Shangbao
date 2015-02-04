@@ -112,7 +112,7 @@ public class CompressPicUtils {
 				return true;
 			}else{
 				Thumbnails.of(inputFile)
-						  .size(newWidth, newHeight)
+						  .size(outputWidth, outputHeight)
 						  .outputQuality(outputQutity)
 						  .toFile(outputFile);
 				return true;
