@@ -1043,7 +1043,9 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $http.get(url).success(function(data){
             if(data.length>0){
                 for(i=0;i<data.length;i++){
-                    $scope.checkFirstChannel(data[i]);
+                    if(data[i].englishName!="kuaipai"){
+                        $scope.checkFirstChannel(data[i]);
+                    }
                 }
             }else{
                 $scope.newChannelNames=[];
@@ -1302,8 +1304,6 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     {
         $scope.deleteOne.id=id;
         $scope.deleteOnePic(index+1);
-//        $scope.onePicData.pictureUrls=urls;
-//        $scope.onePicData.pictureUrls.splice(index,1);
     };
     //删除一张已上传的图片
     $scope.deleteOnePic=function(index){
@@ -1371,12 +1371,16 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.disableConfirmButton();
         }
     };
+//    $scope.final_width=null;
+//    $scope.final_height=null;
     $scope.loadPreviewIMG=function(obj)
     {
         var docObj = obj;
         var preViewUrl = window.URL.createObjectURL(docObj.files[0]);
         var imgObjPreview=document.getElementById("imgPreview_addAppPic");
         imgObjPreview.src = preViewUrl;
+//        $scope.final_width=imgObjPreview.offsetWidth;
+//        $scope.final_height=imgObjPreview.offsetHeight;
     };
     $scope.addPreviewFrame=function()
     {
@@ -1431,12 +1435,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.addPicUrl=function()
     {
         var url = $scope.getPicUrl();
-        $scope.pushPicUrl(url);
-        $scope.testAdd();
-//        $scope.addImgToEditorContent(url);
-        $scope.turnOffUploadModal();
-        $scope.deletePreviewFrame();
-//        $scope.addOnePictureData.pictureUrls=[];
+//        console.log($scope.final_height);
+//        if(($scope.addOnePictureData.id=="iphone4s")&&($scope.final_width==960)&&($scope.final_height==640)){
+            $scope.pushPicUrl(url);
+            $scope.testAdd();
+            $scope.turnOffUploadModal();
+            $scope.deletePreviewFrame();
+//        }else if(($scope.addOnePictureData.id=="iphone5s")&&($scope.final_width==1136)&&($scope.final_height==640)){
+//            $scope.pushPicUrl(url);
+//            $scope.testAdd();
+//            $scope.turnOffUploadModal();
+//            $scope.deletePreviewFrame();
+//        }else{
+//                alert("上传图片不合格")
+//            }
     };
     $scope.getPicUrl=function()
     {
@@ -1446,7 +1458,6 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     $scope.pushPicUrl=function(url)
     {
-//        $scope.transAddAppPicture(id,urls);
         $scope.onePicData.pictureUrls.push(url);
         $scope.addOnePictureData.pictureUrls.push(url);
         $scope.$apply();//相当于刷新一下scope 不然内容加不上
