@@ -205,7 +205,7 @@ public class ChannelController {
 		}
 	}
 	
-	@RequestMapping(value="/startpictures/delete", method=RequestMethod.POST)
+	@RequestMapping(value="/startpictures", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	public void deletePictures(@RequestBody StartPictures pictures){
 		if(!pictures.getId().isEmpty() && !pictures.getPictureUrls().isEmpty()){
@@ -213,19 +213,11 @@ public class ChannelController {
 		}
 	}
 	
-	@RequestMapping(value="/startpictures/deleteall", method=RequestMethod.POST)
+	@RequestMapping(value="/startpictures/delete", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteStartPictures(@RequestBody StartPictures pictures){
 		if(!pictures.getId().isEmpty() && pictures.getId() != null){
 			startPicturesServiceImp.deleteAll(pictures);
-		}
-	}
-	
-	@RequestMapping(value="/startpictures/delete/{index}", method=RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
-	public void deleteOne(@RequestBody StartPictures pictures, @PathVariable("index") int index){
-		if(pictures.getId() != null){
-			startPicturesServiceImp.delete(pictures, index);
 		}
 	}
 	
