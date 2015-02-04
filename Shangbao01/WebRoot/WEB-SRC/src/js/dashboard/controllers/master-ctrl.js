@@ -1276,30 +1276,50 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     $scope.getPicData();
     $scope.onePicData={
-        id:"",pictureUrls:[]
+        id:"",
+        pictureUrls:[]
     };
-
-    $scope.testAdd=function(id){
-        $scope.onePicData.id=id;
+    $scope.addOnePictureData={
+        id:"",
+        pictureUrls:[]
+    };
+    $scope.testAdd=function(){
+//        $scope.addOnePictureData.id=id;
 //        $scope.onePicData.pictureUrls=urls;
-        console.log($scope.onePicData);
+        console.log($scope.addOnePictureData);
         var url=$scope.projectName+"/channel/startpictures";
-        $http.put(url,$scope.onePicData).success(function(){
+        $http.put(url,$scope.addOnePictureData).success(function(){
             alert("添加图片成功");
+            $scope.getPicData();
+            $scope.addOnePictureData.pictureUrls=[];
         });
 //        console.log($scope.picData);
     };
-    $scope.deletePicUrl=function(id,urls,index)
+    $scope.deleteOne={
+        id:""
+    };
+    $scope.deletePicUrl=function(id,index)
     {
+        $scope.deleteOne.id=id;
+        $scope.deleteOnePic(index+1);
+//        $scope.onePicData.pictureUrls=urls;
+//        $scope.onePicData.pictureUrls.splice(index,1);
+    };
+    //删除一张已上传的图片
+    $scope.deleteOnePic=function(index){
+        var url=$scope.projectName+"/channel/startpictures/delete/"+index;
+        console.log($scope.deleteOne);
+        $http.post(url,$scope.deleteOne).success(function(){
+            alert("删除成功");
+            $scope.getPicData();
+        });
+    };
+    $scope.transAddAppPicture=function(id,urls){
         $scope.onePicData.id=id;
         $scope.onePicData.pictureUrls=urls;
-        $scope.onePicData.pictureUrls.splice(index,1);
-    };
-    $scope.transAddAppPicture=function(id){
-        $scope.onePicData.id=id;
-//        $scope.onePicData.pictureUrls=urls;
+        $scope.addOnePictureData.id=id;
         console.log($scope.onePicData.id);
-//        console.log($scope.onePicData.pictureUrls);
+        console.log($scope.onePicData.pictureUrls);
         console.log($scope.onePicData);
     };
     //新建appId名------------------------------------------------------------------------------------------------------
@@ -1330,6 +1350,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.deleteId);
         $http.post(url,$scope.deleteId).success(function(){
             alert("删除成功");
+            $scope.getPicData();
         });
     };
     //上传app图片-------------------------------------------------------------------------------------------------------
@@ -1411,9 +1432,11 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     {
         var url = $scope.getPicUrl();
         $scope.pushPicUrl(url);
+        $scope.testAdd();
 //        $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
+//        $scope.addOnePictureData.pictureUrls=[];
     };
     $scope.getPicUrl=function()
     {
@@ -1425,6 +1448,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     {
 //        $scope.transAddAppPicture(id,urls);
         $scope.onePicData.pictureUrls.push(url);
+        $scope.addOnePictureData.pictureUrls.push(url);
         $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
     //关闭上传框

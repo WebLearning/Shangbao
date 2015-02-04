@@ -2331,21 +2331,21 @@
                             <tr ng-repeat="picObj in picData track by $index">
                                 <td>{{picObj.id}}</td>
                                 <td>
-                                    <div class="col-md-2" ng-repeat="picUrl in picObj.pictureUrls track by $index">
+                                    <div class="col-md-3" ng-repeat="picUrl in picObj.pictureUrls track by $index">
                                         <div class="thumbnail">
-                                            <button type="button" class="close" ng-click="deletePicUrl(picObj.id,picObj.pictureUrls,$index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 100px;height: 100px">
+                                            <button type="button" class="close" ng-click="deletePicUrl(picObj.id,$index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <img ng-src="{{picUrl}}" style="width: 160px;height: 100px">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal_addAppPic" ng-click="transAddAppPicture(picObj.id)">添加图片</button>
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal_addAppPic" ng-click="transAddAppPicture(picObj.id,picObj.pictureUrls)">添加图片</button>
                                     </div>
                                     <div class="pull-right">
                                         <p>&nbsp;</p>
                                         <p>&nbsp;</p>
                                         <p>&nbsp;</p>
                                         <p>&nbsp;</p>
-                                        <button type="button" class="btn btn-info" ng-click="testAdd(picObj.id,picObj.pictureUrls)">确认添加</button>
+                                        <!--<button type="button" class="btn btn-info" ng-click="testAdd(picObj.id)">确认添加</button>-->
                                         <button type="button" class="btn btn-danger" ng-click="deleteApp(picObj.id)">删除</button>
                                     </div>
                                 </td>
