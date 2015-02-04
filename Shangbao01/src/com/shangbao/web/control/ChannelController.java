@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.annotation.Resource;
 
@@ -236,7 +237,8 @@ public class ChannelController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
 		String returnString = "";
 		String localhostString = "";
-		String fileName = sdf.format(new Date()) + file.getSize() + file.getOriginalFilename();//保存到本地的文件名
+		Random random = new Random();
+		String fileName = sdf.format(new Date()) + file.getSize() + "" + random.nextInt(1000);//保存到本地的文件名
 		Properties props = new Properties();
 		try {
 			props=PropertiesLoaderUtils.loadAllProperties("config.properties");

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -111,7 +112,7 @@ public class AppController {
 		if(channelName.equals("kuaipai")){
 			return appService.getChannelModel("kuaipai", 1);
 		}
-		return appService.getChannelModel(channelName, 10);
+		return appService.getChannelModel(channelName, 8);
 	}
 	
 	/**
@@ -260,7 +261,8 @@ public class AppController {
 				String fileURL = props.getProperty("pictureDir") + File.separator +  "userPic" + File.separator
 						+ userId;
 				localhostString = props.getProperty("localhost");
-				String fileNameString = fileName + file.getOriginalFilename();
+				Random random = new Random();
+				String fileNameString = fileName + random.nextInt(10000);
 				String fileUrlSim = fileURL + File.separator + "sim";
 				Path path = Paths.get(fileURL);
 				if(Files.notExists(path)){

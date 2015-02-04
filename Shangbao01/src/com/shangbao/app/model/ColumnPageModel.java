@@ -49,6 +49,7 @@ public class ColumnPageModel {
 		public int comments;
 		public Integer indexId;
 		public Long newsId;
+		public String activity;
 		
 		public NewsTitle(){
 			
@@ -73,6 +74,13 @@ public class ColumnPageModel {
 			this.indexId = indexId;
 			this.newsId = newsId;
 			this.comments = article.getCrawlerCommendsPublish() + article.getNewsCommendsPublish();
+			if(!article.getChannel().isEmpty()){
+				for(String channel : article.getChannel()){
+					if(channel.startsWith("#")){
+						this.activity = channel;
+					}
+				}
+			}
 		}
 	}
 }
