@@ -67,8 +67,8 @@ public class AppService {
 	 * @param titleSize 每个子分类显示的文章标题数目
 	 * @return
 	 */
-	public AppChannelModel getChannelModel(String channelName, int titleSize){
-		channelName = appModel.getChannelEn_Cn().get(channelName);
+	public AppChannelModel getChannelModel(String channelEnName, int titleSize){
+		String channelName = appModel.getChannelEn_Cn().get(channelEnName);
 		if(channelName == null){
 			return null;
 		}
@@ -84,6 +84,9 @@ public class AppService {
 					return appChannelModel;
 				}
 				for(Channel sonChannel : sonChannels){
+					if(channelEnName.equals("kuaipai") && !sonChannel.getChannelName().startsWith("#")){
+						continue;
+					}
 					List<Article> articles = appModel.getAppMap().get(sonChannel.getChannelName());
 					if(articles != null){
 						if(titleSize >= articles.size()){
@@ -184,8 +187,8 @@ public class AppService {
 		return appHtml;
 	}
 	
-	public void addJsClick(Long articleId){
-		appModel.addJsClick(articleId);
+	public int addJsClick(Long articleId){
+		return appModel.addJsClick(articleId);
 	}
 
 	/**
@@ -426,12 +429,12 @@ public class AppService {
 		String html = "";
 		html += "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"zh-CN\"><head profile=\"http://gmpg.org/xfn/11\"> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> <title>";
 		html += article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/" + css + "\" type=\"text/css\" /> <script src=\"" + localhostString + "/WEB-SRC/click.js\"></script> <script src=\"" + localhostString + "/WEB-SRC/src/js/angular.min.js\"></script>";
-		html += "</head><body class=\"classic-wptouch-bg\"> " + "<div ng-app=\"\" ng-controller=\"urlController\"><div data-ng-init=\"load()\" ></div></div>" +  " <input type=\"hidden\" name=\"id\" value=" + article.getId() + "/> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">";
+		html += "</head><body class=\"classic-wptouch-bg\"> " +  " <input type=\"hidden\" name=\"id\" value=" + article.getId() + "/> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">";
 		html += article.getTitle() + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">";
 		html += (article.getAuthor() == null ? "" : article.getAuthor()) + "&nbsp&nbsp" + (article.getTime() == null ? "" : format.format(article.getTime()));
 		html += "</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">";
 		html += article.getContent();
-		html += "<p>&nbsp;</p></div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
+		html += "<p>&nbsp;</p>" + "<div ng-app=\"\" ng-controller=\"urlController\"><div data-ng-init=\"load()\" ></div><div>{{clickNum}}</div></div>" + "</div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
 		return html;
 	}
 

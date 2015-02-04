@@ -53,7 +53,7 @@ public class StartPicturesDaoImp implements StartPicturesDao{
 	private Query getQuery(StartPictures criteriaStartPictures){
 		Query query = new Query();
 		if(criteriaStartPictures.getId() != null && !criteriaStartPictures.getId().isEmpty()){
-			query.addCriteria(new Criteria().where("id").is(criteriaStartPictures.getId()));
+			query.addCriteria(Criteria.where("id").is(criteriaStartPictures.getId()));
 		}
 		return query;
 	}

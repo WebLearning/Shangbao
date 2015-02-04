@@ -25,6 +25,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -141,8 +142,9 @@ public class AppController {
 	
 	@RequestMapping(value="/js/addclick/{articleId}", method=RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
-	public void addClicks(@PathVariable("articleId") long articleId){
-		appService.addJsClick(articleId);
+	@ResponseBody
+	public int addClicks(@PathVariable("articleId") long articleId){
+		return appService.addJsClick(articleId);
 	}
 	
 	/**
@@ -175,7 +177,14 @@ public class AppController {
 	@RequestMapping(value="/{phoneType}/{newsId:[\\d]+}/comment", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void sendComment(@PathVariable("newsId") Long articleId, @RequestBody SingleCommend comment){
-		appService.addComment(articleId, comment);
+		if(comment.getContent() != null){
+			User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if(user != null){
+				comment.setUserId(user.getId());
+				comment.setUserName(user.getName());
+			}
+			appService.addComment(articleId, comment);
+		}
 	}
 	
 	/**

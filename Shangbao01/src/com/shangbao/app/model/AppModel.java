@@ -472,7 +472,7 @@ public class AppModel {
 		}
 	}
 	
-	public void addJsClick(Long articleId){
+	public int addJsClick(Long articleId){
 		Article criteriaArticle = new Article();
 		criteriaArticle.setId(articleId);
 		Update update = new Update();
@@ -482,7 +482,9 @@ public class AppModel {
 			}
 			update.set("js_clicks", articleMap.get(articleId).getJs_clicks());
 			articleDaoImp.update(criteriaArticle, update);
+			return articleMap.get(articleId).getJs_clicks();
 		}
+		return 0;
 	}
 	
 	public void postPictures(Article pictureArticle){
