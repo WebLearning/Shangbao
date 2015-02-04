@@ -160,6 +160,11 @@ public class AppUserController {
 		return columnPageModel;
 	}
 	
+	/**
+	 * 更新用户信息
+	 * @param postUser
+	 * @return
+	 */
 	@RequestMapping(value="/update/user", method=RequestMethod.POST)
 	@ResponseBody
 	public User updateUser(@RequestBody User postUser){
@@ -168,7 +173,7 @@ public class AppUserController {
 		postUser.setUid(criteriaUser.getUid());
 		user = userServiceImp.updateUser(criteriaUser, postUser);
 		if(user != null){
-			userIdentifyService.updateUser(postUser);
+			userIdentifyService.updateUser(user);
 		}
 		return user;
 	}

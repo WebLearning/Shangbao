@@ -113,7 +113,7 @@ public class UserServiceImp implements UserService {
 	public User updateUser(User criteriaUser, User updateUser) {
 		Update update = new Update();
 		if(updateUser.getUsername() != null){
-			update.set("userName", updateUser.getUsername());
+			update.set("name", updateUser.getUsername());
 		}
 		if(updateUser.getAvatar() != null){
 			update.set("avatar", updateUser.getAvatar());

@@ -192,7 +192,7 @@ public class ChannelController {
 	@RequestMapping(value="/startpictures", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void creatPictures(@RequestBody StartPictures pictures){
-		if(!pictures.getId().isEmpty() && !pictures.getPictureUrls().isEmpty()){
+		if(!pictures.getId().isEmpty()){
 			startPicturesServiceImp.addStartPictures(pictures);
 		}
 	}

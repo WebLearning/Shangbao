@@ -77,20 +77,81 @@ public class AppAuthController {
 		return appResponseModel;
 	}
 	
+	/**
+	 * 注册，客户端验证手机验证码
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	@ResponseBody
 	public AppResponseModel register(@RequestBody User user){
 		AppResponseModel appResponseModel = new AppResponseModel();
-		if(userIdentifyService.addUser(user)){
-			appResponseModel.setResultCode(1);
-			appResponseModel.setResultMsg("Register Success");
-		}else{
+		if(user.getPhone() == null){
 			appResponseModel.setResultCode(0);
-			appResponseModel.setResultMsg("Register Failed");
+			appResponseModel.setResultMsg("Null Phone Num");
+		}else{
+			User criteriaUser = new User();
+			criteriaUser.setPhone(user.getPhone());
+			if(userServiceImp.findOne(criteriaUser) == null){
+				if(userIdentifyService.addUser(user)){
+					appResponseModel.setResultCode(1);
+					appResponseModel.setResultMsg("Register Success");
+				}else{
+					appResponseModel.setResultCode(0);
+					appResponseModel.setResultMsg("Register Failed");
+				}
+			}else{
+				appResponseModel.setResultCode(0);
+				appResponseModel.setResultMsg("Phone Num Rejisted");
+			}
 		}
 		return appResponseModel;
 	}
 	
+	
+	/**
+	 * 注册，服务器验证手机验证码
+	 * @param user
+	 * @param request
+	 * @param phoneText
+	 * @return
+	 */
+	@RequestMapping(value="/register/{phonetext}", method=RequestMethod.POST)
+	@ResponseBody
+	public AppResponseModel registerSession(@RequestBody User user, HttpServletRequest request, @PathVariable("phonetext") String phoneText){
+		AppResponseModel appResponseModel = new AppResponseModel();
+		String text = (String)request.getSession().getAttribute("PHONE_TEXT");
+		if(!text.equals(phoneText)){
+			appResponseModel.setResultCode(0);
+			appResponseModel.setResultMsg("Wrong code");
+		}else{
+			if(user.getPhone() == null){
+				appResponseModel.setResultCode(0);
+				appResponseModel.setResultMsg("Null Phone Num");
+			}else{
+				User criteriaUser = new User();
+				criteriaUser.setPhone(user.getPhone());
+				if(userServiceImp.findOne(criteriaUser) == null){
+					if(userIdentifyService.addUser(user)){
+						appResponseModel.setResultCode(1);
+						appResponseModel.setResultMsg("Register Success");
+					}else{
+						appResponseModel.setResultCode(0);
+						appResponseModel.setResultMsg("Register Failed");
+					}
+				}else{
+					appResponseModel.setResultCode(0);
+					appResponseModel.setResultMsg("Phone Num Rejisted");
+				}
+			}
+		}
+		return appResponseModel;
+	}
+	
+	/**
+	 * 测试用
+	 * @return
+	 */
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	@ResponseBody
 	public AppResponseModel registerGet(){
@@ -109,9 +170,16 @@ public class AppAuthController {
 		return appResponseModel;
 	}
 	
+	
+	/**
+	 * 注册时验证手机
+	 * @param phoneNum
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="/phoneidentify/{phone:[\\d]+}", method=RequestMethod.GET)
 	@ResponseBody
-	public AppResponseModel AppPhoneNumIdentify(@PathVariable("phone") String phoneNum){
+	public AppResponseModel AppPhoneNumIdentify(@PathVariable("phone") String phoneNum, HttpServletRequest request){
 		AppResponseModel appResponseModel = new AppResponseModel();
 		//判断该手机是否已经注册
 		User criteriaUser = new User();
@@ -124,6 +192,7 @@ public class AppAuthController {
 		}
 		String code = userIdentifyService.identifyUserPhone(phoneNum);
 		if(code != null){
+			request.getSession().setAttribute("PHONE_TEXT", code);
 			appResponseModel.setResultCode(1);
 			appResponseModel.setResultMsg(code);
 		}
