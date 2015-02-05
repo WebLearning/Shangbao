@@ -85,6 +85,16 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
             }
         });
     };
+    $scope.deletePictureArticleInRevocation=function()
+    {
+            if (confirm("确定删除选中的文章吗？")==true) {
+                var url = $scope.projectName + "/picture/Revocation/" + ($scope.revokedPictureData.currentNo).toString() + "/statechange/" + $scope.articleData.id;
+                $http.delete(url).success(function () {
+                    alert("删除成功");
+                    $scope.goRevokedPicture();
+                });
+            }
+    };
 
     //得到字数
     $scope.calculateWords=function()

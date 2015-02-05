@@ -945,7 +945,7 @@
                             <tm-pagination conf="pendingPaginationConf"></tm-pagination>
                         </nav>
                         <div class="pull-right">
-                            <button type="button" class="btn btn-info" ng-click="deleteArticleSelections()">撤销</button>
+                            <button type="button" class="btn btn-danger" ng-click="deleteArticleSelections()">撤销</button>
                             <button type="button" class="btn btn-info" ng-click="publishArticleSelectionsNow()">发布</button>
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Select_Time">定时发布</button>
                         </div>
@@ -1945,7 +1945,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
+                            <div class="col-md-10">
                                 <strong>{{commentDetailTitle}}</strong>
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal_addComment">添加评论</button>
                                 <button type="button" class="btn btn-success pull-right" ng-click="refreshCommentDetails()"><span class="glyphicon glyphicon-refresh"></span></button>
@@ -3635,6 +3635,7 @@
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" ng-click="clearPictureArticle()">清除所有内容</button>
+                                <button type="button" class="btn btn-danger" ng-click="deletePictureArticleInRevocation()">彻底删除</button>
                                 <button type="button" class="btn btn-success" ng-click="savePictureArticle()">保存至快拍草稿</button>
                             </div>
                         </form>

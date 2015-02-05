@@ -51,7 +51,7 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
         if(str==null||str==""){
             checkedStr="无";
         }else if(str.length>10){
-            checkedStr=str.substr(0,12)+"...";
+            checkedStr=str.substr(0,16)+"...";
         }else{
             checkedStr=str;
         }

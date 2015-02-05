@@ -73,7 +73,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         var url=$scope.projectName+"/article/newArticle/pend";
         var jsonString=JSON.stringify($scope.newArticleData);
         $http.post(url,jsonString).success(function(){
-            alert("提交成功！");
+            alert("提交审核成功！");
             $scope.clearArticle();
         });
     };

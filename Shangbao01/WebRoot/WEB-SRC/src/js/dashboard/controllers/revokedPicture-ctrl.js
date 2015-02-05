@@ -203,7 +203,7 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
         }else{
             if (confirm("确定删除选中的文章吗？")==true)
             {
-                var url=$scope.projectName+"/piture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
+                var url=$scope.projectName+"/picture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
                     $scope.getRevokedPictureData(1);

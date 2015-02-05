@@ -281,10 +281,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
-                $scope.getCrawlerData($scope.crawlerPaginationConf.currentPage);
-            }else{
-                $scope.getCrawlerSearchData($scope.crawlerPaginationConf.currentPage);
+            if($scope.crawlerPaginationConf.currentPage>0){
+                if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
+                    $scope.getCrawlerData($scope.crawlerPaginationConf.currentPage);
+                }else{
+                    $scope.getCrawlerSearchData($scope.crawlerPaginationConf.currentPage);
+                }
             }
         }
     };
@@ -292,11 +294,18 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     {
         var url=$scope.projectName+'/article/Crawler/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.crawlerData=data;
-            $scope.crawlerPageNums=getPageNums($scope.crawlerData.pageCount);
-            $scope.lastCrawlerPage=$scope.crawlerData.pageCount;
-            $scope.crawlerPaginationConf.currentPage=$scope.crawlerData.currentNo;
-            $scope.getLastCrawlerPageData($scope.lastCrawlerPage);
+            if(data.pageCount>0){
+                $scope.crawlerData=data;
+                $scope.crawlerPageNums=getPageNums($scope.crawlerData.pageCount);
+                $scope.lastCrawlerPage=$scope.crawlerData.pageCount;
+                $scope.crawlerPaginationConf.currentPage=$scope.crawlerData.currentNo;
+                $scope.getLastCrawlerPageData($scope.lastCrawlerPage);
+            }else{
+                $scope.crawlerData=data;
+                $scope.crawlerPaginationConf.currentPage=0;
+                $scope.crawlerPaginationConf.totalItems=0;
+            }
+
         });
     };
     $scope.getLastCrawlerPageData=function(lastPage){
@@ -329,11 +338,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.crawlerSearchData);
         $http.post(url,$scope.crawlerSearchData).success(function(data){
             console.log(data);
-            $scope.crawlerData=data;
-            $scope.crawlerPageNums=getPageNums($scope.crawlerData.pageCount);
-            $scope.lastCrawlerPage=$scope.crawlerData.pageCount;
-            $scope.crawlerPaginationConf.currentPage=$scope.crawlerData.currentNo;
-            $scope.getLastCrawlerSearchPageData($scope.lastCrawlerPage);
+            if(data.pageCount>0){
+                $scope.crawlerData=data;
+                $scope.crawlerPageNums=getPageNums($scope.crawlerData.pageCount);
+                $scope.lastCrawlerPage=$scope.crawlerData.pageCount;
+                $scope.crawlerPaginationConf.currentPage=$scope.crawlerData.currentNo;
+                $scope.getLastCrawlerSearchPageData($scope.lastCrawlerPage);
+            }else{
+                $scope.crawlerData=data;
+                $scope.crawlerPaginationConf.currentPage=0;
+                $scope.crawlerPaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastCrawlerSearchPageData=function(lastPage){
@@ -357,21 +372,29 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
-                $scope.getPendingData($scope.pendingPaginationConf.currentPage);
-            }else{
-                $scope.getPendingSearchData($scope.pendingPaginationConf.currentPage);
+            if($scope.pendingPaginationConf.currentPage>0){
+                if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
+                    $scope.getPendingData($scope.pendingPaginationConf.currentPage);
+                }else{
+                    $scope.getPendingSearchData($scope.pendingPaginationConf.currentPage);
+                }
             }
         }
     };
     $scope.getPendingData=function(pageID){
         var url=$scope.projectName+'/article/Pending/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.pendingData=data;
-            $scope.pendingPageNums=getPageNums($scope.pendingData.pageCount);
-            $scope.lastPendingPage=$scope.pendingData.pageCount;
-            $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
-            $scope.getLastPendingPageData($scope.lastPendingPage);
+            if(data.pageCount>0){
+                $scope.pendingData=data;
+                $scope.pendingPageNums=getPageNums($scope.pendingData.pageCount);
+                $scope.lastPendingPage=$scope.pendingData.pageCount;
+                $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
+                $scope.getLastPendingPageData($scope.lastPendingPage);
+            }else{
+                $scope.pendingData=data;
+                $scope.pendingPaginationConf.currentPage=0;
+                $scope.pendingPaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastPendingPageData=function(lastPage){
@@ -403,11 +426,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.pendingSearchData);
         $http.post(url,$scope.pendingSearchData).success(function(data){
             console.log(data);
-            $scope.pendingData=data;
-            $scope.pendingPageNums=getPageNums($scope.pendingData.pageCount);
-            $scope.lastPendingPage=$scope.pendingData.pageCount;
-            $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
-            $scope.getLastPendingSearchPageData($scope.lastPendingPage);
+            if(data.pageCount>0){
+                $scope.pendingData=data;
+                $scope.pendingPageNums=getPageNums($scope.pendingData.pageCount);
+                $scope.lastPendingPage=$scope.pendingData.pageCount;
+                $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
+                $scope.getLastPendingSearchPageData($scope.lastPendingPage);
+            }else{
+                $scope.pendingData=data;
+                $scope.pendingPaginationConf.currentPage=0;
+                $scope.pendingPaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastPendingSearchPageData=function(lastPage){
@@ -431,21 +460,29 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
-                $scope.getPublishedData($scope.publishedPaginationConf.currentPage);
-            }else{
-                $scope.getPublishedSearchData($scope.publishedPaginationConf.currentPage);
+            if($scope.publishedPaginationConf.currentPage>0){
+                if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
+                    $scope.getPublishedData($scope.publishedPaginationConf.currentPage);
+                }else{
+                    $scope.getPublishedSearchData($scope.publishedPaginationConf.currentPage);
+                }
             }
         }
     };
     $scope.getPublishedData=function(pageID){
         var url=$scope.projectName+'/article/Published/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.publishedData=data;
-            $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
-            $scope.lastPublishedPage=$scope.publishedData.pageCount;
-            $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
-            $scope.getLastPublishedPageData($scope.lastPublishedPage);
+            if(data.pageCount>0){
+                $scope.publishedData=data;
+                $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
+                $scope.lastPublishedPage=$scope.publishedData.pageCount;
+                $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
+                $scope.getLastPublishedPageData($scope.lastPublishedPage);
+            }else{
+                $scope.publishedData=data;
+                $scope.publishedPaginationConf.currentPage=0;
+                $scope.publishedPaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastPublishedPageData=function(lastPage){
@@ -477,11 +514,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.publishedSearchData);
         $http.post(url,$scope.publishedSearchData).success(function(data){
             console.log(data);
-            $scope.publishedData=data;
-            $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
-            $scope.lastPublishedPage=$scope.publishedData.pageCount;
-            $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
-            $scope.getLastPublishedSearchPageData($scope.lastPublishedPage);
+            if(data.pageCount>0){
+                $scope.publishedData=data;
+                $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
+                $scope.lastPublishedPage=$scope.publishedData.pageCount;
+                $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
+                $scope.getLastPublishedSearchPageData($scope.lastPublishedPage);
+            }else{
+                $scope.publishedData=data;
+                $scope.publishedPaginationConf.currentPage=0;
+                $scope.publishedPaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastPublishedSearchPageData=function(lastPage){
@@ -505,10 +548,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            if($scope.revokedSearchData.content==""||$scope.revokedSearchData.content==null){
-                $scope.getRevokedData($scope.revokedPaginationConf.currentPage);
-            }else{
-                $scope.getRevokedSearchData($scope.revokedPaginationConf.currentPage);
+            if($scope.revokedPaginationConf.currentPage>0){
+                if($scope.revokedSearchData.content==""||$scope.revokedSearchData.content==null){
+                    $scope.getRevokedData($scope.revokedPaginationConf.currentPage);
+                }else{
+                    $scope.getRevokedSearchData($scope.revokedPaginationConf.currentPage);
+                }
             }
         }
     };
