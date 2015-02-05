@@ -77,6 +77,9 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.changeCurPage = function(str)
     {
         $scope.curPage=str;
+        $scope.refreshChannelNames();
+        $scope.getNewPictureChannelNames();
+        $scope.getNewChannelNames();
         clearArticleData();
         $scope.getSetState();
         $scope.getCommentSetState();
@@ -1090,6 +1093,10 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         });
     };
     $scope.getNewPictureChannelNames();
+    $scope.refreshChannelNames=function(){
+        $scope.newChannelNames=[];
+        $scope.newPictureChannelNames=[];
+    };
 //----------------------------------------------------------------------------------------------------------------------
     //新加功能按钮------------------------------------------------------------------------------------------------------
     //判断设置中选择的是哪一个radio框-----------------------------------------------------------------------------------
