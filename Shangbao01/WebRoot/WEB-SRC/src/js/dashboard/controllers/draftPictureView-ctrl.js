@@ -75,6 +75,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
         $http.put(url,jsonString).success(function(data) {
 //            $scope.saveStateInDraftPic1=data;
             alert("保存文章成功");
+            $scope.goDraftPicture();
         });
     };
     $scope.deletePictureArticleInDraftPicture=function()
@@ -82,6 +83,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
         var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
             alert("删除成功");
+            $scope.goDraftPicture();
         });
     };
     $scope.saveStateInDraftPic1="";
@@ -99,6 +101,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             if($scope.saveStateInDraftPic1=="true"){
                 $http.put(url).success(function(){
                     alert("提交成功");
+                    $scope.goDraftPicture();
                 });
             }
         });
@@ -129,6 +132,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
                 $http.get(url).success(function(){
                     alert("定时成功");
                     $('#Select_TimeInDraftPicture').modal('toggle');
+                    $scope.goDraftPicture();
                 });
             }
         });

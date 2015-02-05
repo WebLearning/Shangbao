@@ -75,6 +75,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         //console.log(url);
         $http.put(url,jsonString).success(function(data) {
             alert("保存文章成功");
+            $scope.goDraft();
         });
     };
     $scope.deleteArticleInDraft=function()
@@ -82,6 +83,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
             alert("删除成功");
+            $scope.goDraft();
         });
     };
     $scope.saveStateInDraft1="";
@@ -99,6 +101,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.put(url).success(function(){
                     alert("提交成功");
+                    $scope.goDraft();
                 });
             }
         });
@@ -118,6 +121,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.put(url).success(function(){
                     alert("发布成功");
+                    $scope.goDraft();
                 });
             }
         });
@@ -149,6 +153,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 $http.get(url).success(function(){
                     alert("定时成功");
                     $('#Select_TimeInDraft').modal('toggle');
+                    $scope.goDraft();
                 });
             }
         });

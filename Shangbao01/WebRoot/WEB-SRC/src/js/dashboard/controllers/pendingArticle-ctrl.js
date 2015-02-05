@@ -71,6 +71,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         var jsonString=JSON.stringify($scope.articleData);
         $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("保存文章成功");
+            $scope.goPending();
         });
     };
 
@@ -79,6 +80,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         var jsonString=JSON.stringify($scope.articleData);
         $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("提交审核文章成功");
+            $scope.goPending();
         });
     };
     $scope.deleteArticleInPending=function()
@@ -88,6 +90,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
 //            clearArticleSelections();
 //            $scope.getPendingData(1);
             alert("撤销成功");
+            $scope.goPending();
         });
     };
     $scope.publishArticleNowInPending=function()
@@ -97,6 +100,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
 //                clearArticleSelections();
 //                $scope.getPendingData(1);
                alert("发布成功");
+               $scope.goPending();
            });
     };
     $scope.publishArticleTimingInPending=function()
@@ -118,6 +122,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         $http.get(url).success(function(){
             alert("定时成功");
             $('#Select_TimeInPending').modal('toggle');
+            $scope.goPending();
 //                clearArticleSelections();
 //                $scope.getPendingData(1);
         });

@@ -260,18 +260,16 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     {
         var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
-//            clearArticleSelections();
-//            $scope.getPendingPictureData(1);
             alert("撤销成功");
+            $scope.goPendingPicture();
         });
     };
     $scope.publishPictureArticleInPending=function()
     {
        var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
        $http.put(url).success(function(){
-//                clearArticleSelections();
-//                $scope.getPendingPictureData(1);
            alert("发布成功");
+           $scope.goPendingPicture();
        });
     };
     $scope.publishPictureArticleInPendingTiming=function()
@@ -284,8 +282,6 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
         var str4=str3.concat(str2);
         var str5=new Date(str4);
         var myPublishedTime=str5.getTime();
-//            console.log(myDateTime);
-//            console.log(myPublishedTime);
         var time=myPublishedTime-myDateTime;
         console.log(time);
         var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
@@ -293,8 +289,7 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
         $http.get(url).success(function(){
             alert("定时成功");
            $('#Select_TimePictureInPending').modal('toggle');
-//         clearArticleSelections();
-//                $scope.getPendingPictureData(1);
+            $scope.goPendingPicture();
         });
     };
     //关于上传图片的----------------------------------------------------------------------------------------------

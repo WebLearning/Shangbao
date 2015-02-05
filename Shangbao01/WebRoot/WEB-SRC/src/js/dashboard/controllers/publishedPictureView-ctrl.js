@@ -65,6 +65,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         var url=$scope.projectName+"/picture/Published/"+($scope.publishedPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
             alert("撤销成功");
+            $scope.goPublishedPicture();
         });
     };
     $scope.saveArticleInPublished=function(){
@@ -74,6 +75,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         var url1=$scope.projectName+'/picture/Published/1/'+$scope.articleData.id;
         $http.put(url1,jsonString).success(function(){
             alert("保存成功");
+            $scope.goPublishedPicture();
         });
     };
 

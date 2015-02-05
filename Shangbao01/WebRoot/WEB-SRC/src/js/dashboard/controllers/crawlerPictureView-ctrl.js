@@ -50,6 +50,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
                 //console.log(url);
                 $http.put(url).success(function() {
                     alert("转草稿箱成功");
+                    $scope.goCrawlerPicture();
                 });
             }
         });
@@ -68,6 +69,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
                 var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.put(url).success(function(){
                     alert("发布成功");
+                    $scope.goCrawlerPicture();
                 });
             }
         });
@@ -98,6 +100,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
                 $http.get(url).success(function(){
                     alert("定时成功");
                     $('#Select_TimeInCrawlerPicture').modal('toggle');
+                    $scope.goCrawlerPicture();
                 });
             }
         });

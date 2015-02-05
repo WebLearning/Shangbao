@@ -80,6 +80,7 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
                 //console.log(url);
                 $http.put(url).success(function() {
                     alert("转草稿箱成功");
+                    $scope.goRevokedPicture();
                 });
             }
         });

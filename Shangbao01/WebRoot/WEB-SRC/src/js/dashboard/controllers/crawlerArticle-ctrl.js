@@ -80,6 +80,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
                 //console.log(url);
                 $http.put(url).success(function() {
                     alert("转草稿箱成功");
+                    $scope.goCrawler();
                 });
             }
         });
@@ -98,6 +99,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
                 var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.put(url).success(function(){
                     alert("发布成功");
+                    $scope.goCrawler();
                 });
             }
         });
@@ -128,6 +130,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
                 $http.get(url).success(function(){
                     alert("定时成功");
                     $('#Select_TimeInCrawler').modal('toggle');
+                    $scope.goCrawler();
                 });
             }
         });
@@ -321,49 +324,6 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     {
         $('#myModal_addIMG_crawler').modal('toggle');
     };
-
-    //获得顶级目录名----------------------------------------------------------------------------------------------------
-//    $scope.newChannelNames=[];
-//    $scope.getNewChannelNames=function(){
-//        var url=$scope.projectName+'/channel/channels';
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            //console.log(data);
-//            if(data.length>0){
-//                for(i=0;i<data.length;i++){
-//                    $scope.checkFirstChannel(data[i]);
-//                }
-//            }else{
-//                $scope.newChannelNames=[];
-//            }
-//        });
-//    };
-//
-//    //判断是否有次级目录-------------------------------------------------------------------------------------------------
-//    $scope.checkFirstChannel=function(channelData){
-//        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
-//        $http.get(url).success(function (data) {
-//            if(data.length>0){
-//                $scope.getSecondChannelNames(channelData.englishName);
-//            }else{
-//                $scope.newChannelNames.push(channelData);
-//            }
-//        });
-//    };
-//    $scope.getNewChannelNames();
-//    //获得次级目录名----------------------------------------------------------------------------------------------------
-//    $scope.getSecondChannelNames=function(channelName){
-//        var url=$scope.projectName+'/channel/'+channelName+'/channels';
-//        //console.log(url);
-//        $http.get(url).success(function(data){
-//            //console.log(data);
-//            if(data.length>0){
-//                for(i=0;i<data.length;i++){
-//                    $scope.newChannelNames.push(data[i]);
-//                }
-//            }
-//        });
-//    };
     //关于上传图片的----------------------------------------------------------------------------------------------
 
 

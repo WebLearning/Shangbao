@@ -80,6 +80,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                 //console.log(url);
                 $http.put(url).success(function(data) {
                     alert("转草稿箱成功");
+                    $scope.goRevoked();
                 });
             }
         });

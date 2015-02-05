@@ -66,21 +66,6 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         $scope.calculateWords();
     };
 
-//    $scope.saveArticle=function(){
-//        $scope.calculateWords();
-//        var jsonString=JSON.stringify($scope.articleData);
-//        $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
-//            alert("保存文章成功");
-//        });
-//    };
-//
-//    $scope.putArticle=function(){
-//        $scope.calculateWords();
-//        var jsonString=JSON.stringify($scope.articleData);
-//        $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
-//            alert("提交审核文章成功");
-//        });
-//    };
     $scope.sendMessageData={
         message:"",
         articleId:null
@@ -110,9 +95,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         var url=$scope.projectName+"/article/Published/"+($scope.publishedData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
             alert("撤销成功");
-            $scope.clearArticle();
-            // clearArticleSelections();
-            // $scope.getPublishedData(1);
+            $scope.goPublished();
         });
     };
     $scope.saveArticleInPublished=function(){
@@ -122,6 +105,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         var url1=$scope.projectName+'/article/Published/1/'+$scope.articleData.id;
         $http.put(url1,jsonString).success(function(){
             alert("保存成功");
+            $scope.goPublished();
         });
     };
 
