@@ -1,5 +1,6 @@
 package com.shangbao.web.control;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -238,11 +239,11 @@ public class ChannelController {
 		String returnString = "";
 		String localhostString = "";
 		Random random = new Random();
-		String fileName = sdf.format(new Date()) + file.getSize() + "" + random.nextInt(1000);//保存到本地的文件名
+		String fileName = sdf.format(new Date()) + file.getSize() + "" + random.nextInt(1000) + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));//保存到本地的文件名
 		Properties props = new Properties();
 		try {
 			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
-			String filePath = props.getProperty("pictureDir") + "\\startPic";//目录的路径
+			String filePath = props.getProperty("pictureDir") + File.separator + "startPic";//目录的路径
 			localhostString = props.getProperty("localhost");
 			Path path = Paths.get(filePath);
 			if(Files.notExists(path)){
@@ -251,10 +252,10 @@ public class ChannelController {
 			if(!file.isEmpty()){
 				byte[] bytes;
 				bytes = file.getBytes();
-				FileOutputStream fos = new FileOutputStream(filePath + "\\" + fileName);
+				FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				returnString = path.toString().split("Shangbao01")[1] + "\\" + fileName;
+				returnString = path.toString().split("Shangbao01")[1] + File.separator + fileName;
 				System.out.println(returnString);
 				return localhostString + returnString.replaceAll("\\\\", "/");
 			}

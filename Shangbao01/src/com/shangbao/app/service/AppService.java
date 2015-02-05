@@ -90,7 +90,7 @@ public class AppService {
 					List<Article> articles = appModel.getAppMap().get(sonChannel.getChannelName());
 					if(articles != null){
 						if(titleSize >= articles.size()){
-							appChannelModel.addColumn(sonChannel.getChannelName(), sonChannel.getEnglishName(), articles.subList(0, articles.size() - 1));
+							appChannelModel.addColumn(sonChannel.getChannelName(), sonChannel.getEnglishName(), articles.subList(0, articles.size()));
 						}else{
 							appChannelModel.addColumn(sonChannel.getChannelName(), sonChannel.getEnglishName(), articles.subList(0, titleSize));
 						}
@@ -434,7 +434,7 @@ public class AppService {
 		html += (article.getAuthor() == null ? "" : article.getAuthor()) + "&nbsp&nbsp" + (article.getTime() == null ? "" : format.format(article.getTime()));
 		html += "</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">";
 		html += article.getContent();
-		html += "<p>&nbsp;</p>" + "<div ng-app=\"\" ng-controller=\"urlController\"><div data-ng-init=\"load()\" ></div><div>{{clickNum}}</div></div>" + "</div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
+		html += "<p>&nbsp;</p> " + "<div ng-app=\"\" ng-controller=\"urlController\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读 {{clickNum}}</div></div>" + "</div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
 		return html;
 	}
 

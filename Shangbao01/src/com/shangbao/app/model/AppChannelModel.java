@@ -60,7 +60,9 @@ public class AppChannelModel {
 	 */
 	class AppTitle{
 		public String title;
-		public List<String> picUrl = new ArrayList<>();
+		public String author;
+		public List<String> simPicUrl = new ArrayList<>();
+		public List<String> midPicUrl = new ArrayList<>();
 		public String summary;
 		public Date time;
 		public int clicks;
@@ -70,14 +72,19 @@ public class AppChannelModel {
 		}
 		public AppTitle(Article article, Integer id){
 			this.title = article.getTitle();
+			this.author = article.getAuthor();
 			//this.picUrl = article.getPicturesUrl();
 			if(article.getPicturesUrl() != null && !article.getPicturesUrl().isEmpty()){
 				for(String url : article.getPicturesUrl()){
-					if(!article.isTag()){
-						String newUrl = url.substring(0, url.lastIndexOf("/")) + "/sim" + url.substring(url.lastIndexOf("/"));
-						picUrl.add(newUrl);
-					}else{
-						picUrl.add(url);
+//					if(!article.isTag()){
+//						String newUrl = url.substring(0, url.lastIndexOf("/")) + "/sim" + url.substring(url.lastIndexOf("/"));
+//						picUrl.add(newUrl);
+//					}else{
+//						picUrl.add(url);
+//					}
+					midPicUrl.add(url);
+					if(url.substring(url.lastIndexOf("/") - 3, url.lastIndexOf("/")).equals("mid")){
+						simPicUrl.add(url.replaceAll("/mid/", "/sim/"));
 					}
 				}
 			}

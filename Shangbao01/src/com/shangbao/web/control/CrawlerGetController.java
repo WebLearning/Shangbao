@@ -16,6 +16,7 @@ import java.util.Properties;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -108,11 +109,16 @@ public class CrawlerGetController {
 				props=PropertiesLoaderUtils.loadAllProperties("config.properties");
 				returnPath = props.getProperty("localhost");
 				String fileURL = props.getProperty("pictureDir") + File.separator + "crawlerPic";
+				String fileURLMid = fileURL + File.separator + "mid";
 				String fileURLSim = fileURL + File.separator + "sim";
-				String fileNameString = fileName + file.getOriginalFilename();
+				String fileNameString = fileName + RandomStringUtils.randomAlphabetic(6) + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 				Path path = Paths.get(fileURL);
 				if(Files.notExists(path)){
 					Path filePath = Files.createDirectories(path);
+				}
+				Path pathMid = Paths.get(fileURLMid);
+				if(Files.notExists(pathMid)){
+					Files.createDirectories(pathMid);
 				}
 				Path pathSim = Paths.get(fileURLSim);
 				if(Files.notExists(pathSim)){
@@ -121,8 +127,11 @@ public class CrawlerGetController {
 				FileOutputStream fos = new FileOutputStream(fileURL + File.separator + fileNameString);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileURLSim + File.separator + fileNameString), 180, 120, 0.5, true);
-				returnPath = returnPath + path.toString().split("Shangbao01")[1] + File.separator + fileNameString;
+				//压缩 800 * ？
+				compressPicUtils.compress(new File(fileURL + File.separator + fileNameString), new File(fileURLMid + File.separator + fileNameString), 800, 0, 0.5);
+				//压缩 200 * 150
+				compressPicUtils.compress(new File(fileURL + File.separator + fileNameString), new File(fileURLSim + File.separator + fileNameString), 200, 150, 0.8);
+				returnPath = returnPath + path.toString().split("Shangbao01")[1] + File.separator + "mid" + File.separator + fileNameString;
 				System.out.println(returnPath.replaceAll("\\\\", "/"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

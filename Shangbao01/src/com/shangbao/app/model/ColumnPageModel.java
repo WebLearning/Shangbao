@@ -42,7 +42,9 @@ public class ColumnPageModel {
 
 	class NewsTitle{
 		public String title;
-		public List<String> picUrl = new ArrayList<String>();
+		public String author;
+		public List<String> midPicUrl = new ArrayList<String>();
+		public List<String> simPicUrl = new ArrayList<>();
 		public String summary;
 		public Date time;
 		public int clicks;
@@ -57,20 +59,25 @@ public class ColumnPageModel {
 		
 		public NewsTitle(Article article, Integer indexId, Long newsId){
 			this.title = article.getTitle();
+			this.author = article.getAuthor();
 			//this.picUrl = article.getPicturesUrl();
 			if(article.getPicturesUrl() != null && !article.getPicturesUrl().isEmpty()){
 				for(String url : article.getPicturesUrl()){
-					String newUrl = url;
-					if(!article.isTag()){ //不是快拍成都的新闻
-						newUrl = url.substring(0, url.lastIndexOf("/")) + "/sim" + url.substring(url.lastIndexOf("/"));
-					}
-					picUrl.add(newUrl);
+//					String newUrl = url;
+//					if(!article.isTag()){ //不是快拍成都的新闻
+//						newUrl = url.substring(0, url.lastIndexOf("/")) + "/sim" + url.substring(url.lastIndexOf("/"));
+//					}
+//					picUrl.add(newUrl);
 					//System.out.println(article.getTitle() + "  " + article.isTag() + " "  + url);
+					midPicUrl.add(url);
+					if(url.substring(url.lastIndexOf("/") - 3, url.lastIndexOf("/")).equals("mid")){
+						simPicUrl.add(url.replaceAll("/mid/", "/sim/"));
+					}
 				}
 			}
 			this.summary = article.getSummary();
 			this.time = article.getTime();
-			this.clicks = article.getClicks();
+			this.clicks = article.getJs_clicks();
 			this.indexId = indexId;
 			this.newsId = newsId;
 			this.comments = article.getCrawlerCommendsPublish() + article.getNewsCommendsPublish();

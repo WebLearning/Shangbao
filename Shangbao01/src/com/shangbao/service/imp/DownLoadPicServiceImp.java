@@ -223,12 +223,16 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 		String dateString = sdf.format(new Date());
 		Path path = Paths.get(localPicDir + File.separator + dateString);
 		Path pathSim = Paths.get(localPicDir + File.separator + dateString + File.separator + "sim");
+		Path pathMid = Paths.get(localPicDir + File.separator + dateString + File.separator + "mid");
 		try{
 			if(Files.notExists(path)){
 				Path filPath = Files.createDirectories(path);
 			}
 			if(Files.notExists(pathSim)){
 				Files.createDirectories(pathSim);
+			}
+			if(Files.notExists(pathMid)){
+				Files.createDirectories(pathMid);
 			}
 		}catch(IOException e){
 			System.out.println(e.getStackTrace());
@@ -237,6 +241,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 			byte[] bytes;
 			bytes = restTemplate.getForObject(singlePicUrl, byte[].class);
 			String returnUrl = "";
+			String returnMid = "";
 			String returnSim = "";
 			//FileOutputStream fos;
 			try(FileOutputStream fos = 
@@ -245,14 +250,21 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				fos.write(bytes); 
 				returnUrl = localPicDir.split("Shangbao01")[1] + File.separator + dateString
 						 + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"));
+				returnMid = localPicDir.split("Shangbao01")[1] + File.separator + dateString + File.separator + "mid"
+						 + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"));
 				returnSim = localPicDir.split("Shangbao01")[1] + File.separator + dateString + File.separator + "sim"
 						 + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"));
 //				compressPicUtils.compressPic(new File(path.toFile().getAbsolutePath() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))), 
 //											 new File(pathSim.toFile().getAbsoluteFile() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))),
 //											 800, 0, true);
+				//压缩800 * ？
 				compressPicUtils.compressByThumbnailator(new File(path.toFile().getAbsolutePath() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))),
-														 new File(pathSim.toFile().getAbsoluteFile() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/")))
+														 new File(pathMid.toFile().getAbsoluteFile() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/")))
 				 										 , 800, 0, 0.5, true);
+				//压缩 200 * 150
+				compressPicUtils.compressByThumbnailator(new File(path.toFile().getAbsolutePath() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))),
+						 new File(pathSim.toFile().getAbsoluteFile() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/")))
+						 , 200, 150, 0.8, false);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -260,7 +272,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			localPicUrls.add(localHost + returnSim.replaceAll("\\\\", "/"));
+			localPicUrls.add(localHost + returnMid.replaceAll("\\\\", "/"));
 		}
 		return localPicUrls;
 	}

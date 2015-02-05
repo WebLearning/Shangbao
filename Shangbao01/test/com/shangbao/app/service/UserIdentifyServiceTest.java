@@ -39,12 +39,12 @@ public class UserIdentifyServiceTest {
 //		identiy.addUser(user);
 //		identiy.addUser(user);
 		//System.out.println(identiy.userExist("测试昵称", 2));
-		User user = new User();
-		user.setName("测试用户3");
-		user.setPasswd("123qwe");
-		user.setEmail("test@test.com");
-		user.setPhone(6574232);
-		identiy.addUser(user);
+//		User user = new User();
+//		user.setName("测试用户3");
+//		user.setPasswd("123qwe");
+//		user.setEmail("test@test.com");
+//		user.setPhone(6574232);
+//		identiy.addUser(user);
 	}
 
 }

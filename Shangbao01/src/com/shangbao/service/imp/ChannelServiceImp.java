@@ -74,6 +74,13 @@ public class ChannelServiceImp implements ChannelService{
 	
 	@Override
 	public String addChannel(Channel channel) {
+		Channel criteriaChannel1 = new Channel();
+		Channel criteriaChannel2 = new Channel();
+		criteriaChannel1.setChannelName(channel.getChannelName());
+		criteriaChannel2.setEnglishName(channel.getEnglishName());
+		if(!channelDaoImp.find(criteriaChannel1).isEmpty() || !channelDaoImp.find(criteriaChannel2).isEmpty()){
+			return "already exist";
+		}
 		if(channel.getState().equals(ChannelState.Son)){
 			Channel relateChannel = new Channel();
 			relateChannel.setState(ChannelState.Father);

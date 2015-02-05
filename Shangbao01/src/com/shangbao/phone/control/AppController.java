@@ -20,6 +20,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -262,8 +263,9 @@ public class AppController {
 						+ userId;
 				localhostString = props.getProperty("localhost");
 				Random random = new Random();
-				String fileNameString = fileName + random.nextInt(10000);
-				String fileUrlSim = fileURL + File.separator + "sim";
+				String fileNameString = fileName + RandomStringUtils.randomAlphabetic(6) + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+				String fileUrlSim = fileURL + File.separator + "sim"; // 存放小图的地址
+				String fileUrlMid = fileURL + File.separator + "mid"; // 存放中图的地址
 				Path path = Paths.get(fileURL);
 				if(Files.notExists(path)){
 					Path filePath = Files.createDirectories(path);
@@ -272,12 +274,19 @@ public class AppController {
 				if(Files.notExists(pathSim)){
 					Files.createDirectories(pathSim);
 				}
+				Path pathMid = Paths.get(fileUrlMid);
+				if(Files.notExists(pathMid)){
+					Files.createDirectories(pathMid);
+				}
 				FileOutputStream fos = new FileOutputStream(fileURL + File.separator + fileNameString);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileUrlSim + File.separator + fileNameString), 800, 0, 0.5, true);
-				//returnPath = path.toString().split("Shangbao01")[1] + File.separator + fileNameString;
-				returnPath = path.toString().split("Shangbao01")[1] + File.separator + "sim" + File.separator + fileNameString;
+				//压缩800*？
+				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileUrlMid + File.separator + fileNameString), 800, 0, 0.5, true);
+				//压缩200 * 150
+				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileUrlSim + File.separator + fileNameString), 200, 150, 0.8, true);
+				
+				returnPath = path.toString().split("Shangbao01")[1] + File.separator + "mid" + File.separator + fileNameString;
 				System.out.println(returnPath);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

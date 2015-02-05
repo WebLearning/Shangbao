@@ -86,13 +86,23 @@ public class CompressPicUtils {
 			int newHeight = 0;
 			if(tag){
 				if(outputHeight == 0){
-					double rate = ((double) img.getWidth(null)) / (double) outputWidth;
-					newWidth = (int) (img.getWidth(null) / rate);
-					newHeight = (int) (img.getHeight(null) / rate);
+					if(outputWidth < img.getWidth(null)){
+						double rate = ((double) img.getWidth(null)) / (double) outputWidth;
+						newWidth = (int) (img.getWidth(null) / rate);
+						newHeight = (int) (img.getHeight(null) / rate);
+					}else{
+						newWidth = outputWidth;
+						newHeight = outputHeight;
+					}
 				}else if(outputWidth == 0){
-					double rate = ((double) img.getHeight(null)) / (double) outputHeight;
-					newWidth = (int) (img.getWidth(null) / rate);
-					newHeight = (int) (img.getHeight(null) / rate);
+					if(outputHeight < img.getHeight(null)){
+						double rate = ((double) img.getHeight(null)) / (double) outputHeight;
+						newWidth = (int) (img.getWidth(null) / rate);
+						newHeight = (int) (img.getHeight(null) / rate);
+					}else{
+						newWidth = outputWidth;
+						newHeight = outputHeight;
+					}
 				}else{
 					double rate1 = ((double) img.getWidth(null)) / (double) outputWidth;
 					double rate2 = ((double) img.getHeight(null)) / (double) outputHeight;
@@ -101,9 +111,9 @@ public class CompressPicUtils {
 					newHeight = (int) (img.getHeight(null) / rate);
 				}
 				Thumbnails.of(inputFile)
-				  .size(newWidth, newHeight)
-				  .outputQuality(outputQutity)
-				  .toFile(outputFile);
+						  .size(newWidth, newHeight)
+						  .outputQuality(outputQutity)
+						  .toFile(outputFile);
 				return true;
 			}else{
 				Thumbnails.of(inputFile)
@@ -112,6 +122,43 @@ public class CompressPicUtils {
 						  .toFile(outputFile);
 				return true;
 			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean compress(File inputFile,// 文件对象
+			   			 File outputFile,// 输出图路径
+			   			 int outputWidth,// 默认输出图片宽
+			   			 int outputHeight,// 默认输出图片高
+			   			 double outputQutity){
+		if(!inputFile.exists() || outputHeight == 0 || outputWidth == 0){
+			return false;
+		}
+		Image img;
+		try {
+			img = ImageIO.read(inputFile);
+			if(img.getWidth(null) == -1){
+				return false;
+			}
+			int newWidth = 0;
+			int newHeight = 0;
+			if(img.getHeight(null) > img.getWidth(null)){//按照宽度缩小
+				newWidth = outputWidth;
+				double rate = ((double) img.getWidth(null)) / (double) outputWidth;
+				newHeight = (int)(img.getHeight(null) / rate);
+			}else{
+				newHeight = outputHeight;
+				double rate = ((double) img.getHeight(null)) / (double) outputHeight;
+				newWidth = (int)(img.getWidth(null) / rate);
+			}
+			Thumbnails.of(inputFile)
+			  .size(newWidth, newHeight)
+			  .outputQuality(outputQutity)
+			  .toFile(outputFile);
+			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -150,13 +197,23 @@ public class CompressPicUtils {
 				int newHeight = 0;
 				if(tag){
 					if(outputHeight == 0){
-						double rate = ((double) img.getWidth(null)) / (double) outputWidth;
-						newWidth = (int) (img.getWidth(null) / rate);
-						newHeight = (int) (img.getHeight(null) / rate);
+						if(outputWidth < img.getWidth(null)){
+							double rate = ((double) img.getWidth(null)) / (double) outputWidth;
+							newWidth = (int) (img.getWidth(null) / rate);
+							newHeight = (int) (img.getHeight(null) / rate);
+						}else{
+							newWidth = img.getWidth(null);
+							newHeight = img.getHeight(null);
+						}
 					}else if(outputWidth == 0){
-						double rate = ((double) img.getHeight(null)) / (double) outputHeight;
-						newWidth = (int) (img.getWidth(null) / rate);
-						newHeight = (int) (img.getHeight(null) / rate);
+						if(outputHeight < img.getHeight(null)){
+							double rate = ((double) img.getHeight(null)) / (double) outputHeight;
+							newWidth = (int) (img.getWidth(null) / rate);
+							newHeight = (int) (img.getHeight(null) / rate);
+						}else{
+							newWidth = img.getWidth(null);
+							newHeight = img.getHeight(null);
+						}
 					}else{
 						double rate1 = ((double) img.getWidth(null)) / (double) outputWidth;
 						double rate2 = ((double) img.getHeight(null)) / (double) outputHeight;

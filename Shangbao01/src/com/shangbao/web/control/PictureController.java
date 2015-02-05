@@ -390,16 +390,21 @@ public class PictureController {
 		String returnString = "";
 		String localhostString = "";
 		Random random = new Random();
-		String fileName = sdf.format(new Date()) + file.getSize() + "" + random.nextInt(1000);//保存到本地的文件名
+		String fileName = sdf.format(new Date()) + file.getSize() + "" + random.nextInt(1000) + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));//保存到本地的文件名
 		Properties props = new Properties();
 		try {
 			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
 			String filePath = props.getProperty("pictureDir") + File.separator +"kuaipaiPic";//目录的路径
+			String filePathMid = filePath + File.separator + "mid";
 			String filePathSim = filePath + File.separator + "sim";
 			localhostString = props.getProperty("localhost");
 			Path path = Paths.get(filePath);
 			if(Files.notExists(path)){
 				Path filPath = Files.createDirectories(path);
+			}
+			Path pathMid = Paths.get(filePathMid);
+			if(Files.notExists(pathMid)){
+				Files.createDirectories(pathMid);
 			}
 			Path pathSim = Paths.get(filePathSim);
 			if(Files.notExists(pathSim)){
@@ -411,8 +416,11 @@ public class PictureController {
 				FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathSim + File.separator + fileName), 800, 0, 0.5 ,true);
-				returnString = path.toString().split("Shangbao01")[1] + File.separator + "sim" + File.separator + fileName;
+				//压缩 800 * ？
+				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathMid + File.separator + fileName), 800, 0, 0.5 ,true);
+				//压缩 200 * 150
+				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathSim + File.separator + fileName), 200, 150, 0.8 ,true);
+				returnString = path.toString().split("Shangbao01")[1] + File.separator + "mid" + File.separator + fileName;
 				System.out.println(returnString);
 				return localhostString + returnString.replaceAll("\\\\", "/");
 			}
