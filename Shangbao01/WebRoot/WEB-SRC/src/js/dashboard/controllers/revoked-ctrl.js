@@ -206,7 +206,7 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
                 var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getRevokedData(1);
+                    $scope.refreshRevokedCur();
                     alert("删除成功");
                 });
             }
@@ -221,7 +221,7 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
             var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.getRevokedData(1);
+                $scope.refreshRevokedCur();
                 alert("转暂存成功");
             });
         }

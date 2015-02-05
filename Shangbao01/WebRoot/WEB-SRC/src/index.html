@@ -784,6 +784,8 @@
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" ng-click="clearArticle()">清除所有内容</button>
+                                <button type="button" class="btn btn-danger" ng-click="deleteArticleInCrawler()">彻底删除</button>
+                                <button type="button" class="btn btn-info" ng-click="saveArticleLocal()">保存</button>
                                 <button type="button" ng-class="setButtonInNewArticleForPending()" ng-click="saveArticle()">转至草稿箱</button>
                                 <button type="button" ng-class="setButtonInNewArticleForPublish()" ng-click="publishArticleNowInCrawler()">发布</button>
                                 <button type="button" ng-class="setButtonInNewArticleForPublish()" data-toggle="modal" data-target="#Select_TimeInCrawler">定时发布</button>

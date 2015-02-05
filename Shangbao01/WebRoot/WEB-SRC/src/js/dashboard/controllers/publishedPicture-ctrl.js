@@ -317,7 +317,7 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
                 var url=$scope.projectName+"/picture/Published/"+($scope.publishedPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getPublishedPictureData(1);
+                    $scope.refreshPublishedPictureCur();
                     alert("撤销成功");
                 });
             }

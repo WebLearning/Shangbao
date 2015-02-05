@@ -201,7 +201,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.commentDetailTitle="";
 
 //全局共用数据----------------------------------------------------------------------------------------------------------
-    $scope.orderCondition="";
+    $scope.orderCondition="/time/desc";
     $scope.transOrderConditions=function(str){
         $scope.orderCondition=str;
     };
@@ -227,18 +227,26 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            $scope.getCommentData($scope.commentPaginationConf.currentPage);
+            if($scope.commentPaginationConf.currentPage>0){
+                $scope.getCommentData($scope.commentPaginationConf.currentPage);
+            }
         }
     };
     $scope.getCommentData=function(pageID)
     {
         var url=$scope.projectName+'/commend/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.commentData=data;
-            $scope.commentPageNums=getPageNums($scope.commentData.pageCount);
-            $scope.lastCommentPage=$scope.commentData.pageCount;
-            $scope.commentPaginationConf.currentPage=$scope.commentData.currentNo;
-            $scope.getLastCommentPageData($scope.lastCommentPage);
+            if(data.pageCount>0){
+                $scope.commentData=data;
+                $scope.commentPageNums=getPageNums($scope.commentData.pageCount);
+                $scope.lastCommentPage=$scope.commentData.pageCount;
+                $scope.commentPaginationConf.currentPage=$scope.commentData.currentNo;
+                $scope.getLastCommentPageData($scope.lastCommentPage);
+            }else{
+                $scope.commentData=data;
+                $scope.commentPaginationConf.currentPage=0;
+                $scope.commentPaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastCommentPageData=function(lastPage){
@@ -252,11 +260,11 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.getCommentData(1);//会在生成页面的时候直接运行!
     $scope.refreshComment=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         $scope.getCommentData($scope.commentData.currentNo);
     };
     $scope.refreshCommentCur=function(){
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         document.getElementById("comment").className="tab-pane active";
         document.getElementById("commentDetails").className="tab-pane";
         $scope.getCommentData(1);
@@ -305,7 +313,6 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.crawlerPaginationConf.currentPage=0;
                 $scope.crawlerPaginationConf.totalItems=0;
             }
-
         });
     };
     $scope.getLastCrawlerPageData=function(lastPage){
@@ -324,11 +331,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     $scope.refreshCrawler=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
             $scope.getCrawlerData(1);
         }else{
             $scope.getCrawlerSearchData(1);
+        }
+    };
+    $scope.refreshCrawlerCur=function()
+    {
+//        $scope.orderCondition="";
+        if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
+            $scope.getCrawlerData($scope.crawlerData.currentNo);
+        }else{
+            $scope.getCrawlerSearchData($scope.crawlerData.currentNo);
         }
     };
     //(a)搜索爬虫-------------------------------------------------------------------------------------------------------
@@ -413,11 +429,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     $scope.refreshPending=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
             $scope.getPendingData(1);
         }else{
             $scope.getPendingSearchData(1);
+        }
+    };
+    $scope.refreshPendingCur=function()
+    {
+//        $scope.orderCondition="";
+        if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
+            $scope.getPendingData($scope.pendingData.currentNo);
+        }else{
+            $scope.getPendingSearchData($scope.pendingData.currentNo);
         }
     };
     //(b)搜索待审数据---------------------------------------------------------------------------------------------------
@@ -501,11 +526,19 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     $scope.refreshPublished=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
             $scope.getPublishedData(1);
         }else{
             $scope.getPublishedSearchData(1);
+        }
+    };
+    $scope.refreshPublishedCur=function()
+    {
+        if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
+            $scope.getPublishedData($scope.publishedData.currentNo);
+        }else{
+            $scope.getPublishedSearchData($scope.publishedData.currentNo);
         }
     };
     //(c)搜索已发布数据-------------------------------------------------------------------------------------------------
@@ -561,11 +594,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     {
         var url=$scope.projectName+'/article/Revocation/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.revokedData=data;
-            $scope.revokedPageNums=getPageNums($scope.revokedData.pageCount);
-            $scope.lastRevokedPage=$scope.revokedData.pageCount;
-            $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
-            $scope.getLastRevokedPageData($scope.lastRevokedPage);
+            if(data.pageCount>0){
+                $scope.revokedData=data;
+                $scope.revokedPageNums=getPageNums($scope.revokedData.pageCount);
+                $scope.lastRevokedPage=$scope.revokedData.pageCount;
+                $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
+                $scope.getLastRevokedPageData($scope.lastRevokedPage);
+            }else{
+                $scope.revokedData=data;
+                $scope.revokedPaginationConf.currentPage=0;
+                $scope.revokedPaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastRevokedPageData=function(lastPage){
@@ -584,13 +623,21 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     $scope.refreshRevoked=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         if($scope.revokedSearchData.content==""||$scope.revokedSearchData.content==null){
             $scope.getRevokedData(1);
         }else{
             $scope.getRevokedSearchData(1);
         }
-
+    };
+    $scope.refreshRevokedCur=function()
+    {
+//        $scope.orderCondition="";
+        if($scope.revokedSearchData.content==""||$scope.revokedSearchData.content==null){
+            $scope.getRevokedData($scope.revokedData.currentNo);
+        }else{
+            $scope.getRevokedSearchData($scope.revokedData.currentNo);
+        }
     };
     //(d)搜索已撤销数据-------------------------------------------------------------------------------------------------
     $scope.getRevokedSearchData=function(pageID){
@@ -598,11 +645,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.revokedSearchData);
         $http.post(url,$scope.revokedSearchData).success(function(data){
             console.log(data);
-            $scope.revokedData=data;
-            $scope.revokedPageNums=getPageNums($scope.revokedData.pageCount);
-            $scope.lastRevokedPage=$scope.revokedData.pageCount;
-            $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
-            $scope.getLastRevokedSearchPageData($scope.lastRevokedPage);
+            if(data.pageCount>0){
+                $scope.revokedData=data;
+                $scope.revokedPageNums=getPageNums($scope.revokedData.pageCount);
+                $scope.lastRevokedPage=$scope.revokedData.pageCount;
+                $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
+                $scope.getLastRevokedSearchPageData($scope.lastRevokedPage);
+            }else{
+                $scope.revokedData=data;
+                $scope.revokedPaginationConf.currentPage=0;
+                $scope.revokedPaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastRevokedSearchPageData=function(lastPage){
@@ -626,10 +679,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
-                $scope.getTempData($scope.tempPaginationConf.currentPage);
-            }else{
-                $scope.getTempSearchData($scope.tempPaginationConf.currentPage);
+            if($scope.tempPaginationConf.currentPage>0){
+                if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
+                    $scope.getTempData($scope.tempPaginationConf.currentPage);
+                }else{
+                    $scope.getTempSearchData($scope.tempPaginationConf.currentPage);
+                }
             }
         }
     };
@@ -637,11 +692,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     {
         var url=$scope.projectName+'/article/Temp/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.tempData=data;
-            $scope.tempPageNums=getPageNums($scope.tempData.pageCount);
-            $scope.lastTempPage=$scope.tempData.pageCount;
-            $scope.tempPaginationConf.currentPage=$scope.tempData.currentNo;
-            $scope.getLastTempPageData($scope.lastTempPage);
+            if(data.pageCount>0){
+                $scope.tempData=data;
+                $scope.tempPageNums=getPageNums($scope.tempData.pageCount);
+                $scope.lastTempPage=$scope.tempData.pageCount;
+                $scope.tempPaginationConf.currentPage=$scope.tempData.currentNo;
+                $scope.getLastTempPageData($scope.lastTempPage);
+            }else{
+                $scope.tempData=data;
+                $scope.tempPaginationConf.currentPage=0;
+                $scope.tempPaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastTempPageData=function(lastPage){
@@ -660,11 +721,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     $scope.refreshTemp=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
             $scope.getTempData(1);
         }else{
             $scope.getTempSearchData(1);
+        }
+    };
+    $scope.refreshTempCur=function()
+    {
+//        $scope.orderCondition="";
+        if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
+            $scope.getTempData($scope.tempData.currentNo);
+        }else{
+            $scope.getTempSearchData($scope.tempData.currentNo);
         }
     };
     //(e)搜索草稿数据---------------------------------------------------------------------------------------------------
@@ -674,11 +744,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.tempSearchData);
         $http.post(url,$scope.tempSearchData).success(function(data){
             console.log(data);
-            $scope.tempData=data;
-            $scope.tempPageNums=getPageNums($scope.tempData.pageCount);
-            $scope.lastTempPage=$scope.tempData.pageCount;
-            $scope.tempPaginationConf.currentPage=$scope.tempData.currentNo;
-            $scope.getLastTempSearchPageData($scope.lastTempPage);
+            if(data.pageCount>0){
+                $scope.tempData=data;
+                $scope.tempPageNums=getPageNums($scope.tempData.pageCount);
+                $scope.lastTempPage=$scope.tempData.pageCount;
+                $scope.tempPaginationConf.currentPage=$scope.tempData.currentNo;
+                $scope.getLastTempSearchPageData($scope.lastTempPage);
+            }else{
+                $scope.tempData=data;
+                $scope.tempPaginationConf.currentPage=0;
+                $scope.tempPaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastTempSearchPageData=function(lastPage){
@@ -718,10 +794,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
-                $scope.getCrawlerPictureData($scope.crawlerPicturePaginationConf.currentPage);
-            }else{
-                $scope.getCrawlerPictureSearchData($scope.crawlerPicturePaginationConf.currentPage);
+            if($scope.crawlerPicturePaginationConf.currentPage>0){
+                if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
+                    $scope.getCrawlerPictureData($scope.crawlerPicturePaginationConf.currentPage);
+                }else{
+                    $scope.getCrawlerPictureSearchData($scope.crawlerPicturePaginationConf.currentPage);
+                }
             }
         }
     };
@@ -729,11 +807,18 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     {
         var url=$scope.projectName+'/picture/Crawler/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.crawlerPictureData=data;
-            $scope.crawlerPicturePageNums=getPageNums($scope.crawlerPictureData.pageCount);
-            $scope.lastCrawlerPicturePage=$scope.crawlerPictureData.pageCount;
-            $scope.crawlerPicturePaginationConf.currentPage=$scope.crawlerPictureData.currentNo;
-            $scope.getLastCrawlerPicturePageData($scope.lastCrawlerPicturePage);
+            if(data.pageCount>0){
+                $scope.crawlerPictureData=data;
+                $scope.crawlerPicturePageNums=getPageNums($scope.crawlerPictureData.pageCount);
+                $scope.lastCrawlerPicturePage=$scope.crawlerPictureData.pageCount;
+                $scope.crawlerPicturePaginationConf.currentPage=$scope.crawlerPictureData.currentNo;
+                $scope.getLastCrawlerPicturePageData($scope.lastCrawlerPicturePage);
+            }else{
+                $scope.crawlerPictureData=data;
+                $scope.crawlerPicturePaginationConf.currentPage=0;
+                $scope.crawlerPicturePaginationConf.totalItems=0;
+            }
+
         });
     };
     $scope.getLastCrawlerPicturePageData=function(lastPage){
@@ -752,11 +837,19 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     $scope.refreshCrawlerPicture=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
             $scope.getCrawlerPictureData(1);
         }else{
             $scope.getCrawlerPictureSearchData(1);
+        }
+    };
+    $scope.refreshCrawlerPictureCur=function()
+    {
+        if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
+            $scope.getCrawlerPictureData($scope.crawlerPictureData.currentNo);
+        }else{
+            $scope.getCrawlerPictureSearchData($scope.crawlerPictureData.currentNo);
         }
     };
     //(f)搜索快拍爬虫数据--------------------------------------------------------------------------------------------------
@@ -766,11 +859,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.crawlerPictureSearchData);
         $http.post(url,$scope.crawlerPictureSearchData).success(function(data){
             console.log(data);
-            $scope.crawlerPictureData=data;
-            $scope.crawlerPicturePageNums=getPageNums($scope.crawlerPictureData.pageCount);
-            $scope.lastCrawlerPicturePage=$scope.crawlerPictureData.pageCount;
-            $scope.crawlerPicturePaginationConf.currentPage=$scope.crawlerPictureData.currentNo;
-            $scope.getLastCrawlerPictureSearchPageData($scope.lastCrawlerPicturePage);
+            if(data.pageCount>0){
+                $scope.crawlerPictureData=data;
+                $scope.crawlerPicturePageNums=getPageNums($scope.crawlerPictureData.pageCount);
+                $scope.lastCrawlerPicturePage=$scope.crawlerPictureData.pageCount;
+                $scope.crawlerPicturePaginationConf.currentPage=$scope.crawlerPictureData.currentNo;
+                $scope.getLastCrawlerPictureSearchPageData($scope.lastCrawlerPicturePage);
+            }else{
+                $scope.crawlerPictureData=data;
+                $scope.crawlerPicturePaginationConf.currentPage=0;
+                $scope.crawlerPicturePaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastCrawlerPictureSearchPageData=function(lastPage){
@@ -794,21 +893,29 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            if($scope.pendingPictureSearchData.content==""||$scope.pendingPictureSearchData.content==null){
-                $scope.getPendingPictureData($scope.pendingPicturePaginationConf.currentPage);
-            }else{
-                $scope.getPendingPictureSearchData($scope.pendingPicturePaginationConf.currentPage);
+            if($scope.pendingPicturePaginationConf.currentPage>0){
+                if($scope.pendingPictureSearchData.content==""||$scope.pendingPictureSearchData.content==null){
+                    $scope.getPendingPictureData($scope.pendingPicturePaginationConf.currentPage);
+                }else{
+                    $scope.getPendingPictureSearchData($scope.pendingPicturePaginationConf.currentPage);
+                }
             }
         }
     };
     $scope.getPendingPictureData=function(pageID){
         var url=$scope.projectName+'/picture/Pending/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.pendingPictureData=data;
-            $scope.pendingPicturePageNums=getPageNums($scope.pendingPictureData.pageCount);
-            $scope.lastPendingPicturePage=$scope.pendingPictureData.pageCount;
-            $scope.pendingPicturePaginationConf.currentPage=$scope.pendingPictureData.currentNo;
-            $scope.getLastPendingPicturePageData($scope.lastPendingPicturePage);
+            if(data.pageCount>0){
+                $scope.pendingPictureData=data;
+                $scope.pendingPicturePageNums=getPageNums($scope.pendingPictureData.pageCount);
+                $scope.lastPendingPicturePage=$scope.pendingPictureData.pageCount;
+                $scope.pendingPicturePaginationConf.currentPage=$scope.pendingPictureData.currentNo;
+                $scope.getLastPendingPicturePageData($scope.lastPendingPicturePage);
+            }else{
+                $scope.pendingPictureData=data;
+                $scope.pendingPicturePaginationConf.currentPage=0;
+                $scope.pendingPicturePaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastPendingPicturePageData=function(lastPage){
@@ -827,11 +934,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     $scope.refreshPendingPicture=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         if($scope.pendingPictureSearchData.content==""||$scope.pendingPictureSearchData.content==null){
             $scope.getPendingPictureData(1);
         }else{
             $scope.getPendingPictureSearchData(1);
+        }
+    };
+    $scope.refreshPendingPictureCur=function()
+    {
+//        $scope.orderCondition="";
+        if($scope.pendingPictureSearchData.content==""||$scope.pendingPictureSearchData.content==null){
+            $scope.getPendingPictureData($scope.pendingPictureData.currentNo);
+        }else{
+            $scope.getPendingPictureSearchData($scope.pendingPictureData.currentNo);
         }
     };
     //搜索快拍待审数据--------------------------------------------------------------------------------------------------
@@ -841,11 +957,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.pendingPictureSearchData);
         $http.post(url,$scope.pendingPictureSearchData).success(function(data){
             console.log(data);
-            $scope.pendingPictureData=data;
-            $scope.pendingPicturePageNums=getPageNums($scope.pendingPictureData.pageCount);
-            $scope.lastPendingPicturePage=$scope.pendingPictureData.pageCount;
-            $scope.pendingPicturePaginationConf.currentPage=$scope.pendingPictureData.currentNo;
-            $scope.getLastPendingPictureSearchPageData($scope.lastPendingPicturePage);
+            if(data.pageCount>0){
+                $scope.pendingPictureData=data;
+                $scope.pendingPicturePageNums=getPageNums($scope.pendingPictureData.pageCount);
+                $scope.lastPendingPicturePage=$scope.pendingPictureData.pageCount;
+                $scope.pendingPicturePaginationConf.currentPage=$scope.pendingPictureData.currentNo;
+                $scope.getLastPendingPictureSearchPageData($scope.lastPendingPicturePage);
+            }else{
+                $scope.pendingPictureData=data;
+                $scope.pendingPicturePaginationConf.currentPage=0;
+                $scope.pendingPicturePaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastPendingPictureSearchPageData=function(lastPage){
@@ -869,21 +991,29 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
-                $scope.getPublishedPictureData($scope.publishedPicturePaginationConf.currentPage);
-            }else{
-                $scope.getPublishedPictureSearchData($scope.publishedPicturePaginationConf.currentPage);
+            if($scope.publishedPicturePaginationConf.currentPage>0){
+                if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+                    $scope.getPublishedPictureData($scope.publishedPicturePaginationConf.currentPage);
+                }else{
+                    $scope.getPublishedPictureSearchData($scope.publishedPicturePaginationConf.currentPage);
+                }
             }
         }
     };
     $scope.getPublishedPictureData=function(pageID){
         var url=$scope.projectName+'/picture/Published/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.publishedPictureData=data;
-            $scope.publishePicturePageNums=getPageNums($scope.publishedPictureData.pageCount);
-            $scope.lastPublishedPicturePage=$scope.publishedPictureData.pageCount;
-            $scope.publishedPicturePaginationConf.currentPage=$scope.publishedPictureData.currentNo;
-            $scope.getLastPublishedPicturePageData($scope.lastPublishedPicturePage);
+            if(data.pageCount>0){
+                $scope.publishedPictureData=data;
+                $scope.publishePicturePageNums=getPageNums($scope.publishedPictureData.pageCount);
+                $scope.lastPublishedPicturePage=$scope.publishedPictureData.pageCount;
+                $scope.publishedPicturePaginationConf.currentPage=$scope.publishedPictureData.currentNo;
+                $scope.getLastPublishedPicturePageData($scope.lastPublishedPicturePage);
+            }else{
+                $scope.publishedPictureData=data;
+                $scope.publishedPicturePaginationConf.currentPage=0;
+                $scope.publishedPicturePaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastPublishedPicturePageData=function(lastPage){
@@ -902,12 +1032,22 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     $scope.refreshPublishedPicture=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         console.log("test");
         if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
             $scope.getPublishedPictureData(1);
         }else{
             $scope.getPublishedPictureSearchData(1);
+        }
+    };
+    $scope.refreshPublishedPictureCur=function()
+    {
+//        $scope.orderCondition="";
+        console.log("test");
+        if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+            $scope.getPublishedPictureData($scope.publishedPictureData.currentNo);
+        }else{
+            $scope.getPublishedPictureSearchData($scope.publishedPictureData.currentNo);
         }
     };
     //搜索快拍已发布数据------------------------------------------------------------------------------------------------
@@ -917,11 +1057,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.publishedPictureSearchData);
         $http.post(url,$scope.publishedPictureSearchData).success(function(data){
             console.log(data);
-            $scope.publishedPictureData=data;
-            $scope.publishePicturePageNums=getPageNums($scope.publishedPictureData.pageCount);
-            $scope.lastPublishedPicturePage=$scope.publishedPictureData.pageCount;
-            $scope.publishedPicturePaginationConf.currentPage=$scope.publishedPictureData.currentNo;
-            $scope.getLastPublishedPictureSearchPageData($scope.lastPublishedPicturePage);
+            if(data.pageCount>0){
+                $scope.publishedPictureData=data;
+                $scope.publishePicturePageNums=getPageNums($scope.publishedPictureData.pageCount);
+                $scope.lastPublishedPicturePage=$scope.publishedPictureData.pageCount;
+                $scope.publishedPicturePaginationConf.currentPage=$scope.publishedPictureData.currentNo;
+                $scope.getLastPublishedPictureSearchPageData($scope.lastPublishedPicturePage);
+            }else{
+                $scope.publishedPictureData=data;
+                $scope.publishedPicturePaginationConf.currentPage=0;
+                $scope.publishedPicturePaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastPublishedPictureSearchPageData=function(lastPage){
@@ -945,10 +1091,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
-                $scope.getRevokedPictureData($scope.revokedPicturePaginationConf.currentPage);
-            }else{
-                $scope.getRevokedPictureSearchData($scope.revokedPicturePaginationConf.currentPage);
+            if($scope.revokedPicturePaginationConf.currentPage>0){
+                if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+                    $scope.getRevokedPictureData($scope.revokedPicturePaginationConf.currentPage);
+                }else{
+                    $scope.getRevokedPictureSearchData($scope.revokedPicturePaginationConf.currentPage);
+                }
             }
         }
     };
@@ -956,11 +1104,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     {
         var url=$scope.projectName+'/picture/Revocation/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.revokedPictureData=data;
-            $scope.revokedPicturePageNums=getPageNums($scope.revokedPictureData.pageCount);
-            $scope.lastRevokedPicturePage=$scope.revokedPictureData.pageCount;
-            $scope.revokedPicturePaginationConf.currentPage=$scope.revokedPictureData.currentNo;
-            $scope.getLastRevokedPicturePageData($scope.lastRevokedPicturePage);
+            if(data.pageCount>0){
+                $scope.revokedPictureData=data;
+                $scope.revokedPicturePageNums=getPageNums($scope.revokedPictureData.pageCount);
+                $scope.lastRevokedPicturePage=$scope.revokedPictureData.pageCount;
+                $scope.revokedPicturePaginationConf.currentPage=$scope.revokedPictureData.currentNo;
+                $scope.getLastRevokedPicturePageData($scope.lastRevokedPicturePage);
+            }else{
+                $scope.revokedPictureData=data;
+                $scope.revokedPicturePaginationConf.currentPage=0;
+                $scope.revokedPicturePaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastRevokedPicturePageData=function(lastPage){
@@ -979,11 +1133,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     $scope.refreshRevokedPicture=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
             $scope.getRevokedPictureData(1);
         }else{
             $scope.getRevokedPictureSearchData(1);
+        }
+    };
+    $scope.refreshRevokedPictureCur=function()
+    {
+//        $scope.orderCondition="";
+        if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
+            $scope.getRevokedPictureData($scope.revokedPictureData.currentNo);
+        }else{
+            $scope.getRevokedPictureSearchData($scope.revokedPictureData.currentNo);
         }
     };
     //搜索快拍已撤销数据------------------------------------------------------------------------------------------------
@@ -993,11 +1156,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.revokedPictureSearchData);
         $http.post(url,$scope.revokedPictureSearchData).success(function(data){
             console.log(data);
-            $scope.revokedPictureData=data;
-            $scope.revokedPicturePageNums=getPageNums($scope.revokedPictureData.pageCount);
-            $scope.lastRevokedPicturePage=$scope.revokedPictureData.pageCount;
-            $scope.revokedPicturePaginationConf.currentPage=$scope.revokedPictureData.currentNo;
-            $scope.getLastRevokedPictureSearchPageData($scope.lastRevokedPicturePage);
+            if(data.pageCount>0){
+                $scope.revokedPictureData=data;
+                $scope.revokedPicturePageNums=getPageNums($scope.revokedPictureData.pageCount);
+                $scope.lastRevokedPicturePage=$scope.revokedPictureData.pageCount;
+                $scope.revokedPicturePaginationConf.currentPage=$scope.revokedPictureData.currentNo;
+                $scope.getLastRevokedPictureSearchPageData($scope.lastRevokedPicturePage);
+            }else{
+                $scope.revokedPictureData=data;
+                $scope.revokedPicturePaginationConf.currentPage=0;
+                $scope.revokedPicturePaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastRevokedPictureSearchPageData=function(lastPage){
@@ -1021,10 +1190,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-            if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
-                $scope.getTempPictureData($scope.tempPicturePaginationConf.currentPage);
-            }else{
-                $scope.getTempPictureSearchData($scope.tempPicturePaginationConf.currentPage);
+            if($scope.tempPicturePaginationConf.currentPage>0){
+                if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+                    $scope.getTempPictureData($scope.tempPicturePaginationConf.currentPage);
+                }else{
+                    $scope.getTempPictureSearchData($scope.tempPicturePaginationConf.currentPage);
+                }
             }
         }
     };
@@ -1032,11 +1203,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     {
         var url=$scope.projectName+'/picture/Temp/'+pageID.toString()+$scope.orderCondition;
         $http.get(url).success(function(data){
-            $scope.tempPictureData=data;
-            $scope.tempPicturePageNums=getPageNums($scope.tempPictureData.pageCount);
-            $scope.lastTempPicturePage=$scope.tempPictureData.pageCount;
-            $scope.tempPicturePaginationConf.currentPage=$scope.tempPictureData.currentNo;
-            $scope.getLastTempPicturePageData($scope.lastTempPicturePage);
+            if(data.pageCount>0){
+                $scope.tempPictureData=data;
+                $scope.tempPicturePageNums=getPageNums($scope.tempPictureData.pageCount);
+                $scope.lastTempPicturePage=$scope.tempPictureData.pageCount;
+                $scope.tempPicturePaginationConf.currentPage=$scope.tempPictureData.currentNo;
+                $scope.getLastTempPicturePageData($scope.lastTempPicturePage);
+            }else{
+                $scope.tempPictureData=data;
+                $scope.tempPicturePaginationConf.currentPage=0;
+                $scope.tempPicturePaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastTempPicturePageData=function(lastPage){
@@ -1055,11 +1232,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     $scope.refreshTempPicture=function()
     {
-        $scope.orderCondition="";
+        $scope.orderCondition="/time/desc";
         if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
             $scope.getTempPictureData(1);
         }else{
             $scope.getTempPictureSearchData(1);
+        }
+    };
+    $scope.refreshTempPictureCur=function()
+    {
+//        $scope.orderCondition="";
+        if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
+            $scope.getTempPictureData($scope.tempPictureData.currentNo);
+        }else{
+            $scope.getTempPictureSearchData($scope.tempPictureData.currentNo);
         }
     };
     //搜索快拍草稿数据--------------------------------------------------------------------------------------------------
@@ -1069,11 +1255,17 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         console.log($scope.tempPictureSearchData);
         $http.post(url,$scope.tempPictureSearchData).success(function(data){
             console.log(data);
-            $scope.tempPictureData=data;
-            $scope.tempPicturePageNums=getPageNums($scope.tempPictureData.pageCount);
-            $scope.lastTempPicturePage=$scope.tempPictureData.pageCount;
-            $scope.tempPicturePaginationConf.currentPage=$scope.tempPictureData.currentNo;
-            $scope.getLastTempPictureSearchPageData($scope.lastTempPicturePage);
+            if(data.pageCount>0){
+                $scope.tempPictureData=data;
+                $scope.tempPicturePageNums=getPageNums($scope.tempPictureData.pageCount);
+                $scope.lastTempPicturePage=$scope.tempPictureData.pageCount;
+                $scope.tempPicturePaginationConf.currentPage=$scope.tempPictureData.currentNo;
+                $scope.getLastTempPictureSearchPageData($scope.lastTempPicturePage);
+            }else{
+                $scope.tempPictureData=data;
+                $scope.tempPicturePaginationConf.currentPage=0;
+                $scope.tempPicturePaginationConf.totalItems=0;
+            }
         });
     };
     $scope.getLastTempPictureSearchPageData=function(lastPage){

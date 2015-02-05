@@ -65,6 +65,31 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         }
         $scope.calculateWords();
     };
+    //彻底删除-----
+    $scope.deleteArticleInCrawler=function()
+    {
+            if (confirm("确定删除选中的文章吗？")==true)
+            {
+                var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+                $http.delete(url).success(function(){
+                    alert("删除成功");
+                    $scope.goCrawler();
+                });
+            }
+    };
+    //保存在本状态-----------------------------------------------------------------------------------------------------
+    $scope.saveArticleLocal=function(){
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        console.log($scope.articleData);
+        var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function(data){
+            if(data=="true"){
+                alert("保存成功");
+                $scope.goCrawler();
+            }
+        });
+    };
     $scope.saveStateInCrawler1="";
     $scope.saveArticle=function(){
         //console.log("test new save");

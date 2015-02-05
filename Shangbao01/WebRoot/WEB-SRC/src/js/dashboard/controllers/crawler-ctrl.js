@@ -244,7 +244,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
                 var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.refreshCrawler();
+                    $scope.refreshCrawlerCur();
                     alert("删除成功");
                 });
             }
@@ -259,7 +259,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.refreshCrawler();
+                $scope.refreshCrawlerCur();
                 alert("转草稿箱成功");
             });
         }
@@ -272,7 +272,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.refreshCrawler();
+                $scope.refreshCrawlerCur();
                 alert("发布成功");
             });
         }
@@ -298,7 +298,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
                 alert("定时成功");
                 $('#Select_TimeOutCrawler').modal('toggle');
                 clearArticleSelections();
-                $scope.refreshCrawler();
+                $scope.refreshCrawlerCur();
             });
         }
     };

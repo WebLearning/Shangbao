@@ -206,7 +206,7 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
                 var url=$scope.projectName+"/picture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getRevokedPictureData(1);
+                    $scope.refreshRevokedPictureCur();
                     alert("删除成功");
                 });
             }
@@ -221,7 +221,7 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
             var url=$scope.projectName+"/picture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.getRevokedPictureData(1);
+                $scope.refreshRevokedPictureCur();
                 alert("转暂存成功");
             });
         }

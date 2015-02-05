@@ -218,7 +218,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
                 var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.refreshTemp();
+                    $scope.refreshTempCur();
                     alert("删除成功");
                 });
             }
@@ -233,7 +233,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.refreshTemp();
+                $scope.refreshTempCur();
                 alert("提交成功");
             });
         }
@@ -246,7 +246,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
             var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.refreshTemp();
+                $scope.refreshTempCur();
                 alert("发布成功");
             });
         }
@@ -272,7 +272,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
                 alert("定时成功");
                 $('#Select_TimeOutDraft').modal('toggle');
                 clearArticleSelections();
-                $scope.refreshTemp();
+                $scope.refreshTempCur();
             });
         }
     };

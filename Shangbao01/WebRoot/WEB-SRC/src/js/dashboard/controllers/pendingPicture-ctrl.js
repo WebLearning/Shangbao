@@ -295,7 +295,7 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
                 var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getPendingPictureData(1);
+                    $scope.refreshPendingPictureCur();
                     alert("撤销成功");
                 });
             }
@@ -310,7 +310,7 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
             var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.getPendingPictureData(1);
+                $scope.refreshPendingPictureCur();
                 alert("发布成功");
             });
         }
@@ -339,7 +339,7 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
                 alert("定时成功");
                 $('#Select_Time_picture').modal('toggle');
                 clearArticleSelections();
-                $scope.getPendingPictureData(1);
+                $scope.refreshPendingPictureCur();
             });
         }
     };

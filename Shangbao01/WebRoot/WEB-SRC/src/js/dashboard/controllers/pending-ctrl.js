@@ -318,7 +318,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
                 var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.refreshPending();
+                    $scope.refreshPendingCur();
                     alert("撤销成功");
                 });
             }
@@ -333,7 +333,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.refreshPending();
+                $scope.refreshPendingCur();
                 alert("发布成功");
             });
         }
@@ -362,7 +362,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
                     alert("定时成功");
                     $('#Select_Time').modal('toggle');
                     clearArticleSelections();
-                    $scope.refreshPending();
+                    $scope.refreshPendingCur();
                 });
             }
     };
