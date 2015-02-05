@@ -91,8 +91,8 @@ public class CompressPicUtils {
 						newWidth = (int) (img.getWidth(null) / rate);
 						newHeight = (int) (img.getHeight(null) / rate);
 					}else{
-						newWidth = outputWidth;
-						newHeight = outputHeight;
+						newWidth = img.getWidth(null);
+						newHeight = img.getHeight(null);
 					}
 				}else if(outputWidth == 0){
 					if(outputHeight < img.getHeight(null)){
@@ -100,8 +100,8 @@ public class CompressPicUtils {
 						newWidth = (int) (img.getWidth(null) / rate);
 						newHeight = (int) (img.getHeight(null) / rate);
 					}else{
-						newWidth = outputWidth;
-						newHeight = outputHeight;
+						newWidth = img.getWidth(null);
+						newHeight = img.getHeight(null);
 					}
 				}else{
 					double rate1 = ((double) img.getWidth(null)) / (double) outputWidth;
@@ -129,42 +129,42 @@ public class CompressPicUtils {
 		return false;
 	}
 	
-	public boolean compress(File inputFile,// 文件对象
-			   			 File outputFile,// 输出图路径
-			   			 int outputWidth,// 默认输出图片宽
-			   			 int outputHeight,// 默认输出图片高
-			   			 double outputQutity){
-		if(!inputFile.exists() || outputHeight == 0 || outputWidth == 0){
-			return false;
-		}
-		Image img;
-		try {
-			img = ImageIO.read(inputFile);
-			if(img.getWidth(null) == -1){
-				return false;
-			}
-			int newWidth = 0;
-			int newHeight = 0;
-			if(img.getHeight(null) > img.getWidth(null)){//按照宽度缩小
-				newWidth = outputWidth;
-				double rate = ((double) img.getWidth(null)) / (double) outputWidth;
-				newHeight = (int)(img.getHeight(null) / rate);
-			}else{
-				newHeight = outputHeight;
-				double rate = ((double) img.getHeight(null)) / (double) outputHeight;
-				newWidth = (int)(img.getWidth(null) / rate);
-			}
-			Thumbnails.of(inputFile)
-			  .size(newWidth, newHeight)
-			  .outputQuality(outputQutity)
-			  .toFile(outputFile);
-			return true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-	}
+//	public boolean compress(File inputFile,// 文件对象
+//			   			 File outputFile,// 输出图路径
+//			   			 int outputWidth,// 默认输出图片宽
+//			   			 int outputHeight,// 默认输出图片高
+//			   			 double outputQutity){
+//		if(!inputFile.exists() || outputHeight == 0 || outputWidth == 0){
+//			return false;
+//		}
+//		Image img;
+//		try {
+//			img = ImageIO.read(inputFile);
+//			if(img.getWidth(null) == -1){
+//				return false;
+//			}
+//			int newWidth = 0;
+//			int newHeight = 0;
+//			if(img.getHeight(null) > img.getWidth(null)){//按照宽度缩小
+//				newWidth = outputWidth;
+//				double rate = ((double) img.getWidth(null)) / (double) outputWidth;
+//				newHeight = (int)(img.getHeight(null) / rate);
+//			}else{
+//				newHeight = outputHeight;
+//				double rate = ((double) img.getHeight(null)) / (double) outputHeight;
+//				newWidth = (int)(img.getWidth(null) / rate);
+//			}
+//			Thumbnails.of(inputFile)
+//			  .size(newWidth, newHeight)
+//			  .outputQuality(outputQutity)
+//			  .toFile(outputFile);
+//			return true;
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return false;
+//	}
 	
 	/**
 	 * 压缩图片并添加水印
