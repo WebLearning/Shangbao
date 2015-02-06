@@ -15,6 +15,10 @@ public interface CommendService {
 	 * @param articleId
 	 */
 	CommendList get(Commend commend, int pageId);
+	
+	CommendList getPubUnpub(Commend criteriaCommend, String type, int pageId);
+	
+	CommendList getPubUnpub(Commend criteriaCommend, String type, int pageId, String order, String direction);
 	/**
 	 * 查找一篇文章的所有评论并按排序
 	 * @param articleId

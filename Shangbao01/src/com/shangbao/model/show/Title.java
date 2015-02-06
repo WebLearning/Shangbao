@@ -11,7 +11,11 @@ public class Title {
 	private String author;//作者
 	private String level;//等级
 	private int words;//字数
+	private int newsCommendsPublish;//商报评论发表数
+	private int newsCommendsUnpublish;//商报评论未发表数
 	private int newsCommends;//商报评论数
+	private int crawlerCommendsPublish;//爬虫评论发表数
+	private int crawlerCommendsUnpublish;//爬虫评论未发表数
 	private int crawlerCommends;//爬虫评论数
 	private int clicks;//点击数
 	private int likes;//点赞数
@@ -32,7 +36,11 @@ public class Title {
 		setLevel(article.getLevel());
 		setWords(article.getWords());
 		setNewsCommends(article.getNewsCommends());
+		setNewsCommendsPublish(article.getNewsCommendsPublish());
+		setNewsCommendsUnpublish(article.getNewsCommendsUnpublish());
 		setCrawlerCommends(article.getCrawlerCommends());
+		setCrawlerCommendsPublish(article.getCrawlerCommendsPublish());
+		setCrawlerCommendsUnpublish(article.getCrawlerCommendsUnpublish());
 		setClicks(article.getClicks());
 		setFrom(article.getFrom());
 		setSummary(article.getSummary());
@@ -162,6 +170,38 @@ public class Title {
 
 	public void setArticleId(long articleId) {
 		this.articleId = articleId;
+	}
+
+	public int getNewsCommendsPublish() {
+		return newsCommendsPublish;
+	}
+
+	public void setNewsCommendsPublish(int newsCommendsPublish) {
+		this.newsCommendsPublish = newsCommendsPublish;
+	}
+
+	public int getNewsCommendsUnpublish() {
+		return newsCommendsUnpublish;
+	}
+
+	public void setNewsCommendsUnpublish(int newsCommendsUnpublish) {
+		this.newsCommendsUnpublish = newsCommendsUnpublish;
+	}
+
+	public int getCrawlerCommendsPublish() {
+		return crawlerCommendsPublish;
+	}
+
+	public void setCrawlerCommendsPublish(int crawlerCommendsPublish) {
+		this.crawlerCommendsPublish = crawlerCommendsPublish;
+	}
+
+	public int getCrawlerCommendsUnpublish() {
+		return crawlerCommendsUnpublish;
+	}
+
+	public void setCrawlerCommendsUnpublish(int crawlerCommendsUnpublish) {
+		this.crawlerCommendsUnpublish = crawlerCommendsUnpublish;
 	}
 	
 }

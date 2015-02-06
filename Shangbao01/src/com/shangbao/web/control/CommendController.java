@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.shangbao.app.model.Reply;
+import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Commend;
 import com.shangbao.model.persistence.CrawlerCommend;
 import com.shangbao.model.persistence.NewsCommend;
@@ -80,7 +81,42 @@ public class CommendController {
 		commend.setArticleId(articleId);
 		return commendServiceImp.get(commend, pageId);
 	}
+	
+	@RequestMapping(value = "/{pageNo:[\\d]+}/{articleId:[\\d]+}/{type:crawler|news}/{pub:publish|unpublish}/{commendPage:[\\d]+}", method = RequestMethod.GET)
+	@ResponseBody
+	public CommendList getPubOrUnCommend(@PathVariable("articleId") long articleId,
+										@PathVariable("type") String type,
+										@PathVariable("pub") String publishType,
+										@PathVariable("commendPage") int pageId){
+		Commend commend = null;
+		if(type.equals("crawler")){
+			commend = new CrawlerCommend();
+		}
+		if(type.equals("news")){
+			commend = new NewsCommend();
+		}
+		commend.setArticleId(articleId);
+		return commendServiceImp.getPubUnpub(commend, publishType, pageId);
+	}
 
+	@RequestMapping(value="/{pageNo:[\\d]+}/{articleId:[\\d]+}/{type:crawler|news}/{pub:publish|unpublish}/{commendPage:[\\d]+}/{order:[a-z,A-Z]+}/{direction:asc|desc}",method = RequestMethod.GET)
+	@ResponseBody
+	public CommendList getPubOrUnCommend(@PathVariable("articleId") long articleId,
+										@PathVariable("type") String type,
+										@PathVariable("pub") String publishType,
+										@PathVariable("commendPage") int pageId,
+										@PathVariable("order") String order,
+										@PathVariable("direction") String direction){
+		Commend commend = null;
+		if(type.equals("crawler")){
+			commend = new CrawlerCommend();
+		}
+		if(type.equals("news")){
+			commend = new NewsCommend();
+		}
+		commend.setArticleId(articleId);
+		return commendServiceImp.getPubUnpub(commend, publishType, pageId, order, direction);
+	}
 	/**
 	 * 点击属性，按照选择的属性排序
 	 * 

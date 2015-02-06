@@ -139,9 +139,14 @@ public class ArticleServiceImp implements ArticleService {
 	public void updateCrawler(Article article){
 		Article criteriaArticle = new Article();
 		criteriaArticle.setId(article.getId());
+		Article tempArticle = articleDaoImp.findById(article.getId());
+		if(tempArticle == null){
+			return;
+		}
 		Update update = new Update();
 		if(article.getCrawlerCommends() != 0){
 			update.set("crawlerCommends", article.getCrawlerCommends());
+			update.set("crawlerCommendsUnpublish", article.getCrawlerCommends() - tempArticle.getCrawlerCommendsPublish());
 		}
 		if(article.getLevel() != null){
 			update.set("level", article.getLevel());

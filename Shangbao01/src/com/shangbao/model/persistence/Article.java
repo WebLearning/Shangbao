@@ -33,8 +33,10 @@ public class Article {
 	private int words;//字数
 	private int newsCommends;//商报评论数
 	private int newsCommendsPublish;//商报评论发表数
+	private int newsCommendsUnpublish;//商报评论未发表
 	private int crawlerCommends;//爬虫评论数
 	private int crawlerCommendsPublish;//爬虫评论发表数
+	private int crawlerCommendsUnpublish;//爬虫评论未发表数
 	private int clicks;//点击数
 	private int js_clicks;//前端统计的点击数
 	private int likes;//点赞数
@@ -206,6 +208,18 @@ public class Article {
 	}
 	public void setLogs(List<String> logs) {
 		this.logs = logs;
+	}
+	public int getNewsCommendsUnpublish() {
+		return newsCommendsUnpublish;
+	}
+	public void setNewsCommendsUnpublish(int newsCommendsUnpublish) {
+		this.newsCommendsUnpublish = newsCommendsUnpublish;
+	}
+	public int getCrawlerCommendsUnpublish() {
+		return crawlerCommendsUnpublish;
+	}
+	public void setCrawlerCommendsUnpublish(int crawlerCommendsUnpublish) {
+		this.crawlerCommendsUnpublish = crawlerCommendsUnpublish;
 	}
 	/**
 	 * 添加关键字

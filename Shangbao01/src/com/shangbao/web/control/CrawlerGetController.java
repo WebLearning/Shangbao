@@ -60,6 +60,7 @@ public class CrawlerGetController {
 		if(article != null){
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
 			article.setState(ArticleState.Crawler);
+			article.setCrawlerCommendsUnpublish(article.getCrawlerCommends());
 			//article.setContent(articleToHtml(article));
 			article.setContent(stringToBody(article));
 			article.getLogs().add(sdf.format(new Date()) + " " + "爬虫上传");

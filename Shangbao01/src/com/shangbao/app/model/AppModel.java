@@ -433,6 +433,11 @@ public class AppModel {
 		int newsCommends = criteriaArticle.getNewsCommends();
 		Update articleUpdate = new Update();
 		articleUpdate.set("newsCommends", newsCommends + 1);
+		if(pendTagServiceImp.isTag("comment")){
+			articleUpdate.set("newsCommendsUnpublish", criteriaArticle.getNewsCommends() - criteriaArticle.getNewsCommendsPublish() + 1);
+		}else{
+			articleUpdate.inc("newsCommendsPublish", 1);
+		}
 		Article tempArticle = new Article();
 		tempArticle.setId(criteriaArticle.getId());
 		articleDaoImp.update(tempArticle, articleUpdate);

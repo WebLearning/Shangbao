@@ -69,6 +69,66 @@ public class CommendServiceImp implements CommendService {
 		}
 		return commendList;
 	}
+	
+	@Override
+	public CommendList getPubUnpub(Commend criteriaCommend, String type, int pageId){
+		CommendList commendList = new CommendList();
+		List<Commend> commends = commendDaoImp.find(criteriaCommend);
+		if (commends.size() == 1
+				&& commends.get(0).getCommendList().size() > 10 * (pageId - 1)){
+			List<SingleCommend> singleCommends = commends.get(0).getCommendList();
+			List<SingleCommend> returnCommends = new ArrayList<>();
+			for(SingleCommend singleCommend : singleCommends){
+				if(type.equals("publish") && singleCommend.getState().equals(CommendState.published)){
+					returnCommends.add(singleCommend);
+				}
+				if(type.equals("unpublish") && singleCommend.getState().equals(CommendState.unpublished)){
+					returnCommends.add(singleCommend);
+				}
+			}
+			int pageCount = (returnCommends.size() % 10 == 0 ? returnCommends.size() / 10 : returnCommends.size() / 10 + 1);
+			if(pageId <= pageCount){
+				commendList.setPageCount(pageCount);
+				commendList.setCurrentNo(pageId);
+				commendList.setCommendList(returnCommends.subList(
+						(pageId - 1) * 10,
+						pageId * 10 - 1 >= returnCommends.size() ? returnCommends.size() : pageId * 10));
+			}
+		}
+		return commendList;
+	}
+	
+	@Override
+	public CommendList getPubUnpub(Commend criteriaCommend, String type, int pageId, String order, String direction){
+		CommendList commendList = new CommendList();
+		List<Commend> commends = commendDaoImp.find(criteriaCommend);
+		if (commends.size() == 1
+				&& commends.get(0).getCommendList().size() > 10 * (pageId - 1)){
+			List<SingleCommend> singleCommends = reSort(commends.get(0)
+					.getCommendList(), order);
+			if(direction.equals("desc")){
+				Collections.reverse(singleCommends);
+			}
+			List<SingleCommend> returnCommends = new ArrayList<>();
+			for(SingleCommend singleCommend : singleCommends){
+				if(type.equals("publish") && singleCommend.getState().equals(CommendState.published)){
+					returnCommends.add(singleCommend);
+				}
+				if(type.equals("unpublish") && singleCommend.getState().equals(CommendState.unpublished)){
+					returnCommends.add(singleCommend);
+				}
+			}
+			int pageCount = (returnCommends.size() % 10 == 0 ? returnCommends.size() / 10 : returnCommends.size() / 10 + 1);
+			if(pageId <= pageCount){
+				commendList.setPageCount(pageCount);
+				commendList.setCurrentNo(pageId);
+				commendList.setCommendList(returnCommends.subList(
+						(pageId - 1) * 10,
+						pageId * 10 - 1 >= returnCommends.size() ? returnCommends.size() : pageId * 10));
+			}
+		}
+		return commendList;
+	}
 
 	@Override
 	public CommendList get(Commend criteriaElement, int pageId, String order, String direction) {
@@ -131,11 +191,14 @@ public class CommendServiceImp implements CommendService {
 		Update update = new Update();
 		if(commend instanceof CrawlerCommend){
 			update.inc("crawlerCommends", 1);
+			update.inc("crawlerCommendsUnpublish", 1);
 			articleDaoImp.update(article, update);
 		}else{
 			update.inc("newsCommends", 1);
 			if(!pendTagServiceImp.isTag("comment")){
 				update.inc("newsCommendsPublish", 1);
+			}else{
+				update.inc("newsCommendsUnpublish", 1);
 			}
 			articleDaoImp.update(article, update);
 		}
