@@ -260,8 +260,10 @@ public class CommendServiceImp implements CommendService {
 			Update update = new Update();
 			if(commend instanceof CrawlerCommend){
 				update.inc("crawlerCommendsPublish", commendCount);
+				update.inc("crawlerCommendsUnpublish", -commendCount);
 			}else{
 				update.inc("newsCommendsPublish", commendCount);
+				update.inc("newsCommendsUnpublish", -commendCount);
 			}
 			articleDaoImp.update(article, update);
 		}
