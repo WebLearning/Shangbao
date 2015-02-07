@@ -119,14 +119,14 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
         }
     };
 
-    var newsCommendsOrderState="desc";
-    $scope.orderByNewsCommends=function(){
-        if(newsCommendsOrderState=="desc"){
-            $scope.transOrderConditions("/newsCommends/asc");
-            newsCommendsOrderState="asc";
-        }else if(newsCommendsOrderState=="asc"){
-            $scope.transOrderConditions("/newsCommends/desc");
-            newsCommendsOrderState="desc";
+    var newsCommendsOrderStatePublished="desc";
+    $scope.orderByNewsCommendsPublished=function(){
+        if(newsCommendsOrderStatePublished=="desc"){
+            $scope.transOrderConditions("/newsCommendsPublish/asc");
+            newsCommendsOrderStatePublished="asc";
+        }else if(newsCommendsOrderStatePublished=="asc"){
+            $scope.transOrderConditions("/newsCommendsPublish/desc");
+            newsCommendsOrderStatePublished="desc";
         }
         if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
             $scope.getPublishedPictureData(1);
@@ -135,14 +135,46 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
             $scope.getPublishedPictureSearchData(1);
         }
     };
-    var crawlerCommendsOrderState="desc";
-    $scope.orderByCrawlerCommends=function(){
-        if(crawlerCommendsOrderState=="desc"){
-            $scope.transOrderConditions("/crawlerCommends/asc");
-            crawlerCommendsOrderState="asc";
-        }else if(crawlerCommendsOrderState=="asc"){
-            $scope.transOrderConditions("/crawlerCommends/desc");
-            crawlerCommendsOrderState="desc";
+    var newsCommendsOrderStateUnPublished="desc";
+    $scope.orderByNewsCommendsUnPublished=function(){
+        if(newsCommendsOrderStateUnPublished=="desc"){
+            $scope.transOrderConditions("/newsCommendsUnpublish/asc");
+            newsCommendsOrderStateUnPublished="asc";
+        }else if(newsCommendsOrderStateUnPublished=="asc"){
+            $scope.transOrderConditions("/newsCommendsUnpublish/desc");
+            newsCommendsOrderStateUnPublished="desc";
+        }
+        if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+            $scope.getPublishedPictureData(1);
+        }else{
+            console.log($scope.publishedPictureSearchData.content);
+            $scope.getPublishedPictureSearchData(1);
+        }
+    };
+    var crawlerCommendsOrderStatePublished="desc";
+    $scope.orderByCrawlerCommendsPublished=function(){
+        if(crawlerCommendsOrderStatePublished=="desc"){
+            $scope.transOrderConditions("/crawlerCommendsPublish/asc");
+            crawlerCommendsOrderStatePublished="asc";
+        }else if(crawlerCommendsOrderStatePublished=="asc"){
+            $scope.transOrderConditions("/crawlerCommendsPublish/desc");
+            crawlerCommendsOrderStatePublished="desc";
+        }
+        if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
+            $scope.getPublishedPictureData(1);
+        }else{
+            console.log($scope.publishedPictureSearchData.content);
+            $scope.getPublishedPictureSearchData(1);
+        }
+    };
+    var crawlerCommendsOrderStateUnPublished="desc";
+    $scope.orderByCrawlerCommendsUnPublished=function(){
+        if(crawlerCommendsOrderStateUnPublished=="desc"){
+            $scope.transOrderConditions("/crawlerCommendsUnpublish/asc");
+            crawlerCommendsOrderStateUnPublished="asc";
+        }else if(crawlerCommendsOrderStateUnPublished=="asc"){
+            $scope.transOrderConditions("/crawlerCommendsUnpublish/desc");
+            crawlerCommendsOrderStateUnPublished="desc";
         }
         if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
             $scope.getPublishedPictureData(1);

@@ -29,29 +29,6 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
             console.log("添加成功");
         });
     };
-
-//    $scope.commentData=null;
-//    $scope.orderCondition="";
-
-    //初始化页面，获取爬虫第一页的数据,返回的是一个titleList-------------------------------------------------------------------
-//    $scope.getCommentData=function(pageID)
-//    {
-//        var url=$scope.projectName+'/commend/'+pageID.toString()+$scope.orderCondition;
-//        console.log(url);
-//        $http.get(url).success(function(data){
-//            $scope.commentData=data;
-//            $scope.pageNums=getPageNums($scope.commentData.pageCount);
-//            console.log("成功获取数据");
-//        });
-//    };
-//    $scope.getCommentData(1);//会在生成页面的时候直接运行!
-//
-//    $scope.refreshComment=function()
-//    {
-//        $scope.orderCondition="";
-//        $scope.getCommentData(1);
-//    };
-
     //检查表的内容 数据若是NULL则显示"无",状态转化成中文
     $scope.checkIfNull=function(str)
     {
@@ -88,34 +65,6 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
 
     //文章评论跳转------------------------------------------------------------------------------------------------------------
 
-    $scope.goCommentDetails=function()
-    {
-        document.getElementById("comment").className="tab-pane";
-        document.getElementById("commentDetails").className="tab-pane active";
-    };
-
-    //将文章评论数据传输给全局变量commentDetailData
-    $scope.transDataToCommentDetailData=function(data)
-    {
-        for(p in $scope.commentDetailData){
-            if(p=="commendList"){
-                for(i in data[p]){
-                    $scope.commentDetailData[p][i]=data[p][i];
-                }
-            }else{
-                $scope.commentDetailData[p]=data[p];
-            }
-        }
-    };
-
-    //点击显示文章评论明细
-    $scope.showComments=function(articleId,title,type)
-    {
-        commentDetailsUrl=$scope.projectName+'/commend/1/'+articleId+'/'+type;
-        $scope.goCommentDetails();
-        $scope.getCommentDetailData(1);
-        $scope.getCommentDetailTitle(title,type);
-    };
 
     //页面跳转----------------------------------------------------------------------------------------------------------
     $scope.turnToPage=function(pageNum)
@@ -148,36 +97,64 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
         }
         $scope.getCommentData(1);
     };
-    var orderNewsCommends="desc";
-    $scope.orderByNewsCommends=function(){
-        if(orderNewsCommends=="desc"){
+    var orderNewsCommendsPublish="desc";
+    $scope.orderByNewsCommendsPublish=function(){
+        if(orderNewsCommendsPublish=="desc"){
 //            $scope.orderCondition="/newsCommends";
-            $scope.transOrderConditions("/newsCommends/asc");
-            orderNewsCommends="asc";
+            $scope.transOrderConditions("/newsCommendsPublish/asc");
+            orderNewsCommendsPublish="asc";
 //            $scope.getCommentData(1);
-        }else if(orderNewsCommends=="asc"){
+        }else if(orderNewsCommendsPublish=="asc"){
 //            $scope.orderCondition="";
-            $scope.transOrderConditions("/newsCommends/desc");
-            orderNewsCommends="desc";
+            $scope.transOrderConditions("/newsCommendsPublish/desc");
+            orderNewsCommendsPublish="desc";
         }
         $scope.getCommentData(1);
     };
-    var orderCrawlerCommends="desc";
-    $scope.orderByCrawlerCommends=function(){
-        if(orderCrawlerCommends=="desc"){
+    var orderNewsCommendsUnPublish="desc";
+    $scope.orderByNewsCommendsUnPublish=function(){
+        if(orderNewsCommendsUnPublish=="desc"){
+//            $scope.orderCondition="/newsCommends";
+            $scope.transOrderConditions("/newsCommendsUnpublish/asc");
+            orderNewsCommendsUnPublish="asc";
+//            $scope.getCommentData(1);
+        }else if(orderNewsCommendsUnPublish=="asc"){
+//            $scope.orderCondition="";
+            $scope.transOrderConditions("/newsCommendsUnpublish/desc");
+            orderNewsCommendsUnPublish="desc";
+        }
+        $scope.getCommentData(1);
+    };
+    var orderCrawlerCommendsPublish="desc";
+    $scope.orderByCrawlerCommendsPublish=function(){
+        if(orderCrawlerCommendsPublish=="desc"){
 //            $scope.orderCondition="/crawlerCommends";
-            $scope.transOrderConditions("/crawlerCommends/asc");
-            orderCrawlerCommends="asc";
+            $scope.transOrderConditions("/crawlerCommendsPublish/asc");
+            orderCrawlerCommendsPublish="asc";
 //            $scope.getCommentData(1);
-        }else if(orderCrawlerCommends=="asc"){
+        }else if(orderCrawlerCommendsPublish=="asc"){
 //            $scope.orderCondition="";
-            $scope.transOrderConditions("/crawlerCommends/desc");
-            orderCrawlerCommends="desc";
+            $scope.transOrderConditions("/crawlerCommendsPublish/desc");
+            orderCrawlerCommendsPublish="desc";
 //            $scope.getCommentData(1);
         }
         $scope.getCommentData(1);
     };
-
+    var orderCrawlerCommendsUnPublish="desc";
+    $scope.orderByCrawlerCommendsUnPublish=function(){
+        if(orderCrawlerCommendsUnPublish=="desc"){
+//            $scope.orderCondition="/crawlerCommends";
+            $scope.transOrderConditions("/crawlerCommendsUnpublish/asc");
+            orderCrawlerCommendsUnPublish="asc";
+//            $scope.getCommentData(1);
+        }else if(orderCrawlerCommendsUnPublish=="asc"){
+//            $scope.orderCondition="";
+            $scope.transOrderConditions("/crawlerCommendsUnpublish/desc");
+            orderCrawlerCommendsUnPublish="desc";
+//            $scope.getCommentData(1);
+        }
+        $scope.getCommentData(1);
+    };
 }]);
 
 

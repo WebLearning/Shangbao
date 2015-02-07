@@ -13,15 +13,15 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
                 $scope.commentDetailData=data;
                 $scope.pageNums=getPageNums($scope.commentDetailData.pageCount);
                 $scope.currentPage=$scope.commentDetailData.currentNo;
-                setPage($scope.commentDetailData.pageCount,$scope.commentDetailData.currentNo);
+                setPageInComment($scope.commentDetailData.pageCount,$scope.commentDetailData.currentNo);
 //            console.log("成功获取数据");
 //            }else{
 //                $scope.commentDetailData="";
-//                setPage(1,1);
+//                setPageInComment(1,1);
 //            }
         });
     };
-    function setPage(count,pageIndex){
+    function setPageInComment(count,pageIndex){
 //        var container=container;//容器
         var count=count;//总页数
         var pageIndex=pageIndex;//当前页数
@@ -86,14 +86,14 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
                     return false;
                 }
                 inx--;
-                setPage(count,inx);
+                setPageInComment(count,inx);
                 $scope.getCommentDetailData(inx);
                 return false;
             };
             for(var i=1;i<oAlink.length-1;i++){//点击页码
                 oAlink[i].onclick=function(){
                     inx=parseInt(this.innerHTML);
-                    setPage(count,inx);
+                    setPageInComment(count,inx);
                     $scope.getCommentDetailData(inx);
                     return false;
                 }
@@ -103,7 +103,7 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
                     return false;
                 }
                 inx++;
-                setPage(count,inx);
+                setPageInComment(count,inx);
                 $scope.getCommentDetailData(inx);
             }
         }()
@@ -140,5 +140,42 @@ angular.module("Dashboard").controller("commentPagesCtrl", ["$scope","$http", fu
         $scope.orderCondition=str;
         console.log($scope.orderCondition);
     };
+    $scope.goCommentDetails=function()
+    {
+        document.getElementById("comment").className="tab-pane";
+        document.getElementById("commentDetails").className="tab-pane active";
+    };
 
+    //将文章评论数据传输给全局变量commentDetailData
+    $scope.transDataToCommentDetailData=function(data)
+    {
+        for(p in $scope.commentDetailData){
+            if(p=="commendList"){
+                for(i in data[p]){
+                    $scope.commentDetailData[p][i]=data[p][i];
+                }
+            }else{
+                $scope.commentDetailData[p]=data[p];
+            }
+        }
+    };
+
+    //点击显示文章评论明细
+    $scope.publishIconStateInComment="";
+    $scope.setPublishIconStateInComment=function(){
+        if($scope.publishIconStateInComment=="publish"){
+            return "btn btn-info sr-only";
+        }else if($scope.publishIconStateInComment=="unpublish"){
+            return "btn btn-info";
+        }
+    };
+    $scope.showComments=function(articleId,title,type,stateType)
+    {
+        commentDetailsUrl=$scope.projectName+'/commend/1/'+articleId+'/'+type+'/'+stateType;
+        $scope.commentDetailsUrlFor=$scope.projectName+'/commend/1/'+articleId+'/'+type;
+        $scope.publishIconStateInComment=stateType;
+        $scope.goCommentDetails();
+        $scope.getCommentDetailData(1);
+        $scope.getCommentDetailTitle(title,type);
+    };
 }]);

@@ -25,6 +25,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         content: "",
         crawlerCommends: null,
         crawlerCommendsPublish: null,
+        crawlerCommendsUnpublish:null,
         from: "",
         id: null,
         keyWord: [],
@@ -32,6 +33,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         likes: null,
         newsCommends: null,
         newsCommendsPublish: null,
+        newsCommendsUnpublish:null,
         picturesUrl: [],
         logs:[],
         subTitle: "",
@@ -198,12 +200,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }]
     };
     var commentDetailsUrl="";
+    $scope.commentDetailsUrlFor="";
     $scope.commentDetailTitle="";
 
 //全局共用数据----------------------------------------------------------------------------------------------------------
     $scope.orderCondition="/time/desc";
     $scope.transOrderConditions=function(str){
         $scope.orderCondition=str;
+        console.log($scope.orderCondition);
     };
     function getPageNums(pageCount)
     {
@@ -1725,4 +1729,318 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.exitLog=function(){
         alert("成功退出");
     };
+
+//------------------------//-----------------------//---------------------//----------------------//--------------------//
+    //(已发布模块)加评论的已发布和未发布--------------------------------------------------------------------------------
+    $scope.goCommentDetailsInPublished=function()
+    {
+        document.getElementById("published").className="tab-pane";
+        document.getElementById("publishedCommentDetail").className="tab-pane active";
+    };
+    $scope.commentDetailDataInPublished="";
+    $scope.getCommentDetailDataInPublished=function(pageID)
+    {
+        var url=$scope.commentDetailsUrlInPublished+"/"+pageID.toString()+$scope.orderCondition;
+//        console.log(url);
+        $http.get(url).success(function(data){
+//            if(data.length>0){
+            $scope.commentDetailDataInPublished=data;
+            $scope.pageNumsInCommentOfPublished=getPageNums($scope.commentDetailDataInPublished.pageCount);
+//            $scope.currentPage=$scope.commentDetailDataInPublished.currentNo;
+            setPageInPub($scope.commentDetailDataInPublished.pageCount,$scope.commentDetailDataInPublished.currentNo);
+//            console.log("成功获取数据");
+//            }else{
+//                $scope.commentDetailData="";
+//                setPageInPub(1,1);
+//            }
+        });
+    };
+    function setPageInPub(count,pageIndex){
+//        var container=container;//容器
+        var count=count;//总页数
+        var pageIndex=pageIndex;//当前页数
+        var a=[];
+        //总页数少于10全部显示，大于10显示前3，后3，中间3，其余...
+        if(pageIndex==1){
+            a[a.length]="<a href=\"#\" class=\"prev unclick\">&laquo;</a>";
+        }else if(pageIndex==0){
+            a[a.length]="<a href=\"#\" class=\"prev unclick\">暂无数据</a>";
+        }
+        else{
+            a[a.length]="<a href=\"#\" class=\"prev\">&laquo;</a>";
+        }
+        function setPageList(){
+            if (pageIndex == i) {
+                a[a.length] = "<a href=\"#\" class=\"on\">" + i + "</a>";
+            } else {
+                a[a.length] = "<a href=\"#\">" + i + "</a>";
+            }
+        }
+        //总页数小于10
+        if (count <= 10) {
+            for (var i = 1; i <= count; i++) {
+                setPageList();
+            }
+        }
+        //总页数大于10
+        else{
+            if(pageIndex<=4){
+                for(var i=1;i<=5;i++){
+                    setPageList();
+                }
+                a[a.length]=". . .<a href=\"#\">" + count + "</a>";
+            }else if(pageIndex>=count-3){
+                a[a.length]="<a href=\"#\">1</a>. . .";
+                for(var i=count-4;i<=count;i++){
+                    setPageList();
+                }
+            }else{//当前页在中间部分
+                a[a.length]="<a href=\"#\">1</a>. . .";
+                for(var i=pageIndex-2;i<=pageIndex+2;i++){
+                    setPageList();
+                }
+                a[a.length]=". . .<a href=\"#\">" + count + "</a>";
+            }
+        }
+        if(pageIndex==count&&pageIndex!=0){
+            a[a.length]="<a href=\"#\" class=\"next unclick\">&raquo;</a>";
+        }else if(pageIndex==0&&count==0){
+            a[a.length]="<a href=\"#\" class=\"next unclick\"></a>";
+        }
+        else{
+            a[a.length]="<a href=\"#\" class=\"next\">&raquo;</a>";
+        }
+        document.getElementById("commentDetail_pageInPub").innerHTML= a.join("");
+        //事件点击
+        var pageClick=function(){
+            var oAlink=document.getElementById("commentDetail_pageInPub").getElementsByTagName("a");
+            var inx=pageIndex;//初始页码
+            oAlink[0].onclick=function(){//点击上一页
+                if(inx==1){
+                    return false;
+                }
+                inx--;
+                setPageInPub(count,inx);
+                $scope.getCommentDetailDataInPublished(inx);
+                return false;
+            };
+            for(var i=1;i<oAlink.length-1;i++){//点击页码
+                oAlink[i].onclick=function(){
+                    inx=parseInt(this.innerHTML);
+                    setPageInPub(count,inx);
+                    $scope.getCommentDetailDataInPublished(inx);
+                    return false;
+                }
+            }
+            oAlink[oAlink.length-1].onclick=function(){//点击下一页
+                if(inx==count){
+                    return false;
+                }
+                inx++;
+                setPageInPub(count,inx);
+                $scope.getCommentDetailDataInPublished(inx);
+            }
+        }()
+    }
+    //将文章评论数据传输给全局变量commentDetailData
+    $scope.transDataToCommentDetailDataInPublished=function(data)
+    {
+        for(p in $scope.commentDetailDataInPublished){
+            if(p=="commendList"){
+                for(i in data[p]){
+                    $scope.commentDetailDataInPublished[p][i]=data[p][i];
+                }
+            }else{
+                $scope.commentDetailDataInPublished[p]=data[p];
+            }
+        }
+    };
+    $scope.getCommentDetailTitleInPublished=function(title,typeStr)
+    {
+        if(typeStr=="news"){
+            $scope.commentDetailTitleInPublished=title+"_"+"商报评论";
+//            console.log($scope.commentDetailTitle);
+        }else if(typeStr=="crawler"){
+            $scope.commentDetailTitleInPublished=title+"_"+"爬虫评论";
+//            console.log($scope.commentDetailTitle);
+        }
+    };
+    $scope.publishIconState="";
+    $scope.setPublishIconState=function(){
+        if($scope.publishIconState=="publish"){
+            return "btn btn-info sr-only";
+        }else if($scope.publishIconState=="unpublish"){
+            return "btn btn-info";
+        }
+    };
+    //点击显示文章评论明细
+    $scope.commentDetailsUrlInPublished="";
+    $scope.commentDetailsUrlInPublishedFor="";
+    $scope.showCommentsInPublished=function(articleId,title,type,stateType)
+    {
+        $scope.commentDetailsUrlInPublished=$scope.projectName+'/commend/1/'+articleId+'/'+type+'/'+stateType;
+        $scope.commentDetailsUrlInPublishedFor=$scope.projectName+'/commend/1/'+articleId+'/'+type;
+        $scope.publishIconState=stateType;
+//        $scope.publishIconState();
+        $scope.goCommentDetailsInPublished();
+        $scope.getCommentDetailDataInPublished(1);
+        $scope.getCommentDetailTitleInPublished(title,type);
+    };
+//(快拍已发布模块)加评论的已发布和未发布--------------------------------------------------------------------------------
+    $scope.goCommentDetailsInPublishedPic=function()
+    {
+        document.getElementById("publishedPicture").className="tab-pane";
+        document.getElementById("publishedPicCommentDetail").className="tab-pane active";
+    };
+    $scope.commentDetailDataInPublishedPic="";
+    $scope.getCommentDetailDataInPublishedPic=function(pageID)
+    {
+        var url=$scope.commentDetailsUrlInPublishedPic+"/"+pageID.toString()+$scope.orderCondition;
+//        console.log(url);
+        $http.get(url).success(function(data){
+//            if(data.length>0){
+            $scope.commentDetailDataInPublishedPic=data;
+            $scope.pageNumsInCommentOfPublishedPic=getPageNums($scope.commentDetailDataInPublishedPic.pageCount);
+//            $scope.currentPage=$scope.commentDetailDataInPublished.currentNo;
+            setPageInPubPic($scope.commentDetailDataInPublishedPic.pageCount,$scope.commentDetailDataInPublishedPic.currentNo);
+//            console.log("成功获取数据");
+//            }else{
+//                $scope.commentDetailData="";
+//                setPageInPubPic(1,1);
+//            }
+        });
+    };
+    function setPageInPubPic(count,pageIndex){
+//        var container=container;//容器
+        var count=count;//总页数
+        var pageIndex=pageIndex;//当前页数
+        var a=[];
+        //总页数少于10全部显示，大于10显示前3，后3，中间3，其余...
+        if(pageIndex==1){
+            a[a.length]="<a href=\"#\" class=\"prev unclick\">&laquo;</a>";
+        }else if(pageIndex==0){
+            a[a.length]="<a href=\"#\" class=\"prev unclick\">暂无数据</a>";
+        }
+        else{
+            a[a.length]="<a href=\"#\" class=\"prev\">&laquo;</a>";
+        }
+        function setPageList(){
+            if (pageIndex == i) {
+                a[a.length] = "<a href=\"#\" class=\"on\">" + i + "</a>";
+            } else {
+                a[a.length] = "<a href=\"#\">" + i + "</a>";
+            }
+        }
+        //总页数小于10
+        if (count <= 10) {
+            for (var i = 1; i <= count; i++) {
+                setPageList();
+            }
+        }
+        //总页数大于10
+        else{
+            if(pageIndex<=4){
+                for(var i=1;i<=5;i++){
+                    setPageList();
+                }
+                a[a.length]=". . .<a href=\"#\">" + count + "</a>";
+            }else if(pageIndex>=count-3){
+                a[a.length]="<a href=\"#\">1</a>. . .";
+                for(var i=count-4;i<=count;i++){
+                    setPageList();
+                }
+            }else{//当前页在中间部分
+                a[a.length]="<a href=\"#\">1</a>. . .";
+                for(var i=pageIndex-2;i<=pageIndex+2;i++){
+                    setPageList();
+                }
+                a[a.length]=". . .<a href=\"#\">" + count + "</a>";
+            }
+        }
+        if(pageIndex==count&&pageIndex!=0){
+            a[a.length]="<a href=\"#\" class=\"next unclick\">&raquo;</a>";
+        }else if(pageIndex==0&&count==0){
+            a[a.length]="<a href=\"#\" class=\"next unclick\"></a>";
+        }
+        else{
+            a[a.length]="<a href=\"#\" class=\"next\">&raquo;</a>";
+        }
+        document.getElementById("commentDetail_pageInPubPic").innerHTML= a.join("");
+        //事件点击
+        var pageClick=function(){
+            var oAlink=document.getElementById("commentDetail_pageInPubPic").getElementsByTagName("a");
+            var inx=pageIndex;//初始页码
+            oAlink[0].onclick=function(){//点击上一页
+                if(inx==1){
+                    return false;
+                }
+                inx--;
+                setPageInPubPic(count,inx);
+                $scope.getCommentDetailDataInPublishedPic(inx);
+                return false;
+            };
+            for(var i=1;i<oAlink.length-1;i++){//点击页码
+                oAlink[i].onclick=function(){
+                    inx=parseInt(this.innerHTML);
+                    setPageInPubPic(count,inx);
+                    $scope.getCommentDetailDataInPublishedPic(inx);
+                    return false;
+                }
+            }
+            oAlink[oAlink.length-1].onclick=function(){//点击下一页
+                if(inx==count){
+                    return false;
+                }
+                inx++;
+                setPageInPubPic(count,inx);
+                $scope.getCommentDetailDataInPublishedPic(inx);
+            }
+        }()
+    }
+    //将文章评论数据传输给全局变量commentDetailData
+    $scope.transDataToCommentDetailDataInPublishedPic=function(data)
+    {
+        for(p in $scope.commentDetailDataInPublishedPic){
+            if(p=="commendList"){
+                for(i in data[p]){
+                    $scope.commentDetailDataInPublishedPic[p][i]=data[p][i];
+                }
+            }else{
+                $scope.commentDetailDataInPublishedPic[p]=data[p];
+            }
+        }
+    };
+    $scope.getCommentDetailTitleInPublishedPic=function(title,typeStr)
+    {
+        if(typeStr=="news"){
+            $scope.commentDetailTitleInPublishedPic=title+"_"+"商报评论";
+//            console.log($scope.commentDetailTitle);
+        }else if(typeStr=="crawler"){
+            $scope.commentDetailTitleInPublishedPic=title+"_"+"爬虫评论";
+//            console.log($scope.commentDetailTitle);
+        }
+    };
+    $scope.publishPicIconState="";
+    $scope.setPublishPicIconState=function(){
+        if($scope.publishPicIconState=="publish"){
+            return "btn btn-info sr-only";
+        }else if($scope.publishPicIconState=="unpublish"){
+            return "btn btn-info";
+        }
+    };
+    //点击显示文章评论明细
+    $scope.commentDetailsUrlInPublishedPic="";
+    $scope.commentDetailsUrlInPublishedPicFor="";
+    $scope.showCommentsInPublishedPic=function(articleId,title,type,stateType)
+    {
+        $scope.commentDetailsUrlInPublishedPic=$scope.projectName+'/commend/1/'+articleId+'/'+type+'/'+stateType;
+        $scope.commentDetailsUrlInPublishedPicFor=$scope.projectName+'/commend/1/'+articleId+'/'+type;
+        $scope.publishPicIconState=stateType;
+//        $scope.publishIconState();
+        $scope.goCommentDetailsInPublishedPic();
+        $scope.getCommentDetailDataInPublishedPic(1);
+        $scope.getCommentDetailTitleInPublishedPic(title,type);
+    };
+
+
 }]);

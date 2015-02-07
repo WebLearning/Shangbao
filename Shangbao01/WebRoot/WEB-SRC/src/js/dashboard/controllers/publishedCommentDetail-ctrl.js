@@ -1,22 +1,31 @@
 
-angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", function ($scope,$http) {
+angular.module("Dashboard").controller("publishedCommentDetailsCtrl", ["$scope","$http", function ($scope,$http) {
 
-    $scope.addReplyCommentId="";
+    $scope.addReplyCommentIdInPublished="";
 
     $scope.testLog=function()
     {
-        console.log($scope.commentDetailData);
-        console.log($scope.commentDetailsUrlFor);
-        console.log($scope.commentSelections);
-        console.log($scope.commentSelectionsUrl);
+        console.log($scope.commentDetailDataInPublished);
+        console.log($scope.commentDetailsUrlInPublishedFor);
+        console.log($scope.commentSelectionsInPub);
+        console.log($scope.commentSelectionsUrlInPub);
     };
 
-    $scope.refreshCommentDetails=function()
+    $scope.refreshCommentDetailsInPub=function()
     {
         clearArticleSelections();
 //        $scope.orderCondition="";
-        $scope.transOrderCondition("");
-        $scope.getCommentDetailData(1);
+        $scope.transOrderConditions("");
+        $scope.getCommentDetailDataInPublished(1);
+    };
+    $scope.goPublishedFromCommentDetail=function()
+    {
+        document.getElementById("published").className="tab-pane active";
+        document.getElementById("publishedCommentDetail").className="tab-pane";
+        clearArticleSelections();
+//        $scope.refreshComment();
+//        $scope.commentDetailDataInPublished="";
+        $scope.refreshPublishedCur();
     };
 
     //检查表的内容 数据若是NULL则显示"无",数组若是空则显示"无数据",转化时间戳为日期显示
@@ -46,7 +55,7 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
 
     $scope.replyBtnStr=function(str,commentId)
     {
-        $scope.addReplyCommentId=commentId;
+        $scope.addReplyCommentIdInPublished=commentId;
 
         if(str==""||str==null){
             return "btn btn-xs btn-success";
@@ -54,27 +63,27 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
             return "btn btn-xs btn-success sr-only";
         }
     };
-    $scope.addReplyUrl="";
+    $scope.addReplyUrlInPublished="";
     $scope.replyTest=function(commentId)
     {
         console.log("reply test");
         console.log(commentId);
-        console.log($scope.commentDetailsUrlFor);
-        $scope.addReplyUrl=$scope.commentDetailsUrlFor+'/'+commentId;
-        console.log($scope.addReplyUrl);
+        console.log($scope.commentDetailsUrlInPublishedFor);
+        $scope.addReplyUrlInPublished=$scope.commentDetailsUrlInPublishedFor+'/'+commentId;
+        console.log($scope.addReplyUrlInPublished);
     };
-    $scope.replyData={
+    $scope.replyDataInPublished={
         reply:""
     };
-    $scope.addReply=function(){
-        var url=$scope.addReplyUrl;
+    $scope.addReplyInPub=function(){
+        var url=$scope.addReplyUrlInPublished;
 //        console.log(url);
-        var jsonString=JSON.stringify($scope.replyData);
+        var jsonString=JSON.stringify($scope.replyDataInPublished);
 //        console.log(jsonString);
         $http.post(url,jsonString).success(function(data){
             console.log("添加成功");
-            $scope.getCommentDetailData($scope.commentDetailData.currentNo);
-            $('#myModal_addReply').modal('toggle');
+            $scope.getCommentDetailDataInPublished($scope.commentDetailDataInPublished.currentNo);
+            $('#myModal_addReplyInPub').modal('toggle');
         });
 //
 //        $('#myModal_addReply').modal('toggle');
@@ -105,49 +114,49 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
     //页面跳转------------------------------------------------------------------------------------------------------------
     $scope.turnToPage=function(pageNum)
     {
-        $scope.getCommentDetailData(pageNum);
+        $scope.getCommentDetailDataInPublished(pageNum);
     };
 
     //页码样式
     $scope.pageNumClass=function(pageNum)
     {
-        return(pageNum==$scope.commentDetailData.currentNo);
+        return(pageNum==$scope.commentDetailDataInPublished.currentNo);
     };
 
 
 
     //评论的选取和操作------------------------------------------------------------------------------------------------------
     //评论的选取
-    $scope.commentSelections=[];
-    $scope.commentSelectionsUrl="";
+    $scope.commentSelectionsInPub=[];
+    $scope.commentSelectionsUrlInPub="";
 
     $scope.selectArticle=function(commendId,selectState)
     {
         if(!selectState){
-            $scope.commentSelections.push(commendId);
+            $scope.commentSelectionsInPub.push(commendId);
         }else{
-            var index=$scope.commentSelections.indexOf(commendId);
-            $scope.commentSelections.splice(index,1);
+            var index=$scope.commentSelectionsInPub.indexOf(commendId);
+            $scope.commentSelectionsInPub.splice(index,1);
         }
-//        console.log($scope.commentSelections);
+//        console.log($scope.commentSelectionsInPub);
 
-        if($scope.commentSelections.length>0){
+        if($scope.commentSelectionsInPub.length>0){
             var str="";
-            for(i=0;i<$scope.commentSelections.length;i++){
-                str+=($scope.commentSelections[i]+"_");
-                $scope.commentSelectionsUrl=str.substr(0,str.length-1);
+            for(i=0;i<$scope.commentSelectionsInPub.length;i++){
+                str+=($scope.commentSelectionsInPub[i]+"_");
+                $scope.commentSelectionsUrlInPub=str.substr(0,str.length-1);
             }
         }else{
-            $scope.commentSelectionsUrl="";
+            $scope.commentSelectionsUrlInPub="";
         }
-//        console.log($scope.commentSelectionsUrl);
+//        console.log($scope.commentSelectionsUrlInPub);
     };
 
     $scope.checkSelectState=function(commendId)
     {
-        if($scope.commentSelections.length>0){
-            for(i=0;i<$scope.commentSelections.length;i++){
-                if(commendId==$scope.commentSelections[i]){
+        if($scope.commentSelectionsInPub.length>0){
+            for(i=0;i<$scope.commentSelectionsInPub.length;i++){
+                if(commendId==$scope.commentSelectionsInPub[i]){
                     return true;
                 }
             }
@@ -159,15 +168,15 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
 
     function clearArticleSelections()
     {
-        $scope.commentSelections=[];
-        $scope.commentSelectionsUrl="";
+        $scope.commentSelectionsInPub=[];
+        $scope.commentSelectionsUrlInPub="";
     }
 
     var allSelectState="none";
     $scope.selectAll=function()
     {
-        var arr=$scope.commentDetailData.commendList;
-        console.log($scope.commentDetailData.commendList);
+        var arr=$scope.commentDetailDataInPublished.commendList;
+        console.log($scope.commentDetailDataInPublished.commendList);
         if(allSelectState=="none"){
             selectByArr(arr);
             allSelectState="all";
@@ -179,35 +188,35 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
     function selectByArr(arr){
         if(arr.length>0){
             for(i=0;i<arr.length;i++){
-                $scope.commentSelections.push(arr[i].commendId);
+                $scope.commentSelectionsInPub.push(arr[i].commendId);
             }
         }else{
-            $scope.commentSelections=[];
+            $scope.commentSelectionsInPub=[];
         }
-        if($scope.commentSelections.length>0){
+        if($scope.commentSelectionsInPub.length>0){
             var str="";
-            for(i=0;i<$scope.commentSelections.length;i++){
-                str+=($scope.commentSelections[i]+"_");
-                $scope.commentSelectionsUrl=str.substr(0,str.length-1);
+            for(i=0;i<$scope.commentSelectionsInPub.length;i++){
+                str+=($scope.commentSelectionsInPub[i]+"_");
+                $scope.commentSelectionsUrlInPub=str.substr(0,str.length-1);
             }
         }else{
-            $scope.commentSelectionsUrl="";
+            $scope.commentSelectionsUrlInPub="";
         }
-        $scope.getCommentDetailData($scope.commentDetailData.currentNo);
+        $scope.getCommentDetailDataInPublished($scope.commentDetailDataInPublished.currentNo);
     }
     //对选取的文章进行操作
     $scope.deleteCommentSelections=function()
     {
-        if($scope.commentSelectionsUrl==""){
+        if($scope.commentSelectionsUrlInPub==""){
             alert("未选取评论");
         }else{
             if (confirm("确定删除选中的评论吗？")==true)
             {
-                var url=$scope.commentDetailsUrlFor+'/'+$scope.commentSelectionsUrl;
+                var url=$scope.commentDetailsUrlInPublishedFor+'/'+$scope.commentSelectionsUrlInPub;
                 console.log(url);
                 $http.delete(url).success(function(){
                     clearArticleSelections();
-                    $scope.getCommentDetailData(1);
+                    $scope.getCommentDetailDataInPublished($scope.commentDetailDataInPublished.currentNo);
                     alert("删除成功");
                 });
             }
@@ -216,13 +225,13 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
 
     $scope.publishCommentSelections=function()
     {
-        if($scope.commentSelectionsUrl==""){
+        if($scope.commentSelectionsUrlInPub==""){
             alert("未选取评论");
         }else{
-            var url=$scope.commentDetailsUrlFor+'/'+$scope.commentSelectionsUrl;
+            var url=$scope.commentDetailsUrlInPublishedFor+'/'+$scope.commentSelectionsUrlInPub;
             $http.put(url).success(function(){
                 clearArticleSelections();
-                $scope.getCommentDetailData(1);
+                $scope.getCommentDetailDataInPublished(1);
                 alert("发布成功");
             });
         }
@@ -232,57 +241,57 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
     var orderFromState="desc";
     $scope.orderByFrom=function(){
         if(orderFromState=="desc"){
-            $scope.transOrderCondition("/from/"+"asc");
+            $scope.transOrderConditions("/from/asc");
             orderFromState="asc";
-            $scope.getCommentDetailData(1);
+            $scope.getCommentDetailDataInPublished(1);
         }else if(orderFromState=="asc"){
-            $scope.transOrderCondition("/from/"+"desc");
+            $scope.transOrderConditions("/from/desc");
             orderFromState="desc";
-            $scope.getCommentDetailData(1);
+            $scope.getCommentDetailDataInPublished(1);
         }
     };
     var orderLevelState="desc";
     $scope.orderByLevel=function(){
         if(orderLevelState=="desc"){
-            $scope.transOrderCondition("/level/asc");
+            $scope.transOrderConditions("/level/asc");
             orderLevelState="asc";
         }else if(orderLevelState=="asc"){
-            $scope.transOrderCondition("/level/desc");
+            $scope.transOrderConditions("/level/desc");
             orderLevelState="desc";
         }
-        $scope.getCommentDetailData(1);
+        $scope.getCommentDetailDataInPublished(1);
     };
 
     var timeOrderState="desc";
     $scope.orderByTime=function(){
         if(timeOrderState=="desc"){
-            $scope.transOrderCondition("/time/asc");
+            $scope.transOrderConditions("/time/asc");
             timeOrderState="asc";
         }else if(timeOrderState=="asc"){
-            $scope.transOrderCondition("/time/desc");
+            $scope.transOrderConditions("/time/desc");
             timeOrderState="desc";
         }
-        $scope.getCommentDetailData(1);
+        $scope.getCommentDetailDataInPublished(1);
     };
     var orderStateState="desc";
     $scope.orderByState=function(){
         if(orderStateState=="desc"){
-            $scope.transOrderCondition("/state/asc");
+            $scope.transOrderConditions("/state/asc");
             orderStateState="asc";
         }else if(orderStateState=="asc"){
-            $scope.transOrderCondition("/state/desc");
+            $scope.transOrderConditions("/state/desc");
             orderStateState="desc";
         }
-        $scope.getCommentDetailData(1);
+        $scope.getCommentDetailDataInPublished(1);
     };
 
     //对一篇文章新建评论------------------------------------------------------------------------------------------------
-    $scope.inputCommentData={
+    $scope.inputCommentDataInPub={
         commendId:"2",
         userName:"",
         userId:77,
         timeDate:"",
-        level:60,
+        level:77,
         state:null,
         from:"",
         content:"",
@@ -290,27 +299,27 @@ angular.module("Dashboard").controller("commentDetailsCtrl", ["$scope","$http", 
     };
     $scope.getCurrentDatetime=function()
     {
-        $scope.inputCommentData.timeDate=new Date();
+        $scope.inputCommentDataInPub.timeDate=new Date();
     };
     $scope.testInputCommentData=function(){
-        console.log($scope.inputCommentData);
+        console.log($scope.inputCommentDataInPub);
     };
-    $scope.addComments=function(){
-        var url=$scope.commentDetailsUrlFor;
+    $scope.addCommentsInPub=function(){
+        var url=$scope.commentDetailsUrlInPublishedFor;
         console.log(url);
-        var jsonString=JSON.stringify($scope.inputCommentData);
-        console.log($scope.inputCommentData);
+        var jsonString=JSON.stringify($scope.inputCommentDataInPub);
+        console.log($scope.inputCommentDataInPub);
         console.log(jsonString);
-//        console.log($scope.commentDetailData.currentNo);
+//        console.log($scope.commentDetailDataInPublished.currentNo);
         $http.post(url,jsonString).success(function(data){
             console.log("添加成功");
-            console.log($scope.commentDetailData.currentNo);
-            $('#myModal_addComment').modal('toggle');
-            //$scope.getCommentDetailData(1);
-            if($scope.commentDetailData.currentNo==0){
-                $scope.getCommentDetailData(1);
+            console.log($scope.commentDetailDataInPublished.currentNo);
+            $('#myModal_addCommentInPub').modal('toggle');
+            //$scope.getCommentDetailDataInPublished(1);
+            if($scope.commentDetailDataInPublished.currentNo==0){
+                $scope.getCommentDetailDataInPublished(1);
             }else{
-                $scope.getCommentDetailData($scope.commentDetailData.currentNo);
+                $scope.getCommentDetailDataInPublished($scope.commentDetailDataInPublished.currentNo);
             }
         });
     };

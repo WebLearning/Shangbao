@@ -40,6 +40,7 @@
     <script type="text/javascript" src="js/dashboard/controllers/crawlerArticle-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/pendingArticle-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/publishedArticle_ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/publishedCommentDetail-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/revokedArticle-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draftArticle-ctrl.js"></script>
 
@@ -55,6 +56,7 @@
     <script type="text/javascript" src="js/dashboard/controllers/pendingPictureView-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/publishedPicture-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/publishedPictureView-ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/publishedpicCommentDetail-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/revokedPicture-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/revokedPictureView-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draftPicture-ctrl.js"></script>
@@ -302,21 +304,6 @@
                       </div>
                   </div>
                 </div>
-                <!--<div class="item dropdown">-->
-                    <!--<a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">-->
-                        <!--&lt;!&ndash;<i class="glyphicon glyphicon-bell"></i>&ndash;&gt;-->
-                        <!--<img src="img/avatar.jpg">-->
-                    <!--</a>-->
-                    <!--<ul class="dropdown-menu dropdown-menu-right">-->
-                        <!--<li class="dropdown-header">-->
-                            <!--通知-->
-                        <!--</li>-->
-                        <!--<li class="divider"></li>-->
-                        <!--<li>-->
-                            <!--<a href="#">服务器关闭</a>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
                 <div class="item dropdown">
                     <div class="page">&nbsp;</div>
                     <div>
@@ -1132,16 +1119,18 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 10%">标题</th>
-                                        <th style="width: 8%">作者</th>
+                                        <th style="width: 6%">作者</th>
                                         <th style="width: 8%"><a href="" ng-click="orderByTime()">时间</a></th>
-                                        <th style="width: 8%">来源</th>
-                                        <th style="width: 10%">分类</th>
-                                        <th style="width: 5%">等级</th>
-                                        <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <th style="width: 7%">来源</th>
+                                        <th style="width: 8%">分类</th>
+                                        <th style="width: 4%">等级</th>
+                                        <th style="width: 5%"><a href="" ng-click="orderByClicks()">点击数</a></th>
+                                        <!--<th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>-->
+                                        <th style="width: 12%">商报评论(<a href="" ng-click="orderByNewsCommendsPublished()">已</a>/<a href="" ng-click="orderByNewsCommendsUnPublished()">未</a>)</th>
+                                        <th style="width: 12%">爬虫评论(<a href="" ng-click="orderByCrawlerCommendsPublished()">已</a>/<a href="" ng-click="orderByCrawlerCommendsUnPublished()">未</a>)</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
-                                        <th style="width: 20%">摘要</th>
-                                        <th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>
+                                        <th style="width: 15%">摘要</th>
+                                        <th style="width: 4%"><a href="" ng-click="orderByWords()">字数</a></th>
                                         <!--<th style="width: 8%">活动</th>-->
                                         <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
@@ -1155,7 +1144,9 @@
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
                                         <td>{{checkIfNull(tileObj.level)}}</td>
                                         <td>{{checkNum(tileObj.clicks)}}</td>
-                                        <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
+                                        <!--<td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>-->
+                                        <td><a href="" ng-click="showCommentsInPublished(tileObj.articleId,tileObj.title,'news','publish')">{{checkNum(tileObj.newsCommendsPublish)}}</a>/<a href="" ng-click="showCommentsInPublished(tileObj.articleId,tileObj.title,'news','unpublish')">{{checkNum(tileObj.newsCommendsUnpublish)}}</a></td>
+                                        <td><a href="" ng-click="showCommentsInPublished(tileObj.articleId,tileObj.title,'crawler','publish')">{{checkNum(tileObj.crawlerCommendsPublish)}}</a>/<a href="" ng-click="showCommentsInPublished(tileObj.articleId,tileObj.title,'crawler','unpublish')">{{checkNum(tileObj.crawlerCommendsUnpublish)}}</a></td>
                                         <td>{{checkNum(tileObj.likes)}}</td>
                                         <td>{{checkSummary(tileObj.summary)}}</td>
                                         <td>{{checkNum(tileObj.words)}}</td>
@@ -1376,6 +1367,129 @@
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                         <button type="button" class="btn btn-primary" ng-click="addKeyword()">确认</button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="publishedCommentDetail" ng-controller="publishedCommentDetailsCtrl">
+                <div class="row">
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-info" ng-click="goPublishedFromCommentDetail()"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <strong>{{commentDetailTitleInPublished}}</strong>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal_addCommentInPub">添加评论</button>
+                        <button type="button" class="btn btn-success pull-right" ng-click="refreshCommentDetailsInPub()"><span class="glyphicon glyphicon-refresh"></span></button>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-success">
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>评论ID</th>
+                                        <th>用户名</th>
+                                        <th>用户ID</th>
+                                        <th><a href="" ng-click="orderByTime()">时间日期</a></th>
+                                        <th><a href="" ng-click="orderByLevel()" >等级</a></th>
+                                        <th><a href="" ng-click="orderByState()">状态</a></th>
+                                        <th><a href="" ng-click="orderByFrom()" >来源</a></th>
+                                        <th>内容</th>
+                                        <th>回复</th>
+                                        <th><a href="" ng-click="selectAll()">全选</a></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="articleComment in commentDetailDataInPublished.commendList">
+                                        <td>{{checkIfNull(articleComment.commendId)}}</td>
+                                        <td>{{checkIfNull(articleComment.userName)}}</td>
+                                        <td>{{checkIfNull(articleComment.userId)}}</td>
+                                        <td>{{dateStringToDate(articleComment.timeDate)}}</td>
+                                        <td>{{checkIfNull(articleComment.level)}}</td>
+                                        <td>{{checkState(articleComment.state)}}</td>
+                                        <td>{{checkIfNull(articleComment.from)}}</td>
+                                        <td>{{checkIfNull(articleComment.content)}}</td>
+                                        <td>{{articleComment.reply}}<button type="button" data-toggle="modal" data-target="#myModal_addReplyInPub" ng-class="replyBtnStr(articleComment.reply,articleComment.commendId)" ng-click="replyTest(articleComment.commendId)">回复</button></td>
+                                        <td>
+                                            <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(articleComment.commendId)" ng-click="selectArticle(articleComment.commendId,selectState)">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <nav>
+                            <div class="commentDetailPage" id="commentDetail_pageInPub"></div>
+                        </nav>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-success" ng-click="deleteCommentSelections()">删除</button>
+                            <button type="button" ng-class="setPublishIconState()" ng-click="publishCommentSelections()">发布</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="myModal_addCommentInPub" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title">添加评论</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">用户名</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" placeholder="请输入用户名" ng-model="inputCommentDataInPub.userName">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">来源</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" placeholder="请输入来源" ng-model="inputCommentDataInPub.from">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">评论内容</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" placeholder="请输入评论内容" ng-model="inputCommentDataInPub.content">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">时间</label>
+                                            <div class="col-md-5">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" ng-model="inputCommentDataInPub.timeDate" disabled>
+                                                    <div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"></span> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <!--<button type="button" class="btn btn-default" ng-click="testInputCommentData()">test</button>-->
+                                    <button type="button" class="btn btn-default" ng-click="addCommentsInPub()">确认</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="myModal_addReplyInPub" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title">添加回复</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" class="form-control" placeholder="请输入回复内容" ng-model="replyDataInPublished.reply">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <!--<button type="button" class="btn btn-default" ng-click="testInputCommentData()">test</button>-->
+                                    <button type="button" class="btn btn-default" ng-click="addReplyInPub()">确认</button>
                                 </div>
                             </div>
                         </div>
@@ -2001,7 +2115,7 @@
                                 </nav>
                                 <div class="pull-right">
                                     <button type="button" class="btn btn-success" ng-click="deleteCommentSelections()">删除</button>
-                                    <button type="button" class="btn btn-info" ng-click="publishCommentSelections()">发布</button>
+                                    <button type="button" ng-class="setPublishIconStateInComment()" ng-click="publishCommentSelections()">发布</button>
                                 </div>
                             </div>
 
@@ -2013,9 +2127,38 @@
                                             <h4 class="modal-title">添加评论</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <input type="text" class="form-control" placeholder="请输入评论内容" ng-model="inputCommentData.content">
+                                            <form class="form-horizontal" role="form">
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">用户名</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" placeholder="请输入用户名" ng-model="inputCommentData.userName">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">来源</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" placeholder="请输入来源" ng-model="inputCommentData.from">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">评论内容</label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" placeholder="请输入评论内容" ng-model="inputCommentData.content">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">时间</label>
+                                                    <div class="col-md-5">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" ng-model="inputCommentData.timeDate" disabled>
+                                                            <div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"></span> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <!--<input type="text" class="form-control" placeholder="请输入评论内容" ng-model="inputCommentData.content">-->
                                         </div>
-                                        <div class="modal-footer" id="">
+                                        <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                             <!--<button type="button" class="btn btn-default" ng-click="testInputCommentData()">test</button>-->
                                             <button type="button" class="btn btn-default" ng-click="addComments()">确认</button>
@@ -2066,8 +2209,10 @@
                                                 <th>标题</th>
                                                 <th>文章ID</th>
                                                 <th><a href="" ng-click="orderByState()">状态</a></th>
-                                                <th><a href="" ng-click="orderByNewsCommends()">商报评论数(已发布/总数)</a></th>
-                                                <th><a href="" ng-click="orderByCrawlerCommends()">爬虫评论数(已发布/总数)</a></th>
+                                                <!--<th><a href="" ng-click="orderByNewsCommends()">商报评论数(已发布/未发布)</a></th>-->
+                                                <!--<th><a href="" ng-click="orderByCrawlerCommends()">爬虫评论数(已发布/未发布)</a></th>-->
+                                                <th>商报评论数(<a href="" ng-click="orderByNewsCommendsPublish()">已发布</a>/<a href="" ng-click="orderByNewsCommendsUnPublish()">未发布</a>)</th>
+                                                <th>爬虫评论数(<a href="" ng-click="orderByCrawlerCommendsPublish()">已发布</a>/<a href="" ng-click="orderByCrawlerCommendsUnPublish()">未发布</a>)</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -2075,8 +2220,8 @@
                                                 <td><a href="">{{checkIfNull(commendObj.title)}}</a></td>
                                                 <td>{{commendObj.articleId}}</td>
                                                 <td>{{checkAndTranslate(commendObj.state)}}</td>
-                                                <td>{{checkIfNull(commendObj.newsCommendsPublish)}}/<a href="" ng-click="showComments(commendObj.articleId,commendObj.title,'news')">{{checkIfNull(commendObj.newsCommends)}}</a></td>
-                                                <td>{{checkIfNull(commendObj.crawlerCommendsPublish)}}/<a href="" ng-click="showComments(commendObj.articleId,commendObj.title,'crawler')">{{checkIfNull(commendObj.crawlerCommends)}}</a></td>
+                                                <td><a href="" ng-click="showComments(commendObj.articleId,commendObj.title,'news','publish')">{{checkIfNull(commendObj.newsCommendsPublish)}}</a>/<a href="" ng-click="showComments(commendObj.articleId,commendObj.title,'news','unpublish')">{{checkIfNull(commendObj.newsCommendsUnpublish)}}</a></td>
+                                                <td><a href="" ng-click="showComments(commendObj.articleId,commendObj.title,'news','publish')">{{checkIfNull(commendObj.crawlerCommendsPublish)}}</a>/<a href="" ng-click="showComments(commendObj.articleId,commendObj.title,'crawler','unpublish')">{{checkIfNull(commendObj.crawlerCommendsUnpublish)}}</a></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -2815,20 +2960,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--<div class="form-group">-->
-                                <!--<label class="col-md-1 control-label">活动</label>-->
-                                <!--<div class="col-md-11">-->
-                                    <!--<div ng-class="replyBtnStr(articleData.activity)">-->
-                                        <!--<div class="thumbnail">-->
-                                            <!--<button type="button" class="close" ng-click="deleteActivity()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
-                                            <!--<div class="caption" align="center">{{articleData.activity}}</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="col-md-2">-->
-                                        <!--<button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addActivity_crawler">添加活动</button>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
                             <div class="form-group">
                                 <label class="col-md-1 control-label">图片</label>
                                 <div class="col-md-11">
@@ -2853,6 +2984,8 @@
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" ng-click="clearArticle()">清除所有内容</button>
+                                <button type="button" class="btn btn-danger" ng-click="deleteArticleInCrawlerPicture()">彻底删除</button>
+                                <button type="button" class="btn btn-info" ng-click="saveInCrawlerLocal()">保存</button>
                                 <button type="button" ng-class="setButtonInNewArticleForPending()" ng-click="savePictureArticle()">保存至快拍草稿箱</button>
                                 <button type="button" ng-class="setButtonInNewArticleForPublish()" ng-click="publishArticleNowInCrawlerPicture()">发布</button>
                                 <button type="button" ng-class="setButtonInNewArticleForPublish()" data-toggle="modal" data-target="#Select_TimeInCrawlerPicture">定时发布</button>
@@ -3218,19 +3351,21 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th style="width: 15%">标题</th>
-                                        <th style="width: 8%">作者</th>
+                                        <th style="width: 12%">标题</th>
+                                        <th style="width: 6%">作者</th>
                                         <th style="width: 10%"><a href="" ng-click="orderByTime()">时间</a></th>
-                                        <th style="width: 8%">来源</th>
-                                        <th style="width: 10%">分类</th>
-                                        <th style="width: 5%">等级</th>
-                                        <th style="width: 6%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <th style="width: 13%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>
+                                        <th style="width: 7%">来源</th>
+                                        <th style="width: 8%">分类</th>
+                                        <th style="width: 4%">等级</th>
+                                        <th style="width: 5%"><a href="" ng-click="orderByClicks()">点击数</a></th>
+                                        <!--<th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>-->
+                                        <th style="width: 12%">商报评论(<a href="" ng-click="orderByNewsCommendsPublished()">已</a>/<a href="" ng-click="orderByNewsCommendsUnPublished()">未</a>)</th>
+                                        <th style="width: 12%">爬虫评论(<a href="" ng-click="orderByCrawlerCommendsPublished()">已</a>/<a href="" ng-click="orderByCrawlerCommendsUnPublished()">未</a>)</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByLikes()">赞数</a></th>
                                         <th style="width: 15%">摘要</th>
-                                        <!--<th style="width: 5%"><a href="" ng-click="orderByWords()">字数</a></th>-->
+                                        <!--<th style="width: 4%"><a href="" ng-click="orderByWords()">字数</a></th>-->
                                         <!--<th style="width: 8%">活动</th>-->
-                                        <th style="width: 5%"><a href="" ng-click="selectAll()">全选</a></th>
+                                        <th style="width: 4%"><a href="" ng-click="selectAll()">全选</a></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -3242,7 +3377,9 @@
                                         <td>{{checkIfEmpty(tileObj.channel)}}</td>
                                         <td>{{checkIfNull(tileObj.level)}}</td>
                                         <td>{{checkNum(tileObj.clicks)}}</td>
-                                        <td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>
+                                        <!--<td>{{checkNum(tileObj.newsCommends)}}/{{checkNum(tileObj.crawlerCommends)}}</td>-->
+                                        <td><a href="" ng-click="showCommentsInPublishedPic(tileObj.articleId,tileObj.title,'news','publish')">{{checkNum(tileObj.newsCommendsPublish)}}</a>/<a href="" ng-click="showCommentsInPublishedPic(tileObj.articleId,tileObj.title,'news','unpublish')">{{checkNum(tileObj.newsCommendsUnpublish)}}</a></td>
+                                        <td><a href="" ng-click="showCommentsInPublishedPic(tileObj.articleId,tileObj.title,'crawler','publish')">{{checkNum(tileObj.crawlerCommendsPublish)}}</a>/<a href="" ng-click="showCommentsInPublishedPic(tileObj.articleId,tileObj.title,'crawler','unpublish')">{{checkNum(tileObj.crawlerCommendsUnpublish)}}</a></td>
                                         <td>{{checkNum(tileObj.likes)}}</td>
                                         <td>{{checkSummary(tileObj.summary)}}</td>
                                         <!--<td>{{checkNum(tileObj.words)}}</td>-->
@@ -3451,6 +3588,130 @@
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                                         <button type="button" class="btn btn-primary" ng-click="addKeyword()">确认</button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="publishedPicCommentDetail" ng-controller="publishedPicCommentDetailsCtrl">
+                <div class="row">
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-info" ng-click="goPublishedPicFromCommentDetail()"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <strong>{{commentDetailTitleInPublishedPic}}</strong>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal_addCommentInPubPic">添加评论</button>
+                        <button type="button" class="btn btn-success pull-right" ng-click="refreshCommentDetailsInPubPic()"><span class="glyphicon glyphicon-refresh"></span></button>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-success">
+                            <div class="panel-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>评论ID</th>
+                                        <th>用户名</th>
+                                        <th>用户ID</th>
+                                        <th><a href="" ng-click="orderByTime()">时间日期</a></th>
+                                        <th><a href="" ng-click="orderByLevel()" >等级</a></th>
+                                        <th><a href="" ng-click="orderByState()">状态</a></th>
+                                        <th><a href="" ng-click="orderByFrom()" >来源</a></th>
+                                        <th>内容</th>
+                                        <th>回复</th>
+                                        <th><a href="" ng-click="selectAll()">全选</a></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="articleComment in commentDetailDataInPublishedPic.commendList">
+                                        <td>{{checkIfNull(articleComment.commendId)}}</td>
+                                        <td>{{checkIfNull(articleComment.userName)}}</td>
+                                        <td>{{checkIfNull(articleComment.userId)}}</td>
+                                        <td>{{dateStringToDate(articleComment.timeDate)}}</td>
+                                        <td>{{checkIfNull(articleComment.level)}}</td>
+                                        <td>{{checkState(articleComment.state)}}</td>
+                                        <td>{{checkIfNull(articleComment.from)}}</td>
+                                        <td>{{checkIfNull(articleComment.content)}}</td>
+                                        <td>{{articleComment.reply}}<button type="button" data-toggle="modal" data-target="#myModal_addReplyInPubPic" ng-class="replyBtnStr(articleComment.reply,articleComment.commendId)" ng-click="replyTest(articleComment.commendId)">回复</button></td>
+                                        <td>
+                                            <input type="checkbox" ng-model="selectState" ng-init="selectState=checkSelectState(articleComment.commendId)" ng-click="selectArticle(articleComment.commendId,selectState)">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <nav>
+                            <div class="commentDetailPage" id="commentDetail_pageInPubPic"></div>
+                        </nav>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-success" ng-click="deleteCommentSelectionsInPubPic()">删除</button>
+                            <button type="button" ng-class="setPublishPicIconState()" ng-click="publishCommentSelectionsInPubPic()">发布</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="myModal_addCommentInPubPic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title">添加评论</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">用户名</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" placeholder="请输入用户名" ng-model="inputCommentDataInPubPic.userName">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">来源</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" placeholder="请输入来源" ng-model="inputCommentDataInPubPic.from">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">评论内容</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" placeholder="请输入评论内容" ng-model="inputCommentDataInPubPic.content">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">时间</label>
+                                            <div class="col-md-5">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" ng-model="inputCommentDataInPubPic.timeDate" disabled>
+                                                    <div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"></span> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!--<input type="text" class="form-control" placeholder="请输入评论内容" ng-model="inputCommentDataInPubPic.content">-->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <!--<button type="button" class="btn btn-default" ng-click="testInputCommentData()">test</button>-->
+                                    <button type="button" class="btn btn-default" ng-click="addCommentsInPubPic()">确认</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="myModal_addReplyInPubPic" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title">添加回复</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" class="form-control" placeholder="请输入回复内容" ng-model="replyDataInPublishedPic.reply">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <!--<button type="button" class="btn btn-default" ng-click="testInputCommentData()">test</button>-->
+                                    <button type="button" class="btn btn-default" ng-click="addReplyInPubPic()">确认</button>
                                 </div>
                             </div>
                         </div>

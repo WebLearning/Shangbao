@@ -37,6 +37,32 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
         }
         $scope.calculateWords();
     };
+    //快拍爬虫内部彻底删除-----------------------------------------------------------------------------------
+    $scope.deleteArticleInCrawlerPicture=function()
+    {
+            if (confirm("确定删除选中的文章吗？")==true)
+            {
+                var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+                $http.delete(url).success(function(){
+                    $scope.goCrawlerPicture();
+                    alert("删除成功");
+                });
+            }
+    };
+    //快拍爬虫保存在本状态----------------------------------------------------------------------------------
+    $scope.saveInCrawlerLocal=function(){
+        $scope.calculateWords();
+        var jsonString=JSON.stringify($scope.articleData);
+        var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
+        $http.put(url1,jsonString).success(function(data){
+            if(data=="true"){
+                alert("保存成功");
+                $scope.goCrawlerPicture();
+            }else{
+                alert("保存失败");
+            }
+        })
+    };
     $scope.saveStateInCrawlerPic1="";
     $scope.savePictureArticle=function(){
         $scope.calculateWords();
