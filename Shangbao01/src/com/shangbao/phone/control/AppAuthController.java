@@ -172,7 +172,7 @@ public class AppAuthController {
 	
 	
 	/**
-	 * 注册时验证手机
+	 * 注册时发送手机验证码
 	 * @param phoneNum
 	 * @param request
 	 * @return

@@ -66,6 +66,7 @@ public class AppChannelModel {
 		public String summary;
 		public Date time;
 		public int clicks;
+		public int comments;
 		public Integer indexId;
 		public Long newsId;
 		public AppTitle(){	
@@ -91,6 +92,7 @@ public class AppChannelModel {
 			this.summary = article.getSummary();
 			this.time = article.getTime();
 			this.clicks = article.getClicks();
+			this.comments = article.getCrawlerCommendsPublish() + article.getNewsCommendsPublish();
 			indexId = id;
 			this.newsId = article.getId();
 		}

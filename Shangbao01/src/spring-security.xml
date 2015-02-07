@@ -11,6 +11,8 @@
 		<intercept-url pattern="/auth/**" access="permitAll" />
 		<intercept-url pattern="/picture/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/crawler/**" access="permitAll" />
+		<intercept-url pattern="/app/sendarticle" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/app/uploadpic" access="hasRole('ROLE_USER')"/>
 		<intercept-url pattern="/app/**" access="permitAll" />
 		<intercept-url pattern="/login.jsp" access="permitAll" />
 		<intercept-url pattern="/WEB-SRC/src/index.html" access="hasRole('ROLE_ADMIN')"/>

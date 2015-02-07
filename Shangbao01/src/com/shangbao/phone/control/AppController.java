@@ -297,6 +297,65 @@ public class AppController {
 		return null;
 	}
 	
+	@RequestMapping(value = "/uploadpic", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public String uploadPictureWithoutUserId(@RequestParam(value = "file", required = true) MultipartFile file) {
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
+		String returnPath = "";
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(user == null){
+			return "request forbiden";
+		}
+		long userId = user.getId();
+		if (!file.isEmpty()) {
+			byte[] bytes;
+			String fileName = sdf.format(new Date()) + file.getSize();
+			String localhostString = "";
+			try {
+				bytes = file.getBytes();
+				Properties props = new Properties();
+				props=PropertiesLoaderUtils.loadAllProperties("config.properties");
+				
+				String fileURL = props.getProperty("pictureDir") + File.separator +  "userPic" + File.separator
+						+ userId;
+				localhostString = props.getProperty("localhost");
+				Random random = new Random();
+				String fileNameString = fileName + RandomStringUtils.randomAlphabetic(6) + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+				String fileUrlSim = fileURL + File.separator + "sim"; // 存放小图的地址
+				String fileUrlMid = fileURL + File.separator + "mid"; // 存放中图的地址
+				Path path = Paths.get(fileURL);
+				if(Files.notExists(path)){
+					Path filePath = Files.createDirectories(path);
+				}
+				Path pathSim = Paths.get(fileUrlSim);
+				if(Files.notExists(pathSim)){
+					Files.createDirectories(pathSim);
+				}
+				Path pathMid = Paths.get(fileUrlMid);
+				if(Files.notExists(pathMid)){
+					Files.createDirectories(pathMid);
+				}
+				FileOutputStream fos = new FileOutputStream(fileURL + File.separator + fileNameString);
+				fos.write(bytes); // 写入文件
+				fos.close();
+				//压缩800*？
+				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileUrlMid + File.separator + fileNameString), 800, 0, 0.5, true);
+				//压缩200 * 150
+				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileUrlSim + File.separator + fileNameString), 200, 150, 0.8, true);
+				
+				returnPath = path.toString().split("Shangbao01")[1] + File.separator + "mid" + File.separator + fileNameString;
+				System.out.println(returnPath);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return localhostString + returnPath.replaceAll("\\\\", "/");
+		}
+		return null;
+	}
+	
+	
 	@RequestMapping(value = "/{phoneType}/KaptchaTest", method = RequestMethod.GET)
 	public String initCaptcha() {
 		return "kaptcha";

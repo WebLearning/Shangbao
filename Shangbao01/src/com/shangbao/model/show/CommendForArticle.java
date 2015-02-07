@@ -15,8 +15,10 @@ public class CommendForArticle {
 	private long articleId;//文章Id
 	private ArticleState state;//文章状态
 	private int newsCommends;//商报评论数
+	private int newsCommendsUnpublish;
 	private int newsCommendsPublish;//商报评论发表数
 	private int crawlerCommends;//爬虫评论数
+	private int crawlerCommendsUnpublish;
 	private int crawlerCommendsPublish;//爬虫评论发表数
 	
 	public CommendForArticle(){
@@ -26,8 +28,10 @@ public class CommendForArticle {
 	public CommendForArticle(Article article){
 		this.setArticleId(article.getId());
 		this.setCrawlerCommends(article.getCrawlerCommends());
+		this.setCrawlerCommendsUnpublish(article.getCrawlerCommendsUnpublish());
 		this.setCrawlerCommendsPublish(article.getCrawlerCommendsPublish());
 		this.setNewsCommends(article.getNewsCommends());
+		this.setNewsCommendsUnpublish(article.getNewsCommendsUnpublish());
 		this.setNewsCommendsPublish(article.getNewsCommendsPublish());
 		this.setState(article.getState());
 		this.setTitle(article.getTitle());
@@ -74,6 +78,22 @@ public class CommendForArticle {
 	}
 	public void setCrawlerCommendsPublish(int crawlerCommendsPublish) {
 		this.crawlerCommendsPublish = crawlerCommendsPublish;
+	}
+
+	public int getNewsCommendsUnpublish() {
+		return newsCommendsUnpublish;
+	}
+
+	public void setNewsCommendsUnpublish(int newsCommendsUnpublish) {
+		this.newsCommendsUnpublish = newsCommendsUnpublish;
+	}
+
+	public int getCrawlerCommendsUnpublish() {
+		return crawlerCommendsUnpublish;
+	}
+
+	public void setCrawlerCommendsUnpublish(int crawlerCommendsUnpublish) {
+		this.crawlerCommendsUnpublish = crawlerCommendsUnpublish;
 	}
 	
 	
