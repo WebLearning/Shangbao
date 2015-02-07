@@ -1727,7 +1727,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.getCurUserName();
     //退出登录----------------------------------------------------------------------------------------------------------
     $scope.exitLog=function(){
-        alert("成功退出");
+        var url=$scope.projectName+"/j_spring_security_logout";
+        if(confirm("确认退出?")==true){
+            $http.get(url).success(function(){
+                top.location="../../login.jsp";
+            });
+        }
     };
 
 //------------------------//-----------------------//---------------------//----------------------//--------------------//
