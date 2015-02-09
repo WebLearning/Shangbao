@@ -48,6 +48,7 @@ import com.shangbao.app.model.ActiveModel;
 import com.shangbao.app.model.AppChannelModel;
 import com.shangbao.app.model.AppModel;
 import com.shangbao.app.model.AppPictureModel;
+import com.shangbao.app.model.AppResponseModel;
 import com.shangbao.app.model.ColumnPageModel;
 import com.shangbao.app.model.CommentModel;
 import com.shangbao.app.model.CommentPageModel;
@@ -178,15 +179,21 @@ public class AppController {
 	//@Secured("ROLE_USER")
 	@RequestMapping(value="/{phoneType}/{newsId:[\\d]+}/comment", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void sendComment(@PathVariable("newsId") Long articleId, @RequestBody SingleCommend comment){
+	public AppResponseModel sendComment(@PathVariable("newsId") Long articleId, @RequestBody SingleCommend comment){
+		AppResponseModel responseModel = new AppResponseModel();
 		if(comment.getContent() != null){
 			User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if(user != null){
 				comment.setUserId(user.getId());
 				comment.setUserName(user.getName());
+				appService.addComment(articleId, comment);
+				responseModel.setResultCode(1);
+				responseModel.setResultMsg("Success");
 			}
-			appService.addComment(articleId, comment);
+			responseModel.setResultCode(0);
+			responseModel.setResultMsg("Login First");
 		}
+		return responseModel;
 	}
 	
 	/**
