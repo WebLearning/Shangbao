@@ -330,7 +330,7 @@
                     <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
-					            <div class="col-lg-6" ng-repeat="section in newGeneralViewSections">
+					            <div class="col-lg-6" ng-repeat="section in newGeneralViewSections track by $index">
 						            <div class="widget">
 							            <div class="widget-title">
 								            <i class="glyphicon glyphicon-tasks"></i> {{section.ChannelName}}
@@ -367,14 +367,14 @@
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="newArticle" ng-controller="articleCtrl">
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>
-                    </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="testLog()"> test</button>
-                    </div>
-                </div>
+                <!--<div class="row">-->
+                    <!--<div class="col-md-2 col-md-offset-2">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-2 col-md-offset-2">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="testLog()"> test</button>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <form class="form-horizontal" role="form">
@@ -611,7 +611,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in crawlerData.tileList">
+                                    <tr ng-repeat="tileObj in crawlerData.tileList track by $index">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <!--<td><a href="" ng-click="checkModifyNoteInCrawler(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>-->
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -909,7 +909,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in pendingData.tileList">
+                                    <tr ng-repeat="tileObj in pendingData.tileList track by $index">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInPending(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -1136,7 +1136,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in publishedData.tileList">
+                                    <tr ng-repeat="tileObj in publishedData.tileList track by $index">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNote(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -1404,7 +1404,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="articleComment in commentDetailDataInPublished.commendList">
+                                    <tr ng-repeat="articleComment in commentDetailDataInPublished.commendList track by $index">
                                         <td>{{checkIfNull(articleComment.commendId)}}</td>
                                         <td>{{checkIfNull(articleComment.userName)}}</td>
                                         <td>{{checkIfNull(articleComment.userId)}}</td>
@@ -1534,7 +1534,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in revokedData.tileList">
+                                    <tr ng-repeat="tileObj in revokedData.tileList track by $index">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInRevoked(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -1676,6 +1676,7 @@
                             </div>
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default" ng-click="clearArticle()">清除所有内容</button>
+                                <button type="button" class="btn btn-danger" ng-click="deleteArticleInRevoked()">彻底删除</button>
                                 <button type="button" class="btn btn-success" ng-click="saveArticle()">保存到草稿箱</button>
                             </div>
                         </form>
@@ -1793,7 +1794,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in tempData.tileList">
+                                    <tr ng-repeat="tileObj in tempData.tileList track by $index">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInDraft(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -2086,7 +2087,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr ng-repeat="articleComment in commentDetailData.commendList">
+                                            <tr ng-repeat="articleComment in commentDetailData.commendList track by $index">
                                                 <td>{{checkIfNull(articleComment.commendId)}}</td>
                                                 <td>{{checkIfNull(articleComment.userName)}}</td>
                                                 <td>{{checkIfNull(articleComment.userId)}}</td>
@@ -2216,7 +2217,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr ng-repeat="commendObj in commentData.commendList">
+                                            <tr ng-repeat="commendObj in commentData.commendList track by $index">
                                                 <td><a href="">{{checkIfNull(commendObj.title)}}</a></td>
                                                 <td>{{commendObj.articleId}}</td>
                                                 <td>{{checkAndTranslate(commendObj.state)}}</td>
@@ -2265,7 +2266,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="x in appNames">
+                                    <tr ng-repeat="x in appNames track by $index">
                                         <td>{{x.channelIndex}}</td>
                                         <td>{{x.channelName}}</td>
                                         <!--<td ng-init="y=">-->
@@ -2555,14 +2556,14 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="newPicture" ng-controller="newPictureCtrl">
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="getEditorContent()">get data</button>
-                    </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
-                    </div>
-                </div>
+                <!--<div class="row">-->
+                    <!--<div class="col-md-2 col-md-offset-2">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="getEditorContent()">get data</button>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-2 col-md-offset-2">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <form class="form-horizontal" role="form">
@@ -2828,7 +2829,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in crawlerPictureData.tileList">
+                                    <tr ng-repeat="tileObj in crawlerPictureData.tileList track by $index">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInCrawlerPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -3142,7 +3143,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in pendingPictureData.tileList">
+                                    <tr ng-repeat="tileObj in pendingPictureData.tileList track by $index">
                                         <td><a href="" ng-click="goNewPictureArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInPendingPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -3369,7 +3370,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in publishedPictureData.tileList">
+                                    <tr ng-repeat="tileObj in publishedPictureData.tileList track by $index">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInPublishedPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -3625,7 +3626,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="articleComment in commentDetailDataInPublishedPic.commendList">
+                                    <tr ng-repeat="articleComment in commentDetailDataInPublishedPic.commendList track by $index">
                                         <td>{{checkIfNull(articleComment.commendId)}}</td>
                                         <td>{{checkIfNull(articleComment.userName)}}</td>
                                         <td>{{checkIfNull(articleComment.userId)}}</td>
@@ -3753,7 +3754,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in revokedPictureData.tileList">
+                                    <tr ng-repeat="tileObj in revokedPictureData.tileList track by $index">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInRevokedPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -4034,7 +4035,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in tempPictureData.tileList">
+                                    <tr ng-repeat="tileObj in tempPictureData.tileList track by $index">
                                         <td><a href="" ng-click="goNewPictureArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInDraftPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>

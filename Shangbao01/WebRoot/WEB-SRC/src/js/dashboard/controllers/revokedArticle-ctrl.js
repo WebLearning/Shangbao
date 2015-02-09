@@ -59,8 +59,10 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
         for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
-            }else{
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"){
                 $scope.articleData[p]="";
+            }else{
+                $scope.articleData[p]=null;
             }
         }
         $scope.calculateWords();
@@ -84,6 +86,18 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                 });
             }
         });
+    };
+    $scope.deleteArticleInRevoked=function()
+    {
+            if (confirm("确定删除选中的文章吗？")==true)
+            {
+                var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+                $http.delete(url).success(function(){
+//                    clearArticleSelections();
+                    $scope.goRevoked();
+                    alert("删除成功");
+                });
+            }
     };
 
     //得到字数

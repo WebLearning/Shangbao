@@ -135,11 +135,11 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 
     function clearArticleData(){
         for(p in $scope.articleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
             }else if(p=="words"){
                 $scope.articleData[p]=0;
-            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"){
+            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"||p=="activity"){
                 $scope.articleData[p]="";
             }else{
                 $scope.articleData[p]=null;
@@ -1742,7 +1742,21 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         document.getElementById("published").className="tab-pane";
         document.getElementById("publishedCommentDetail").className="tab-pane active";
     };
-    $scope.commentDetailDataInPublished="";
+    $scope.commentDetailDataInPublished={
+        pageCount:null,
+        currentNo:null,
+        commendList:[{
+            commendId:null,
+            userName:"",
+            userId:null,
+            timeDate:"",
+            level:null,
+            state:"",
+            from:null,
+            content:"",
+            reply:""
+        }]
+    };
     $scope.getCommentDetailDataInPublished=function(pageID)
     {
         var url=$scope.commentDetailsUrlInPublished+"/"+pageID.toString()+$scope.orderCondition;
@@ -1857,6 +1871,22 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }
             }else{
                 $scope.commentDetailDataInPublished[p]=data[p];
+            }
+        }
+    };
+    $scope.clearCommentDetailInPub=function(){
+        for(p in $scope.commentDetailDataInPublished){
+            if(p=="commendList"){
+                for(i in $scope.commentDetailDataInPublished[p]){
+                    if(i=="userName"||i=="timeDate"||i=="state"||i=="content"||i=="reply"){
+                        $scope.commentDetailDataInPublished[p][i]="";
+                    }else{
+                        $scope.commentDetailDataInPublished[p][i]=null;
+                    }
+//                    $scope.commentDetailDataInPublished[p][i]=data[p][i];
+                }
+            }else{
+                $scope.commentDetailDataInPublished[p]=null;
             }
         }
     };

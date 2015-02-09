@@ -61,8 +61,10 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         for(p in $scope.newArticleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
                 $scope.newArticleData[p]=[];
-            }else{
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"){
                 $scope.newArticleData[p]="";
+            }else{
+                $scope.newArticleData[p]=null;
             }
         }
         $scope.calculateWords();
@@ -81,6 +83,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         $scope.calculateWords();
         var url=$scope.projectName+"/picture/newPicture/pend";
         var jsonString=JSON.stringify($scope.newArticleData);
+        console.log(jsonString);
         $http.post(url,jsonString).success(function(){
             alert("提交成功！");
             $scope.clearArticle();
@@ -90,8 +93,9 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         $scope.calculateWords();
         var url=$scope.projectName+"/picture/newPicture/pend";
         var jsonString=JSON.stringify($scope.newArticleData);
+        console.log(jsonString);
         $http.post(url,jsonString).success(function(){
-            alert("发送成功！");
+            alert("发布成功！");
             $scope.clearArticle();
         });
     };
@@ -105,16 +109,20 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         var str4=str3.concat(str2);
         var str5=new Date(str4);
         var myPublishedTime=str5.getTime();
+//            console.log(myDateTime);
+//            console.log(myPublishedTime);
         var time=myPublishedTime-myDateTime;
         console.log(time);
         var url=$scope.projectName+"/picture/newPicture/timingpublish/"+time;
-        var jsonString=JSON.stringify($scope.newArticleData);
         console.log(url);
+        var jsonString=JSON.stringify($scope.newArticleData);
         $http.post(url,jsonString).success(function(){
             alert("定时成功");
             $('#Select_TimeInNewPicture').modal('toggle');
             $scope.clearArticle();
         });
+//        var url=$scope.projectName+"/picture/newPicture/timingpublish/"+time;
+//        var jsonString=JSON.stringify($scope.newArticleData);
     };
 
 

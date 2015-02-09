@@ -53,8 +53,10 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         for(p in $scope.newArticleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
                 $scope.newArticleData[p]=[];
-            }else{
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"){
                 $scope.newArticleData[p]="";
+            }else{
+                $scope.newArticleData[p]=null;
             }
         }
         $scope.calculateWords();
@@ -81,6 +83,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         $scope.calculateWords();
         var url=$scope.projectName+"/article/newArticle/pend";
         var jsonString=JSON.stringify($scope.newArticleData);
+        console.log(jsonString);
         $http.post(url,jsonString).success(function(){
             alert("发送成功！");
             $scope.clearArticle();

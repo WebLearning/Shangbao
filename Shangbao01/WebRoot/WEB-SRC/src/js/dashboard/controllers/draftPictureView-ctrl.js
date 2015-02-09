@@ -59,8 +59,10 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
         for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
-            }else{
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"){
                 $scope.articleData[p]="";
+            }else{
+                $scope.articleData[p]=null;
             }
         }
         $scope.calculateWords();
