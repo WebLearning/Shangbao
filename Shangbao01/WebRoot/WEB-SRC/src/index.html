@@ -611,7 +611,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in crawlerData.tileList track by $index">
+                                    <tr ng-repeat="tileObj in crawlerData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <!--<td><a href="" ng-click="checkModifyNoteInCrawler(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>-->
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -909,7 +909,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in pendingData.tileList track by $index">
+                                    <tr ng-repeat="tileObj in pendingData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInPending(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -1136,7 +1136,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in publishedData.tileList track by $index">
+                                    <tr ng-repeat="tileObj in publishedData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNote(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -1404,7 +1404,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="articleComment in commentDetailDataInPublished.commendList track by $index">
+                                    <tr ng-repeat="articleComment in commentDetailDataInPublished.commendList">
                                         <td>{{checkIfNull(articleComment.commendId)}}</td>
                                         <td>{{checkIfNull(articleComment.userName)}}</td>
                                         <td>{{checkIfNull(articleComment.userId)}}</td>
@@ -1534,7 +1534,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in revokedData.tileList track by $index">
+                                    <tr ng-repeat="tileObj in revokedData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInRevoked(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -1794,7 +1794,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in tempData.tileList track by $index">
+                                    <tr ng-repeat="tileObj in tempData.tileList">
                                         <td><a href="" ng-click="goNewArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInDraft(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -2087,7 +2087,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr ng-repeat="articleComment in commentDetailData.commendList track by $index">
+                                            <tr ng-repeat="articleComment in commentDetailData.commendList">
                                                 <td>{{checkIfNull(articleComment.commendId)}}</td>
                                                 <td>{{checkIfNull(articleComment.userName)}}</td>
                                                 <td>{{checkIfNull(articleComment.userId)}}</td>
@@ -2829,7 +2829,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in crawlerPictureData.tileList track by $index">
+                                    <tr ng-repeat="tileObj in crawlerPictureData.tileList">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInCrawlerPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -3143,7 +3143,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in pendingPictureData.tileList track by $index">
+                                    <tr ng-repeat="tileObj in pendingPictureData.tileList">
                                         <td><a href="" ng-click="goNewPictureArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInPendingPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -3370,7 +3370,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in publishedPictureData.tileList track by $index">
+                                    <tr ng-repeat="tileObj in publishedPictureData.tileList">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInPublishedPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
@@ -3626,7 +3626,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="articleComment in commentDetailDataInPublishedPic.commendList track by $index">
+                                    <tr ng-repeat="articleComment in commentDetailDataInPublishedPic.commendList">
                                         <td>{{checkIfNull(articleComment.commendId)}}</td>
                                         <td>{{checkIfNull(articleComment.userName)}}</td>
                                         <td>{{checkIfNull(articleComment.userId)}}</td>
@@ -4035,7 +4035,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in tempPictureData.tileList track by $index">
+                                    <tr ng-repeat="tileObj in tempPictureData.tileList">
                                         <td><a href="" ng-click="goNewPictureArticle(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInDraftPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>
