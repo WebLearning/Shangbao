@@ -63,7 +63,9 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
         var url=$scope.projectName+'/backapp/setlocation/'+channelEnglishName+'/'+index+'/true';
         //console.log(url);
         $http.put(url).success(function(){
-            $scope.getNewGeneralViewData();
+            console.log("上移成功");
+            $scope.refreshGeneralView();
+//            $scope.getNewGeneralViewData();
             //console.log("上移成功");
         });
     };
@@ -71,6 +73,7 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
         var url=$scope.projectName+'/backapp/setlocation/'+channelEnglishName+'/'+index+'/false';
         //console.log(url);
         $http.put(url).success(function(){
+            console.log("下移成功");
             $scope.getNewGeneralViewData();
             //console.log("下移成功");
         });
@@ -81,6 +84,7 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
         //console.log(url);
         $http.put(url).success(function(){
             //console.log(data);
+            console.log("置顶成功");
             $scope.getNewGeneralViewData();
         });
     };

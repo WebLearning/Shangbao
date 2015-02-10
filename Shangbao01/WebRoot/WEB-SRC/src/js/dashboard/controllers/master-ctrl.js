@@ -783,6 +783,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         var url=$scope.projectName+'/backapp/refresh';
         $http.get(url).success(function(data){
             $scope.newGeneralViewSections=data;
+            console.log($scope.newGeneralViewSections);
         })
     };
 //（7）获取快拍爬虫数据-------------------------------------------------------------------------------------------------
@@ -1444,6 +1445,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 alert("注册成功！");
                 $scope.clearUserInfo();
                 $scope.addUserInfo.name="";
+//                top.location="../../login.jsp";
             });
         }
     };

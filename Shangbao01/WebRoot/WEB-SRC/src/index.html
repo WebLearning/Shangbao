@@ -211,7 +211,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                         <li>
-                            <a href="" data-toggle="modal" data-target="#addUser_1">注册账号</a>
+                            <a href="" data-toggle="modal" data-target="#addUser_1">添加用户</a>
                         </li>
                         <li>
                             <a href="" data-toggle="modal" data-target="#modify_passWord1">修改密码</a>
@@ -271,7 +271,7 @@
                               <div class="modal-header">
                                   <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                   <!--<div class="pull-left">-->
-                                  <h4 class="modal-title">注册账号</h4>
+                                  <h4 class="modal-title">添加用户</h4>
                                   <!--</div>                                 -->
                               </div>
                               <div class="modal-body">
@@ -330,7 +330,7 @@
                     <div class="col-md-12">
                         <div class="panel panel-success">
                             <div class="panel-body">
-					            <div class="col-lg-6" ng-repeat="section in newGeneralViewSections track by $index">
+					            <div class="col-lg-6" ng-repeat="section in newGeneralViewSections">
 						            <div class="widget">
 							            <div class="widget-title">
 								            <i class="glyphicon glyphicon-tasks"></i> {{section.ChannelName}}
@@ -339,7 +339,7 @@
 								            <div class="table-responsive">
 									            <table class="table table-hover">
 										            <tbody>
-											            <tr ng-repeat="newsItem in newsItems track by $index">
+											            <tr ng-repeat="newsItem in newsItems">
 												            <td>{{checkTitle(newsItem.title)}}</td>
 												            <td align="right">
 													            <div class="btn-group">
@@ -2266,7 +2266,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="x in appNames track by $index">
+                                    <tr ng-repeat="x in appNames">
                                         <td>{{x.channelIndex}}</td>
                                         <td>{{x.channelName}}</td>
                                         <!--<td ng-init="y=">-->
