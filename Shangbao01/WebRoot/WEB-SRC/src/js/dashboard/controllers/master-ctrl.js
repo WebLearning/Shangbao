@@ -1876,22 +1876,22 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
-    $scope.clearCommentDetailInPub=function(){
-        for(p in $scope.commentDetailDataInPublished){
-            if(p=="commendList"){
-                for(i in $scope.commentDetailDataInPublished[p]){
-                    if(i=="userName"||i=="timeDate"||i=="state"||i=="content"||i=="reply"){
-                        $scope.commentDetailDataInPublished[p][i]="";
-                    }else{
-                        $scope.commentDetailDataInPublished[p][i]=null;
-                    }
-//                    $scope.commentDetailDataInPublished[p][i]=data[p][i];
-                }
-            }else{
-                $scope.commentDetailDataInPublished[p]=null;
-            }
-        }
-    };
+//    $scope.clearCommentDetailInPub=function(){
+//        for(p in $scope.commentDetailDataInPublished){
+//            if(p=="commendList"){
+//                for(i in $scope.commentDetailDataInPublished[p]){
+//                    if(i=="userName"||i=="timeDate"||i=="state"||i=="content"||i=="reply"){
+//                        $scope.commentDetailDataInPublished[p][i]="";
+//                    }else{
+//                        $scope.commentDetailDataInPublished[p][i]=null;
+//                    }
+////                    $scope.commentDetailDataInPublished[p][i]=data[p][i];
+//                }
+//            }else{
+//                $scope.commentDetailDataInPublished[p]=null;
+//            }
+//        }
+//    };
     $scope.getCommentDetailTitleInPublished=function(title,typeStr)
     {
         if(typeStr=="news"){

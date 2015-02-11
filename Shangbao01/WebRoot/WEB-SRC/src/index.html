@@ -2217,7 +2217,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr ng-repeat="commendObj in commentData.commendList track by $index">
+                                            <tr ng-repeat="commendObj in commentData.commendList">
                                                 <td><a href="">{{checkIfNull(commendObj.title)}}</a></td>
                                                 <td>{{commendObj.articleId}}</td>
                                                 <td>{{checkAndTranslate(commendObj.state)}}</td>
@@ -3754,7 +3754,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="tileObj in revokedPictureData.tileList track by $index">
+                                    <tr ng-repeat="tileObj in revokedPictureData.tileList">
                                         <td><a href="" ng-click="goNewPicture(tileObj.articleId)">{{checkIfNull(tileObj.title)}}</a></td>
                                         <td><a href="" ng-click="checkModifyNoteInRevokedPicture(tileObj.articleId)">{{checkIfNull(tileObj.author)}}</a></td>
                                         <td>{{dateStringToDate(tileObj.time)}}</td>

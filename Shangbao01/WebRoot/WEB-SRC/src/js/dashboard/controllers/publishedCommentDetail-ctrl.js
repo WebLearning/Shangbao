@@ -25,7 +25,7 @@ angular.module("Dashboard").controller("publishedCommentDetailsCtrl", ["$scope",
         clearArticleSelections();
 //        $scope.refreshComment();
 //        $scope.commentDetailDataInPublished="";
-        $scope.clearCommentDetailInPub();
+//        $scope.clearCommentDetailInPub();
         $scope.refreshPublishedCur();
     };
 
