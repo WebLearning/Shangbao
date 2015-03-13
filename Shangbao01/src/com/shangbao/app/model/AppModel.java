@@ -217,6 +217,8 @@ public class AppModel {
 		channelEn_Cn.clear();
 		redeployStartPictures();
 		
+		redeployChannels();
+		
 		List<Channel> channels = channelDaoImp.find(new Channel());
 		for(Channel channel : channels){
 			redeployChannelArticles(channel.getChannelName());
@@ -229,7 +231,7 @@ public class AppModel {
 			redeployComment(article.getId());
 		}
 		
-		redeployChannels();
+		//redeployChannels();
 	}
 	
 	public Map<String, List<String>> getStartPictures() {

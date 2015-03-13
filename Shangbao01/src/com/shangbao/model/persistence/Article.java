@@ -31,6 +31,7 @@ public class Article {
 	private String activity; //所属活动
 	private String level;//等级
 	private int words;//字数
+	private int pictures;//图片数量
 	private int newsCommends;//商报评论数
 	private int newsCommendsPublish;//商报评论发表数
 	private int newsCommendsUnpublish;//商报评论未发表
@@ -43,6 +44,7 @@ public class Article {
 	private String from;//来源
 	private Map<String, Integer> channelIndex = new HashMap<String, Integer>();//文章在所属目录中的index
 	private List<String> logs = new ArrayList<>();//文章的操作记录
+	private String outSideUrl; //外链文章URL
 	
 	
 	
@@ -148,6 +150,12 @@ public class Article {
 	public void setWords(int words) {
 		this.words = words;
 	}
+	public int getPictures() {
+		return pictures;
+	}
+	public void setPictures(int pictures) {
+		this.pictures = pictures;
+	}
 	public int getNewsCommends() {
 		return newsCommends;
 	}
@@ -220,6 +228,12 @@ public class Article {
 	}
 	public void setCrawlerCommendsUnpublish(int crawlerCommendsUnpublish) {
 		this.crawlerCommendsUnpublish = crawlerCommendsUnpublish;
+	}
+	public String getOutSideUrl() {
+		return outSideUrl;
+	}
+	public void setOutSideUrl(String outSideUrl) {
+		this.outSideUrl = outSideUrl;
 	}
 	/**
 	 * 添加关键字

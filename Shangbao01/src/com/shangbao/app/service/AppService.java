@@ -160,13 +160,7 @@ public class AppService {
 		AppHtml appHtml = new AppHtml();
 		if(!appModel.getArticleMap().isEmpty()){
 			if(appModel.getArticleMap().containsKey(articleId)){
-				//appHtml.html = appModel.getArticleMap().get(articleId).getContent();
 				appHtml.html = articleToHtml(appModel.getArticleMap().get(articleId));
-//				int clicks = appModel.getArticleMap().get(articleId).getClicks() + 1;
-//				Update update = new Update();
-//				update.inc("clicks", 1);
-//				articleDaoImp.update(appModel.getArticleMap().get(articleId), update);
-//				appModel.getArticleMap().get(articleId).setClicks(clicks);
 				appModel.addClick(articleId);
 				appHtml.articleId = articleId;
 			}else{
@@ -413,29 +407,41 @@ public class AppService {
 
 	
 	private String articleToHtml(Article article){
-		String localhostString = "";
-		try {
-			Properties properties = PropertiesLoaderUtils.loadAllProperties("config.properties");
-			localhostString = properties.getProperty("localhost");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(article.getOutSideUrl() == null || article.getOutSideUrl().equals("")){
+			//不是外链文章
+			String localhostString = "";
+			try {
+				Properties properties = PropertiesLoaderUtils.loadAllProperties("config.properties");
+				localhostString = properties.getProperty("localhost");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String css = "app.css";
+			if(article.isTag()){
+				css = "kuaipai.css";
+			}
+			SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd");
+			String html = "";
+			html += "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"zh-CN\"><head profile=\"http://gmpg.org/xfn/11\"> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> <title>";
+			html += article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/" + css + "\" type=\"text/css\" /> <script src=\"" + localhostString + "/WEB-SRC/click.js\"></script> <script src=\"" + localhostString + "/WEB-SRC/src/js/angular.min.js\"></script>";
+			html += "</head><body class=\"classic-wptouch-bg\"> " +  " <input type=\"hidden\" name=\"id\" value=" + article.getId() + "/> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">";
+			html += article.getTitle() + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">";
+			html += (article.getAuthor() == null ? "" : article.getAuthor()) + "&nbsp&nbsp" + (article.getTime() == null ? "" : format.format(article.getTime()));
+			html += "</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">";
+			html += article.getContent();
+			html += "<p>&nbsp;</p> " + "<div ng-app=\"\" ng-controller=\"urlController\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读 {{clickNum}}</div></div>" + "</div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
+			return html;
+		}else{
+			//是外联文章
+			String html = "";
+			html += "<html><head><title></title></head><body>";
+			html += "<script language=\"javascript\">document.location = \"";
+			html +=	(article.getOutSideUrl().startsWith("http://") || article.getOutSideUrl().startsWith("https://")) ? article.getOutSideUrl() : ("http://" + article.getOutSideUrl());
+			html += "\"</script></body></html>";
+			System.out.println(html);
+			return html;
 		}
-		String css = "app.css";
-		if(article.isTag()){
-			css = "kuaipai.css";
-		}
-		SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd");
-		String html = "";
-		html += "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"zh-CN\"><head profile=\"http://gmpg.org/xfn/11\"> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> <title>";
-		html += article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/" + css + "\" type=\"text/css\" /> <script src=\"" + localhostString + "/WEB-SRC/click.js\"></script> <script src=\"" + localhostString + "/WEB-SRC/src/js/angular.min.js\"></script>";
-		html += "</head><body class=\"classic-wptouch-bg\"> " +  " <input type=\"hidden\" name=\"id\" value=" + article.getId() + "/> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">";
-		html += article.getTitle() + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">";
-		html += (article.getAuthor() == null ? "" : article.getAuthor()) + "&nbsp&nbsp" + (article.getTime() == null ? "" : format.format(article.getTime()));
-		html += "</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">";
-		html += article.getContent();
-		html += "<p>&nbsp;</p> " + "<div ng-app=\"\" ng-controller=\"urlController\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读 {{clickNum}}</div></div>" + "</div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
-		return html;
 	}
 
 	/**
