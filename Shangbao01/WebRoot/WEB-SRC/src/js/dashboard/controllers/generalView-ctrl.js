@@ -64,7 +64,7 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
         //console.log(url);
         $http.put(url).success(function(){
             console.log("上移成功");
-            $scope.refreshGeneralView();
+            $scope.getNewGeneralViewData();
 //            $scope.getNewGeneralViewData();
             //console.log("上移成功");
         });
@@ -86,6 +86,48 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
             //console.log(data);
             console.log("置顶成功");
             $scope.getNewGeneralViewData();
+        });
+    };
+//-----------------------------------------------------------------------------------------------------------------------
+    //转到新建文章页面并重置sidebar的爬虫文章按钮，不然会产生点击无效的BUG---------------------------------------------
+    $scope.goNewGeneralArticle=function(articleId)
+    {
+        $scope.showGeneralArticle(articleId);
+        document.getElementById("generalView").className="tab-pane";
+        document.getElementById("generalViewArticle").className="tab-pane active";
+        document.getElementById("generalSidebarID").className="sidebar-list";
+    };
+
+    //得到文章的URL
+    $scope.getGeneralArticleUrl=function(articleId)
+    {
+//        var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/"+articleId;
+        var url=$scope.projectName+"/article/Published/1/"+articleId;
+        return url;
+    };
+
+    //将文章数据传输给全局变量articleData
+    $scope.transDataToArticleData=function(data)
+    {
+        for(p in $scope.articleData){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+                for(i in data[p]){
+                    $scope.articleData[p][i]=data[p][i];
+                }
+            }else{
+                $scope.articleData[p]=data[p];
+            }
+        }
+    };
+
+    //显示点击的文章
+    $scope.showGeneralArticle=function(articleId)
+    {
+        var url=$scope.getGeneralArticleUrl(articleId);
+
+        $http.get(url).success(function(data) {
+//            console.log(data);
+            $scope.transDataToArticleData(data);
         });
     };
 }]);

@@ -51,6 +51,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     $scope.testLog=function()
     {
         $scope.calculateWords();
+        $scope.calculatePictures();
 //        console.log($scope.recvData);
         console.log($scope.newArticleData);
     };
@@ -61,17 +62,19 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         for(p in $scope.newArticleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
                 $scope.newArticleData[p]=[];
-            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"){
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="outSideUrl"){
                 $scope.newArticleData[p]="";
             }else{
                 $scope.newArticleData[p]=null;
             }
         }
         $scope.calculateWords();
+        $scope.calculatePictures();
     };
 
     $scope.saveArticle=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.newArticleData);
         //console.log(jsonString);
         $http.post($scope.projectName+'/picture/newPicture',jsonString).success(function(data) {
@@ -81,6 +84,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     };
     $scope.pendArticleInNewPicture=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var url=$scope.projectName+"/picture/newPicture/pend";
         var jsonString=JSON.stringify($scope.newArticleData);
         console.log(jsonString);
@@ -91,6 +95,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     };
     $scope.publishedArticleInNewPicture=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var url=$scope.projectName+"/picture/newPicture/pend";
         var jsonString=JSON.stringify($scope.newArticleData);
         console.log(jsonString);
@@ -101,6 +106,8 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     };
     $scope.publishArticleInNewPictureTiming=function()
     {
+        $scope.calculateWords();
+        $scope.calculatePictures();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeInNewPicture.substr(0,10);
@@ -135,9 +142,9 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     //图片数-----------------------------------------------------
-    /*$scope.calculatePictures=function(){
-     $scope.newArticleData.pictures=$scope.newArticleData.picturesUrl.length;
-     }*/
+    $scope.calculatePictures=function(){
+        $scope.newArticleData.pictures=$scope.newArticleData.picturesUrl.length;
+    };
     //刷新时间
     $scope.getCurrentDatetime=function()
     {

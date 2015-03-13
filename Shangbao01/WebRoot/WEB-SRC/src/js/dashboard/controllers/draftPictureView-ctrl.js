@@ -49,6 +49,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
     $scope.testLog=function()
     {
         $scope.calculateWords();
+        $scope.calculatePictures();
         console.log($scope.recvData);
         console.log($scope.articleData);
     };
@@ -59,18 +60,20 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
         for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
-            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"){
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"||p=="outSideUrl"){
                 $scope.articleData[p]="";
             }else{
                 $scope.articleData[p]=null;
             }
         }
         $scope.calculateWords();
+        $scope.calculatePictures();
     };
 
     $scope.savePictureArticle=function(){
         //console.log("test new save");
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         //console.log($scope.articleData);
         var url=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
@@ -92,6 +95,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
     $scope.submitPictureArticleInDraftPicture=function()
     {
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         //console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
@@ -122,6 +126,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
         var time=myPublishedTime-myDateTime;
         console.log(time);
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         //console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
@@ -149,9 +154,9 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
         return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     //图片数-----------------------------------------------------
-    /*$scope.calculatePictures=function(){
-     $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
-     }*/
+    $scope.calculatePictures=function() {
+        $scope.articleData.pictures = $scope.articleData.picturesUrl.length;
+    };
     //刷新时间
     $scope.getCurrentDatetime=function()
     {

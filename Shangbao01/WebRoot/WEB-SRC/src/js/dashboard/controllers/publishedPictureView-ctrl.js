@@ -21,6 +21,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     $scope.testLog=function()
     {
         $scope.calculateWords();
+        $scope.calculatePictures();
         //console.log($scope.recvData);
         console.log($scope.articleData);
     };
@@ -30,13 +31,14 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
-            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"){
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"||p=="outSideUrl"){
                 $scope.articleData[p]="";
             }else{
                 $scope.articleData[p]=null;
             }
         }
         $scope.calculateWords();
+        $scope.calculatePictures();
     };
     $scope.sendPictureMessageData={
         message:"",
@@ -72,6 +74,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     };
     $scope.saveArticleInPublished=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Published/1/'+$scope.articleData.id;
@@ -90,9 +93,9 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     //图片数-----------------------------------------------------
-    /*$scope.calculatePictures=function(){
-     $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
-     }*/
+    $scope.calculatePictures=function(){
+        $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
+     };
     //刷新时间
     $scope.getCurrentDatetime=function()
     {

@@ -21,6 +21,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     $scope.testLog=function()
     {
         $scope.calculateWords();
+        $scope.calculatePictures();
         console.log($scope.recvData);
         console.log($scope.articleData);
     };
@@ -31,13 +32,14 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
         for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
-            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"){
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"||p=="outSideUrl"){
                 $scope.articleData[p]="";
             }else{
                 $scope.articleData[p]=null;
             }
         }
         $scope.calculateWords();
+        $scope.calculatePictures();
     };
     //快拍爬虫内部彻底删除-----------------------------------------------------------------------------------
     $scope.deleteArticleInCrawlerPicture=function()
@@ -54,6 +56,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     //快拍爬虫保存在本状态----------------------------------------------------------------------------------
     $scope.saveInCrawlerLocal=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
         $http.put(url1,jsonString).success(function(data){
@@ -63,11 +66,12 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             }else{
                 alert("保存失败");
             }
-        })
+        });
     };
     $scope.saveStateInCrawlerPic1="";
     $scope.savePictureArticle=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
         $http.put(url1,jsonString).success(function(data) {
@@ -87,6 +91,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     $scope.publishArticleNowInCrawlerPicture=function()
     {
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
@@ -116,6 +121,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
         var time=myPublishedTime-myDateTime;
         console.log(time);
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
@@ -144,9 +150,9 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
         return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     //图片数-----------------------------------------------------
-    /*$scope.calculatePictures=function(){
-     $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
-     }*/
+    $scope.calculatePictures=function(){
+        $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
+    };
     //刷新时间
     $scope.getCurrentDatetime=function()
     {

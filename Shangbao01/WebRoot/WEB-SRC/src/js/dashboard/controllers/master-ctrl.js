@@ -42,9 +42,11 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         tag: null,
         time: "",
         title: "",
+        outSideUrl:"",
         titlePicUrl: null,
         js_clicks:null,
-        words: null
+        words: null,
+        pictures:null
 //        logs:[]
     };
 
@@ -69,8 +71,10 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         tag: null,
         time: "",
         title: "",
+        outSideUrl:"",
         titlePicUrl: null,
-        words: null
+        words: null,
+        pictures:null
     };
     //初始化header
     $scope.curPage = "一览";
@@ -139,7 +143,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.articleData[p]=[];
             }else if(p=="words"){
                 $scope.articleData[p]=0;
-            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"||p=="activity"){
+            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"||p=="activity"||p=="outSideUrl"){
                 $scope.articleData[p]="";
             }else{
                 $scope.articleData[p]=null;
@@ -152,7 +156,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.newArticleData[p]=[];
             }else if(p=="words"){
                 $scope.newArticleData[p]=0;
-            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"){
+            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"||p=="outSideUrl"){
                 $scope.newArticleData[p]="";
             }else{
                 $scope.newArticleData[p]=null;
@@ -771,11 +775,37 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 //(6)获取一览数据-------------------------------------------------------------------------------------------------------
     $scope.newGeneralViewSections=null;
+    $scope.newGeneralViews=null;
     $scope.getNewGeneralViewData=function()
     {
         var url=$scope.projectName+'/backapp/all';
-        $http.get(url).success(function(data){
-            $scope.newGeneralViewSections=data;
+        $http.get(url).success(function(data) {
+//            $scope.newGeneralViewSections=data;
+
+            $scope.newGeneralViews = data;
+            $scope.generalArray = [];
+
+            for (var j = 0; j < data.length; j++) {
+                if ((($scope.newGeneralViews)[j].content).length > 20) {
+                    for (var i = 0; i < 20; i++) {
+                        $scope.generalArray[i] = (($scope.newGeneralViews)[j].content)[i];
+//                    console.log(($scope.newGeneralViews)[j].content.title);
+                    }
+                    ($scope.newGeneralViews)[j].content = $scope.generalArray;
+                    $scope.generalArray=[];
+                } else {
+                    for (var k = 0; k < (($scope.newGeneralViews)[j].content).length; k++) {
+                        $scope.generalArray[k] = (($scope.newGeneralViews)[j].content)[k];
+//                    console.log(($scope.newGeneralViews)[j].content.title);
+                    }
+                    ($scope.newGeneralViews)[j].content = $scope.generalArray;
+                    $scope.generalArray=[];
+                }
+//                ($scope.newGeneralViews)[j].content=$scope.generalArray;
+            }
+//            console.log(($scope.newGeneralViews)[0]);
+            $scope.newGeneralViewSections=$scope.newGeneralViews;
+//            console.log($scope.newGeneralViewSections);
         });
     };
     $scope.getNewGeneralViewData();

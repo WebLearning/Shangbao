@@ -49,6 +49,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
     $scope.testLog=function()
     {
         $scope.calculateWords();
+        $scope.calculatePictures();
         console.log($scope.recvData);
         console.log($scope.articleData);
     };
@@ -59,17 +60,19 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
-            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"){
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"||p=="outSideUrl"){
                 $scope.articleData[p]="";
             }else{
                 $scope.articleData[p]=null;
             }
         }
         $scope.calculateWords();
+        $scope.calculatePictures();
     };
 
     $scope.saveArticle=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("保存文章成功");
@@ -79,6 +82,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
 
     $scope.putArticle=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("提交审核文章成功");
@@ -97,6 +101,8 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
     };
     $scope.publishArticleNowInPending=function()
     {
+        $scope.calculateWords();
+        $scope.calculatePictures();
         var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
            $http.put(url).success(function(){
 //                clearArticleSelections();
@@ -107,6 +113,8 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
     };
     $scope.publishArticleTimingInPending=function()
     {
+        $scope.calculateWords();
+        $scope.calculatePictures();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeInPending.substr(0,10);
@@ -139,9 +147,9 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     //图片数-----------------------------------------------------
-    /*$scope.calculatePictures=function(){
-     $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
-     }*/
+    $scope.calculatePictures=function(){
+        $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
+     };
     //刷新时间
     $scope.getCurrentDatetime=function()
     {

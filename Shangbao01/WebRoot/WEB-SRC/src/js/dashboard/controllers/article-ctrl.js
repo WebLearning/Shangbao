@@ -43,6 +43,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     $scope.testLog=function()
     {
         $scope.calculateWords();
+        $scope.calculatePictures();
 //        console.log($scope.recvData);
         console.log($scope.newArticleData);
     };
@@ -53,17 +54,19 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         for(p in $scope.newArticleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
                 $scope.newArticleData[p]=[];
-            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"){
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="outSideUrl"){
                 $scope.newArticleData[p]="";
             }else{
                 $scope.newArticleData[p]=null;
             }
         }
         $scope.calculateWords();
+        $scope.calculatePictures();
     };
 
     $scope.saveArticle=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.newArticleData);
         $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("保存文章成功");
@@ -72,6 +75,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     };
     $scope.pendArticleInNewArticle=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var url=$scope.projectName+"/article/newArticle/pend";
         var jsonString=JSON.stringify($scope.newArticleData);
         $http.post(url,jsonString).success(function(){
@@ -81,6 +85,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     };
     $scope.publishedArticleInNewArticle=function(){
         $scope.calculateWords();
+        $scope.calculatePictures();
         var url=$scope.projectName+"/article/newArticle/pend";
         var jsonString=JSON.stringify($scope.newArticleData);
         console.log(jsonString);
@@ -91,6 +96,8 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     };
     $scope.publishArticleInNewArticleTiming=function()
     {
+        $scope.calculateWords();
+        $scope.calculatePictures();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeInNewArticle.substr(0,10);
@@ -128,9 +135,9 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         return str;
     };
     //图片数-----------------------------------------------------
-    /*$scope.calculatePictures=function(){
+    $scope.calculatePictures=function(){
      $scope.newArticleData.pictures=$scope.newArticleData.picturesUrl.length;
-    }*/
+    };
     //刷新时间
     $scope.getCurrentDatetime=function()
     {

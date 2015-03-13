@@ -21,6 +21,7 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     $scope.testLog=function()
     {
         $scope.calculateWords();
+        $scope.calculatePictures();
         //console.log($scope.recvData);
         console.log($scope.articleData);
     };
@@ -29,13 +30,14 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
         for(p in $scope.articleData){
             if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.articleData[p]=[];
-            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"){
+            }else if(p=="author"||p=="content"||p=="from"||p=="subTitle"||p=="time"||p=="title"||p=="summary"||p=="activity"||p=="outSideUrl"){
                 $scope.articleData[p]="";
             }else{
                 $scope.articleData[p]=null;
             }
         }
         $scope.calculateWords();
+        $scope.calculatePictures();
     };
 
     //得到字数
@@ -47,9 +49,9 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
         return str.replace(/<[^>]+>/g,"");//去掉所有的html标记
     };
     //图片数-----------------------------------------------------
-    /*$scope.calculatePictures=function(){
-     $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
-     }*/
+    $scope.calculatePictures=function(){
+        $scope.articleData.pictures=$scope.articleData.picturesUrl.length;
+     };
     //刷新时间
     $scope.getCurrentDatetime=function()
     {
@@ -268,6 +270,8 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     };
     $scope.publishPictureArticleInPending=function()
     {
+        $scope.calculateWords();
+        $scope.calculatePictures();
        var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
        $http.put(url).success(function(){
            alert("发布成功");
@@ -276,6 +280,8 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     };
     $scope.publishPictureArticleInPendingTiming=function()
     {
+        $scope.calculateWords();
+        $scope.calculatePictures();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimePictureInPending.substr(0,10);
