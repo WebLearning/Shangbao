@@ -11,6 +11,7 @@ public class Title {
 	private String author;//作者
 	private String level;//等级
 	private int words;//字数
+	private int pictures;//图片数
 	private int newsCommendsPublish;//商报评论发表数
 	private int newsCommendsUnpublish;//商报评论未发表数
 	private int newsCommends;//商报评论数
@@ -50,6 +51,11 @@ public class Title {
 		setChannel(article.getChannel());
 		setActivity(article.getActivity());
 		setClicks(article.getClicks());
+		if(article.getPictures() > 0){
+			setPictures(article.getPictures());
+		}else{
+			setPictures(article.getPicturesUrl().size());
+		}
 	}
 
 	public String getTitle() {
@@ -82,6 +88,14 @@ public class Title {
 
 	public void setWords(int words) {
 		this.words = words;
+	}
+
+	public int getPictures() {
+		return pictures;
+	}
+
+	public void setPictures(int pictures) {
+		this.pictures = pictures;
 	}
 
 	public int getNewsCommends() {
