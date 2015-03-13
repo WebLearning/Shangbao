@@ -275,8 +275,10 @@ public class AppService {
 					int i = 1;
 					for(Article article : articles){
 						String articleTitle = article.getTitle();
-						backChannelModel.addTitle(articleTitle, i);
+						backChannelModel.addTitle(articleTitle, article.getId(), i);
 						i ++;
+						if(i >= 30)
+							break;
 					}
 					channels.add(backChannelModel);
 				}
@@ -314,7 +316,7 @@ public class AppService {
 			if(articles != null && !articles.isEmpty()){
 				int i = 1;
 				for(Article article : articles){
-					backChannelModel.addTitle(article.getTitle(), i);
+					backChannelModel.addTitle(article.getTitle(), article.getId(), i);
 					i ++;
 				}
 			}
@@ -453,11 +455,13 @@ public class AppService {
 		public List<Title> content = new ArrayList<Title>();
 		class Title{
 			public String title;
+			public long articleId;
 			public int index;
 		}
-		public void addTitle(String articleTitle, int index){
+		public void addTitle(String articleTitle, long articleId, int index){
 			Title title = new Title();
 			title.title = articleTitle;
+			title.articleId = articleId;
 			title.index = index;
 			this.content.add(title);
 		}

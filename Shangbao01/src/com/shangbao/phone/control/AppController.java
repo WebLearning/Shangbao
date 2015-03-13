@@ -190,8 +190,15 @@ public class AppController {
 				responseModel.setResultCode(1);
 				responseModel.setResultMsg("Success");
 			}
-			responseModel.setResultCode(0);
-			responseModel.setResultMsg("Login First");
+			else{
+				comment.setUserId(0);
+				comment.setUserName("商报网友");
+				appService.addComment(articleId, comment);
+				responseModel.setResultCode(1);
+				responseModel.setResultMsg("Success");
+			}
+//			responseModel.setResultCode(0);
+//			responseModel.setResultMsg("Login First");
 		}
 		return responseModel;
 	}

@@ -213,7 +213,7 @@ public class CommendServiceImp implements CommendService {
 	@Override
 	public void update(Commend commend, List<SingleCommend> singeCommends) {
 		List<Commend> commends = commendDaoImp.find(commend);
-		Update update = new Update();
+//		Update update = new Update();
 		List<SingleCommend> singleUpdateCommends = new ArrayList<>();
 		if(singeCommends != null && !singeCommends.isEmpty()){
 			for(SingleCommend singleCommend : singeCommends){
@@ -227,9 +227,10 @@ public class CommendServiceImp implements CommendService {
 				return;
 			}
 			for(SingleCommend singleCommend : singleUpdateCommends){
+				Update update = new Update();
 				update.push("commendList", singleCommend);
+				commendDaoImp.update(commend, update);
 			}
-			commendDaoImp.update(commend, update);
 		}
 	}
 
