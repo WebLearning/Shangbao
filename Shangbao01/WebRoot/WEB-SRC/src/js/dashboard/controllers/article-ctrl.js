@@ -65,39 +65,58 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     };
 
     $scope.saveArticle=function(){
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
+            $scope.newArticleData.content="";
+        }
         var jsonString=JSON.stringify($scope.newArticleData);
         $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("保存文章成功");
+            $scope.closeOver();
         });
         $scope.clearArticle();
     };
     $scope.pendArticleInNewArticle=function(){
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
+            $scope.newArticleData.content="";
+        }
         var url=$scope.projectName+"/article/newArticle/pend";
         var jsonString=JSON.stringify($scope.newArticleData);
         $http.post(url,jsonString).success(function(){
             alert("提交审核成功！");
             $scope.clearArticle();
+            $scope.closeOver();
         });
     };
     $scope.publishedArticleInNewArticle=function(){
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
+            $scope.newArticleData.content="";
+        }
         var url=$scope.projectName+"/article/newArticle/pend";
         var jsonString=JSON.stringify($scope.newArticleData);
         console.log(jsonString);
         $http.post(url,jsonString).success(function(){
             alert("发送成功！");
             $scope.clearArticle();
+            $scope.closeOver();
         });
     };
     $scope.publishArticleInNewArticleTiming=function()
     {
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
+            $scope.newArticleData.content="";
+        }
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeInNewArticle.substr(0,10);
@@ -115,6 +134,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             alert("定时成功");
             $('#Select_TimeInNewArticle').modal('toggle');
             $scope.clearArticle();
+            $scope.closeOver();
         });
     };
 

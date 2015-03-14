@@ -85,6 +85,9 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     $scope.saveArticleLocal=function(){
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.articleData.content="";
+        }
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
@@ -100,6 +103,9 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         //console.log("test new save");
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.articleData.content="";
+        }
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
@@ -121,6 +127,9 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     {
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.articleData.content="";
+        }
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
@@ -151,6 +160,9 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         console.log(time);
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.articleData.content="";
+        }
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;

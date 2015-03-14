@@ -91,14 +91,21 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }
     };
 
+//    $scope.setTime=function(b){
+//        setTimeout(b,20000);
+//    };
     //显示点击的文章
     $scope.showPublishedArticle=function(articleId)
     {
         var url=$scope.getPublishedArticleUrl(articleId);
 
+//        $scope.maskLayer();
+        $scope.coverIt();
         $http.get(url).success(function(data) {
             $scope.transDataToArticleData(data);
         });
+//        $scope.closeOver();
+//        setTimeout($scope.closeOver(),10000);
     };
 
     //排序(作者，评论数等）---------------------------------------------------------------------------------------------------------------

@@ -73,6 +73,9 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
     $scope.saveArticle=function(){
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.articleData.content="";
+        }
         var jsonString=JSON.stringify($scope.articleData);
         $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("保存文章成功");
@@ -83,6 +86,9 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
     $scope.putArticle=function(){
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.articleData.content="";
+        }
         var jsonString=JSON.stringify($scope.articleData);
         $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("提交审核文章成功");
@@ -103,6 +109,9 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
     {
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.articleData.content="";
+        }
         var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
            $http.put(url).success(function(){
 //                clearArticleSelections();
@@ -115,6 +124,9 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
     {
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.articleData.content="";
+        }
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeInPending.substr(0,10);

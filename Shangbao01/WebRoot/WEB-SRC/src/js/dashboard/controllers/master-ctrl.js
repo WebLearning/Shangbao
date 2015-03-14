@@ -94,10 +94,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         //如果是点击新建文章就清除文章里的数据
         if(str=="文章/新建"){
             clearNewArticleData();
+            $scope.newArticleData.time=new Date();
 //            $scope.setButtonInNewArticleForPending();
 //            $scope.setButtonInNewArticleForPublish();
         }else if(str=="快拍成都/新建"){
             clearNewArticleData();
+            $scope.newArticleData.time=new Date();
 //            $scope.setButtonInNewArticleForPending();
 //            $scope.setButtonInNewArticleForPublish();
         }else if(str=="文章/爬虫文章"){
@@ -2108,6 +2110,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $scope.getCommentDetailDataInPublishedPic(1);
         $scope.getCommentDetailTitleInPublishedPic(title,type);
     };
-
+    //------------------------------------------------------------------------------------------------------------------
+    //加载时显示转圈----------------------------------------------------------------------------------------------------
+//------------------------------------------------
+    $scope.coverIt=function(){
+        var cover = document.getElementById("cover");
+        var covershow = document.getElementById("coverShow");
+        cover.style.display = 'block';
+        covershow.style.display = 'block';
+    };
+    $scope.closeOver=function(){
+        var cover = document.getElementById("cover");
+        var covershow = document.getElementById("coverShow");
+        cover.style.display = 'none';
+        covershow.style.display = 'none';
+    };
 
 }]);

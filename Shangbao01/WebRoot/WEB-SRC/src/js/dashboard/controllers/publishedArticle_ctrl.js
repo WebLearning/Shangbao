@@ -105,6 +105,9 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     $scope.saveArticleInPublished=function(){
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.articleData.content="";
+        }
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Published/1/'+$scope.articleData.id;

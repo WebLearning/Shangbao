@@ -123,10 +123,12 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
     {
         var url=$scope.getCrawlerArticleUrl(articleId);
 
+        $scope.coverIt();
         $http.get(url).success(function(data) {
 //            console.log(data);
             $scope.transDataToArticleData(data);
         });
+//        $scope.closeOver();
     };
 
     //页面跳转------------------------------------------------------------------------------------------------------------
@@ -236,8 +238,10 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
     //对选取的文章进行操作
     $scope.deleteArticleSelections=function()
     {
+        $scope.coverIt();
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             if (confirm("确定删除选中的文章吗？")==true)
             {
@@ -246,6 +250,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
                     clearArticleSelections();
                     $scope.refreshCrawlerCur();
                     alert("删除成功");
+                    $scope.closeOver();
                 });
             }
         }
@@ -253,32 +258,39 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
 
     $scope.saveArticleSelections=function()
     {
+        $scope.coverIt();
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.refreshCrawlerCur();
                 alert("转草稿箱成功");
+                $scope.closeOver();
             });
         }
     };
     $scope.publishArticleSelectionsNowOutCrawler=function()
     {
+        $scope.coverIt();
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.refreshCrawlerCur();
                 alert("发布成功");
+                $scope.closeOver();
             });
         }
     };
     $scope.publishArticleSelectionsTimingOutCrawler=function()
     {
+        $scope.coverIt();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeOutCrawler.substr(0,10);
@@ -291,6 +303,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         console.log(time);
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/timingpublish/"+$scope.articleSelectionsUrl+"/"+time;
             console.log(url);
@@ -299,6 +312,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
                 $('#Select_TimeOutCrawler').modal('toggle');
                 clearArticleSelections();
                 $scope.refreshCrawlerCur();
+                $scope.closeOver();
             });
         }
     };
@@ -306,12 +320,15 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
     $scope.checkModifyNoteInCrawler=function(id){
         var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/"+id+"/log";
         console.log(url);
+        $scope.coverIt();
         $http.get(url).success(function(data){
             console.log(data);
             if(data.length>0){
                 alert("操作记录："+"["+data+"]");
+                $scope.closeOver();
             }else{
                 alert("无记录");
+                $scope.closeOver();
             }
         });
     };

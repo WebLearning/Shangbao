@@ -74,6 +74,9 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
         //console.log("test new save");
         $scope.calculateWords();
         $scope.calculatePictures();
+        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.articleData.content="";
+        }
         var jsonString=JSON.stringify($scope.articleData);
         //console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Revocation/1/'+$scope.articleData.id;

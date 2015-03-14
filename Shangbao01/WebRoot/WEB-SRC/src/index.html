@@ -86,12 +86,53 @@
         .commentDetailPage a:hover,.commentDetailPage a.on{background:#428BCA;color:#fff;border:1px solid #428BCA;}
         .commentDetailPage a.unclick,.commentDetailPage a.unclick:hover{background:none;border:1px solid #eee;color:#999;cursor:default;}
     </style>
+    <!--遮罩层样式-->
+    <style type="text/css">
+        #cover{
+            display:none;
+            position:fixed;
+            z-index:3001;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0, 0, 0, 0.44);
+        }
+        #coverShow{
+            display:none;
+            position:fixed;
+            z-index:3002;
+            top:50%;
+            left:50%;
+            border:1px solid #ffffff;
+            width:300px;
+            height:180px;
+            margin-left:-150px;
+            margin-top:-150px;
+            background:#ffffff;
+        }
+    </style>
 </head>
 <body ng-controller="MasterCtrl">
+<div id="cover"></div>
+<div id="coverShow">
+    <table align="center" border="0" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; height: 100px; min-height: 100px;" bgcolor="#ffffff">
+        <tr>
+            <td height="30" style="font-size: 16px">正在加载，请稍后....</td>
+            <td align="right"><button type="button" class="close" ng-click="closeOver()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></td>
+        </tr>
+        <tr>
+            <td height="80" align="center" bgcolor="#ffffff">
+                <img src="img/loadPic.gif" style="width: 100%;height: 100px">
+            </td>
+        </tr>
+    </table>
+</div>
 <!--<div id="loader" style="width: 50px;height: 50px"></div>-->
-  <div id="page-wrapper" ng-class="{'active': toggle}" class="active">
+<div>
+<div id="page-wrapper" ng-class="{'active': toggle}" class="active">
     <!-- Sidebar -->
-    <div id="sidebar-wrapper">
+    <div id="sidebar-wrapper" style="z-index: 1">
       <ul class="sidebar" role="tablist">
         <li class="sidebar-main">
           <a ng-href="#" ng-click="toggleSidebar()">
@@ -469,6 +510,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" >
+                                </div>
+                            </div>
                             <div class="panel panel-success">
                                 <div class="panel-body">
                                     <div class="ueditor" ng-model="articleData.content" ></div>
@@ -516,7 +563,7 @@
                                 <label class="col-md-1 control-label">时间</label>
                                 <div class="col-md-5">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" ng-model="newArticleData.time" disabled>
+                                        <input type="text" class="form-control" style="z-index: 1" ng-model="newArticleData.time" disabled>
                                         <div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"></span></div>
                                     </div>
                                 </div>
@@ -579,24 +626,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-2 control-label">是否外链文章</label>
-                                <br>
-                                <div class="col-md-10">
-                                    <div class="radio">
-                                        <label>
-                                            是<input type="radio" name="radios" id="newArticle_yes" value="true" ng-init="" ng-click="">
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            否<input type="radio" name="radios" id="newArticle_no" value="false" ng-init="" ng-click="">
-                                        </label>
-                                    </div>
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="newArticleData.outSideUrl" >
                                 </div>
                             </div>
                             <div class="panel panel-success">
                                 <div class="panel-body">
-                                    <div class="ueditor" ng-model="newArticleData.content" ></div>
+                                    <div style="z-index: 1" class="ueditor" ng-model="newArticleData.content" ></div>
                                     <br>
                                     <textarea class="form-control" rows="5" ng-model="newArticleData.content"></textarea>
                                 </div>
@@ -894,6 +931,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" >
+                                </div>
+                            </div>
                             <div class="panel panel-success">
                                 <div class="panel-body">
                                     <div class="ueditor" ng-model="articleData.content" ></div>
@@ -1110,21 +1153,21 @@
                             <div class="form-group">
                                 <label class="col-md-1 control-label">标题</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章标题" ng-model="articleData.title"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章标题" ng-model="articleData.title" disabled>
                                 </div>
                                 <label class="col-md-1 control-label">副标题</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章副标题" ng-model="articleData.subTitle"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章副标题" ng-model="articleData.subTitle" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-1 control-label">来源</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章来源" ng-model="articleData.from"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章来源" ng-model="articleData.from" disabled>
                                 </div>
                                 <label class="col-md-1 control-label">作者</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" placeholder="请输入文章作者" ng-model="articleData.author"disabled>
+                                    <input type="text" class="form-control" placeholder="请输入文章作者" ng-model="articleData.author" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -1190,11 +1233,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" disabled>
+                                </div>
+                            </div>
                             <div class="panel panel-success">
                                 <div class="panel-body">
                                     <div class="ueditor" ng-model="articleData.content" ></div>
                                     <br>
-                                    <textarea class="form-control" rows="5" ng-model="articleData.content"></textarea>
+                                    <textarea class="form-control" rows="5" ng-model="articleData.content" disabled></textarea>
                                 </div>
                             </div>
                             <div class="pull-right">
@@ -1342,7 +1391,7 @@
                                 <label class="col-md-1 control-label">时间</label>
                                 <div class="col-md-5">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" ng-model="articleData.time">
+                                        <input style="z-index: 1" type="text" class="form-control" ng-model="articleData.time">
                                         <div class="input-group-addon btn-success" ng-click="getCurrentDatetime()"><span class="glyphicon glyphicon-refresh"></span></div>
                                     </div>
                                 </div>
@@ -1404,8 +1453,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" >
+                                </div>
+                            </div>
                             <div class="panel panel-success">
-                                <div class="panel-body">
+                                <div style="z-index: 1" class="panel-body">
                                     <div class="ueditor" ng-model="articleData.content" ></div>
                                     <br>
                                     <textarea class="form-control" rows="5" ng-model="articleData.content"></textarea>
@@ -1804,6 +1859,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" >
+                                </div>
+                            </div>
                             <div class="panel panel-success">
                                 <div class="panel-body">
                                     <div class="ueditor" ng-model="articleData.content" ></div>
@@ -2082,6 +2143,12 @@
                                     <div class="col-md-2">
                                         <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addIMG_draft">添加图片</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" >
                                 </div>
                             </div>
                             <div class="panel panel-success">
@@ -3444,7 +3511,7 @@
                                 <div class="panel-body">
                                     <div class="ueditor" ng-model="articleData.content"></div>
                                     <br>
-                                    <textarea class="form-control" rows="5" ng-model="articleData.content"></textarea>
+                                    <textarea class="form-control" rows="5" ng-model="articleData.content" disabled></textarea>
                                 </div>
                             </div>
                             <div class="pull-right">
@@ -4469,7 +4536,9 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="complaint">
-                <div>投诉部分</div>
+                <div>
+                    <!--<iframe src="http://www.baidu.com"></iframe>-->
+                </div>
             </div>
         </div>
 
@@ -4477,7 +4546,7 @@
 	</div><!-- End Content Wrapper -->
 
   </div><!-- End Page Wrapper -->
-
+</div>
   <!-- put at last to ensure running -->
   <script>
       //load bootstrap tool tip
