@@ -52,6 +52,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     };
     $scope.sendPictureMessage=function(){
 //        console.log($scope.articleData.id);
+        $scope.coverIt();
         $scope.sendPictureMessageData.articleId=$scope.articleData.id;
 //        console.log($scope.sendPictureMessageData.message);
 //        console.log($scope.sendPictureMessageData.articleId);
@@ -62,17 +63,21 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         $http.post(url,jsonString).success(function(){
             alert("推送成功");
             $('#send_publishedPicture').modal('toggle');
+            $scope.closeOver();
         });
     };
     $scope.deletePictureArticleSelections=function()
     {
+        $scope.coverIt();
         var url=$scope.projectName+"/picture/Published/"+($scope.publishedPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
             alert("撤销成功");
             $scope.goPublishedPicture();
+            $scope.closeOver();
         });
     };
     $scope.saveArticleInPublished=function(){
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
@@ -81,6 +86,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         $http.put(url1,jsonString).success(function(){
             alert("保存成功");
             $scope.goPublishedPicture();
+            $scope.closeOver();
         });
     };
 

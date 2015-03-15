@@ -72,17 +72,20 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     //彻底删除-----
     $scope.deleteArticleInCrawler=function()
     {
+        $scope.coverIt();
             if (confirm("确定删除选中的文章吗？")==true)
             {
                 var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.delete(url).success(function(){
-                    alert("删除成功");
                     $scope.goCrawler();
+                    alert("删除成功");
+                    $scope.closeOver();
                 });
             }
     };
     //保存在本状态-----------------------------------------------------------------------------------------------------
     $scope.saveArticleLocal=function(){
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -93,14 +96,16 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
         $http.put(url1,jsonString).success(function(data){
             if(data=="true"){
-                alert("保存成功");
                 $scope.goCrawler();
+                alert("保存成功");
+                $scope.closeOver();
             }
         });
     };
     $scope.saveStateInCrawler1="";
     $scope.saveArticle=function(){
         //console.log("test new save");
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -116,8 +121,9 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
                 var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 //console.log(url);
                 $http.put(url).success(function() {
-                    alert("转草稿箱成功");
                     $scope.goCrawler();
+                    alert("转草稿箱成功");
+                    $scope.closeOver();
                 });
             }
         });
@@ -125,6 +131,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     $scope.saveStateInCrawler2="";
     $scope.publishArticleNowInCrawler=function()
     {
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -139,8 +146,9 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
             if($scope.saveStateInCrawler2=="true"){
                 var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.put(url).success(function(){
-                    alert("发布成功");
                     $scope.goCrawler();
+                    alert("发布成功");
+                    $scope.closeOver();
                 });
             }
         });
@@ -148,6 +156,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     $scope.saveStateInCrawler3="";
     $scope.publishArticleTimingInCrawler=function()
     {
+        $scope.coverIt();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeInCrawler.substr(0,10);
@@ -173,9 +182,10 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
                 var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
                 console.log(url);
                 $http.get(url).success(function(){
-                    alert("定时成功");
                     $('#Select_TimeInCrawler').modal('toggle');
                     $scope.goCrawler();
+                    alert("定时成功");
+                    $scope.closeOver();
                 });
             }
         });

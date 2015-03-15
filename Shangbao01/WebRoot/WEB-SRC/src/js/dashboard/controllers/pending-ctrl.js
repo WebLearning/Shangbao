@@ -35,6 +35,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     //排序---------------------------------------------------------------------------------------------------------------
     var wordsOrderState="desc";
     $scope.orderByWords=function(){
+        $scope.coverIt();
         if(wordsOrderState=="desc"){
             $scope.transOrderConditions("/words/asc");
             wordsOrderState="asc";
@@ -44,14 +45,17 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }
         if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
             $scope.getPendingData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.pendingSearchData.content);
             $scope.getPendingSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var newsCommendsOrderState="desc";
     $scope.orderByNewsCommends=function(){
+        $scope.coverIt();
         if(newsCommendsOrderState=="desc"){
             $scope.transOrderConditions("/newsCommends/asc");
             newsCommendsOrderState="asc";
@@ -61,13 +65,16 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }
         if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
             $scope.getPendingData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.pendingSearchData.content);
             $scope.getPendingSearchData(1);
+            $scope.closeOver();
         }
     };
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
+        $scope.coverIt();
         if(crawlerCommendsOrderState=="desc"){
             $scope.transOrderConditions("/crawlerCommends/asc");
             crawlerCommendsOrderState="asc";
@@ -77,14 +84,17 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }
         if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
             $scope.getPendingData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.pendingSearchData.content);
             $scope.getPendingSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var timeOrderState="desc";
     $scope.orderByTime=function(){
+        $scope.coverIt();
         if(timeOrderState=="desc"){
             $scope.transOrderConditions("/time/asc");
             timeOrderState="asc";
@@ -94,14 +104,17 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }
         if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
             $scope.getPendingData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.pendingSearchData.content);
             $scope.getPendingSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var clicksOrderState="desc";
     $scope.orderByClicks=function(){
+        $scope.coverIt();
         if(clicksOrderState=="desc"){
             $scope.transOrderConditions("/clicks/asc");
             clicksOrderState="asc";
@@ -111,14 +124,17 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }
         if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
             $scope.getPendingData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.pendingSearchData.content);
             $scope.getPendingSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var likesOrderState="desc";
     $scope.orderByLikes=function(){
+        $scope.coverIt();
         if(likesOrderState=="desc"){
             $scope.transOrderConditions("/likes/asc");
             likesOrderState="asc";
@@ -128,9 +144,11 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         }
         if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
             $scope.getPendingData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.pendingSearchData.content);
             $scope.getPendingSearchData(1);
+            $scope.closeOver();
         }
     };
 
@@ -310,8 +328,10 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     //删除-------------
     $scope.deleteArticleSelections=function()
     {
+        $scope.coverIt();
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             if (confirm("确定撤销选中的文章吗？")==true)
             {
@@ -320,6 +340,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
                     clearArticleSelections();
                     $scope.refreshPendingCur();
                     alert("撤销成功");
+                    $scope.closeOver();
                 });
             }
         }
@@ -327,20 +348,24 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
 //立刻发布--------------------------------------------------------------------------------------------------------
     $scope.publishArticleSelectionsNow=function()
     {
+        $scope.coverIt();
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.refreshPendingCur();
                 alert("发布成功");
+                $scope.closeOver();
             });
         }
     };
     //定时发布----------------------------------------------------------------------------------------------------------
     $scope.publishArticleSelectionsTiming=function()
     {
+        $scope.coverIt();
             var myDate=new Date();
             var myDateTime=myDate.getTime();
             var str1=$scope.publishTime.substr(0,10);
@@ -355,26 +380,31 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             console.log(time);
             if($scope.articleSelectionsUrl==""){
                 alert("未选取文章");
+                $scope.closeOver();
             }else{
                 var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/timingpublish/"+$scope.articleSelectionsUrl+"/"+time;
                 console.log(url);
                 $http.get(url).success(function(){
-                    alert("定时成功");
                     $('#Select_Time').modal('toggle');
                     clearArticleSelections();
                     $scope.refreshPendingCur();
+                    alert("定时成功");
+                    $scope.closeOver();
                 });
             }
     };
     $scope.checkModifyNoteInPending=function(id){
+        $scope.coverIt();
         var url=$scope.projectName+"/article/Crawler/"+($scope.pendingData.currentNo).toString()+"/"+id+"/log";
         console.log(url);
         $http.get(url).success(function(data){
             console.log(data);
             if(data.length>0){
                 alert("操作记录："+"["+data+"]");
+                $scope.closeOver();
             }else{
                 alert("无记录");
+                $scope.closeOver();
             }
         });
     };

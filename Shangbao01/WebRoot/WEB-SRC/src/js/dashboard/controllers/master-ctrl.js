@@ -2118,12 +2118,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         var covershow = document.getElementById("coverShow");
         cover.style.display = 'block';
         covershow.style.display = 'block';
+        alert("遮罩");
     };
     $scope.closeOver=function(){
         var cover = document.getElementById("cover");
         var covershow = document.getElementById("coverShow");
         cover.style.display = 'none';
         covershow.style.display = 'none';
+        alert("遮罩取消");
     };
 
 }]);

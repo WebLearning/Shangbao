@@ -72,6 +72,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
 
     $scope.saveArticle=function(){
         //console.log("test new save");
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -82,21 +83,27 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         var url=$scope.projectName+'/article/Temp/1/'+$scope.articleData.id;
         //console.log(url);
         $http.put(url,jsonString).success(function(data) {
-            alert("保存文章成功");
+//            alert("保存文章成功");
             $scope.goDraft();
+            alert("保存文章成功");
+            $scope.closeOver();
         });
     };
     $scope.deleteArticleInDraft=function()
     {
+        $scope.coverIt();
         var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
-            alert("删除成功");
+//            alert("删除成功");
             $scope.goDraft();
+            alert("删除成功");
+            $scope.closeOver();
         });
     };
     $scope.saveStateInDraft1="";
     $scope.submitArticleForPendingInDraft=function()
     {
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -112,8 +119,10 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
             if($scope.saveStateInDraft1=="true"){
                 var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.put(url).success(function(){
-                    alert("提交成功");
+//                    alert("提交成功");
                     $scope.goDraft();
+                    alert("提交成功");
+                    $scope.closeOver();
                 });
             }
         });
@@ -121,6 +130,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     $scope.saveStateInDraft2="";
     $scope.publishArticleNowInDraft=function()
     {
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -136,8 +146,10 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
             if($scope.saveStateInDraft2=="true"){
                 var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.put(url).success(function(){
-                    alert("发布成功");
+//                    alert("发布成功");
                     $scope.goDraft();
+                    alert("发布成功");
+                    $scope.closeOver();
                 });
             }
         });
@@ -145,6 +157,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     $scope.saveStateInDraft3="";
     $scope.publishArticleTimingInDraft=function()
     {
+        $scope.coverIt();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeInDraft.substr(0,10);
@@ -171,9 +184,11 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
                 console.log(url);
                 $http.get(url).success(function(){
-                    alert("定时成功");
+//                    alert("定时成功");
                     $('#Select_TimeInDraft').modal('toggle');
                     $scope.goDraft();
+                    alert("定时成功");
+                    $scope.closeOver();
                 });
             }
         });

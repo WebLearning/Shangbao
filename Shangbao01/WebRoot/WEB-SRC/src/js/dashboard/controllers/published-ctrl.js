@@ -111,6 +111,7 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
     //排序(作者，评论数等）---------------------------------------------------------------------------------------------------------------
     var wordsOrderState="desc";
     $scope.orderByWords=function(){
+        $scope.coverIt();
         if(wordsOrderState=="desc"){
             $scope.transOrderConditions("/words/asc");
             wordsOrderState="asc";
@@ -120,14 +121,17 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }
         if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
             $scope.getPublishedData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.publishedSearchData.content);
             $scope.getPublishedSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var newsCommendsPublishedOrderState="desc";
     $scope.orderByNewsCommendsPublished=function(){
+        $scope.coverIt();
         if(newsCommendsPublishedOrderState=="desc"){
             $scope.transOrderConditions("/newsCommendsPublish/asc");
             newsCommendsPublishedOrderState="asc";
@@ -137,13 +141,16 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }
         if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
             $scope.getPublishedData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.publishedSearchData.content);
             $scope.getPublishedSearchData(1);
+            $scope.closeOver();
         }
     };
     var newsCommendsUnPublishedOrderState="desc";
     $scope.orderByNewsCommendsUnPublished=function(){
+        $scope.coverIt();
         if(newsCommendsUnPublishedOrderState=="desc"){
             $scope.transOrderConditions("/newsCommendsUnpublish/asc");
             newsCommendsUnPublishedOrderState="asc";
@@ -153,13 +160,16 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }
         if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
             $scope.getPublishedData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.publishedSearchData.content);
             $scope.getPublishedSearchData(1);
+            $scope.closeOver();
         }
     };
     var crawlerCommendsPublishedOrderState="desc";
     $scope.orderByCrawlerCommendsPublished=function(){
+        $scope.coverIt();
         if(crawlerCommendsPublishedOrderState=="desc"){
             $scope.transOrderConditions("/crawlerCommendsPublish/asc");
             crawlerCommendsPublishedOrderState="asc";
@@ -169,13 +179,16 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }
         if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
             $scope.getPublishedData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.publishedSearchData.content);
             $scope.getPublishedSearchData(1);
+            $scope.closeOver();
         }
     };
     var crawlerCommendsUnPublishedOrderState="desc";
     $scope.orderByCrawlerCommendsUnPublished=function(){
+        $scope.coverIt();
         if(crawlerCommendsUnPublishedOrderState=="desc"){
             $scope.transOrderConditions("/crawlerCommendsUnpublish/asc");
             crawlerCommendsUnPublishedOrderState="asc";
@@ -185,14 +198,17 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }
         if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
             $scope.getPublishedData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.publishedSearchData.content);
             $scope.getPublishedSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var timeOrderState="desc";
     $scope.orderByTime=function(){
+        $scope.coverIt();
         if(timeOrderState=="desc"){
             $scope.transOrderConditions("/time/asc");
             timeOrderState="asc";
@@ -202,14 +218,17 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }
         if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
             $scope.getPublishedData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.publishedSearchData.content);
             $scope.getPublishedSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var clicksOrderState="desc";
     $scope.orderByClicks=function(){
+        $scope.coverIt();
         if(clicksOrderState=="desc"){
             $scope.transOrderConditions("/clicks/asc");
             clicksOrderState="asc";
@@ -219,14 +238,17 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }
         if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
             $scope.getPublishedData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.publishedSearchData.content);
             $scope.getPublishedSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var likesOrderState="desc";
     $scope.orderByLikes=function(){
+        $scope.coverIt();
         if(likesOrderState=="desc"){
             $scope.transOrderConditions("/likes/asc");
             likesOrderState="asc";
@@ -236,9 +258,11 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         }
         if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
             $scope.getPublishedData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.publishedSearchData.content);
             $scope.getPublishedSearchData(1);
+            $scope.closeOver();
         }
     };
 
@@ -334,8 +358,10 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
     //对选取的文章进行操作
     $scope.deleteArticleSelections=function()
     {
+        $scope.coverIt();
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             if (confirm("确定撤销选中的文章吗？")==true)
             {
@@ -344,20 +370,24 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
                     clearArticleSelections();
                     $scope.refreshPublishedCur();
                     alert("撤销成功");
+                    $scope.closeOver();
                 });
             }
         }
     };
     //查看修改记录------------------------------------------------------------------------------------------------------
     $scope.checkModifyNote=function(id){
+        $scope.coverIt();
         var url=$scope.projectName+"/article/Published/"+($scope.publishedData.currentNo).toString()+"/"+id+"/log";
         console.log(url);
         $http.get(url).success(function(data){
             console.log(data);
             if(data.length>0){
                 alert("操作记录："+"["+data+"]");
+                $scope.closeOver();
             }else{
                 alert("无记录");
+                $scope.closeOver();
             }
         });
     };

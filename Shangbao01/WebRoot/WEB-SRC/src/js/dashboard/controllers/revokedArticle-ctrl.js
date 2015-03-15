@@ -71,6 +71,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
     };
     $scope.saveStateInRevoked1="";
     $scope.saveArticle=function(){
+        $scope.coverIt();
         //console.log("test new save");
         $scope.calculateWords();
         $scope.calculatePictures();
@@ -89,12 +90,14 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                 $http.put(url).success(function(data) {
                     alert("转草稿箱成功");
                     $scope.goRevoked();
+                    $scope.closeOver();
                 });
             }
         });
     };
     $scope.deleteArticleInRevoked=function()
     {
+        $scope.coverIt();
             if (confirm("确定删除选中的文章吗？")==true)
             {
                 var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
@@ -102,6 +105,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
 //                    clearArticleSelections();
                     $scope.goRevoked();
                     alert("删除成功");
+                    $scope.closeOver();
                 });
             }
     };

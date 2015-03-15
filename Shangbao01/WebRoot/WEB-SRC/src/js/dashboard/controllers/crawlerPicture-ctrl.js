@@ -195,8 +195,10 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
     //对选取的文章进行操作
     $scope.deleteArticleSelections=function()
     {
+        $scope.coverIt();
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             if (confirm("确定删除选中的文章吗？")==true)
             {
@@ -205,6 +207,7 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
                     clearArticleSelections();
                     $scope.refreshCrawlerPictureCur();
                     alert("删除成功");
+                    $scope.closeOver();
                 });
             }
         }
@@ -212,31 +215,39 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
 
     $scope.savePictureArticleSelections=function()
     {
+        $scope.coverIt();
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.refreshCrawlerPictureCur();
                 alert("转暂存成功");
+                $scope.closeOver();
             });
         }
     };
-    $scope.publishedPictureArticleSelectionsOutCrawlerPictureNow=function(){
+    $scope.publishedPictureArticleSelectionsOutCrawlerPictureNow=function()
+    {
+        $scope.coverIt();
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
             $http.put(url).success(function(){
                 clearArticleSelections();
                 $scope.refreshCrawlerPictureCur();
                 alert("发布成功");
+                $scope.closeOver();
             });
         }
     };
     $scope.publishedPictureArticleSelectionsTimingOutCrawlerPicture=function()
     {
+        $scope.coverIt();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeOutCrawlerPicture.substr(0,10);
@@ -249,33 +260,40 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
         console.log(time);
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
+            $scope.closeOver();
         }else{
             var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleSelectionsUrl+"/"+time;
             console.log(url);
             $http.get(url).success(function(){
-                alert("定时成功");
                 $('#Select_TimeOutCrawlerPicture').modal('toggle');
                 clearArticleSelections();
                 $scope.refreshCrawlerPictureCur();
+                alert("定时成功");
+                $scope.closeOver();
             });
         }
     };
     //查看修改记录------------------------------------------------------------------------------------------------------
-    $scope.checkModifyNoteInCrawlerPicture=function(id){
+    $scope.checkModifyNoteInCrawlerPicture=function(id)
+    {
+        $scope.coverIt();
         var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/"+id+"/log";
         console.log(url);
         $http.get(url).success(function(data){
             console.log(data);
             if(data.length>0){
                 alert("操作记录："+"["+data+"]");
+                $scope.closeOver();
             }else{
                 alert("无记录");
+                $scope.closeOver();
             }
         });
     };
     //排序---------------------------------------------------------------------------------------------------------------
     var wordsOrderState="desc";
     $scope.orderByWords=function(){
+        $scope.coverIt();
         if(wordsOrderState=="desc"){
             $scope.transOrderConditions("/words/asc");
             wordsOrderState="asc";
@@ -285,14 +303,17 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
         }
         if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
             $scope.getCrawlerPictureData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerPictureSearchData.content);
             $scope.getCrawlerPictureSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var newsCommendsOrderState="desc";
     $scope.orderByNewsCommends=function(){
+        $scope.coverIt();
         if(newsCommendsOrderState=="desc"){
             $scope.transOrderConditions("/newsCommends/asc");
             newsCommendsOrderState="asc";
@@ -302,13 +323,16 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
         }
         if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
             $scope.getCrawlerPictureData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerPictureSearchData.content);
             $scope.getCrawlerPictureSearchData(1);
+            $scope.closeOver();
         }
     };
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
+        $scope.coverIt();
         if(crawlerCommendsOrderState=="desc"){
             $scope.transOrderConditions("/crawlerCommends/asc");
             crawlerCommendsOrderState="asc";
@@ -318,14 +342,17 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
         }
         if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
             $scope.getCrawlerPictureData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerPictureSearchData.content);
             $scope.getCrawlerPictureSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var timeOrderState="desc";
     $scope.orderByTime=function(){
+        $scope.coverIt();
         if(timeOrderState=="desc"){
             $scope.transOrderConditions("/time/asc");
             timeOrderState="asc";
@@ -335,14 +362,17 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
         }
         if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
             $scope.getCrawlerPictureData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerPictureSearchData.content);
             $scope.getCrawlerPictureSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var clicksOrderState="desc";
     $scope.orderByClicks=function(){
+        $scope.coverIt();
         if(clicksOrderState=="desc"){
             $scope.transOrderConditions("/clicks/asc");
             clicksOrderState="asc";
@@ -352,14 +382,17 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
         }
         if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
             $scope.getCrawlerPictureData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerPictureSearchData.content);
             $scope.getCrawlerPictureSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var likesOrderState="desc";
     $scope.orderByLikes=function(){
+        $scope.coverIt();
         if(likesOrderState=="desc"){
             $scope.transOrderConditions("/likes/asc");
             likesOrderState="asc";
@@ -369,9 +402,11 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
         }
         if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
             $scope.getCrawlerPictureData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerPictureSearchData.content);
             $scope.getCrawlerPictureSearchData(1);
+            $scope.closeOver();
         }
     };
 }]);

@@ -71,6 +71,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
     };
 
     $scope.saveArticle=function(){
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -80,10 +81,12 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("保存文章成功");
             $scope.goPending();
+            $scope.closeOver();
         });
     };
 
     $scope.putArticle=function(){
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -93,20 +96,24 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
             alert("提交审核文章成功");
             $scope.goPending();
+            $scope.closeOver();
         });
     };
     $scope.deleteArticleInPending=function()
     {
+        $scope.coverIt();
         var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
 //            clearArticleSelections();
 //            $scope.getPendingData(1);
             alert("撤销成功");
             $scope.goPending();
+            $scope.closeOver();
         });
     };
     $scope.publishArticleNowInPending=function()
     {
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -118,10 +125,12 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
 //                $scope.getPendingData(1);
                alert("发布成功");
                $scope.goPending();
+               $scope.closeOver();
            });
     };
     $scope.publishArticleTimingInPending=function()
     {
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -145,6 +154,7 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
             alert("定时成功");
             $('#Select_TimeInPending').modal('toggle');
             $scope.goPending();
+            $scope.closeOver();
 //                clearArticleSelections();
 //                $scope.getPendingData(1);
         });

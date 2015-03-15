@@ -86,6 +86,7 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
     //排序---------------------------------------------------------------------------------------------------------------
     var orderState="desc";
     $scope.orderByState=function(){
+        $scope.coverIt();
         if(orderState=="desc"){
 //            $scope.orderCondition="/state";
             $scope.transOrderConditions("/state/asc");
@@ -96,9 +97,11 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
 //            $scope.getCommentData(1);
         }
         $scope.getCommentData(1);
+        $scope.closeOver();
     };
     var orderNewsCommendsPublish="desc";
     $scope.orderByNewsCommendsPublish=function(){
+        $scope.coverIt();
         if(orderNewsCommendsPublish=="desc"){
 //            $scope.orderCondition="/newsCommends";
             $scope.transOrderConditions("/newsCommendsPublish/asc");
@@ -110,9 +113,11 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
             orderNewsCommendsPublish="desc";
         }
         $scope.getCommentData(1);
+        $scope.closeOver();
     };
     var orderNewsCommendsUnPublish="desc";
     $scope.orderByNewsCommendsUnPublish=function(){
+        $scope.coverIt();
         if(orderNewsCommendsUnPublish=="desc"){
 //            $scope.orderCondition="/newsCommends";
             $scope.transOrderConditions("/newsCommendsUnpublish/asc");
@@ -124,9 +129,11 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
             orderNewsCommendsUnPublish="desc";
         }
         $scope.getCommentData(1);
+        $scope.closeOver();
     };
     var orderCrawlerCommendsPublish="desc";
     $scope.orderByCrawlerCommendsPublish=function(){
+        $scope.coverIt();
         if(orderCrawlerCommendsPublish=="desc"){
 //            $scope.orderCondition="/crawlerCommends";
             $scope.transOrderConditions("/crawlerCommendsPublish/asc");
@@ -139,9 +146,11 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
 //            $scope.getCommentData(1);
         }
         $scope.getCommentData(1);
+        $scope.closeOver();
     };
     var orderCrawlerCommendsUnPublish="desc";
     $scope.orderByCrawlerCommendsUnPublish=function(){
+        $scope.coverIt();
         if(orderCrawlerCommendsUnPublish=="desc"){
 //            $scope.orderCondition="/crawlerCommends";
             $scope.transOrderConditions("/crawlerCommendsUnpublish/asc");
@@ -154,6 +163,7 @@ angular.module("Dashboard").controller("commentCtrl", ["$scope","$http", functio
 //            $scope.getCommentData(1);
         }
         $scope.getCommentData(1);
+        $scope.closeOver();
     };
 }]);
 

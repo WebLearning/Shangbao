@@ -77,6 +77,7 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
 
     $scope.addChannel=function()
     {
+        $scope.coverIt();
         var url=$scope.projectName+'/channel/'+ulrfyChannelState($scope.newChannelDataState);//Father|Son|Activity
         //console.log(url);
         //console.log($scope.newChannelData);
@@ -86,8 +87,10 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
                 $('#myModal_newChannel').modal('toggle');
                 $scope.clearNewChannel();
                 $scope.refreshManagePage();
+                $scope.closeOver();
             }else{
                 alert("添加失败");
+                $scope.closeOver();
             }
         });
     };
@@ -113,6 +116,7 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
 
     $scope.deleteChannel=function(channelName,englishName,channelState)
     {
+        $scope.coverIt();
         if(channelState=="Father"){
             if (confirm("确认删除该分类及其下级分类？")==true){
                 reallyDeleteChannel(channelName,englishName,channelState);
@@ -130,10 +134,13 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
             channelInfo['englishName']=englishName;
             $http.post(url,channelInfo).success(function(data){
                 if(data=="OK"){
-                    alert("删除成功");
+//                    alert("删除成功");
                     $scope.refreshManagePage();
+                    alert("删除成功");
+                    $scope.closeOver();
                 }else{
                     alert("删除失败");
+                    $scope.closeOver();
                 }
             });
 
@@ -145,16 +152,22 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
 
     $scope.upMove=function(father,state,index)
     {
+        $scope.coverIt();
         if((index-1)==0){
             alert("已到达顶部");
+            $scope.closeOver();
         }else{
             var url=$scope.projectName+'/channel/'+father+'/'+state+'/swap/'+index+'/'+(index-1);
             //console.log(url);
             $http.put(url).success(function(data){
                 if(data=='done'){
+//                    alert("上移成功");
                     $scope.refreshManagePage();
+                    alert("上移成功");
+                    $scope.closeOver();
                 }else{
                     alert('上移失败');
+                    $scope.closeOver();
                 }
             });
         }
@@ -162,6 +175,7 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
 
     $scope.downMove=function(father,state,index)
     {
+        $scope.coverIt();
         var maxIndex;
         if(father=='top'){
             maxIndex=$scope.appNames.length;
@@ -171,14 +185,19 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
 
         if(index==maxIndex){
             alert("已到达底部");
+            $scope.closeOver();
         }else{
             var url=$scope.projectName+'/channel/'+father+'/'+state+'/swap/'+index+'/'+(index+1);
             //console.log(url);
             $http.put(url).success(function(data){
                 if(data=='done'){
+//                    alert("下移成功");
                     $scope.refreshManagePage();
+                    alert("下移成功");
+                    $scope.closeOver();
                 }else{
                     alert('下移失败');
+                    $scope.closeOver();
                 }
             });
         }

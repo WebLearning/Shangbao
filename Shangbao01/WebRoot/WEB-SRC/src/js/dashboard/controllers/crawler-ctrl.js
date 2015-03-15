@@ -308,10 +308,10 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
             var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/timingpublish/"+$scope.articleSelectionsUrl+"/"+time;
             console.log(url);
             $http.get(url).success(function(){
-                alert("定时成功");
                 $('#Select_TimeOutCrawler').modal('toggle');
                 clearArticleSelections();
                 $scope.refreshCrawlerCur();
+                alert("定时成功");
                 $scope.closeOver();
             });
         }
@@ -336,6 +336,7 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
     //排序---------------------------------------------------------------------------------------------------------------
     var wordsOrderState="desc";
     $scope.orderByWords=function(){
+        $scope.coverIt();
         if(wordsOrderState=="desc"){
             $scope.transOrderConditions("/words/asc");
             wordsOrderState="asc";
@@ -345,14 +346,17 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         }
         if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
             $scope.getCrawlerData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerSearchData.content);
             $scope.getCrawlerSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var newsCommendsOrderState="desc";
     $scope.orderByNewsCommends=function(){
+        $scope.coverIt();
         if(newsCommendsOrderState=="desc"){
             $scope.transOrderConditions("/newsCommends/asc");
             newsCommendsOrderState="asc";
@@ -362,13 +366,16 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         }
         if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
             $scope.getCrawlerData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerSearchData.content);
             $scope.getCrawlerSearchData(1);
+            $scope.closeOver();
         }
     };
     var crawlerCommendsOrderState="desc";
     $scope.orderByCrawlerCommends=function(){
+        $scope.coverIt();
         if(crawlerCommendsOrderState=="desc"){
             $scope.transOrderConditions("/crawlerCommends/asc");
             crawlerCommendsOrderState="asc";
@@ -378,14 +385,17 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         }
         if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
             $scope.getCrawlerData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerSearchData.content);
             $scope.getCrawlerSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var timeOrderState="desc";
     $scope.orderByTime=function(){
+        $scope.coverIt();
         if(timeOrderState=="desc"){
             $scope.transOrderConditions("/time/asc");
             timeOrderState="asc";
@@ -395,14 +405,17 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         }
         if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
             $scope.getCrawlerData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerSearchData.content);
             $scope.getCrawlerSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var clicksOrderState="desc";
     $scope.orderByClicks=function(){
+        $scope.coverIt();
         if(clicksOrderState=="desc"){
             $scope.transOrderConditions("/clicks/asc");
             clicksOrderState="asc";
@@ -412,14 +425,17 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         }
         if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
             $scope.getCrawlerData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerSearchData.content);
             $scope.getCrawlerSearchData(1);
+            $scope.closeOver();
         }
     };
 
     var likesOrderState="desc";
     $scope.orderByLikes=function(){
+        $scope.coverIt();
         if(likesOrderState=="desc"){
             $scope.transOrderConditions("/likes/asc");
             likesOrderState="asc";
@@ -429,9 +445,11 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         }
         if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
             $scope.getCrawlerData(1);
+            $scope.closeOver();
         }else{
             console.log($scope.crawlerSearchData.content);
             $scope.getCrawlerSearchData(1);
+            $scope.closeOver();
         }
     };
 

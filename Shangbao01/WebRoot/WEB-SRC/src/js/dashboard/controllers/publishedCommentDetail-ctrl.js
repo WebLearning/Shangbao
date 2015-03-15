@@ -241,18 +241,22 @@ angular.module("Dashboard").controller("publishedCommentDetailsCtrl", ["$scope",
     //排序---------------------------------------------------------------------------------------------------------------
     var orderFromState="desc";
     $scope.orderByFrom=function(){
+        $scope.coverIt();
         if(orderFromState=="desc"){
             $scope.transOrderConditions("/from/asc");
             orderFromState="asc";
             $scope.getCommentDetailDataInPublished(1);
+            $scope.closeOver();
         }else if(orderFromState=="asc"){
             $scope.transOrderConditions("/from/desc");
             orderFromState="desc";
             $scope.getCommentDetailDataInPublished(1);
+            $scope.closeOver();
         }
     };
     var orderLevelState="desc";
     $scope.orderByLevel=function(){
+        $scope.coverIt();
         if(orderLevelState=="desc"){
             $scope.transOrderConditions("/level/asc");
             orderLevelState="asc";
@@ -261,10 +265,12 @@ angular.module("Dashboard").controller("publishedCommentDetailsCtrl", ["$scope",
             orderLevelState="desc";
         }
         $scope.getCommentDetailDataInPublished(1);
+        $scope.closeOver();
     };
 
     var timeOrderState="desc";
     $scope.orderByTime=function(){
+        $scope.coverIt();
         if(timeOrderState=="desc"){
             $scope.transOrderConditions("/time/asc");
             timeOrderState="asc";
@@ -273,9 +279,11 @@ angular.module("Dashboard").controller("publishedCommentDetailsCtrl", ["$scope",
             timeOrderState="desc";
         }
         $scope.getCommentDetailDataInPublished(1);
+        $scope.closeOver();
     };
     var orderStateState="desc";
     $scope.orderByState=function(){
+        $scope.coverIt();
         if(orderStateState=="desc"){
             $scope.transOrderConditions("/state/asc");
             orderStateState="asc";
@@ -284,6 +292,7 @@ angular.module("Dashboard").controller("publishedCommentDetailsCtrl", ["$scope",
             orderStateState="desc";
         }
         $scope.getCommentDetailDataInPublished(1);
+        $scope.closeOver();
     };
 
     //对一篇文章新建评论------------------------------------------------------------------------------------------------

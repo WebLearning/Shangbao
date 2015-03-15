@@ -71,6 +71,7 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
     };
     $scope.saveStateInRevokedPicture1="";
     $scope.savePictureArticle=function(){
+        $scope.coverIt();
         //console.log("test new save");
         $scope.calculateWords();
         $scope.calculatePictures();
@@ -86,17 +87,20 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
                 $http.put(url).success(function() {
                     alert("转草稿箱成功");
                     $scope.goRevokedPicture();
+                    $scope.closeOver();
                 });
             }
         });
     };
     $scope.deletePictureArticleInRevocation=function()
     {
+        $scope.coverIt();
             if (confirm("确定删除选中的文章吗？")==true) {
                 var url = $scope.projectName + "/picture/Revocation/" + ($scope.revokedPictureData.currentNo).toString() + "/statechange/" + $scope.articleData.id;
                 $http.delete(url).success(function () {
                     alert("删除成功");
                     $scope.goRevokedPicture();
+                    $scope.closeOver();
                 });
             }
     };

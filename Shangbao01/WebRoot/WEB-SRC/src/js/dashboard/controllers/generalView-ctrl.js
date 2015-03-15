@@ -60,32 +60,38 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
 
     //设置文章的位置(上移一位，下移一位)--------------------------------------------------------------------------------
     $scope.upGeneralViewArticle=function(channelEnglishName,index){
+        $scope.coverIt();
         var url=$scope.projectName+'/backapp/setlocation/'+channelEnglishName+'/'+index+'/true';
         //console.log(url);
         $http.put(url).success(function(){
             console.log("上移成功");
             $scope.getNewGeneralViewData();
+            $scope.closeOver();
 //            $scope.getNewGeneralViewData();
             //console.log("上移成功");
         });
     };
     $scope.downGeneralViewArticle=function(channelEnglishName,index){
+        $scope.coverIt();
         var url=$scope.projectName+'/backapp/setlocation/'+channelEnglishName+'/'+index+'/false';
         //console.log(url);
         $http.put(url).success(function(){
             console.log("下移成功");
             $scope.getNewGeneralViewData();
+            $scope.closeOver();
             //console.log("下移成功");
         });
     };
     //将文章置顶--------------------------------------------------------------------------------------------------------
     $scope.topGeneralViewArticle=function(channelEnglishName,index){
+        $scope.coverIt();
         var url=$scope.projectName+'/backapp/settop/'+channelEnglishName+'/'+index;
         //console.log(url);
         $http.put(url).success(function(){
             //console.log(data);
             console.log("置顶成功");
             $scope.getNewGeneralViewData();
+            $scope.coverIt();
         });
     };
 //-----------------------------------------------------------------------------------------------------------------------

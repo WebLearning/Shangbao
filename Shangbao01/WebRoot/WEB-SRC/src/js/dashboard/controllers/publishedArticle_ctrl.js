@@ -81,6 +81,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         inputMessageid.setAttribute("value",inputMessageid.value);
     };
     $scope.sendMessage=function(){
+        $scope.coverIt();
 //        console.log($scope.articleData.id);
         $scope.sendMessageData.articleId=$scope.articleData.id;
 //        console.log($scope.sendMessageData.message);
@@ -92,17 +93,21 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         $http.post(url,jsonString).success(function(){
             alert("推送成功");
             $('#send_published').modal('toggle');
+            $scope.closeOver();
         });
     };
     $scope.deleteArticleInPublished=function()
     {
+        $scope.coverIt();
         var url=$scope.projectName+"/article/Published/"+($scope.publishedData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
             alert("撤销成功");
             $scope.goPublished();
+            $scope.closeOver();
         });
     };
     $scope.saveArticleInPublished=function(){
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
@@ -114,6 +119,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         $http.put(url1,jsonString).success(function(){
             alert("保存成功");
             $scope.goPublished();
+            $scope.closeOver();
         });
     };
 

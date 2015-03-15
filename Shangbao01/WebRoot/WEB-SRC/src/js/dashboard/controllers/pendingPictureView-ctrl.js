@@ -262,24 +262,29 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     //添加功能----------------------------------------------------------------------------------------------------------
     $scope.deletePictureArticleInPending=function()
     {
+        $scope.coverIt();
         var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
             alert("撤销成功");
             $scope.goPendingPicture();
+            $scope.closeOver();
         });
     };
     $scope.publishPictureArticleInPending=function()
     {
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
        var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
        $http.put(url).success(function(){
            alert("发布成功");
            $scope.goPendingPicture();
+           $scope.closeOver();
        });
     };
     $scope.publishPictureArticleInPendingTiming=function()
     {
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         var myDate=new Date();
@@ -298,6 +303,7 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
             alert("定时成功");
            $('#Select_TimePictureInPending').modal('toggle');
             $scope.goPendingPicture();
+            $scope.closeOver();
         });
     };
     //关于上传图片的----------------------------------------------------------------------------------------------

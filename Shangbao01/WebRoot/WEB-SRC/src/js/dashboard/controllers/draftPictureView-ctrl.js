@@ -71,6 +71,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
     };
 
     $scope.savePictureArticle=function(){
+        $scope.coverIt();
         //console.log("test new save");
         $scope.calculateWords();
         $scope.calculatePictures();
@@ -79,21 +80,27 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
         var url=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
         $http.put(url,jsonString).success(function(data) {
 //            $scope.saveStateInDraftPic1=data;
-            alert("保存文章成功");
+//            alert("保存文章成功");
             $scope.goDraftPicture();
+            alert("保存文章成功");
+            $scope.closeOver();
         });
     };
     $scope.deletePictureArticleInDraftPicture=function()
     {
+        $scope.coverIt();
         var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
-            alert("删除成功");
+//            alert("删除成功");
             $scope.goDraftPicture();
+            alert("删除成功");
+            $scope.closeOver();
         });
     };
     $scope.saveStateInDraftPic1="";
     $scope.submitPictureArticleInDraftPicture=function()
     {
+        $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
@@ -106,8 +113,10 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
             if($scope.saveStateInDraftPic1=="true"){
                 $http.put(url).success(function(){
-                    alert("提交成功");
+//                    alert("提交成功");
                     $scope.goDraftPicture();
+                    alert("提交成功");
+                    $scope.closeOver();
                 });
             }
         });
@@ -115,6 +124,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
     $scope.saveStateInDraftPic2="";
     $scope.publishArticleTimingInDraftPicture=function()
     {
+        $scope.coverIt();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeInDraftPicture.substr(0,10);
@@ -137,9 +147,11 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             console.log(url);
             if($scope.saveStateInDraftPic2=="true"){
                 $http.get(url).success(function(){
-                    alert("定时成功");
+//                    alert("定时成功");
                     $('#Select_TimeInDraftPicture').modal('toggle');
                     $scope.goDraftPicture();
+                    alert("定时成功");
+                    $scope.closeOver();
                 });
             }
         });
