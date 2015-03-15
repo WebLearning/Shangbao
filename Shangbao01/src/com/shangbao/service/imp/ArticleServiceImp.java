@@ -20,6 +20,7 @@ import com.shangbao.model.persistence.Article;
 import com.shangbao.model.show.Page;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.ArticleService;
+import com.shangbao.service.ChannelService;
 import com.shangbao.service.PendTagService;
 
 @Service
@@ -29,6 +30,8 @@ public class ArticleServiceImp implements ArticleService {
 	private ArticleDao articleDaoImp;
 	@Resource
 	private PendTagService pendTagServiceImp;
+	@Resource
+	private ChannelService channelServiceImp;
 	
 	public ArticleDao getArticleDaoImp() {
 		return articleDaoImp;

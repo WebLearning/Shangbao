@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.annotation.Resource;
 
@@ -51,12 +52,19 @@ public class AppModel {
 	private PendTagService pendTagServiceImp;
 	
 	private final Map<String, List<String>> startPictures = new ConcurrentHashMap<String, List<String>>();//启动显示图片
+	private ReentrantReadWriteLock startPicLock = new ReentrantReadWriteLock();
 	private final Map<String, List<Article>> appMap = new ConcurrentHashMap<String, List<Article>>();//每个channel包含的文章
+	private ReentrantReadWriteLock appMapLock = new ReentrantReadWriteLock();
 	private final List<ChannelModel> channelModels = new CopyOnWriteArrayList<ChannelModel>();//所有的channel
+	private ReentrantReadWriteLock channelModelsLock = new ReentrantReadWriteLock();
 	private final Map<Long, List<SingleCommend>> commends = new ConcurrentHashMap<Long, List<SingleCommend>>();//每篇文章的评论
+	private ReentrantReadWriteLock commendsLock = new ReentrantReadWriteLock();
 	private final List<Channel> activities = new CopyOnWriteArrayList<Channel>();
+	private ReentrantReadWriteLock activitiesLock = new ReentrantReadWriteLock();
 	private final Map<String, String> channelEn_Cn = new ConcurrentHashMap<String, String>();//key:英文名； value:中文名
+	private ReentrantReadWriteLock channelEn_CnLock = new ReentrantReadWriteLock();
 	private final Map<Long, Article> articleMap = new ConcurrentHashMap<>();//key是文章的id，value对应一篇文章
+	private ReentrantReadWriteLock articleMapLock = new ReentrantReadWriteLock();
 	
 	
 	@Autowired
@@ -74,9 +82,12 @@ public class AppModel {
 		//初始化appMap，articleMap
 		//List<Channel> channels = channelDaoImp.find(new Channel());
 		List<Channel> channels = getChannelOrdered();
+		List<String> channelNames = new ArrayList<>();
 		for(Channel channel : channels){
-			redeployChannelArticles(channel.getChannelName());
+			channelNames.add(channel.getChannelName());
 		}
+		redeployChannelArticles(channelNames);
+		
 		//打印
 		for(String key : appMap.keySet()){
 			System.out.println("key: " + key + "  value: ");
@@ -89,9 +100,12 @@ public class AppModel {
 		Article criteriaArticle = new Article();
 		criteriaArticle.setState(ArticleState.Published);
 		List<Article> articles = articleDaoImp.find(criteriaArticle);
+		List<Long> articleIds = new ArrayList<>();
 		for(Article article : articles){
-			redeployComment(article.getId());
+			//redeployComment(article.getId());
+			articleIds.add(article.getId());
 		}
+		redeployComment(articleIds);
 				
 		//初始化channelModels channelEn_Cn activities
 		redeployChannels();
@@ -120,86 +134,172 @@ public class AppModel {
 	}
 	
 	public void redeployStartPictures(){
-		startPictures.clear();
+		//startPictures.clear();
+		Map<String, List<String>> startPicTemp = new HashMap<>();
 		List<StartPictures> startPictures = startPicturesDaoImp.find(new StartPictures());
 		if(!startPictures.isEmpty()){
 			for(StartPictures pictures : startPictures){
-				this.startPictures.put(pictures.getId(), pictures.getPictureUrls());
+				//this.startPictures.put(pictures.getId(), pictures.getPictureUrls());
+				startPicTemp.put(pictures.getId(), pictures.getPictureUrls());
 			}
+		}
+		startPicLock.writeLock().lock();
+		try{
+			this.startPictures.clear();
+			this.startPictures.putAll(startPicTemp);
+		}finally{
+			startPicLock.writeLock().unlock();
 		}
 	}
 	
 	/**
-	 * 更新appModel
+	 * 更新appModel articleMap
 	 * @param channelName
 	 */
-	public void redeployChannelArticles(String channelName){
-		 Article criteriaArticle = new Article();
-		 criteriaArticle.addChannel(channelName);
-		 criteriaArticle.setState(ArticleState.Published);
-		 List<Article> articles = articleDaoImp.find(criteriaArticle, Direction.DESC, "channelIndex." + channelName);
-		 if(articles != null && !articles.isEmpty()){
-			 appMap.put(channelName, articles);
-			 for(Article article : articles){
-				 articleMap.put(article.getId(), article);
+	public void redeployChannelArticles(List<String> channelNames){
+		 Map<String, List<Article>> appMapTemp = new HashMap<>();
+		 Map<Long, Article> articleMapTemp = new HashMap<>();
+		 for(String channelName : channelNames){
+			 Article criteriaArticle = new Article();
+			 criteriaArticle.addChannel(channelName);
+			 criteriaArticle.setState(ArticleState.Published);
+			 List<Article> articles = articleDaoImp.find(criteriaArticle, Direction.DESC, "channelIndex." + channelName);
+			 if(articles != null && !articles.isEmpty()){
+				 appMapTemp.put(channelName, articles);
+				 for(Article article : articles){
+					 articleMapTemp.put(article.getId(), article);
+				 }
 			 }
 		 }
+		 appMapLock.writeLock().lock();
+		 try{
+			 this.appMap.clear();
+			 this.appMap.putAll(appMapTemp);
+		 }finally{
+			 appMapLock.writeLock().unlock();
+		 }
+		 articleMapLock.writeLock().lock();
+		 try{
+			 this.articleMap.clear();
+			 this.articleMap.putAll(articleMapTemp);
+		 }finally{
+			 articleMapLock.writeLock().unlock();
+		 }
+	}
+	
+	public void redeployChannelArticles(String channelName){
+		Article criteriaArticle = new Article();
+		criteriaArticle.addChannel(channelName);
+		criteriaArticle.setState(ArticleState.Published);
+		List<Article> articles = articleDaoImp.find(criteriaArticle, Direction.DESC, "channelIndex." + channelName);
+		if(articles != null && !articles.isEmpty()){
+			this.appMap.put(channelName, articles);
+		}
 	}
 	
 	/**
 	 * 更新评论
 	 * @param articleId
 	 */
-	public void redeployComment(Long articleId){
-		Commend criteriaCommend = new Commend();
-		List<SingleCommend> singleCommends = new ArrayList<SingleCommend>();
-		criteriaCommend.setArticleId(articleId);
-		List<Commend> commends = commendDaoImp.find(criteriaCommend);
-		if(commends != null && !commends.isEmpty()){
-			for(Commend commend : commends){
-				if(commend.getCommendList() != null && !commend.getCommendList().isEmpty()){
-					for(SingleCommend singleCommend : commend.getCommendList()){
-						if(singleCommend.getState() != null && singleCommend.getState().equals(CommendState.published)){
-							singleCommends.add(singleCommend);
+	public void redeployComment(List<Long> articleIds){
+		Map<Long, List<SingleCommend>> commendsTemp = new HashMap<>();
+		for(Long articleId : articleIds){
+			Commend criteriaCommend = new Commend();
+			List<SingleCommend> singleCommends = new ArrayList<SingleCommend>();
+			criteriaCommend.setArticleId(articleId);
+			List<Commend> commends = commendDaoImp.find(criteriaCommend);
+			if(commends != null && !commends.isEmpty()){
+				for(Commend commend : commends){
+					if(commend.getCommendList() != null && !commend.getCommendList().isEmpty()){
+						for(SingleCommend singleCommend : commend.getCommendList()){
+							if(singleCommend.getState() != null && singleCommend.getState().equals(CommendState.published)){
+								singleCommends.add(singleCommend);
+							}
 						}
 					}
 				}
 			}
-		}
-		Collections.sort(singleCommends, new Comparator<SingleCommend>() {
-			@Override
-			public int compare(SingleCommend o1, SingleCommend o2) {
-				if(o1.getTimeDate() != null && o2.getTimeDate() != null){
-					return o2.getTimeDate().compareTo(o1.getTimeDate());
+			Collections.sort(singleCommends, new Comparator<SingleCommend>() {
+				@Override
+				public int compare(SingleCommend o1, SingleCommend o2) {
+					if(o1.getTimeDate() != null && o2.getTimeDate() != null){
+						return o2.getTimeDate().compareTo(o1.getTimeDate());
+					}
+					return 0;
 				}
-				return 0;
-			}
-		});
-		this.commends.put(articleId, singleCommends);
+			});
+			commendsTemp.put(articleId, singleCommends);
+		}
+		//this.commends.put(articleId, singleCommends);
+		commendsLock.writeLock().lock();
+		try{
+			this.commends.clear();
+			this.commends.putAll(commendsTemp);
+		}finally{
+			commendsLock.writeLock().unlock();
+		}
 	}
 	
 	/**
 	 * 更新channels
 	 */
 	public void redeployChannels(){
+		Map<String, String> channelEn_CnTemp = new HashMap<>();
+		List<Channel> activitiesTemp = new ArrayList<>();
+		List<ChannelModel> channelModelsTemp = new ArrayList<>();
 		Channel criteriaChannel = new Channel();
 		criteriaChannel.setState(ChannelState.Father);
 		List<Channel> fatherChannels = channelDaoImp.find(criteriaChannel, new Sort(Direction.ASC, "channelIndex"));
 		if(fatherChannels != null && !fatherChannels.isEmpty()){
 			for(Channel fatherChannel : fatherChannels){
-				channelEn_Cn.put(fatherChannel.getEnglishName(), fatherChannel.getChannelName());
+				//channelEn_Cn.put(fatherChannel.getEnglishName(), fatherChannel.getChannelName());
+				channelEn_CnTemp.put(fatherChannel.getEnglishName(), fatherChannel.getChannelName());
 				Channel sonCriteriaChannel = new Channel();
 				sonCriteriaChannel.setState(ChannelState.Son);
 				sonCriteriaChannel.setRelated(fatherChannel.getChannelName());
 				List<Channel> sonChannels = channelDaoImp.find(sonCriteriaChannel, new Sort(Direction.ASC, "channelIndex"));
-				addTopChannel(fatherChannel, sonChannels);
+				//addTopChannel(fatherChannel, sonChannels);
+				if (!channelModelsTemp.contains(fatherChannel)) {
+					ChannelModel channelModel = new ChannelModel();
+					channelModel.fatherChannel = fatherChannel;
+					if (sonChannels == null || sonChannels.isEmpty()) {
+						channelModel.sonChannels = null;
+					} else {
+						channelModel.sonChannels = sonChannels;
+					}
+					channelModelsTemp.add(channelModel);
+				}
+				
 				for(Channel sonChannel : sonChannels){
-					channelEn_Cn.put(sonChannel.getEnglishName(), sonChannel.getChannelName());
+					//channelEn_Cn.put(sonChannel.getEnglishName(), sonChannel.getChannelName());
+					channelEn_CnTemp.put(sonChannel.getEnglishName(), sonChannel.getChannelName());
 					if(sonChannel.getChannelName().startsWith("#")){
-						activities.add(sonChannel);
+						//activities.add(sonChannel);
+						activitiesTemp.add(sonChannel);
 					}
 				}
 			}
+		}
+		channelEn_CnLock.writeLock().lock();
+		try{
+			this.channelEn_Cn.clear();
+			this.channelEn_Cn.putAll(channelEn_CnTemp);
+		}finally{
+			channelEn_CnLock.writeLock().unlock();
+		}
+		activitiesLock.writeLock().lock();
+		try{
+			this.activities.clear();
+			this.activities.addAll(activitiesTemp);
+		}finally{
+			activitiesLock.writeLock().unlock();
+		}
+		channelModelsLock.writeLock().lock();
+		try{
+			this.channelModels.clear();
+			this.channelModels.addAll(channelModelsTemp);
+		}finally{
+			channelModelsLock.writeLock().unlock();
 		}
 //		Channel criteriaActivity = new Channel();
 //		criteriaActivity.setState(ChannelState.Activity);
@@ -210,37 +310,52 @@ public class AppModel {
 	 * 全部更新
 	 */
 	public void redeployAll(){
-		appMap.clear();
-		channelModels.clear();
-		commends.clear();
-		activities.clear();
-		channelEn_Cn.clear();
+		//appMap.clear();
+		//channelModels.clear();
+		//commends.clear();
+		//activities.clear();
+		//channelEn_Cn.clear();
 		redeployStartPictures();
 		
 		redeployChannels();
 		
 		List<Channel> channels = channelDaoImp.find(new Channel());
+		List<String> channelNames = new ArrayList<>();
 		for(Channel channel : channels){
-			redeployChannelArticles(channel.getChannelName());
+			channelNames.add(channel.getChannelName());
 		}
+		redeployChannelArticles(channelNames);
 		
 		Article criteriaArticle = new Article();
 		criteriaArticle.setState(ArticleState.Published);
 		List<Article> articles = articleDaoImp.find(criteriaArticle);
+		List<Long> articleIds = new ArrayList<>();
 		for(Article article : articles){
-			redeployComment(article.getId());
+//			redeployComment(article.getId());
+			articleIds.add(article.getId());
 		}
+		redeployComment(articleIds);
 		
 		//redeployChannels();
 	}
 	
 	public Map<String, List<String>> getStartPictures() {
-		return startPictures;
+		startPicLock.readLock().lock();
+		try{
+			return startPictures;
+		}finally{
+			startPicLock.readLock().unlock();
+		}
 	}
 	
 	public List<String> getStartPictures(String id){
-		if(startPictures.containsKey(id)){
-			return startPictures.get(id);
+		startPicLock.readLock().lock();
+		try{
+			if(startPictures.containsKey(id)){
+				return startPictures.get(id);
+			}
+		}finally{
+			startPicLock.readLock().unlock();
 		}
 		return null;
 	}
@@ -250,7 +365,12 @@ public class AppModel {
 //	}
 	
 	public Map<String, List<Article>> getAppMap() {
-		return appMap;
+		appMapLock.readLock().lock();
+		try{
+			return appMap;
+		}finally{
+			appMapLock.readLock().unlock();
+		}
 	}
 
 //	public void setAppMap(Map<String, List<Article>> appMap) {
@@ -258,7 +378,12 @@ public class AppModel {
 //	}
 
 	public List<ChannelModel> getChannelModels() {
-		return channelModels;
+		channelModelsLock.readLock().lock();
+		try{
+			return channelModels;
+		}finally{
+			channelModelsLock.readLock().unlock();
+		}
 	}
 
 //	public void setChannelModels(List<ChannelModel> channelModels) {
@@ -266,7 +391,12 @@ public class AppModel {
 //	}
 
 	public Map<Long, List<SingleCommend>> getCommends() {
-		return commends;
+		commendsLock.readLock().lock();
+		try{
+			return commends;
+		}finally{
+			commendsLock.readLock().unlock();
+		}
 	}
 
 //	public void setCommends(Map<Long, List<SingleCommend>> commends) {
@@ -274,7 +404,12 @@ public class AppModel {
 //	}
 
 	public List<Channel> getActivities() {
-		return activities;
+		activitiesLock.readLock();
+		try{
+			return activities;
+		}finally{
+			activitiesLock.readLock().unlock();
+		}
 	}
 
 //	public void setActivities(List<Channel> activities) {
@@ -282,7 +417,12 @@ public class AppModel {
 //	}
 
 	public Map<String, String> getChannelEn_Cn() {
-		return channelEn_Cn;
+		channelEn_CnLock.readLock().lock();
+		try{
+			return channelEn_Cn;
+		}finally{
+			channelEn_CnLock.readLock().unlock();
+		}
 	}
 
 
@@ -292,7 +432,12 @@ public class AppModel {
 
 
 	public Map<Long, Article> getArticleMap() {
-		return articleMap;
+		articleMapLock.readLock().lock();
+		try{
+			return articleMap;
+		}finally{
+			articleMapLock.readLock().unlock();
+		}
 	}
 
 	/**
@@ -336,24 +481,34 @@ public class AppModel {
 		}
 	}
 
-	public void addTopChannel(Channel fatherChannel, List<Channel> sonChannels) {
-		if (!this.channelModels.contains(fatherChannel)) {
-			ChannelModel channelModel = new ChannelModel();
-			channelModel.fatherChannel = fatherChannel;
-			if (sonChannels == null || sonChannels.isEmpty()) {
-				channelModel.sonChannels = null;
-			} else {
-				channelModel.sonChannels = sonChannels;
-			}
-			this.channelModels.add(channelModel);
-		}
-	}
+//	public void addTopChannel(Channel fatherChannel, List<Channel> sonChannels) {
+//		if (!this.channelModels.contains(fatherChannel)) {
+//			ChannelModel channelModel = new ChannelModel();
+//			channelModel.fatherChannel = fatherChannel;
+//			if (sonChannels == null || sonChannels.isEmpty()) {
+//				channelModel.sonChannels = null;
+//			} else {
+//				channelModel.sonChannels = sonChannels;
+//			}
+//			channelModelsLock.writeLock().lock();
+//			try{
+//				this.channelModels.add(channelModel);
+//			}finally{
+//				channelModelsLock.writeLock().unlock();
+//			}
+//		}
+//	}
 
 	public void deleteTopChannel(Channel fatherChannel) {
 		ChannelModel deleteModel = new ChannelModel();
 		deleteModel.fatherChannel = fatherChannel;
 		if (this.channelModels.contains(deleteModel)) {
-			this.channelModels.remove(deleteModel);
+			channelModelsLock.writeLock().lock();
+			try{
+				this.channelModels.remove(deleteModel);
+			}finally{
+				channelModelsLock.writeLock().unlock();
+			}
 		}
 	}
 

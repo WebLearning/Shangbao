@@ -179,6 +179,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				Article article = new Article();
 				article.setUid(Long.parseLong(title.uid));
 				article.setPicturesUrl(localUrls);
+				article.setTime(new Date());
 				article.setTitle(title.title);
 				article.setTag(true);//是图片新闻
 				article.setState(ArticleState.Crawler);

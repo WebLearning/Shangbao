@@ -1,5 +1,6 @@
 package com.shangbao.service.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -70,6 +71,33 @@ public class ChannelServiceImp implements ChannelService{
 		if(channels!= null && !channels.isEmpty())
 			return channels.get(0);
 		return null;
+	}
+	
+	@Override
+	public List<Channel> getLeafChannels(String channelName){
+		List<Channel> channels = new ArrayList<>();
+		Channel criteriaChannel = new Channel();
+		criteriaChannel.setChannelName(channelName);
+		List<Channel> findChannels = channelDaoImp.find(criteriaChannel);
+		if(!findChannels.isEmpty()){
+			Channel channel = findChannels.get(0);
+			if(channel.getState().equals(ChannelState.Son)){
+				channels.add(channel);
+			}else if(channel.getState().equals(ChannelState.Father)){
+				Channel criteriaSonChannel = new Channel();
+				criteriaSonChannel.setState(ChannelState.Son);
+				criteriaSonChannel.setRelated(channelName);
+				List<Channel> sonChannels = channelDaoImp.find(criteriaSonChannel);
+				if(sonChannels.isEmpty()){
+					channels.add(channel);
+				}else{
+					for(Channel sonChannel : sonChannels){
+						channels.add(sonChannel);
+					}
+				}
+			}
+		}
+		return channels;
 	}
 	
 	@Override
