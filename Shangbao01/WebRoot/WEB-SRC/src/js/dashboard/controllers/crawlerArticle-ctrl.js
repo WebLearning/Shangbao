@@ -86,72 +86,129 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     //保存在本状态-----------------------------------------------------------------------------------------------------
     $scope.saveArticleLocal=function(){
         $scope.coverIt();
-        $scope.calculateWords();
         $scope.calculatePictures();
-        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
-            $scope.articleData.content="";
-        }
-        var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(data){
-            if(data=="true"){
-                $scope.goCrawler();
-                alert("保存成功");
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+            $scope.calculateWords();
+            var jsonString=JSON.stringify($scope.articleData);
+            console.log($scope.articleData);
+            $http.put(url1,jsonString).success(function(data){
+                if(data=="true"){
+                    $scope.goCrawler();
+                    alert("保存成功");
+                    $scope.closeOver();
+                }
+            });
+        }else if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
+            $scope.outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if($scope.outSide){
+                $scope.articleData.content="";
+                $scope.calculateWords();
+                var jsonString1=JSON.stringify($scope.articleData);
+                console.log($scope.articleData);
+                $http.put(url1,jsonString1).success(function(data){
+                    if(data=="true"){
+                        $scope.goCrawler();
+                        alert("保存成功");
+                        $scope.closeOver();
+                    }
+                });
+            }else{
+                alert("外链文章Url格式不对");
                 $scope.closeOver();
             }
-        });
+        }
     };
     $scope.saveStateInCrawler1="";
-    $scope.saveArticle=function(){
-        //console.log("test new save");
+    $scope.saveArticle=function() {
         $scope.coverIt();
-        $scope.calculateWords();
         $scope.calculatePictures();
-        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
-            $scope.articleData.content="";
-        }
-        var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
-        var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(data){
-            $scope.saveStateInCrawler1=data;
-            console.log("保存");
-            if($scope.saveStateInCrawler1=="true"){
-                var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-                //console.log(url);
-                $http.put(url).success(function() {
-                    $scope.goCrawler();
-                    alert("转草稿箱成功");
-                    $scope.closeOver();
+        var url1 = $scope.projectName + '/article/Crawler/1/' + $scope.articleData.id;
+        var url = $scope.projectName + "/article/Crawler/" + ($scope.crawlerData.currentNo).toString() + "/statechange/" + $scope.articleData.id;
+        if ($scope.articleData.outSideUrl == "" || $scope.articleData.outSideUrl == " ") {
+            $scope.calculateWords();
+            var jsonString = JSON.stringify($scope.articleData);
+            console.log($scope.articleData);
+            $http.put(url1, jsonString).success(function (data) {
+                $scope.saveStateInCrawler1 = data;
+                console.log("保存");
+                if ($scope.saveStateInCrawler1 == "true") {
+                    $http.put(url).success(function () {
+                        $scope.goCrawler();
+                        alert("转草稿箱成功");
+                        $scope.closeOver();
+                    });
+                }
+            });
+        } else if ($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " ") {
+            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if ($scope.outSide) {
+                $scope.articleData.content = "";
+                $scope.calculateWords();
+                var jsonString1 = JSON.stringify($scope.articleData);
+                console.log($scope.articleData);
+                $http.put(url1, jsonString1).success(function (data) {
+                    $scope.saveStateInCrawler1 = data;
+                    console.log("保存");
+                    if ($scope.saveStateInCrawler1 == "true") {
+                        $http.put(url).success(function () {
+                            $scope.goCrawler();
+                            alert("转草稿箱成功");
+                            $scope.closeOver();
+                        });
+                    }
                 });
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
             }
-        });
+        }
     };
     $scope.saveStateInCrawler2="";
     $scope.publishArticleNowInCrawler=function()
     {
         $scope.coverIt();
-        $scope.calculateWords();
         $scope.calculatePictures();
-        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
-            $scope.articleData.content="";
-        }
-        var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(data){
-            $scope.saveStateInCrawler2=data;
-            console.log("保存");
-            if($scope.saveStateInCrawler2=="true"){
-                var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-                $http.put(url).success(function(){
-                    $scope.goCrawler();
-                    alert("发布成功");
-                    $scope.closeOver();
+        var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+            $scope.calculateWords();
+            var jsonString1=JSON.stringify($scope.articleData);
+            console.log($scope.articleData);
+            $http.put(url1,jsonString1).success(function(data){
+                $scope.saveStateInCrawler2=data;
+                console.log("保存");
+                if($scope.saveStateInCrawler2=="true"){
+                    $http.put(url).success(function(){
+                        $scope.goCrawler();
+                        alert("发布成功");
+                        $scope.closeOver();
+                    });
+                }
+            });
+        }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
+            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if ($scope.outSide){
+                $scope.articleData.content="";
+                $scope.calculateWords();
+                var jsonString=JSON.stringify($scope.articleData);
+                console.log($scope.articleData);
+                $http.put(url1,jsonString).success(function(data){
+                    $scope.saveStateInCrawler2=data;
+                    console.log("保存");
+                    if($scope.saveStateInCrawler2=="true"){
+                        $http.put(url).success(function(){
+                            $scope.goCrawler();
+                            alert("发布成功");
+                            $scope.closeOver();
+                        });
+                    }
                 });
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
             }
-        });
+        }
     };
     $scope.saveStateInCrawler3="";
     $scope.publishArticleTimingInCrawler=function()
@@ -167,35 +224,58 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         var myPublishedTime=str5.getTime();
         var time=myPublishedTime-myDateTime;
         console.log(time);
-        $scope.calculateWords();
         $scope.calculatePictures();
-        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
-            $scope.articleData.content="";
-        }
-        var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(data){
-            $scope.saveStateInCrawler3=data;
-            console.log("保存");
-            if($scope.saveStateInCrawler3=="true"){
-                var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
-                console.log(url);
-                $http.get(url).success(function(){
-                    $('#Select_TimeInCrawler').modal('toggle');
-                    $scope.goCrawler();
-                    alert("定时成功");
-                    $scope.closeOver();
+        var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+            $scope.calculateWords();
+            var jsonString1=JSON.stringify($scope.articleData);
+            console.log($scope.articleData);
+            $http.put(url1,jsonString1).success(function(data){
+                $scope.saveStateInCrawler3=data;
+                console.log("保存");
+                if($scope.saveStateInCrawler3=="true"){
+                    console.log(url);
+                    $http.get(url).success(function(){
+                        $('#Select_TimeInCrawler').modal('toggle');
+                        $scope.goCrawler();
+                        alert("定时成功");
+                        $scope.closeOver();
+                    });
+                }
+            });
+        }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
+            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if($scope.outSide){
+                $scope.articleData.content="";
+                $scope.calculateWords();
+                var jsonString=JSON.stringify($scope.articleData);
+                console.log($scope.articleData);
+                $http.put(url1,jsonString).success(function(data){
+                    $scope.saveStateInCrawler3=data;
+                    console.log("保存");
+                    if($scope.saveStateInCrawler3=="true"){
+                        console.log(url);
+                        $http.get(url).success(function(){
+                            $('#Select_TimeInCrawler').modal('toggle');
+                            $scope.goCrawler();
+                            alert("定时成功");
+                            $scope.closeOver();
+                        });
+                    }
                 });
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
             }
-        });
+        }
     };
 
 
     //得到字数
     $scope.calculateWords=function()
     {
-        $scope.newArticleData.words=$scope.delHtmlTag($scope.articleData.content).length;
+        $scope.articleData.words=$scope.delHtmlTag($scope.articleData.content).length;
     };
 
     $scope.delHtmlTag=function(str){

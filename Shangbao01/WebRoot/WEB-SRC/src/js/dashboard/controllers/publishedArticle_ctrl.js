@@ -108,19 +108,34 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     };
     $scope.saveArticleInPublished=function(){
         $scope.coverIt();
-        $scope.calculateWords();
         $scope.calculatePictures();
-        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
-            $scope.articleData.content="";
-        }
-        var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
         var url1=$scope.projectName+'/article/Published/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(){
-            alert("保存成功");
-            $scope.goPublished();
-            $scope.closeOver();
-        });
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+            $scope.calculateWords();
+            var jsonString1=JSON.stringify($scope.articleData);
+            console.log($scope.articleData);
+            $http.put(url1,jsonString1).success(function(){
+                alert("保存成功");
+                $scope.goPublished();
+                $scope.closeOver();
+            });
+        }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
+            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if($scope.outSide){
+                $scope.articleData.content="";
+                $scope.calculateWords();
+                var jsonString=JSON.stringify($scope.articleData);
+                console.log($scope.articleData);
+                $http.put(url1,jsonString).success(function(){
+                    alert("保存成功");
+                    $scope.goPublished();
+                    $scope.closeOver();
+                });
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
+            }
+        }
     };
 
     //得到字数

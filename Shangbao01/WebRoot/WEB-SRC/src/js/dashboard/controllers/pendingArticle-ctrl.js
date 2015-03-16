@@ -72,17 +72,34 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
 
     $scope.saveArticle=function(){
         $scope.coverIt();
-        $scope.calculateWords();
         $scope.calculatePictures();
         if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
             $scope.articleData.content="";
         }
-        var jsonString=JSON.stringify($scope.articleData);
-        $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
-            alert("保存文章成功");
-            $scope.goPending();
-            $scope.closeOver();
-        });
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+            $scope.calculateWords();
+            var jsonString1=JSON.stringify($scope.articleData);
+            $http.post($scope.projectName+'/article/newArticle',jsonString1).success(function(data) {
+                alert("保存文章成功");
+                $scope.goPending();
+                $scope.closeOver();
+            });
+        }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
+            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if($scope.outSide){
+                $scope.articleData.content="";
+                $scope.calculateWords();
+                var jsonString=JSON.stringify($scope.articleData);
+                $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
+                    alert("保存文章成功");
+                    $scope.goPending();
+                    $scope.closeOver();
+                });
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
+            }
+        }
     };
 
     $scope.putArticle=function(){
@@ -116,9 +133,6 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
-        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
-            $scope.articleData.content="";
-        }
         var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
            $http.put(url).success(function(){
 //                clearArticleSelections();
@@ -133,9 +147,6 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
-        if($scope.articleData.outSideUrl!=""||$scope.articleData.outSideUrl!=null||$scope.articleData.outSideUrl!=" "){
-            $scope.articleData.content="";
-        }
         var myDate=new Date();
         var myDateTime=myDate.getTime();
         var str1=$scope.publishTimeInPending.substr(0,10);

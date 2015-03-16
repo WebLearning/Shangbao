@@ -2127,5 +2127,13 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         covershow.style.display = 'none';
         alert("遮罩取消");
     };
+    //-----------------------------------------------------------------------------------------------------------------
+    //判断外链文章url是否为正确的url形式-----------
+//    $scope.checkOutSideUrl=function(outUrl){
+//        var outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test(outUrl);
+////        alert(/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test(outUrl));
+//        if(outSide=="true")
+//
+//    };
 
 }]);
