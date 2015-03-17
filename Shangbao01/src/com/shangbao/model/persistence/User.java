@@ -27,6 +27,7 @@ public class User implements UserDetails {
 	private Date birthday;
 	private String qq;
 	private String role;
+	private String duty;
 	private List<Long> collection = new ArrayList<>();
 	
 	public String getRole() {
@@ -34,6 +35,12 @@ public class User implements UserDetails {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	public String getDuty() {
+		return duty;
+	}
+	public void setDuty(String duty) {
+		this.duty = duty;
 	}
 	public Long getId() {
 		return id;
