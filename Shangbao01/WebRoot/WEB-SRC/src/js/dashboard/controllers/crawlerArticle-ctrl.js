@@ -88,7 +88,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         $scope.coverIt();
         $scope.calculatePictures();
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
-        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             var jsonString=JSON.stringify($scope.articleData);
             console.log($scope.articleData);
@@ -113,7 +113,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
                         $scope.closeOver();
                     }
                 });
-            }else{
+            }else if(!($scope.outSide)){
                 alert("外链文章Url格式不对");
                 $scope.closeOver();
             }
@@ -125,7 +125,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         $scope.calculatePictures();
         var url1 = $scope.projectName + '/article/Crawler/1/' + $scope.articleData.id;
         var url = $scope.projectName + "/article/Crawler/" + ($scope.crawlerData.currentNo).toString() + "/statechange/" + $scope.articleData.id;
-        if ($scope.articleData.outSideUrl == "" || $scope.articleData.outSideUrl == " ") {
+        if ($scope.articleData.outSideUrl == "" || $scope.articleData.outSideUrl == " "|| $scope.articleData.outSideUrl == null) {
             $scope.calculateWords();
             var jsonString = JSON.stringify($scope.articleData);
             console.log($scope.articleData);
@@ -171,7 +171,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         $scope.calculatePictures();
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
         var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl == null){
             $scope.calculateWords();
             var jsonString1=JSON.stringify($scope.articleData);
             console.log($scope.articleData);
@@ -227,7 +227,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         $scope.calculatePictures();
         var url1=$scope.projectName+'/article/Crawler/1/'+$scope.articleData.id;
         var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
-        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "|| $scope.articleData.outSideUrl == null){
             $scope.calculateWords();
             var jsonString1=JSON.stringify($scope.articleData);
             console.log($scope.articleData);

@@ -395,7 +395,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     };
     $scope.checkModifyNoteInPending=function(id){
         $scope.coverIt();
-        var url=$scope.projectName+"/article/Crawler/"+($scope.pendingData.currentNo).toString()+"/"+id+"/log";
+        var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/"+id+"/log";
         console.log(url);
         $http.get(url).success(function(data){
             console.log(data);

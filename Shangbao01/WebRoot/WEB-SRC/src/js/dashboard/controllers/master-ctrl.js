@@ -76,6 +76,38 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         words: null,
         pictures:null
     };
+    //显示当前登录用户名------------------------------------------------------------------------------------------------
+    $scope.userInfo_name="";
+    $scope.userInfo_duty="";
+    $scope.getCurUserName=function(){
+        var url=$scope.projectName+"/user/userinfo";
+        $http.get(url).success(function(data){
+            console.log(data.name);
+            $scope.userInfo_name=data.name;
+            $scope.userInfo_duty=data.duty;
+            console.log($scope.userInfo_duty);
+        });
+    };
+    $scope.getCurUserName();
+    //获得所有大的分类（duty）------------------------------------------------------------------------------------------
+    $scope.userDuty="";
+    $scope.getUserDuty=function(){
+        var url=$scope.projectName+"/channel/channels";
+        $http.get(url).success(function(data){
+            $scope.userDuty=data;
+        });
+    };
+
+    $scope.getUserDuty();
+    //退出登录----------------------------------------------------------------------------------------------------------
+    $scope.exitLog=function(){
+        var url=$scope.projectName+"/j_spring_security_logout";
+        if(confirm("确认退出?")==true){
+            $http.get(url).success(function(){
+                top.location="../../login.jsp";
+            });
+        }
+    };
     //初始化header
     $scope.curPage = "一览";
 
@@ -92,7 +124,13 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $scope.setButtonInNewArticleForPending();
         $scope.setButtonInNewArticleForPublish();
         //如果是点击新建文章就清除文章里的数据
-        if(str=="文章/新建"){
+        if(str=="新建"){
+            clearNewArticleData();
+            $scope.newArticleData.time=new Date();
+        }else if(str=="爬虫"){
+            clearCrawlerSearchData();
+            $scope.refreshCrawler();
+        }else if(str=="文章/新建"){
             clearNewArticleData();
             $scope.newArticleData.time=new Date();
 //            $scope.setButtonInNewArticleForPending();
@@ -136,6 +174,15 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.refreshTempPicture();
         }else if(str=="评论"){
             $scope.refreshCommentCur();
+        }else if(str=="分类1/待审"){
+            clearPendingSearchData_type1();
+            $scope.refreshPending_type1();
+        }else if(str=="分类1/已发布"){
+
+        }else if(str=="分类1/已撤销"){
+
+        }else if(str=="分类1/草稿箱"){
+
         }
     };
 
@@ -189,6 +236,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }
         return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
     };
+
     //评论数据------------------------------------------------------------------------------------------------------------
     $scope.commentDetailData={
         "currentNo":null,
@@ -407,31 +455,50 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
+    $scope.urlForPending="";
     $scope.getPendingData=function(pageID){
-        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.pendingData=data;
-                $scope.pendingPageNums=getPageNums($scope.pendingData.pageCount);
-                $scope.lastPendingPage=$scope.pendingData.pageCount;
-                $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
-                $scope.getLastPendingPageData($scope.lastPendingPage);
-            }else{
-                $scope.pendingData=data;
-                $scope.pendingPaginationConf.currentPage=0;
-                $scope.pendingPaginationConf.totalItems=0;
+//        $scope.getCurUserName();
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPending=$scope.projectName+'/article/Pending/'+pageID.toString()+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForPending=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Pending/'+pageID.toString()+$scope.orderCondition;
             }
-        });
+            $http.get($scope.urlForPending).success(function(data){
+                if(data.pageCount>0){
+                    $scope.pendingData=data;
+                    $scope.pendingPageNums=getPageNums($scope.pendingData.pageCount);
+                    $scope.lastPendingPage=$scope.pendingData.pageCount;
+                    $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
+                    $scope.getLastPendingPageData($scope.lastPendingPage);
+                }else{
+                    $scope.pendingData=data;
+                    $scope.pendingPaginationConf.currentPage=0;
+                    $scope.pendingPaginationConf.totalItems=0;
+                }
+            });
+        }else{
+            console.log("url错误");
+        }
     };
+    $scope.urlForPendingLastPage="";
     $scope.getLastPendingPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Pending/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastPendingPageData=data;
-            $scope.lastPendingPageDataLength=$scope.lastPendingPageData.tileList.length;
-            $scope.pendingPaginationConf.totalItems=(($scope.lastPendingPageData.pageCount)-1)*20+$scope.lastPendingPageDataLength;
-        });
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPendingLastPage=$scope.projectName+'/article/Pending/'+lastPage+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForPendingLastPage=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Pending/'+lastPage+$scope.orderCondition;
+            }
+            $http.get($scope.urlForPendingLastPage).success(function(data){
+                $scope.lastPendingPageData=data;
+                $scope.lastPendingPageDataLength=$scope.lastPendingPageData.tileList.length;
+                $scope.pendingPaginationConf.totalItems=(($scope.lastPendingPageData.pageCount)-1)*20+$scope.lastPendingPageDataLength;
+            });
+        }else{
+            console.log("url错误");
+        }
     };
-    $scope.getPendingData(1);//生成待审页面时即产生第一页数据
+//    $scope.getPendingData(1);//生成待审页面时即产生第一页数据
     function clearPendingSearchData(){
         for(p in $scope.pendingSearchData){
             $scope.pendingSearchData[p]="";
@@ -482,6 +549,105 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.pendingPaginationConf.totalItems=(($scope.lastPendingPageData.pageCount)-1)*20+$scope.lastPendingPageDataLength;
         });
     };
+    //（分类1----待审数据）-----------------------------------------------------------------------------------------------
+    //（分类1----待审数据）-----------------------------------------------------------------------------------------------
+    $scope.pendingData_type1=null;
+    $scope.pendingSearchData_type1={
+        content:""
+    };
+    $scope.pendingPaginationConf_type1 = {
+        currentPage: null,
+        totalItems:null,
+        itemsPerPage: 20,
+        pagesLength: 10,
+        perPageOptions: [10, 20, 30, 40, 50],
+        rememberPerPage: 'perPageItems',
+        onChange: function(){
+            if($scope.pendingPaginationConf_type1.currentPage>0){
+                if($scope.pendingSearchData_type1.content==""||$scope.pendingSearchData_type1.content==null){
+                    $scope.getPendingData_type1($scope.pendingPaginationConf_type1.currentPage);
+                }else{
+                    $scope.getPendingSearchData_type1($scope.pendingPaginationConf_type1.currentPage);
+                }
+            }
+        }
+    };
+    $scope.getPendingData_type1=function(pageID){
+        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            if(data.pageCount>0){
+                $scope.pendingData_type1=data;
+                $scope.pendingPageNums_type1=getPageNums($scope.pendingData_type1.pageCount);
+                $scope.lastPendingPage_type1=$scope.pendingData_type1.pageCount;
+                $scope.pendingPaginationConf_type1.currentPage=$scope.pendingData_type1.currentNo;
+                $scope.getLastPendingPageData_type1($scope.lastPendingPage_type1);
+            }else{
+                $scope.pendingData_type1=data;
+                $scope.pendingPaginationConf_type1.currentPage=0;
+                $scope.pendingPaginationConf_type1.totalItems=0;
+            }
+        });
+    };
+    $scope.getLastPendingPageData_type1=function(lastPage){
+        var url=$scope.projectName+'/article/Pending/'+lastPage+$scope.orderCondition;
+        $http.get(url).success(function(data){
+            $scope.lastPendingPageData_type1=data;
+            $scope.lastPendingPageDataLength_type1=$scope.lastPendingPageData_type1.tileList.length;
+            $scope.pendingPaginationConf_type1.totalItems=(($scope.lastPendingPageData_type1.pageCount)-1)*20+$scope.lastPendingPageDataLength_type1;
+        });
+    };
+    $scope.getPendingData_type1(1);//生成待审页面时即产生第一页数据
+    function clearPendingSearchData_type1(){
+        for(p in $scope.pendingSearchData_type1){
+            $scope.pendingSearchData_type1[p]="";
+        }
+    }
+    //搜索第一个分类的待审----------------------------------------------------------------------------------------------
+    $scope.getPendingSearchData_type1=function(pageID){
+        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+'/query'+$scope.orderCondition;
+        console.log($scope.pendingSearchData_type1);
+        $http.post(url,$scope.pendingSearchData_type1).success(function(data){
+            console.log(data);
+            if(data.pageCount>0){
+                $scope.pendingData_type1=data;
+                $scope.pendingPageNums_type1=getPageNums($scope.pendingData_type1.pageCount);
+                $scope.lastPendingPage_type1=$scope.pendingData_type1.pageCount;
+                $scope.pendingPaginationConf_type1.currentPage=$scope.pendingData_type1.currentNo;
+                $scope.getLastPendingSearchPageData_type1($scope.lastPendingPage_type1);
+            }else{
+                $scope.pendingData_type1=data;
+                $scope.pendingPaginationConf_type1.currentPage=0;
+                $scope.pendingPaginationConf_type1.totalItems=0;
+            }
+        });
+    };
+    $scope.getLastPendingSearchPageData_type1=function(lastPage){
+        var url=$scope.projectName+'/article/Pending/'+lastPage+'/query'+$scope.orderCondition;
+        $http.post(url,$scope.pendingSearchData).success(function(data){
+            $scope.lastPendingPageData_type1=data;
+            $scope.lastPendingPageDataLength_type1=$scope.lastPendingPageData_type1.tileList.length;
+            $scope.pendingPaginationConf_type1.totalItems=(($scope.lastPendingPageData_type1.pageCount)-1)*20+$scope.lastPendingPageDataLength_type1;
+        });
+    };
+    $scope.refreshPending_type1=function()
+    {
+        $scope.orderCondition="/time/desc";
+        if($scope.pendingSearchData_type1.content==""||$scope.pendingSearchData_type1.content==null){
+            $scope.getPendingData_type1(1);
+        }else{
+            $scope.getPendingSearchData_type1(1);
+        }
+    };
+    $scope.refreshPendingCur_type1=function()
+    {
+//        $scope.orderCondition="";
+        if($scope.pendingSearchData_type1.content==""||$scope.pendingSearchData_type1.content==null){
+            $scope.getPendingData_type1($scope.pendingData_type1.currentNo);
+        }else{
+            $scope.getPendingSearchData_type1($scope.pendingData_type1.currentNo);
+        }
+    };
+
 //(3)获取已发布数据-----------------------------------------------------------------------------------------------------
     $scope.publishedData=null;
     $scope.publishedSearchData={
@@ -1313,45 +1479,104 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.tempPicturePaginationConf.totalItems=(($scope.lastTempPicturePageData.pageCount)-1)*20+$scope.lastTempPicturePageDataLength;
         });
     };
+
+    //-----------------------------------
+
+    $scope.runFunction=function(){
+        if($scope.userInfo_duty=="super"){
+            $scope.getPendingData(1);
+        }
+    };
+    $scope.runFunction();
 //(12)获取分类(文章）----------------------------------------------------------------------------------------------------------
+    $scope.superChannelNames=[];
+    $scope.normalChannelNames=[];
     $scope.newChannelNames=[];
-    $scope.getNewChannelNames=function(){
+    $scope.getSuperChannelNames=function(){
         var url=$scope.projectName+'/channel/channels';
         $http.get(url).success(function(data){
             if(data.length>0){
                 for(i=0;i<data.length;i++){
                     if(data[i].englishName!="kuaipai"){
-                        $scope.checkFirstChannel(data[i]);
+                        $scope.checkFirstChannelForSuper(data[i]);
                     }
                 }
             }else{
-                $scope.newChannelNames=[];
+                $scope.superChannelNames=[];
             }
         });
     };
-    $scope.getNewChannelNames();
+    $scope.getSuperChannelNames();
     //判断是否有次级目录-------------------------------------------------------------------------------------------------
-    $scope.checkFirstChannel=function(channelData){
+    $scope.checkFirstChannelForSuper=function(channelData){
         var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
         $http.get(url).success(function (data) {
             if(data.length>0){
-                $scope.getSecondChannelNames(channelData.englishName);
+                $scope.getSecondChannelNamesForSuper(channelData.englishName);
             }else{
-                $scope.newChannelNames.push(channelData);
+                $scope.superChannelNames.push(channelData);
             }
         });
     };
     //获得次级目录名----------------------------------------------------------------------------------------------------
-    $scope.getSecondChannelNames=function(channelName){
+    $scope.getSecondChannelNamesForSuper=function(channelName){
         var url=$scope.projectName+'/channel/'+channelName+'/channels';
         $http.get(url).success(function(data){
             if(data.length>0){
                 for(i=0;i<data.length;i++){
-                    $scope.newChannelNames.push(data[i]);
+                    $scope.superChannelNames.push(data[i]);
                 }
             }
         });
     };
+    //根据duty判断是否有次级目录-------------------------------------------------------------------------------------------------
+    $scope.checkFirstChannelForNormal=function(channelData){
+        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
+        $http.get(url).success(function (data) {
+            if(data.length>0){
+                $scope.getSecondChannelNamesForNormal(channelData.englishName);
+            }else{
+                $scope.normalChannelNames.push(channelData);
+            }
+        });
+    };
+    //根据duty获得次级目录名----------------------------------------------------------------------------------------------------
+    $scope.getSecondChannelNamesForNormal=function(channelName){
+        var url=$scope.projectName+'/channel/'+channelName+'/channels';
+        $http.get(url).success(function(data){
+            if(data.length>0){
+                for(i=0;i<data.length;i++){
+                    $scope.normalChannelNames.push(data[i]);
+                }
+            }
+        });
+    };
+    //根据duty获得分类--------------------------------------------------------------------------------------------------
+    $scope.getNormalChannelNames=function(){
+        var url=$scope.projectName+'/channel/channels';
+        $http.get(url).success(function(data){
+            if(data.length>0){
+                for(i=0;i<data.length;i++){
+                    if(data[i].englishName==$scope.userInfo_duty){
+                        $scope.checkFirstChannelForNormal(data[i]);
+                    }
+                }
+            }else{
+                $scope.normalChannelNames=[];
+            }
+        });
+    };
+    $scope.getNormalChannelNames();
+    $scope.getNewChannelNames=function(){
+        if($scope.userInfo_duty=="super"){
+//            $scope.getSuperChannelNames();
+            $scope.newChannelNames=$scope.superChannelNames;
+        }else{
+//            $scope.getNormalChannelNames();
+            $scope.newChannelNames=$scope.normalChannelNames;
+        }
+    };
+    $scope.getNewChannelNames();
 //(13)获取分类和活动（快拍）--------------------------------------------------------------------------------------------
     $scope.newPictureChannelNames=[];
     $scope.getNewPictureChannelNames=function(){
@@ -1455,31 +1680,35 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             return "btn btn-md btn-info";
         }
     };
+    //是否显示快拍、是否为超级管理员------------------------------------------------------------------------------------
+    $scope.showDutyForKuaiPai=function(){
+        if($scope.userInfo_duty=="kuaipai"){
+            return "sidebar-list dropdown";
+        }else if($scope.userInfo_duty=="super"){
+            return "sidebar-list dropdown";
+        }else{
+            return "sidebar-list dropdown sr-only";
+        }
+    };
+    $scope.showDutyForWenZhang=function(){
+        if($scope.userInfo_duty=="super"){
+            return "sidebar-list dropdown";
+        }else if($scope.userInfo_duty!="kuaipai"){
+            return "sidebar-list dropdown";
+        }else{
+            return "sidebar-list dropdown sr-only";
+        }
+    };
     //添加用户----------------------------------------------------------------------------------------------------------
     $scope.addUserInfo={
         name:"",
-        passwd:""
+        passwd:"",
+        duty:""
     };
     $scope.elsePassword="";
     $scope.clearUserInfo=function(){
         $scope.addUserInfo.passwd="";
         $scope.elsePassword="";
-    };
-    $scope.addUserInformation=function(){
-        var url=$scope.projectName+"/user/register";
-        console.log(url);
-        console.log($scope.addUserInfo);
-        if($scope.addUserInfo.passwd!=$scope.elsePassword){
-            alert("两次输入密码不一致！");
-            $scope.clearUserInfo();
-        }else{
-            $http.post(url,$scope.addUserInfo).success(function(){
-                alert("注册成功！");
-                $scope.clearUserInfo();
-                $scope.addUserInfo.name="";
-//                top.location="../../login.jsp";
-            });
-        }
     };
     $scope.addUserInformation1=function(){
         var url=$scope.projectName+"/user/register";
@@ -1489,12 +1718,29 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             alert("两次输入密码不一致！");
             $scope.clearUserInfo();
         }else{
-            $http.post(url,$scope.addUserInfo).success(function(){
-                alert("注册成功！");
-                $scope.clearUserInfo();
-                $scope.addUserInfo.name="";
-                $('#addUser_1').modal('toggle');
-            });
+            if($scope.addUserInfo.duty=="超级管理员"){
+                $scope.addUserInfo.duty="super";
+                $http.post(url,$scope.addUserInfo).success(function(){
+                    alert("注册成功！");
+                    $scope.clearUserInfo();
+                    $scope.addUserInfo.name="";
+                    $('#addUser_1').modal('toggle');
+                });
+            }else if($scope.addUserInfo.duty==""){
+                alert("请选择管理分类！");
+            }else{
+                for(var i=0;i<$scope.userDuty.length;i++){
+                    if(($scope.userDuty)[i].channelName==$scope.addUserInfo.duty){
+                        $scope.addUserInfo.duty=($scope.userDuty)[i].englishName;
+                        $http.post(url,$scope.addUserInfo).success(function(){
+                            alert("注册成功！");
+                            $scope.clearUserInfo();
+                            $scope.addUserInfo.name="";
+                            $('#addUser_1').modal('toggle');
+                        });
+                    }
+                }
+            }
         }
     };
     //修改密码-----------------------------------------------------------------------------------------------------------
@@ -1540,234 +1786,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             });
         }
     };
-    //设置app打开图片---------------------------------------------------------------------------------------------------
-    $scope.picDataTest=[
-        {id:"iphone6",pictureUrls:["http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d0aad372921.jpg",
-            "http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d03bcf57422.jpg",
-            "http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d0a8ec736ee.jpg"]},
-        {id:"iphone4",pictureUrls:["http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d03bcf57422.jpg",
-            "http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d0aad372921.jpg"]},
-        {id:"iphone5",pictureUrls:["http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d0aad372921.jpg",
-            "http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d03bcf57422.jpg"]}
-    ];
-    $scope.picData=null;
-    $scope.getPicData=function(){
-        var url=$scope.projectName+"/channel/startpictures";
-        $http.get(url).success(function(data){
-            $scope.picData=data;
-            console.log($scope.picData);
-        });
-    };
-    $scope.getPicData();
-    $scope.onePicData={
-        id:"",
-        pictureUrls:[]
-    };
-    $scope.addOnePictureData={
-        id:"",
-        pictureUrls:[]
-    };
-    $scope.testAdd=function(){
-//        $scope.addOnePictureData.id=id;
-//        $scope.onePicData.pictureUrls=urls;
-        console.log($scope.addOnePictureData);
-        var url=$scope.projectName+"/channel/startpictures";
-        $http.put(url,$scope.addOnePictureData).success(function(){
-            alert("添加图片成功");
-            $scope.getPicData();
-            $scope.addOnePictureData.pictureUrls=[];
-        });
-//        console.log($scope.picData);
-    };
-    $scope.deleteOne={
-        id:""
-    };
-    $scope.deletePicUrl=function(id,index)
-    {
-        $scope.deleteOne.id=id;
-        $scope.deleteOnePic(index+1);
-    };
-    //删除一张已上传的图片
-    $scope.deleteOnePic=function(index){
-        var url=$scope.projectName+"/channel/startpictures/delete/"+index;
-        console.log($scope.deleteOne);
-        $http.post(url,$scope.deleteOne).success(function(){
-            alert("删除成功");
-            $scope.getPicData();
-        });
-    };
-    $scope.transAddAppPicture=function(id,urls){
-        $scope.onePicData.id=id;
-        $scope.onePicData.pictureUrls=urls;
-        $scope.addOnePictureData.id=id;
-        console.log($scope.onePicData.id);
-        console.log($scope.onePicData.pictureUrls);
-        console.log($scope.onePicData);
-    };
-    //新建appId名------------------------------------------------------------------------------------------------------
-    $scope.newAppName={
-        id:"",
-        pictureUrls:[]
-    };
-    $scope.addNewAppName=function(){
-        var url=$scope.projectName+"/channel/startpictures";
-        console.log(url);
-        $scope.newAppName.pictureUrls=[];
-        console.log($scope.newAppName);
-        $scope.addName=$scope.newAppName;
-        console.log($scope.addName);
-        $http.post(url,$scope.addName).success(function(){
-            alert("添加app成功");
-            $scope.getPicData();
-            $('#myModal_addAppId').modal('toggle');
-        });
-    };
-    //删除app-----------------------------------------------------------------------------------------------------------
-    $scope.deleteId={
-        id:""
-    };
-    $scope.deleteApp=function(id){
-        var url=$scope.projectName+"/channel/startpictures/deleteall";
-        $scope.deleteId.id=id;
-        console.log($scope.deleteId);
-        $http.post(url,$scope.deleteId).success(function(){
-            alert("删除成功");
-            $scope.getPicData();
-        });
-    };
-    //上传app图片-------------------------------------------------------------------------------------------------------
-    $scope.onInputChange=function(inputFileObj)
-    {
-        $scope.previewIMG(inputFileObj);
-    };
-    //预览图片
-    $scope.previewIMG=function(inputFileObj)
-    {
-        if(inputFileObj.value==""){
-            $scope.deletePreviewFrame();
-            $scope.disableUploadButton();
-            $scope.refreshImgInput();
-        }else{
-            $scope.addPreviewFrame();
-            $scope.loadPreviewIMG(inputFileObj);
-            $scope.disableConfirmButton();
-        }
-    };
-//    $scope.final_width=null;
-//    $scope.final_height=null;
-    $scope.loadPreviewIMG=function(obj)
-    {
-        var docObj = obj;
-        var preViewUrl = window.URL.createObjectURL(docObj.files[0]);
-        var imgObjPreview=document.getElementById("imgPreview_addAppPic");
-        imgObjPreview.src = preViewUrl;
-//        $scope.final_width=imgObjPreview.offsetWidth;
-//        $scope.final_height=imgObjPreview.offsetHeight;
-    };
-    $scope.addPreviewFrame=function()
-    {
-        var tempHtml='<div class="thumbnail">'
-            +'<button type="button" class="close" onclick="angular.element(this).scope().deletePreviewFrame()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
-            +'<img id="imgPreview_addAppPic">'
-            +'</div>';
-
-        document.getElementById("previewFrame_addAppPic").innerHTML=tempHtml;
-    };
-    $scope.deletePreviewFrame=function()
-    {
-        document.getElementById("previewFrame_addAppPic").innerHTML="";
-    };
-    $scope.refreshImgInput=function()
-    {
-        document.getElementById("myUploadImgForm_addAppPic").innerHTML='<input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().onInputChange(this)"/>';
-    };
-    //上传按钮的改变（主要）
-    $scope.disableUploadButton=function()
-    {
-        var tempString='<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'
-            +'<button type="button" class="btn btn-default" disabled>上传</button>'
-            +'<button type="button" class="btn btn-default" disabled>确认</button>';
-
-        document.getElementById("modalFooterID_addAppPic").innerHTML=tempString;
-    };
-    //上传图片
-    $scope.uploadImg=function()
-    {
-        document.form_addAppPic.action=$scope.addAppPicActionName;
-        $('#myUploadImgForm_addAppPic').submit();
-        $scope.enableConfirmButton();
-    };
-    //确认按钮的改变（主要）
-    $scope.enableConfirmButton=function()
-    {
-        var tempString='<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'
-            +'<button type="button" class="btn btn-success" onclick="angular.element(this).scope().uploadImg()">上传</button>'
-            +'<button type="button" class="btn btn-primary" onclick="angular.element(this).scope().addPicUrl()">确认</button>';
-
-        document.getElementById("modalFooterID_addAppPic").innerHTML=tempString;
-    };
-    $scope.disableConfirmButton=function()
-    {
-        var tempString='<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>'
-            +'<button type="button" class="btn btn-success" onclick="angular.element(this).scope().uploadImg()">上传</button>'
-            +'<button type="button" class="btn btn-default" disabled>确认</button>';
-
-        document.getElementById("modalFooterID_addAppPic").innerHTML=tempString;
-    };
-    $scope.addPicUrl=function()
-    {
-        var url = $scope.getPicUrl();
-//        console.log($scope.final_height);
-//        if(($scope.addOnePictureData.id=="iphone4s")&&($scope.final_width==960)&&($scope.final_height==640)){
-            $scope.pushPicUrl(url);
-            $scope.testAdd();
-            $scope.turnOffUploadModal();
-            $scope.deletePreviewFrame();
-//        }else if(($scope.addOnePictureData.id=="iphone5s")&&($scope.final_width==1136)&&($scope.final_height==640)){
-//            $scope.pushPicUrl(url);
-//            $scope.testAdd();
-//            $scope.turnOffUploadModal();
-//            $scope.deletePreviewFrame();
-//        }else{
-//                alert("上传图片不合格")
-//            }
-    };
-    $scope.getPicUrl=function()
-    {
-        var url = document.getElementById("myIFrameID_addAppPic").contentDocument.body.innerHTML;
-        //console.log(url);
-        return url;
-    };
-    $scope.pushPicUrl=function(url)
-    {
-        $scope.onePicData.pictureUrls.push(url);
-        $scope.addOnePictureData.pictureUrls.push(url);
-        $scope.$apply();//相当于刷新一下scope 不然内容加不上
-    };
-    //关闭上传框
-    $scope.turnOffUploadModal=function()
-    {
-        $('#myModal_addAppPic').modal('toggle');
-    };
-    //显示当前登录用户名------------------------------------------------------------------------------------------------
-    $scope.userInfo_name="";
-    $scope.getCurUserName=function(){
-        var url=$scope.projectName+"/user/userinfo";
-        $http.get(url).success(function(data){
-            console.log(data.name);
-            $scope.userInfo_name=data.name;
-        })
-    };
-    $scope.getCurUserName();
-    //退出登录----------------------------------------------------------------------------------------------------------
-    $scope.exitLog=function(){
-        var url=$scope.projectName+"/j_spring_security_logout";
-        if(confirm("确认退出?")==true){
-            $http.get(url).success(function(){
-                top.location="../../login.jsp";
-            });
-        }
-    };
+//    //设置app打开图片---------------------------------------------------------------------------------------------------
 
 //------------------------//-----------------------//---------------------//----------------------//--------------------//
     //(已发布模块)加评论的已发布和未发布--------------------------------------------------------------------------------
@@ -1908,22 +1927,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
-//    $scope.clearCommentDetailInPub=function(){
-//        for(p in $scope.commentDetailDataInPublished){
-//            if(p=="commendList"){
-//                for(i in $scope.commentDetailDataInPublished[p]){
-//                    if(i=="userName"||i=="timeDate"||i=="state"||i=="content"||i=="reply"){
-//                        $scope.commentDetailDataInPublished[p][i]="";
-//                    }else{
-//                        $scope.commentDetailDataInPublished[p][i]=null;
-//                    }
-////                    $scope.commentDetailDataInPublished[p][i]=data[p][i];
-//                }
-//            }else{
-//                $scope.commentDetailDataInPublished[p]=null;
-//            }
-//        }
-//    };
+
     $scope.getCommentDetailTitleInPublished=function(title,typeStr)
     {
         if(typeStr=="news"){
@@ -2128,6 +2132,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         alert("遮罩取消");
     };
     //-----------------------------------------------------------------------------------------------------------------
+
     //判断外链文章url是否为正确的url形式-----------
 //    $scope.checkOutSideUrl=function(outUrl){
 //        var outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test(outUrl);

@@ -110,7 +110,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         $scope.coverIt();
         $scope.calculatePictures();
         var url1=$scope.projectName+'/article/Published/1/'+$scope.articleData.id;
-        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "|| $scope.articleData.outSideUrl == null){
             $scope.calculateWords();
             var jsonString1=JSON.stringify($scope.articleData);
             console.log($scope.articleData);

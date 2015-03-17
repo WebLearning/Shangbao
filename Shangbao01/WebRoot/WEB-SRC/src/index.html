@@ -52,6 +52,7 @@
     <script type="text/javascript" src="js/dashboard/controllers/comment-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/commentDetails-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/management-ctrl.js"></script>
+    <script type="text/javascript" src="js/dashboard/controllers/setting-ctrl.js"></script>
 
     <script type="text/javascript" src="js/dashboard/controllers/newPicture-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/crawlerPicture-ctrl.js"></script>
@@ -66,6 +67,7 @@
     <script type="text/javascript" src="js/dashboard/controllers/draftPicture-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draftPictureView-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/tm.pagination.js"></script>
+
     <style>
         .page-list .pagination {float:left;}
         .page-list .pagination span {cursor: pointer;}
@@ -146,7 +148,7 @@
         <li role="presentation" class="sidebar-list" id="generalSidebarID">
           <a ng-href="#generalView" role="tab" data-toggle="tab" ng-click="changeCurPage('一览')">一览 <span class="menu-icon glyphicon glyphicon-eye-open"></span></a>
         </li>
-        <li role="presentation" class="sidebar-list dropdown">
+        <li role="presentation" ng-class="showDutyForWenZhang()">
             <a class="dropdown-toggle" data-toggle="dropdown">
                 文章
                 <span class="menu-icon glyphicon glyphicon-file"></span>
@@ -154,7 +156,7 @@
             </a>
             <ul class="dropdown-menu" role="menu" style="background-color:#30426A;">
                 <li role="presentation" class="sidebar-list">
-                    <a ng-href="#newArticle" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/新建')">新建 <span class="menu-icon glyphicon glyphicon-file"></span></a>
+                    <a ng-href="#newArticle" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/新建')">新建 <span class="menu-icon glyphicon glyphicon-pencil"></span></a>
                 </li>
                 <li role="presentation" class="sidebar-list" id="crawlerSidebarID">
                     <a ng-href="#crawler" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/爬虫文章')">爬虫文章 <span class="menu-icon glyphicon glyphicon-save"></span></a>
@@ -168,20 +170,20 @@
                 <li role="presentation" class="sidebar-list" id="revokedSidebarID">
                     <a ng-href="#revoked" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/已撤销')">已撤销 <span class="menu-icon glyphicon glyphicon-remove"></span></a>
                 </li>
-                <li role="presentation" class="sidebar-list"id="draftSidebarID">
+                <li role="presentation" class="sidebar-list" id="draftSidebarID">
                     <a ng-href="#draft" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
                 </li>
             </ul>
         </li>
-          <li role="presentation" class="sidebar-list dropdown">
+          <li role="presentation" ng-class="showDutyForKuaiPai()">
               <a class="dropdown-toggle" data-toggle="dropdown">
-                  快拍成都
+                  快拍
                   <span class="menu-icon glyphicon glyphicon-picture"></span>
                   <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu" style="background-color:#30426A;">
                   <li role="presentation" class="sidebar-list">
-                      <a ng-href="#newPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/新建')">新建 <span class="menu-icon glyphicon glyphicon-file"></span></a>
+                      <a ng-href="#newPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/新建')">新建 <span class="menu-icon glyphicon glyphicon-pencil"></span></a>
                   </li>
                   <li role="presentation" class="sidebar-list" id="crawlerPictureSidebarID">
                       <a ng-href="#crawlerPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/爬虫图片')">爬虫图片 <span class="menu-icon glyphicon glyphicon-save"></span></a>
@@ -195,7 +197,7 @@
                   <li role="presentation" class="sidebar-list" id="revokedPictureSidebarID">
                       <a ng-href="#revokedPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/已撤销')">已撤销 <span class="menu-icon glyphicon glyphicon-remove"></span></a>
                   </li>
-                  <li role="presentation" class="sidebar-list"id="draftPictureSidebarID">
+                  <li role="presentation" class="sidebar-list" id="draftPictureSidebarID">
                       <a ng-href="#draftPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
                   </li>
               </ul>
@@ -203,7 +205,7 @@
 		<li role="presentation" class="sidebar-list">
           <a ng-href="#commentPages" role="tab" data-toggle="tab" ng-click="changeCurPage('评论')">评论 <span class="menu-icon glyphicon glyphicon-list-alt"></span></a>
         </li>
-		<li ng-href="presentation" class="sidebar-list">
+		<li role="presentation" class="sidebar-list">
           <a ng-href="#management" role="tab" data-toggle="tab" ng-click="changeCurPage('管理')">管理 <span class="menu-icon glyphicon glyphicon-folder-open"></span></a>
         </li>
         <li role="presentation" class="sidebar-list">
@@ -346,6 +348,17 @@
                                               <input type="password" class="form-control" id="add_passwd1" placeholder="请再次输入密码" ng-model="elsePassword">
                                           </div>
                                       </div>
+                                      <div class="form-group">
+                                          <label class="col-md-3 control-label">管理分类</label>
+                                          <div class="col-md-8">
+                                              <form role="form">
+                                                  <select class="form-control" ng-model="addUserInfo.duty">
+                                                      <option ng-repeat="duty in userDuty">{{duty.channelName}}</option>
+                                                      <option>超级管理员</option>
+                                                  </select>
+                                              </form>
+                                          </div>
+                                      </div>
                                   </form>
                               </div>
                               <div class="modal-footer">
@@ -402,7 +415,7 @@
                                                                         <span class="glyphicon glyphicon-arrow-down"></span> down
                                                                     </button>
 													            </div>
-                                                                <button type="button" class="btn btn-default btn-xs"ng-click="topGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
+                                                                <button type="button" class="btn btn-default btn-xs" ng-click="topGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
                                                                     <span class="glyphicon glyphicon-plane"></span> Top
                                                                 </button>
                                                             </td>
@@ -1311,7 +1324,7 @@
                                         <th style="width: 7%">分类</th>
                                         <th style="width: 4%">等级</th>
                                         <th style="width: 5%"><a href="" ng-click="orderByClicks()">点击数</a></th>
-                                        <!--<th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a>)</th>-->
+                                        <!--<th style="width: 11%">评论(<a href="" ng-click="orderByNewsCommends()">商报</a>/<a href="" ng-click="orderByCrawlerCommends()">爬虫</a></th>-->
                                         <th style="width: 12%">商报评论(<a href="" ng-click="orderByNewsCommendsPublished()">已</a>/<a href="" ng-click="orderByNewsCommendsUnPublished()">未</a>)</th>
                                         <th style="width: 12%">爬虫评论(<a href="" ng-click="orderByCrawlerCommendsPublished()">已</a>/<a href="" ng-click="orderByCrawlerCommendsUnPublished()">未</a>)</th>
                                         <th style="width: 4%"><a href="" ng-click="orderByLikes()">赞数</a></th>
@@ -2605,7 +2618,7 @@
                     </div>
                 </div>
 			</div>
-			<div role="tabpanel" class="tab-pane" id="settings">
+			<div role="tabpanel" class="tab-pane" id="settings" ng-controller="settingCtrl">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-1">
                         <table class="table table-bordered">
@@ -4543,6 +4556,7 @@
                     <!--<iframe src="http://www.baidu.com"></iframe>-->
                 </div>
             </div>
+
         </div>
 
       </div><!-- End page content -->
