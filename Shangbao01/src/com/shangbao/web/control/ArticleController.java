@@ -139,6 +139,16 @@ public class ArticleController {
 		return titleList;
 	}
 
+	@RequestMapping(value="/channel/{channelEnName}/{articleState}/{pageId:[\\d]+}", method = RequestMethod.GET)
+	@ResponseBody
+	public TitleList page(@PathVariable ArticleState articleState, @PathVariable String channelEnName,
+			@PathVariable int pageId){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String role = user.getRole();
+		TitleList titleList = articleServiceImp.getTitleList(articleState, channelEnName, pageId);
+		return titleList;
+	}
+	
 	/**
 	 * 按照Order排序
 	 * 
@@ -155,6 +165,16 @@ public class ArticleController {
 				pageNo, order, direction);
 		return titleList;
 	}
+	
+	@RequestMapping(value = "/channel/{channelEnName}/{articleState}/{pageNo:[\\d]+}/{order:[a-z,A-Z]+}/{direction:asc|desc}", method = RequestMethod.GET)
+	@ResponseBody
+	public TitleList order(@PathVariable String channelEnName, @PathVariable ArticleState articleState,
+			@PathVariable int pageNo, @PathVariable String order, @PathVariable String direction){
+		TitleList titleList = articleServiceImp.getOrderedList(articleState,
+				channelEnName, pageNo, order, direction);
+		return titleList;
+	}
+	
 
 	/**
 	 * 模糊查找
@@ -173,6 +193,16 @@ public class ArticleController {
 		return list;
 	}
 	
+	@RequestMapping(value = "/channel/{channelEnName}/{articleState}/{pageId:[\\d]+}/query", method=RequestMethod.POST)
+	@ResponseBody
+	public TitleList fuzzeFind(@PathVariable String channelEnName, @PathVariable ArticleState articleState, @PathVariable int pageNo, @RequestBody Article article){
+		TitleList list = new TitleList();
+		if(article.getContent() != null){
+			list = articleServiceImp.fuzzyFind(article.getContent(), articleState, channelEnName, pageNo, 20);
+		}
+		return list;
+	}
+	
 	@RequestMapping(value = "/{articleState}/{pageNo}/query/{order:[a-z,A-Z]+}/{direction:asc|desc}", method=RequestMethod.POST)
 	@ResponseBody
 	public TitleList fuzzeFindOrder(@PathVariable ArticleState articleState,
@@ -186,6 +216,22 @@ public class ArticleController {
 		}
 		return list;
 	}
+	
+	@RequestMapping(value = "/channel/{channelEnName}/{articleState}/{pageNo}/query/{order:[a-z,A-Z]+}/{direction:asc|desc}", method=RequestMethod.POST)
+	@ResponseBody
+	public TitleList fuzzeFindOrder(@PathVariable String channelEnName,
+									@PathVariable ArticleState articleState,
+								    @PathVariable int pageNo,
+								    @PathVariable String order,
+								    @PathVariable String direction,
+								    @RequestBody Article article){
+		TitleList list = new TitleList();
+		if(article.getContent() != null){
+			list = articleServiceImp.fuzzyFindOrder(article.getContent(), articleState, channelEnName, pageNo, 20, order, direction);
+		}
+		return list;
+	}
+	
 	
 	/**
 	 * 获取一篇文章

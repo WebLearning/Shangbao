@@ -84,4 +84,12 @@ public class UserController {
 		user.setPasswd("");
 		return user;
 	}
+	
+	@RequestMapping(value="/userauth", method=RequestMethod.GET)
+	@ResponseBody
+	public String getUserAuth(){
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String auth = user.getRole();
+		return auth;
+	}
 }

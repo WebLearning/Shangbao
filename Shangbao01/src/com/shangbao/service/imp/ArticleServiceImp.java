@@ -1,5 +1,6 @@
 package com.shangbao.service.imp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import com.shangbao.app.model.ColumnPageModel;
 import com.shangbao.dao.ArticleDao;
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
+import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.show.Page;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.ArticleService;
@@ -78,6 +80,28 @@ public class ArticleServiceImp implements ArticleService {
 	}
 	
 	@Override
+	public TitleList fuzzyFind(String words, ArticleState state, String channelEnName, int pageNo, int pageSize){
+		TitleList list = new TitleList();
+		List<Channel> channels = channelServiceImp.getLeafChannels(channelEnName);
+		List<String> channelNames = new ArrayList<>();
+		if(!channelEnName.isEmpty()){
+			for(Channel channel : channels){
+				channelNames.add(channel.getChannelName());
+			}
+			Page<Article> page = articleDaoImp.fuzzyFind(words, state, channelNames, false, pageNo, pageSize);
+			if(page.getDatas() == null || page.getDatas().isEmpty()){
+				return list;
+			}
+			list.setCurrentNo(pageNo);
+			list.setPageCount(page.getTotalPage());
+			for(Article article : page.getDatas()){
+				list.addTitle(article);
+			}
+		}
+		return list;
+	}
+	
+	@Override
 	public ColumnPageModel appFuzzyFind(String words, boolean tag, int pageNo, int pageSize){
 		ColumnPageModel columnPageModel = new ColumnPageModel();
 		Page<Article> page = articleDaoImp.fuzzyFind(words, ArticleState.Published, tag, pageNo, pageSize);
@@ -94,6 +118,8 @@ public class ArticleServiceImp implements ArticleService {
 		return columnPageModel;
 	}
 	
+	
+	
 	@Override
 	public TitleList fuzzyFindOrder(String words, ArticleState state, int pageNo, int pageSize, String order, String direction){
 		Page<Article> page = null;
@@ -109,6 +135,34 @@ public class ArticleServiceImp implements ArticleService {
 			titleList.addTitle(article);
 		}
 		return titleList;
+	}
+	
+	@Override
+	public TitleList fuzzyFindOrder(String words, ArticleState state, String channelEnName, int pageNo, int pageSize, String order, String direction){
+		TitleList list = new TitleList();
+		List<Channel> channels = channelServiceImp.getLeafChannels(channelEnName);
+		List<String> channelNames = new ArrayList<>();
+		if(!channelEnName.isEmpty()){
+			for(Channel channel : channels){
+				channelNames.add(channel.getChannelName());
+			}
+			Direction direc;
+			if(direction.equals("asc")){
+				direc = Direction.ASC;
+			}else{
+				direc = Direction.DESC;
+			}
+			Page<Article> page = articleDaoImp.fuzzyFind(words, state, channelNames, false, pageNo, pageSize, order, direc);
+			if(page.getDatas() == null || page.getDatas().isEmpty()){
+				return list;
+			}
+			list.setCurrentNo(pageNo);
+			list.setPageCount(page.getTotalPage());
+			for(Article article : page.getDatas()){
+				list.addTitle(article);
+			}
+		}
+		return list;
 	}
 	
 	@Override
@@ -172,6 +226,30 @@ public class ArticleServiceImp implements ArticleService {
 		}
 		return titleList;
 	}
+	
+	@Override
+	public TitleList getTitleList(ArticleState articleState, String channelEnName, int pageNo){
+		TitleList titleList = new TitleList();
+		List<Channel> channels = channelServiceImp.getLeafChannels(channelEnName);
+		List<String> channelNames = new ArrayList<>();
+		if(!channels.isEmpty()){
+			for(Channel channel : channels){
+				channelNames.add(channel.getChannelName());
+			}
+			Query query = new Query();
+			query.addCriteria(Criteria.where("state").is(articleState.toString()));
+			query.addCriteria(Criteria.where("tag").is(false));
+			query.addCriteria(Criteria.where("channel").in(channelNames));
+			query.with(new Sort(Direction.DESC, "time"));
+			Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
+			titleList.setCurrentNo(pageNo);
+			titleList.setPageCount(page.getTotalPage());
+			for(Article article : page.getDatas()){
+				titleList.addTitle(article);
+			}
+		}
+		return titleList;
+	}
 
 	@Override
 	public TitleList getOrderedList(ArticleState articleState, int pageNo,
@@ -191,6 +269,35 @@ public class ArticleServiceImp implements ArticleService {
 		titleList.setPageCount(page.getTotalPage());
 		for(Article article : page.getDatas()){
 			titleList.addTitle(article);
+		}
+		return titleList;
+	}
+	
+	@Override
+	public TitleList getOrderedList(ArticleState articleState, String channelEnName, int pageNo, String order, String direction){
+		TitleList titleList = new TitleList();
+		List<Channel> channels = channelServiceImp.getLeafChannels(channelEnName);
+		List<String> channelNames = new ArrayList<>();
+		if(!channels.isEmpty()){
+			for(Channel channel : channels){
+				channelNames.add(channel.getChannelName());
+				Query query = new Query();
+				query.addCriteria(Criteria.where("state").is(articleState.toString()));
+				query.addCriteria(Criteria.where("tag").is(false));
+				query.addCriteria(Criteria.where("channel").in(channelNames));
+				if(direction.equals("asc")){
+					query.with(new Sort(Direction.ASC, order));
+				}else{
+					query.with(new Sort(Direction.DESC, order));
+				}
+				Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
+				//System.out.println(query.getSortObject());
+				titleList.setCurrentNo(pageNo);
+				titleList.setPageCount(page.getTotalPage());
+				for(Article article : page.getDatas()){
+					titleList.addTitle(article);
+				}
+			}
 		}
 		return titleList;
 	}

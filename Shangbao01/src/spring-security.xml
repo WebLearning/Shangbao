@@ -7,7 +7,7 @@
 
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/commend/**" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/article/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/article/**" access="hasAnyRole('ROLE_ADMIN','ROLE_TEST')" />
 		<intercept-url pattern="/auth/**" access="permitAll" />
 		<intercept-url pattern="/picture/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/crawler/**" access="permitAll" />

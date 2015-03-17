@@ -74,10 +74,10 @@ public class ChannelServiceImp implements ChannelService{
 	}
 	
 	@Override
-	public List<Channel> getLeafChannels(String channelName){
+	public List<Channel> getLeafChannels(String channelEnName){
 		List<Channel> channels = new ArrayList<>();
 		Channel criteriaChannel = new Channel();
-		criteriaChannel.setChannelName(channelName);
+		criteriaChannel.setEnglishName(channelEnName);
 		List<Channel> findChannels = channelDaoImp.find(criteriaChannel);
 		if(!findChannels.isEmpty()){
 			Channel channel = findChannels.get(0);
@@ -86,7 +86,7 @@ public class ChannelServiceImp implements ChannelService{
 			}else if(channel.getState().equals(ChannelState.Father)){
 				Channel criteriaSonChannel = new Channel();
 				criteriaSonChannel.setState(ChannelState.Son);
-				criteriaSonChannel.setRelated(channelName);
+				criteriaSonChannel.setRelated(channel.getChannelName());
 				List<Channel> sonChannels = channelDaoImp.find(criteriaSonChannel);
 				if(sonChannels.isEmpty()){
 					channels.add(channel);

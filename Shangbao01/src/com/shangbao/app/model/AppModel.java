@@ -51,19 +51,19 @@ public class AppModel {
 	@Resource
 	private PendTagService pendTagServiceImp;
 	
-	private final Map<String, List<String>> startPictures = new ConcurrentHashMap<String, List<String>>();//启动显示图片
+	private Map<String, List<String>> startPictures = new ConcurrentHashMap<String, List<String>>();//启动显示图片
 	private ReentrantReadWriteLock startPicLock = new ReentrantReadWriteLock();
-	private final Map<String, List<Article>> appMap = new ConcurrentHashMap<String, List<Article>>();//每个channel包含的文章
+	private Map<String, List<Article>> appMap = new ConcurrentHashMap<String, List<Article>>();//每个channel包含的文章
 	private ReentrantReadWriteLock appMapLock = new ReentrantReadWriteLock();
-	private final List<ChannelModel> channelModels = new CopyOnWriteArrayList<ChannelModel>();//所有的channel
+	private List<ChannelModel> channelModels = new CopyOnWriteArrayList<ChannelModel>();//所有的channel
 	private ReentrantReadWriteLock channelModelsLock = new ReentrantReadWriteLock();
-	private final Map<Long, List<SingleCommend>> commends = new ConcurrentHashMap<Long, List<SingleCommend>>();//每篇文章的评论
+	private Map<Long, List<SingleCommend>> commends = new ConcurrentHashMap<Long, List<SingleCommend>>();//每篇文章的评论
 	private ReentrantReadWriteLock commendsLock = new ReentrantReadWriteLock();
-	private final List<Channel> activities = new CopyOnWriteArrayList<Channel>();
+	private List<Channel> activities = new CopyOnWriteArrayList<Channel>();
 	private ReentrantReadWriteLock activitiesLock = new ReentrantReadWriteLock();
-	private final Map<String, String> channelEn_Cn = new ConcurrentHashMap<String, String>();//key:英文名； value:中文名
+	private Map<String, String> channelEn_Cn = new ConcurrentHashMap<String, String>();//key:英文名； value:中文名
 	private ReentrantReadWriteLock channelEn_CnLock = new ReentrantReadWriteLock();
-	private final Map<Long, Article> articleMap = new ConcurrentHashMap<>();//key是文章的id，value对应一篇文章
+	private Map<Long, Article> articleMap = new ConcurrentHashMap<>();//key是文章的id，value对应一篇文章
 	private ReentrantReadWriteLock articleMapLock = new ReentrantReadWriteLock();
 	
 	
@@ -135,7 +135,7 @@ public class AppModel {
 	
 	public void redeployStartPictures(){
 		//startPictures.clear();
-		Map<String, List<String>> startPicTemp = new HashMap<>();
+		Map<String, List<String>> startPicTemp = new ConcurrentHashMap<>();
 		List<StartPictures> startPictures = startPicturesDaoImp.find(new StartPictures());
 		if(!startPictures.isEmpty()){
 			for(StartPictures pictures : startPictures){
@@ -145,8 +145,7 @@ public class AppModel {
 		}
 		startPicLock.writeLock().lock();
 		try{
-			this.startPictures.clear();
-			this.startPictures.putAll(startPicTemp);
+			this.startPictures = startPicTemp;
 		}finally{
 			startPicLock.writeLock().unlock();
 		}
@@ -157,8 +156,8 @@ public class AppModel {
 	 * @param channelName
 	 */
 	public void redeployChannelArticles(List<String> channelNames){
-		 Map<String, List<Article>> appMapTemp = new HashMap<>();
-		 Map<Long, Article> articleMapTemp = new HashMap<>();
+		 Map<String, List<Article>> appMapTemp = new ConcurrentHashMap<>();
+		 Map<Long, Article> articleMapTemp = new ConcurrentHashMap<>();
 		 for(String channelName : channelNames){
 			 Article criteriaArticle = new Article();
 			 criteriaArticle.addChannel(channelName);
@@ -173,15 +172,15 @@ public class AppModel {
 		 }
 		 appMapLock.writeLock().lock();
 		 try{
-			 this.appMap.clear();
-			 this.appMap.putAll(appMapTemp);
+			 this.appMap = appMapTemp;
+			 //this.appMap.putAll(appMapTemp);
 		 }finally{
 			 appMapLock.writeLock().unlock();
 		 }
 		 articleMapLock.writeLock().lock();
 		 try{
-			 this.articleMap.clear();
-			 this.articleMap.putAll(articleMapTemp);
+			 this.articleMap = articleMapTemp;
+			 //this.articleMap.putAll(articleMapTemp);
 		 }finally{
 			 articleMapLock.writeLock().unlock();
 		 }
@@ -202,7 +201,7 @@ public class AppModel {
 	 * @param articleId
 	 */
 	public void redeployComment(List<Long> articleIds){
-		Map<Long, List<SingleCommend>> commendsTemp = new HashMap<>();
+		Map<Long, List<SingleCommend>> commendsTemp = new ConcurrentHashMap<>();
 		for(Long articleId : articleIds){
 			Commend criteriaCommend = new Commend();
 			List<SingleCommend> singleCommends = new ArrayList<SingleCommend>();
@@ -233,8 +232,8 @@ public class AppModel {
 		//this.commends.put(articleId, singleCommends);
 		commendsLock.writeLock().lock();
 		try{
-			this.commends.clear();
-			this.commends.putAll(commendsTemp);
+			this.commends = commendsTemp;
+			//this.commends.putAll(commendsTemp);
 		}finally{
 			commendsLock.writeLock().unlock();
 		}
@@ -244,9 +243,9 @@ public class AppModel {
 	 * 更新channels
 	 */
 	public void redeployChannels(){
-		Map<String, String> channelEn_CnTemp = new HashMap<>();
-		List<Channel> activitiesTemp = new ArrayList<>();
-		List<ChannelModel> channelModelsTemp = new ArrayList<>();
+		Map<String, String> channelEn_CnTemp = new ConcurrentHashMap<>();
+		List<Channel> activitiesTemp = new CopyOnWriteArrayList<>();
+		List<ChannelModel> channelModelsTemp = new CopyOnWriteArrayList<>();
 		Channel criteriaChannel = new Channel();
 		criteriaChannel.setState(ChannelState.Father);
 		List<Channel> fatherChannels = channelDaoImp.find(criteriaChannel, new Sort(Direction.ASC, "channelIndex"));
@@ -282,22 +281,22 @@ public class AppModel {
 		}
 		channelEn_CnLock.writeLock().lock();
 		try{
-			this.channelEn_Cn.clear();
-			this.channelEn_Cn.putAll(channelEn_CnTemp);
+			this.channelEn_Cn = channelEn_CnTemp;
+			//this.channelEn_Cn.putAll(channelEn_CnTemp);
 		}finally{
 			channelEn_CnLock.writeLock().unlock();
 		}
 		activitiesLock.writeLock().lock();
 		try{
-			this.activities.clear();
-			this.activities.addAll(activitiesTemp);
+			this.activities = activitiesTemp;
+			//this.activities.addAll(activitiesTemp);
 		}finally{
 			activitiesLock.writeLock().unlock();
 		}
 		channelModelsLock.writeLock().lock();
 		try{
-			this.channelModels.clear();
-			this.channelModels.addAll(channelModelsTemp);
+			this.channelModels = channelModelsTemp;
+			//this.channelModels.addAll(channelModelsTemp);
 		}finally{
 			channelModelsLock.writeLock().unlock();
 		}

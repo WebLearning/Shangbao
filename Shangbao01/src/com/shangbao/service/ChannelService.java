@@ -14,5 +14,5 @@ public interface ChannelService {
 	String deleteChannel(Channel channel);
 	void swapChannel(Channel channelA, Channel channelB);
 	Channel findByEnName(String englishName, ChannelState state);
-	List<Channel> getLeafChannels(String channelName);
+	List<Channel> getLeafChannels(String channelEnName);
 }

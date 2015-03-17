@@ -68,7 +68,8 @@ public class AppService {
 	 * @return
 	 */
 	public AppChannelModel getChannelModel(String channelEnName, int titleSize){
-		String channelName = appModel.getChannelEn_Cn().get(channelEnName);
+		Map<String, String> channelEn_Cn = appModel.getChannelEn_Cn();
+		String channelName = channelEn_Cn.get(channelEnName);
 		if(channelName == null){
 			return null;
 		}
@@ -109,7 +110,9 @@ public class AppService {
 	 * @return
 	 */
 	public ColumnPageModel getArticlesFromChannel(String channelName, int pageNo, int pageSize){
-		channelName = appModel.getChannelEn_Cn().get(channelName);
+		Map<String, String> channelEn_Cn = appModel.getChannelEn_Cn();
+		channelName = channelEn_Cn.get(channelName);
+		//channelName = appModel.getChannelEn_Cn().get(channelName);
 		if(channelName == null){
 			return null;
 		}

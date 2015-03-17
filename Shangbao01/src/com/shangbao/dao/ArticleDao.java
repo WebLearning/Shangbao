@@ -18,7 +18,9 @@ public interface ArticleDao extends MongoDao<Article> {
 	List<Article> find(Article criteriaArticle, Direction direction, String property);
 	List<Article> fuzzyFind(String words, ArticleState state, boolean tag);
 	Page<Article> fuzzyFind(String words, ArticleState state, boolean tag, int pageNo, int pageSize);
+	Page<Article> fuzzyFind(String words, ArticleState state, List<String> channelNames, boolean tag, int pageNo, int pageSize);
 	Page<Article> fuzzyFind(String words, ArticleState state, boolean tag, int pageNo, int pageSize, String order, Direction direction);
+	Page<Article> fuzzyFind(String words, ArticleState state, List<String> channelNames, boolean tag, int pageNo, int pageSize, String order, Direction direction);
 	void setTopArticle(String channelName, Long articleId);
 	void swapArticle(String channelName, Long articleAId, Long articleBId);
 	void update(Article criteriaArticle, Update update);
