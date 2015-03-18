@@ -479,7 +479,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }
             });
         }else{
-            console.log("url错误");
+//            console.log("null userInfo_duty pending");
         }
     };
     $scope.urlForPendingLastPage="";
@@ -496,7 +496,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.pendingPaginationConf.totalItems=(($scope.lastPendingPageData.pageCount)-1)*20+$scope.lastPendingPageDataLength;
             });
         }else{
-            console.log("url错误");
+//            console.log("null userInfo_duty pending LastPage");
         }
     };
 //    $scope.getPendingData(1);//生成待审页面时即产生第一页数据
@@ -548,7 +548,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }
             });
         }else{
-            console.log("url错误！");
+//            console.log("null userInfo_duty pendingSearch");
         }
     };
     $scope.urlForPendingSearchLastpage="";
@@ -565,7 +565,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.pendingPaginationConf.totalItems=(($scope.lastPendingPageData.pageCount)-1)*20+$scope.lastPendingPageDataLength;
             });
         }else{
-            console.log("url错误");
+//            console.log("null userInfo_duty pendingSearch LastPage");
         }
     };
 
@@ -614,7 +614,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }
             });
         }else{
-            console.log("url错误");
+//            console.log("null userInfo_duty published LastPage");
         }
     };
     $scope.urlForPublishedLastPage="";
@@ -631,7 +631,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.publishedPaginationConf.totalItems=(($scope.lastPublishedPageData.pageCount)-1)*20+$scope.lastPublishedPageDataLength;
             });
         }else{
-            console.log("url错误");
+//            console.log("null userInfo_duty published LastPage");
         }
     };
     $scope.getPublishedData(1);//在点击已发布文章时，直接生成第一页内容
@@ -682,7 +682,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }
             });
         }else{
-            console.log("url错误");
+//            console.log("null userInfo_duty publishedSearch");
         }
     };
     $scope.urlForPublishedSearchLastPage="";
@@ -699,7 +699,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.publishedPaginationConf.totalItems=(($scope.lastPublishedPageData.pageCount)-1)*20+$scope.lastPublishedPageDataLength;
             });
         }else{
-            console.log("url错误");
+//            console.log("null userInfo_duty publishedSearch LastPage");
         }
     };
 //(4)获取已撤销数据-----------------------------------------------------------------------------------------------------
@@ -724,30 +724,48 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
+    $scope.urlForRevoked="";
     $scope.getRevokedData=function(pageID)
     {
-        var url=$scope.projectName+'/article/Revocation/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.revokedData=data;
-                $scope.revokedPageNums=getPageNums($scope.revokedData.pageCount);
-                $scope.lastRevokedPage=$scope.revokedData.pageCount;
-                $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
-                $scope.getLastRevokedPageData($scope.lastRevokedPage);
-            }else{
-                $scope.revokedData=data;
-                $scope.revokedPaginationConf.currentPage=0;
-                $scope.revokedPaginationConf.totalItems=0;
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForRevoked=$scope.projectName+'/article/Revocation/'+pageID.toString()+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForRevoked=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Revocation/'+pageID.toString()+$scope.orderCondition;
             }
-        });
+            $http.get($scope.urlForRevoked).success(function(data){
+                if(data.pageCount>0){
+                    $scope.revokedData=data;
+                    $scope.revokedPageNums=getPageNums($scope.revokedData.pageCount);
+                    $scope.lastRevokedPage=$scope.revokedData.pageCount;
+                    $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
+                    $scope.getLastRevokedPageData($scope.lastRevokedPage);
+                }else{
+                    $scope.revokedData=data;
+                    $scope.revokedPaginationConf.currentPage=0;
+                    $scope.revokedPaginationConf.totalItems=0;
+                }
+            });
+        }else{
+//           console.log("null userInfo_duty revoked") ;
+        }
     };
+    $scope.urlForRevokedLastPage="";
     $scope.getLastRevokedPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Revocation/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastRevokedPageData=data;
-            $scope.lastRevokedPageDataLength=$scope.lastRevokedPageData.tileList.length;
-            $scope.revokedPaginationConf.totalItems=(($scope.lastRevokedPageData.pageCount)-1)*20+$scope.lastRevokedPageDataLength;
-        });
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForRevokedLastPage=$scope.projectName+'/article/Revocation/'+lastPage+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForRevokedLastPage=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Revocation/'+lastPage+$scope.orderCondition;
+            }
+            $http.get($scope.urlForRevokedLastPage).success(function(data){
+                $scope.lastRevokedPageData=data;
+                $scope.lastRevokedPageDataLength=$scope.lastRevokedPageData.tileList.length;
+                $scope.revokedPaginationConf.totalItems=(($scope.lastRevokedPageData.pageCount)-1)*20+$scope.lastRevokedPageDataLength;
+            });
+        }else{
+//            console.log("null userInfo_duty revoked LastPage");
+        }
     };
     $scope.getRevokedData(1);//会在生成页面的时候直接运行!
     function clearRevokedSearchData(){
@@ -774,31 +792,49 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }
     };
     //(d)搜索已撤销数据-------------------------------------------------------------------------------------------------
+    $scope.urlForRevokedSearch="";
     $scope.getRevokedSearchData=function(pageID){
-        var url=$scope.projectName+'/article/Revocation/'+pageID.toString()+'/query'+$scope.orderCondition;
-        console.log($scope.revokedSearchData);
-        $http.post(url,$scope.revokedSearchData).success(function(data){
-            console.log(data);
-            if(data.pageCount>0){
-                $scope.revokedData=data;
-                $scope.revokedPageNums=getPageNums($scope.revokedData.pageCount);
-                $scope.lastRevokedPage=$scope.revokedData.pageCount;
-                $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
-                $scope.getLastRevokedSearchPageData($scope.lastRevokedPage);
-            }else{
-                $scope.revokedData=data;
-                $scope.revokedPaginationConf.currentPage=0;
-                $scope.revokedPaginationConf.totalItems=0;
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForRevokedSearch=$scope.projectName+'/article/Revocation/'+pageID.toString()+'/query'+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForRevokedSearch=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Revocation/'+pageID.toString()+'/query'+$scope.orderCondition;
             }
-        });
+            console.log($scope.revokedSearchData);
+            $http.post($scope.urlForRevokedSearch,$scope.revokedSearchData).success(function(data){
+                console.log(data);
+                if(data.pageCount>0){
+                    $scope.revokedData=data;
+                    $scope.revokedPageNums=getPageNums($scope.revokedData.pageCount);
+                    $scope.lastRevokedPage=$scope.revokedData.pageCount;
+                    $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
+                    $scope.getLastRevokedSearchPageData($scope.lastRevokedPage);
+                }else{
+                    $scope.revokedData=data;
+                    $scope.revokedPaginationConf.currentPage=0;
+                    $scope.revokedPaginationConf.totalItems=0;
+                }
+            });
+        }else{
+//            console.log("null userInfo_duty revokedSearch");
+        }
     };
+    $scope.urlForRevokedSearchLastPage="";
     $scope.getLastRevokedSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Revocation/'+lastPage+'/query'+$scope.orderCondition;
-        $http.post(url,$scope.revokedSearchData).success(function(data){
-            $scope.lastRevokedPageData=data;
-            $scope.lastRevokedPageDataLength=$scope.lastRevokedPageData.tileList.length;
-            $scope.revokedPaginationConf.totalItems=(($scope.lastRevokedPageData.pageCount)-1)*20+$scope.lastRevokedPageDataLength;
-        });
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForRevokedSearchLastPage=$scope.projectName+'/article/Revocation/'+lastPage+'/query'+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForRevokedSearchLastPage=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Revocation/'+lastPage+'/query'+$scope.orderCondition;
+            }
+            $http.post($scope.urlForRevokedSearchLastPage,$scope.revokedSearchData).success(function(data){
+                $scope.lastRevokedPageData=data;
+                $scope.lastRevokedPageDataLength=$scope.lastRevokedPageData.tileList.length;
+                $scope.revokedPaginationConf.totalItems=(($scope.lastRevokedPageData.pageCount)-1)*20+$scope.lastRevokedPageDataLength;
+            });
+        }else{
+//            console.log("null userInfo_duty revokedSearch LastPage");
+        }
     };
 //(5)获取草稿箱数据--------------------------------------------------------------------------------------------------------
     $scope.tempData=null;
@@ -822,30 +858,48 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
+    $scope.urlForTemp="";
     $scope.getTempData=function(pageID)
     {
-        var url=$scope.projectName+'/article/Temp/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.tempData=data;
-                $scope.tempPageNums=getPageNums($scope.tempData.pageCount);
-                $scope.lastTempPage=$scope.tempData.pageCount;
-                $scope.tempPaginationConf.currentPage=$scope.tempData.currentNo;
-                $scope.getLastTempPageData($scope.lastTempPage);
-            }else{
-                $scope.tempData=data;
-                $scope.tempPaginationConf.currentPage=0;
-                $scope.tempPaginationConf.totalItems=0;
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForTemp=$scope.projectName+'/article/Temp/'+pageID.toString()+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForTemp=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Temp/'+pageID.toString()+$scope.orderCondition;
             }
-        });
+            $http.get($scope.urlForTemp).success(function(data){
+                if(data.pageCount>0){
+                    $scope.tempData=data;
+                    $scope.tempPageNums=getPageNums($scope.tempData.pageCount);
+                    $scope.lastTempPage=$scope.tempData.pageCount;
+                    $scope.tempPaginationConf.currentPage=$scope.tempData.currentNo;
+                    $scope.getLastTempPageData($scope.lastTempPage);
+                }else{
+                    $scope.tempData=data;
+                    $scope.tempPaginationConf.currentPage=0;
+                    $scope.tempPaginationConf.totalItems=0;
+                }
+            });
+        }else{
+//            console.log("null userInfo_duty temp");
+        }
     };
+    $scope.urlForTempLastPage="";
     $scope.getLastTempPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Temp/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastTempPageData=data;
-            $scope.lastTempPageDataLength=$scope.lastTempPageData.tileList.length;
-            $scope.tempPaginationConf.totalItems=(($scope.lastTempPageData.pageCount)-1)*20+$scope.lastTempPageDataLength;
-        });
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForTempLastPage=$scope.projectName+'/article/Temp/'+lastPage+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForTempLastPage=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Temp/'+lastPage+$scope.orderCondition;
+            }
+            $http.get($scope.urlForTempLastPage).success(function(data){
+                $scope.lastTempPageData=data;
+                $scope.lastTempPageDataLength=$scope.lastTempPageData.tileList.length;
+                $scope.tempPaginationConf.totalItems=(($scope.lastTempPageData.pageCount)-1)*20+$scope.lastTempPageDataLength;
+            });
+        }else{
+//            console.log("null userInfo_duty tempLastPage");
+        }
     };
     $scope.getTempData(1);//会在生成页面的时候直接运行!
     function clearTempSearchData(){
@@ -872,32 +926,50 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }
     };
     //(e)搜索草稿数据---------------------------------------------------------------------------------------------------
+    $scope.urlForTempSearch="";
     $scope.getTempSearchData=function(pageID){
-        var url=$scope.projectName+'/article/Temp/'+pageID.toString()+'/query'+$scope.orderCondition;
-        console.log(url);
-        console.log($scope.tempSearchData);
-        $http.post(url,$scope.tempSearchData).success(function(data){
-            console.log(data);
-            if(data.pageCount>0){
-                $scope.tempData=data;
-                $scope.tempPageNums=getPageNums($scope.tempData.pageCount);
-                $scope.lastTempPage=$scope.tempData.pageCount;
-                $scope.tempPaginationConf.currentPage=$scope.tempData.currentNo;
-                $scope.getLastTempSearchPageData($scope.lastTempPage);
-            }else{
-                $scope.tempData=data;
-                $scope.tempPaginationConf.currentPage=0;
-                $scope.tempPaginationConf.totalItems=0;
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForTempSearch=$scope.projectName+'/article/Temp/'+pageID.toString()+'/query'+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForTempSearch=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Temp/'+pageID.toString()+'/query'+$scope.orderCondition;
             }
-        });
+            console.log($scope.urlForTempSearch);
+            console.log($scope.tempSearchData);
+            $http.post($scope.urlForTempSearch,$scope.tempSearchData).success(function(data){
+                console.log(data);
+                if(data.pageCount>0){
+                    $scope.tempData=data;
+                    $scope.tempPageNums=getPageNums($scope.tempData.pageCount);
+                    $scope.lastTempPage=$scope.tempData.pageCount;
+                    $scope.tempPaginationConf.currentPage=$scope.tempData.currentNo;
+                    $scope.getLastTempSearchPageData($scope.lastTempPage);
+                }else{
+                    $scope.tempData=data;
+                    $scope.tempPaginationConf.currentPage=0;
+                    $scope.tempPaginationConf.totalItems=0;
+                }
+            });
+        }else{
+//            console.log("null userInfo_duty TempSearch");
+        }
     };
+    $scope.urlForTempSearchLastPage="";
     $scope.getLastTempSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Temp/'+lastPage+'/query'+$scope.orderCondition;
-        $http.post(url,$scope.tempSearchData).success(function(data){
-            $scope.lastTempPageData=data;
-            $scope.lastTempPageDataLength=$scope.lastTempPageData.tileList.length;
-            $scope.tempPaginationConf.totalItems=(($scope.lastTempPageData.pageCount)-1)*20+$scope.lastTempPageDataLength;
-        });
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForTempSearchLastPage=$scope.projectName+'/article/Temp/'+lastPage+'/query'+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForTempSearchLastPage=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Temp/'+lastPage+'/query'+$scope.orderCondition;
+            }
+            $http.post($scope.urlForTempSearchLastPage,$scope.tempSearchData).success(function(data){
+                $scope.lastTempPageData=data;
+                $scope.lastTempPageDataLength=$scope.lastTempPageData.tileList.length;
+                $scope.tempPaginationConf.totalItems=(($scope.lastTempPageData.pageCount)-1)*20+$scope.lastTempPageDataLength;
+            });
+        }else{
+//            console.log("null userInfo_duty Temp searchLastPage");
+        }
     };
 //(6)获取一览数据-------------------------------------------------------------------------------------------------------
     $scope.newGeneralViewSections=null;
