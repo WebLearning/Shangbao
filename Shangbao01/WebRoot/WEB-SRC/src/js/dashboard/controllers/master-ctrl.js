@@ -601,8 +601,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
             console.log($scope.urlForPublished);
             $http.get($scope.urlForPublished).success(function(data){
+                console.log(data.tileList.length);
                 if(data.pageCount>0){
                     $scope.publishedData=data;
+//                    console.log($scope.publishedData.length);
+                    console.log(data);
+                    console.log($scope.publishedData);
                     $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
                     $scope.lastPublishedPage=$scope.publishedData.pageCount;
                     $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
@@ -634,7 +638,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 //            console.log("null userInfo_duty published LastPage");
         }
     };
-    $scope.getPublishedData(1);//在点击已发布文章时，直接生成第一页内容
+//    $scope.getPublishedData(1);//在点击已发布文章时，直接生成第一页内容
     function clearPublishedSearchData(){
         for(p in $scope.publishedSearchData){
             $scope.publishedSearchData[p]="";

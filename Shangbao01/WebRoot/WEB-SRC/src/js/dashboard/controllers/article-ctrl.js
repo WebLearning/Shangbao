@@ -69,7 +69,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         $scope.coverIt();
 //        $scope.calculateWords();
         $scope.calculatePictures();
-        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "){
+        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             var jsonString=JSON.stringify($scope.newArticleData);
             $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
@@ -99,7 +99,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
 //        $scope.calculateWords();
         $scope.calculatePictures();
         var url=$scope.projectName+"/article/newArticle/pend";
-        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "){
+        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             var jsonString=JSON.stringify($scope.newArticleData);
             $http.post(url,jsonString).success(function(){
@@ -128,7 +128,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         $scope.coverIt();
         $scope.calculatePictures();
         var url=$scope.projectName+"/article/newArticle/pend";
-        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "){
+        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             var jsonString=JSON.stringify($scope.newArticleData);
             console.log(jsonString);
@@ -170,7 +170,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         var time=myPublishedTime-myDateTime;
         console.log(time);
         var url=$scope.projectName+"/article/newArticle/timingpublish/"+time;
-        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "){
+        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             var jsonString=JSON.stringify($scope.newArticleData);
             console.log(url);

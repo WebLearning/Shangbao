@@ -74,7 +74,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         $scope.coverIt();
         $scope.calculatePictures();
         var url=$scope.projectName+'/article/Temp/1/'+$scope.articleData.id;
-        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             var jsonString1=JSON.stringify($scope.articleData);
             $http.put(url,jsonString1).success(function(data) {
@@ -117,7 +117,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         $scope.calculatePictures();
         var url1=$scope.projectName+'/article/Temp/1/'+$scope.articleData.id;
         var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-        if($scope.articleData.outSideUrl == "" || $scope.articleData.outSideUrl == " "){
+        if($scope.articleData.outSideUrl == "" || $scope.articleData.outSideUrl == " "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             var jsonString1=JSON.stringify($scope.articleData);
             $http.put(url1,jsonString1).success(function(data) {
@@ -161,7 +161,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         $scope.calculatePictures();
         var url1=$scope.projectName+'/article/Temp/1/'+$scope.articleData.id;
         var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             var jsonString1=JSON.stringify($scope.articleData);
             $http.put(url1,jsonString1).success(function(data) {
@@ -215,7 +215,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         $scope.calculatePictures();
         var url1=$scope.projectName+'/article/Temp/1/'+$scope.articleData.id;
         var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
-        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             var jsonString1=JSON.stringify($scope.articleData);
             $http.put(url1,jsonString1).success(function(data) {

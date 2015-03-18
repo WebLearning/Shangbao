@@ -76,7 +76,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
         var url1=$scope.projectName+'/article/Revocation/1/'+$scope.articleData.id;
         var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
 
-        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "){
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             var jsonString1=JSON.stringify($scope.articleData);
             $http.put(url1,jsonString1).success(function(data) {
