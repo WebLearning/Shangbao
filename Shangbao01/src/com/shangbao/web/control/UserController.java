@@ -43,6 +43,10 @@ public class UserController {
 	@ResponseBody
 	public User register(@RequestBody User user){
 		if(user.getName() != null && user.getPasswd() != null){
+			User userCriteria = new User();
+			userCriteria.setName(user.getName());
+			if(userService.findOne(userCriteria) != null)
+				return null;
 			user.setRole("ROLE_ADMIN");
 			user.setPasswd(passwordEncoder.encodePassword(user.getPasswd(), null));
 			userService.addUser(user);
@@ -58,6 +62,7 @@ public class UserController {
 			User user = new User();
 			user.setRole("ROLE_ADMIN");
 			user.setName(name);
+			user.setDuty("super");
 			user.setPasswd(passwordEncoder.encodePassword(passwd, null));
 			userService.addUser(user);
 			return user;

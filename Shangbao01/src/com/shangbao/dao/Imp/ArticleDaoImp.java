@@ -121,6 +121,12 @@ public class ArticleDaoImp implements ArticleDao {
 			Article criteriaArticle = findById(article.getId());
 			List<String> criteriaChannels = criteriaArticle.getChannel();
 			List<String> channels = article.getChannel();
+			
+			for(String oldChannel : criteriaChannels){
+				if(!channels.contains(oldChannel)){
+					article.getChannelIndex().remove(oldChannel);
+				}
+			}
 			if(channels != null && !channels.isEmpty()){
 				for(String channel : channels){
 					if(criteriaChannels.contains(channel)){

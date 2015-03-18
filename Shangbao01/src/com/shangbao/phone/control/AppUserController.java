@@ -347,7 +347,7 @@ public class AppUserController {
 				fos.close();
 				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + "avatar"),
 														 new File(simFilePath + File.separator + "avatar"),
-														 60, 60, 0.5, false);
+														 60, 60, 0.8, false);
 				returnUrl = (localhostString + simFilePath.split("Shangbao01")[1] + File.separator + "avatar").replaceAll("\\\\", "/");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

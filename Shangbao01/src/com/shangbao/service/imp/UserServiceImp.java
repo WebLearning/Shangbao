@@ -42,6 +42,8 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public User findOne(User user) {
+		if(userDaoImp.find(user).isEmpty())
+			return null;
 		return userDaoImp.find(user).get(0);
 	}
 
