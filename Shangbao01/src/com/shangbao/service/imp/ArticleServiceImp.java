@@ -281,22 +281,22 @@ public class ArticleServiceImp implements ArticleService {
 		if(!channels.isEmpty()){
 			for(Channel channel : channels){
 				channelNames.add(channel.getChannelName());
-				Query query = new Query();
-				query.addCriteria(Criteria.where("state").is(articleState.toString()));
-				query.addCriteria(Criteria.where("tag").is(false));
-				query.addCriteria(Criteria.where("channel").in(channelNames));
-				if(direction.equals("asc")){
-					query.with(new Sort(Direction.ASC, order));
-				}else{
-					query.with(new Sort(Direction.DESC, order));
-				}
-				Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
-				//System.out.println(query.getSortObject());
-				titleList.setCurrentNo(pageNo);
-				titleList.setPageCount(page.getTotalPage());
-				for(Article article : page.getDatas()){
-					titleList.addTitle(article);
-				}
+			}
+			Query query = new Query();
+			query.addCriteria(Criteria.where("state").is(articleState.toString()));
+			query.addCriteria(Criteria.where("tag").is(false));
+			query.addCriteria(Criteria.where("channel").in(channelNames));
+			if(direction.equals("asc")){
+				query.with(new Sort(Direction.ASC, order));
+			}else{
+				query.with(new Sort(Direction.DESC, order));
+			}
+			Page<Article> page = articleDaoImp.getPage(pageNo, 20, query);
+			//System.out.println(query.getSortObject());
+			titleList.setCurrentNo(pageNo);
+			titleList.setPageCount(page.getTotalPage());
+			for(Article article : page.getDatas()){
+				titleList.addTitle(article);
 			}
 		}
 		return titleList;
