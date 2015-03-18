@@ -86,6 +86,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.userInfo_name=data.name;
             $scope.userInfo_duty=data.duty;
             console.log($scope.userInfo_duty);
+            $scope.getPendingData(1);
         });
     };
     $scope.getCurUserName();
@@ -523,128 +524,48 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }
     };
     //(b)搜索待审数据---------------------------------------------------------------------------------------------------
+    $scope.urlForPendingSearch="";
     $scope.getPendingSearchData=function(pageID){
-        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+'/query'+$scope.orderCondition;
-        console.log($scope.pendingSearchData);
-        $http.post(url,$scope.pendingSearchData).success(function(data){
-            console.log(data);
-            if(data.pageCount>0){
-                $scope.pendingData=data;
-                $scope.pendingPageNums=getPageNums($scope.pendingData.pageCount);
-                $scope.lastPendingPage=$scope.pendingData.pageCount;
-                $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
-                $scope.getLastPendingSearchPageData($scope.lastPendingPage);
-            }else{
-                $scope.pendingData=data;
-                $scope.pendingPaginationConf.currentPage=0;
-                $scope.pendingPaginationConf.totalItems=0;
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPendingSearch=$scope.projectName+'/article/Pending/'+pageID.toString()+'/query'+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForPendingSearch=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Pending/'+pageID.toString()+'/query'+$scope.orderCondition;
             }
-        });
-    };
-    $scope.getLastPendingSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Pending/'+lastPage+'/query'+$scope.orderCondition;
-        $http.post(url,$scope.pendingSearchData).success(function(data){
-            $scope.lastPendingPageData=data;
-            $scope.lastPendingPageDataLength=$scope.lastPendingPageData.tileList.length;
-            $scope.pendingPaginationConf.totalItems=(($scope.lastPendingPageData.pageCount)-1)*20+$scope.lastPendingPageDataLength;
-        });
-    };
-    //（分类1----待审数据）-----------------------------------------------------------------------------------------------
-    //（分类1----待审数据）-----------------------------------------------------------------------------------------------
-    $scope.pendingData_type1=null;
-    $scope.pendingSearchData_type1={
-        content:""
-    };
-    $scope.pendingPaginationConf_type1 = {
-        currentPage: null,
-        totalItems:null,
-        itemsPerPage: 20,
-        pagesLength: 10,
-        perPageOptions: [10, 20, 30, 40, 50],
-        rememberPerPage: 'perPageItems',
-        onChange: function(){
-            if($scope.pendingPaginationConf_type1.currentPage>0){
-                if($scope.pendingSearchData_type1.content==""||$scope.pendingSearchData_type1.content==null){
-                    $scope.getPendingData_type1($scope.pendingPaginationConf_type1.currentPage);
+            console.log($scope.pendingSearchData);
+            $http.post($scope.urlForPendingSearch,$scope.pendingSearchData).success(function(data){
+                console.log(data);
+                if(data.pageCount>0){
+                    $scope.pendingData=data;
+                    $scope.pendingPageNums=getPageNums($scope.pendingData.pageCount);
+                    $scope.lastPendingPage=$scope.pendingData.pageCount;
+                    $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
+                    $scope.getLastPendingSearchPageData($scope.lastPendingPage);
                 }else{
-                    $scope.getPendingSearchData_type1($scope.pendingPaginationConf_type1.currentPage);
+                    $scope.pendingData=data;
+                    $scope.pendingPaginationConf.currentPage=0;
+                    $scope.pendingPaginationConf.totalItems=0;
                 }
-            }
-        }
-    };
-    $scope.getPendingData_type1=function(pageID){
-        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.pendingData_type1=data;
-                $scope.pendingPageNums_type1=getPageNums($scope.pendingData_type1.pageCount);
-                $scope.lastPendingPage_type1=$scope.pendingData_type1.pageCount;
-                $scope.pendingPaginationConf_type1.currentPage=$scope.pendingData_type1.currentNo;
-                $scope.getLastPendingPageData_type1($scope.lastPendingPage_type1);
-            }else{
-                $scope.pendingData_type1=data;
-                $scope.pendingPaginationConf_type1.currentPage=0;
-                $scope.pendingPaginationConf_type1.totalItems=0;
-            }
-        });
-    };
-    $scope.getLastPendingPageData_type1=function(lastPage){
-        var url=$scope.projectName+'/article/Pending/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastPendingPageData_type1=data;
-            $scope.lastPendingPageDataLength_type1=$scope.lastPendingPageData_type1.tileList.length;
-            $scope.pendingPaginationConf_type1.totalItems=(($scope.lastPendingPageData_type1.pageCount)-1)*20+$scope.lastPendingPageDataLength_type1;
-        });
-    };
-    $scope.getPendingData_type1(1);//生成待审页面时即产生第一页数据
-    function clearPendingSearchData_type1(){
-        for(p in $scope.pendingSearchData_type1){
-            $scope.pendingSearchData_type1[p]="";
-        }
-    }
-    //搜索第一个分类的待审----------------------------------------------------------------------------------------------
-    $scope.getPendingSearchData_type1=function(pageID){
-        var url=$scope.projectName+'/article/Pending/'+pageID.toString()+'/query'+$scope.orderCondition;
-        console.log($scope.pendingSearchData_type1);
-        $http.post(url,$scope.pendingSearchData_type1).success(function(data){
-            console.log(data);
-            if(data.pageCount>0){
-                $scope.pendingData_type1=data;
-                $scope.pendingPageNums_type1=getPageNums($scope.pendingData_type1.pageCount);
-                $scope.lastPendingPage_type1=$scope.pendingData_type1.pageCount;
-                $scope.pendingPaginationConf_type1.currentPage=$scope.pendingData_type1.currentNo;
-                $scope.getLastPendingSearchPageData_type1($scope.lastPendingPage_type1);
-            }else{
-                $scope.pendingData_type1=data;
-                $scope.pendingPaginationConf_type1.currentPage=0;
-                $scope.pendingPaginationConf_type1.totalItems=0;
-            }
-        });
-    };
-    $scope.getLastPendingSearchPageData_type1=function(lastPage){
-        var url=$scope.projectName+'/article/Pending/'+lastPage+'/query'+$scope.orderCondition;
-        $http.post(url,$scope.pendingSearchData).success(function(data){
-            $scope.lastPendingPageData_type1=data;
-            $scope.lastPendingPageDataLength_type1=$scope.lastPendingPageData_type1.tileList.length;
-            $scope.pendingPaginationConf_type1.totalItems=(($scope.lastPendingPageData_type1.pageCount)-1)*20+$scope.lastPendingPageDataLength_type1;
-        });
-    };
-    $scope.refreshPending_type1=function()
-    {
-        $scope.orderCondition="/time/desc";
-        if($scope.pendingSearchData_type1.content==""||$scope.pendingSearchData_type1.content==null){
-            $scope.getPendingData_type1(1);
+            });
         }else{
-            $scope.getPendingSearchData_type1(1);
+            console.log("url错误！");
         }
     };
-    $scope.refreshPendingCur_type1=function()
-    {
-//        $scope.orderCondition="";
-        if($scope.pendingSearchData_type1.content==""||$scope.pendingSearchData_type1.content==null){
-            $scope.getPendingData_type1($scope.pendingData_type1.currentNo);
+    $scope.urlForPendingSearchLastpage="";
+    $scope.getLastPendingSearchPageData=function(lastPage){
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPendingSearchLastpage=$scope.projectName+'/article/Pending/'+lastPage+'/query'+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForPendingSearchLastpage=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Pending/'+lastPage+'/query'+$scope.orderCondition;
+            }
+            $http.post($scope.urlForPendingSearchLastpage,$scope.pendingSearchData).success(function(data){
+                $scope.lastPendingPageData=data;
+                $scope.lastPendingPageDataLength=$scope.lastPendingPageData.tileList.length;
+                $scope.pendingPaginationConf.totalItems=(($scope.lastPendingPageData.pageCount)-1)*20+$scope.lastPendingPageDataLength;
+            });
         }else{
-            $scope.getPendingSearchData_type1($scope.pendingData_type1.currentNo);
+            console.log("url错误");
         }
     };
 
@@ -670,29 +591,48 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
+    $scope.urlForPublished="";
     $scope.getPublishedData=function(pageID){
-        var url=$scope.projectName+'/article/Published/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.publishedData=data;
-                $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
-                $scope.lastPublishedPage=$scope.publishedData.pageCount;
-                $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
-                $scope.getLastPublishedPageData($scope.lastPublishedPage);
-            }else{
-                $scope.publishedData=data;
-                $scope.publishedPaginationConf.currentPage=0;
-                $scope.publishedPaginationConf.totalItems=0;
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPublished=$scope.projectName+'/article/Published/'+pageID.toString()+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForPublished=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Published/'+pageID.toString()+$scope.orderCondition;
             }
-        });
+            console.log($scope.urlForPublished);
+            $http.get($scope.urlForPublished).success(function(data){
+                if(data.pageCount>0){
+                    $scope.publishedData=data;
+                    $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
+                    $scope.lastPublishedPage=$scope.publishedData.pageCount;
+                    $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
+                    $scope.getLastPublishedPageData($scope.lastPublishedPage);
+                }else{
+                    $scope.publishedData=data;
+                    $scope.publishedPaginationConf.currentPage=0;
+                    $scope.publishedPaginationConf.totalItems=0;
+                }
+            });
+        }else{
+            console.log("url错误");
+        }
     };
+    $scope.urlForPublishedLastPage="";
     $scope.getLastPublishedPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Published/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastPublishedPageData=data;
-            $scope.lastPublishedPageDataLength=$scope.lastPublishedPageData.tileList.length;
-            $scope.publishedPaginationConf.totalItems=(($scope.lastPublishedPageData.pageCount)-1)*20+$scope.lastPublishedPageDataLength;
-        });
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPublishedLastPage=$scope.projectName+'/article/Published/'+lastPage+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForPublishedLastPage=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Published/'+lastPage+$scope.orderCondition;
+            }
+            $http.get($scope.urlForPublishedLastPage).success(function(data){
+                $scope.lastPublishedPageData=data;
+                $scope.lastPublishedPageDataLength=$scope.lastPublishedPageData.tileList.length;
+                $scope.publishedPaginationConf.totalItems=(($scope.lastPublishedPageData.pageCount)-1)*20+$scope.lastPublishedPageDataLength;
+            });
+        }else{
+            console.log("url错误");
+        }
     };
     $scope.getPublishedData(1);//在点击已发布文章时，直接生成第一页内容
     function clearPublishedSearchData(){
@@ -718,31 +658,49 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }
     };
     //(c)搜索已发布数据-------------------------------------------------------------------------------------------------
+    $scope.urlForPublishedSearch="";
     $scope.getPublishedSearchData=function(pageID){
-        var url=$scope.projectName+'/article/Published/'+pageID.toString()+'/query'+$scope.orderCondition;
-        console.log($scope.publishedSearchData);
-        $http.post(url,$scope.publishedSearchData).success(function(data){
-            console.log(data);
-            if(data.pageCount>0){
-                $scope.publishedData=data;
-                $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
-                $scope.lastPublishedPage=$scope.publishedData.pageCount;
-                $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
-                $scope.getLastPublishedSearchPageData($scope.lastPublishedPage);
-            }else{
-                $scope.publishedData=data;
-                $scope.publishedPaginationConf.currentPage=0;
-                $scope.publishedPaginationConf.totalItems=0;
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPublishedSearch=$scope.projectName+'/article/Published/'+pageID.toString()+'/query'+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForPublishedSearch=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Published/'+pageID.toString()+'/query'+$scope.orderCondition;
             }
-        });
+            console.log($scope.publishedSearchData);
+            $http.post($scope.urlForPublishedSearch,$scope.publishedSearchData).success(function(data){
+                console.log(data);
+                if(data.pageCount>0){
+                    $scope.publishedData=data;
+                    $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
+                    $scope.lastPublishedPage=$scope.publishedData.pageCount;
+                    $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
+                    $scope.getLastPublishedSearchPageData($scope.lastPublishedPage);
+                }else{
+                    $scope.publishedData=data;
+                    $scope.publishedPaginationConf.currentPage=0;
+                    $scope.publishedPaginationConf.totalItems=0;
+                }
+            });
+        }else{
+            console.log("url错误");
+        }
     };
+    $scope.urlForPublishedSearchLastPage="";
     $scope.getLastPublishedSearchPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Published/'+lastPage+'/query'+$scope.orderCondition;
-        $http.post(url,$scope.publishedSearchData).success(function(data){
-            $scope.lastPublishedPageData=data;
-            $scope.lastPublishedPageDataLength=$scope.lastPublishedPageData.tileList.length;
-            $scope.publishedPaginationConf.totalItems=(($scope.lastPublishedPageData.pageCount)-1)*20+$scope.lastPublishedPageDataLength;
-        });
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPublishedSearchLastPage=$scope.projectName+'/article/Published/'+lastPage+'/query'+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForPublishedSearchLastPage=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Published/'+lastPage+'/query'+$scope.orderCondition;
+            }
+            $http.post($scope.urlForPublishedSearchLastPage,$scope.publishedSearchData).success(function(data){
+                $scope.lastPublishedPageData=data;
+                $scope.lastPublishedPageDataLength=$scope.lastPublishedPageData.tileList.length;
+                $scope.publishedPaginationConf.totalItems=(($scope.lastPublishedPageData.pageCount)-1)*20+$scope.lastPublishedPageDataLength;
+            });
+        }else{
+            console.log("url错误");
+        }
     };
 //(4)获取已撤销数据-----------------------------------------------------------------------------------------------------
     $scope.revokedData=null;
@@ -1482,12 +1440,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 
     //-----------------------------------
 
-    $scope.runFunction=function(){
-        if($scope.userInfo_duty=="super"){
-            $scope.getPendingData(1);
-        }
-    };
-    $scope.runFunction();
+//    $scope.runFunction=function(){
+//        if($scope.userInfo_duty=="super"){
+//            $scope.getPendingData(1);
+//        }
+//    };
+//    $scope.runFunction();
 //(12)获取分类(文章）----------------------------------------------------------------------------------------------------------
     $scope.superChannelNames=[];
     $scope.normalChannelNames=[];
