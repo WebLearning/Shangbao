@@ -34,13 +34,16 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
     $scope.backCurRevoked=function(){
         if($scope.revokedSearchData.content==""||$scope.revokedSearchData.content==null){
             $scope.getRevokedData($scope.revokedData.currentNo);
+            $scope.closeOver();
         }else{
             $scope.getRevokedSearchData($scope.revokedData.currentNo);
+            $scope.closeOver();
         }
     };
     $scope.goRevoked=function()
     {
         $scope.clearArticle();
+        $scope.coverIt();
         document.getElementById("revokedArticle").className="tab-pane";
         document.getElementById("revoked").className="tab-pane active";
         document.getElementById("revokedSidebarID").className="sidebar-list";

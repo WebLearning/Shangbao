@@ -70,6 +70,9 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
         document.getElementById("draft").className="tab-pane";
         document.getElementById("draftArticle").className="tab-pane active";
         document.getElementById("draftSidebarID").className="sidebar-list";
+        if($scope.articleData!={}){
+            $scope.closeOver();
+        }
     };
 
     //得到文章的URL
@@ -97,6 +100,7 @@ angular.module("Dashboard").controller("draftCtrl",["$scope","$http", function($
     {
         var url=$scope.getTempArticleUrl(articleId);
 
+        $scope.coverIt();
         $http.get(url).success(function(data) {
             $scope.transDataToArticleData(data);
         });

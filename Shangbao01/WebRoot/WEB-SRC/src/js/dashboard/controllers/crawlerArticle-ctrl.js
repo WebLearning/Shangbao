@@ -34,13 +34,16 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     $scope.backCurCrawler=function(){
         if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
             $scope.getCrawlerData($scope.crawlerData.currentNo);
+            $scope.closeOver();
         }else{
             $scope.getCrawlerSearchData($scope.crawlerData.currentNo);
+            $scope.closeOver();
         }
     };
     $scope.goCrawler=function()
     {
         $scope.clearArticle();
+        $scope.coverIt();
         document.getElementById("crawlerArticle").className="tab-pane";
         document.getElementById("crawler").className="tab-pane active";
         document.getElementById("crawlerSidebarID").className="sidebar-list";

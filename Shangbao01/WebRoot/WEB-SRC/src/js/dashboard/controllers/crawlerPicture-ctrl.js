@@ -68,6 +68,9 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
         document.getElementById("crawlerPicture").className="tab-pane";
         document.getElementById("crawlerPictureView").className="tab-pane active";
         document.getElementById("crawlerPictureSidebarID").className="sidebar-list";
+        if($scope.articleData!={}){
+            $scope.closeOver();
+        }
     };
 
     //得到文章的URL
@@ -96,6 +99,7 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
     {
         var url=$scope.getCrawlerPictureUrl(articleId);
 
+        $scope.coverIt();
         $http.get(url).success(function(data) {
 //            console.log(data);
             $scope.transDataToArticleData(data);

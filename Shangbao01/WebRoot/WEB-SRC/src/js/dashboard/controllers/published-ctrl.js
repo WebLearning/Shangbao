@@ -68,6 +68,10 @@ angular.module("Dashboard").controller("publishedCtrl",["$scope","$http",functio
         document.getElementById("published").className="tab-pane";
         document.getElementById("publishedArticle").className="tab-pane active";
         document.getElementById("publishedSidebarID").className="sidebar-list";
+        if($scope.articleData!={}){
+            $scope.closeOver();
+        }
+//        $scope.closeOver();
     };
 
     //得到文章的URL

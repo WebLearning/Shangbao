@@ -2163,7 +2163,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         var covershow = document.getElementById("coverShow");
         cover.style.display = 'none';
         covershow.style.display = 'none';
-        alert("遮罩取消");
+//        alert("遮罩取消");
     };
     //-----------------------------------------------------------------------------------------------------------------
 

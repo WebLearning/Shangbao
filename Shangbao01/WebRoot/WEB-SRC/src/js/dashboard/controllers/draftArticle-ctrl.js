@@ -34,13 +34,16 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     $scope.backCurDraft=function(){
         if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
             $scope.getTempData($scope.tempData.currentNo);
+            $scope.closeOver();
         }else{
             $scope.getTempSearchData($scope.tempData.currentNo);
+            $scope.closeOver();
         }
     };
     $scope.goDraft=function()
     {
         $scope.clearArticle();
+        $scope.coverIt();
         document.getElementById("draftArticle").className="tab-pane";
         document.getElementById("draft").className="tab-pane active";
         document.getElementById("draftSidebarID").className="sidebar-list";

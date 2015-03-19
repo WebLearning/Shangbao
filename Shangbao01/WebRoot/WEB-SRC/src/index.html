@@ -7,11 +7,12 @@
 	<title>商报后台管理系统</title>
 
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="css/dashboard.css">
   <link rel="stylesheet" type="text/css" href="css/blue.css">
   <link rel="stylesheet" type="text/css" href="css/inputFileStyle.css">
-
+    <link rel="stylesheet" type="text/css" href="css/load.css">
   <!--
   <link rel="stylesheet" type="text/css" href="css/themes/green.css">
   <link rel="stylesheet" type="text/css" href="css/themes/red.css">
@@ -67,6 +68,7 @@
     <script type="text/javascript" src="js/dashboard/controllers/draftPicture-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/draftPictureView-ctrl.js"></script>
     <script type="text/javascript" src="js/dashboard/controllers/tm.pagination.js"></script>
+    <script type="text/javascript" src="js/prefixfree.min.js"></script>
 
     <style>
         .page-list .pagination {float:left;}
@@ -106,26 +108,35 @@
             z-index:3002;
             top:50%;
             left:50%;
-            border:1px solid #ffffff;
-            width:300px;
-            height:180px;
+            border:1px solid #878787;
+            width:250px;
+            height:250px;
             margin-left:-150px;
             margin-top:-150px;
-            background:#ffffff;
+            background:#878787;
         }
     </style>
 </head>
 <body ng-controller="MasterCtrl">
 <div id="cover"></div>
 <div id="coverShow">
-    <table align="center" border="0" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; height: 100px; min-height: 100px;" bgcolor="#ffffff">
+    <table align="center" border="0" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; height: 240px; min-height: 100px;" bgcolor="#878787">
         <tr>
-            <td height="30" style="font-size: 16px">正在加载，请稍后....</td>
+            <td style="font-size: 16px;height: 30px">正在加载，请稍后....</td>
             <td align="right"><button type="button" class="close" ng-click="closeOver()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></td>
         </tr>
         <tr>
-            <td height="80" align="center" bgcolor="#ffffff">
-                <img src="img/loadPic.gif" style="width: 100%;height: 100px">
+            <td align="center" bgcolor="#878787">
+                <!--<img src="img/loadPic1.gif" style="width: 214px;height: 206px">-->
+                <div id="loading">
+                    <span id="loading1"></span>
+                    <span id="loading2"></span>
+                    <span id="loading3"></span>
+                    <span id="loading4"></span>
+                    <span id="loading5"></span>
+                    <span id="loading6"></span>
+                    <p>Loading...</p>
+                </div>
             </td>
         </tr>
     </table>

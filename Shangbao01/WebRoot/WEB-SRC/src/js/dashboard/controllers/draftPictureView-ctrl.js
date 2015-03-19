@@ -34,13 +34,16 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
     $scope.backCurDraftPicture=function(){
         if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
             $scope.getTempPictureData($scope.tempPictureData.currentNo);
+            $scope.closeOver();
         }else{
             $scope.getTempPictureSearchData($scope.tempPictureData.currentNo);
+            $scope.closeOver();
         }
     };
     $scope.goDraftPicture=function()
     {
         $scope.clearPictureArticle();
+        $scope.coverIt();
         document.getElementById("draftPictureView").className="tab-pane";
         document.getElementById("draftPicture").className="tab-pane active";
         document.getElementById("draftPictureSidebarID").className="sidebar-list";

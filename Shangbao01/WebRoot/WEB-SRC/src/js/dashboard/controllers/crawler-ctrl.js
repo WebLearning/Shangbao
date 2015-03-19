@@ -95,6 +95,9 @@ angular.module("Dashboard").controller("crawlerCtrl", ["$scope","$http", functio
         document.getElementById("crawler").className="tab-pane";
         document.getElementById("crawlerArticle").className="tab-pane active";
         document.getElementById("crawlerSidebarID").className="sidebar-list";
+        if($scope.articleData!={}){
+            $scope.closeOver();
+        }
     };
 
     //得到文章的URL
