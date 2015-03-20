@@ -53,6 +53,14 @@ public class AppBackController {
 		return "done";
 	}
 	
+	@RequestMapping(value="/unsettop/{channelName}/{index}", method=RequestMethod.PUT)
+	@ResponseBody
+	public String unSetTopArticle(@PathVariable("channelName") String channelName,
+			@PathVariable("index") int index){
+		appService.unSetArticleTop(channelName, index);
+		return "done";
+	}
+	
 	@RequestMapping(value="/refresh")
 	@ResponseBody
 	public List<BackChannelModel> refresh(){

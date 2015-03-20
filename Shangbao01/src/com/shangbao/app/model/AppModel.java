@@ -603,17 +603,36 @@ public class AppModel {
 	 * 点赞
 	 * @param articleId
 	 */
-	public void addLike(Long articleId){
+	public int addLike(Long articleId){
 		Article criteriaArticle = new Article();
 		criteriaArticle.setId(articleId);
 		Update update = new Update();
-		if(articleMap.get(articleId) != null){
-			synchronized (AppModel.class) {
-				articleMap.get(articleId).setLikes(articleMap.get(articleId).getLikes() + 1);
+		appMapLock.readLock().lock();
+		try{
+			if(articleMap.get(articleId) != null){
+				synchronized (AppModel.class) {
+					articleMap.get(articleId).setLikes(articleMap.get(articleId).getLikes() + 1);
+				}
+				update.set("likes", articleMap.get(articleId).getLikes());
+				articleDaoImp.update(criteriaArticle, update);
+				return articleMap.get(articleId).getLikes();
 			}
-			update.set("likes", articleMap.get(articleId).getLikes());
-			articleDaoImp.update(criteriaArticle, update);
+		}finally{
+			appMapLock.readLock().unlock();
 		}
+		return 0;
+	}
+	
+	public int getLike(Long articleId){
+		appMapLock.readLock().lock();
+		try{
+			if(articleMap.containsKey(articleId)){
+				return articleMap.get(articleId).getLikes();
+			}
+		}finally{
+			appMapLock.readLock().unlock();
+		}
+		return 0;
 	}
 	
 	/**
@@ -624,12 +643,17 @@ public class AppModel {
 		Article criteriaArticle = new Article();
 		criteriaArticle.setId(articleId);
 		Update update = new Update();
-		if(articleMap.get(articleId) != null){
-			synchronized (AppModel.class) {
-				articleMap.get(articleId).setClicks(articleMap.get(articleId).getClicks() + 1);
+		articleMapLock.readLock().lock();
+		try{
+			if(articleMap.get(articleId) != null){
+				synchronized (AppModel.class) {
+					articleMap.get(articleId).setClicks(articleMap.get(articleId).getClicks() + 1);
+				}
+				update.set("clicks", articleMap.get(articleId).getClicks());
+				articleDaoImp.update(criteriaArticle, update);
 			}
-			update.set("clicks", articleMap.get(articleId).getClicks());
-			articleDaoImp.update(criteriaArticle, update);
+		}finally{
+			articleMapLock.readLock().unlock();
 		}
 	}
 	
@@ -637,13 +661,30 @@ public class AppModel {
 		Article criteriaArticle = new Article();
 		criteriaArticle.setId(articleId);
 		Update update = new Update();
-		if(articleMap.get(articleId) != null){
-			synchronized (this){
-				articleMap.get(articleId).setJs_clicks(articleMap.get(articleId).getJs_clicks() + 1);
+		articleMapLock.readLock().lock();
+		try{
+			if(articleMap.get(articleId) != null){
+				synchronized (this){
+					articleMap.get(articleId).setJs_clicks(articleMap.get(articleId).getJs_clicks() + 1);
+				}
+				update.set("js_clicks", articleMap.get(articleId).getJs_clicks());
+				articleDaoImp.update(criteriaArticle, update);
+				return articleMap.get(articleId).getJs_clicks();
 			}
-			update.set("js_clicks", articleMap.get(articleId).getJs_clicks());
-			articleDaoImp.update(criteriaArticle, update);
-			return articleMap.get(articleId).getJs_clicks();
+		}finally{
+			articleMapLock.readLock().unlock();
+		}
+		return 0;
+	}
+	
+	public int getJsClick(Long articleId){
+		articleMapLock.readLock().lock();
+		try{
+			if(articleMap.get(articleId) != null){
+				return articleMap.get(articleId).getJs_clicks();
+			}
+		}finally{
+			articleMapLock.readLock().unlock();
 		}
 		return 0;
 	}
@@ -671,11 +712,33 @@ public class AppModel {
 	 * @param channelName 栏目名称
 	 * @param articleId 文章Id
 	 */
-	public void setTopArticle(String channelName, Long articleId){
+	public void setTopArticle(String channelName, int index){
 		if(!appMap.containsKey(channelName)){
 			return;
 		}
+		Long articleId;
+		appMapLock.readLock().lock();
+		try{
+			articleId = appMap.get(channelName).get(index).getId();
+		}finally{
+			appMapLock.readLock().unlock();
+		}
 		articleDaoImp.setTopArticle(channelName, articleId);
+		redeployChannelArticles(channelName);
+	}
+	
+	public void unSetTopArticle(String channelName, int index){
+		if(!appMap.containsKey(channelName)){
+			return;
+		}
+		Long articleId;
+		appMapLock.readLock().lock();
+		try{
+			articleId = appMap.get(channelName).get(index).getId();
+		}finally{
+			appMapLock.readLock().unlock();
+		}
+		articleDaoImp.unSetTopArticle(channelName, articleId);
 		redeployChannelArticles(channelName);
 	}
 	

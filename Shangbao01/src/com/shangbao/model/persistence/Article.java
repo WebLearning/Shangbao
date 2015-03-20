@@ -43,6 +43,7 @@ public class Article {
 	private int likes;//点赞数
 	private String from;//来源
 	private Map<String, Integer> channelIndex = new HashMap<String, Integer>();//文章在所属目录中的index
+	//private Map<String, Boolean> channelTopTag = new HashMap<>();
 	private List<String> logs = new ArrayList<>();//文章的操作记录
 	private String outSideUrl; //外链文章URL
 	

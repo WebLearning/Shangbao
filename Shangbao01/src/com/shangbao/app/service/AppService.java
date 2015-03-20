@@ -188,6 +188,19 @@ public class AppService {
 		return appModel.addJsClick(articleId);
 	}
 
+	
+	public int getJsClick(Long articleId){
+		return appModel.getJsClick(articleId);
+	}
+	
+	public int addLike(Long articleId){
+		return appModel.addLike(articleId);
+	}
+	
+	public int getLike(Long articleId){
+		return appModel.getLike(articleId);
+	}
+	
 	/**
 	 * 根据文章id返回
 	 * @param articleId
@@ -278,7 +291,7 @@ public class AppService {
 					int i = 1;
 					for(Article article : articles){
 						String articleTitle = article.getTitle();
-						backChannelModel.addTitle(articleTitle, article.getId(), i);
+						backChannelModel.addTitle(articleTitle, article.getId(), i, article.getChannelIndex().get(channelChName) > (Integer.MAX_VALUE/2));
 						i ++;
 						if(i >= 30)
 							break;
@@ -319,7 +332,7 @@ public class AppService {
 			if(articles != null && !articles.isEmpty()){
 				int i = 1;
 				for(Article article : articles){
-					backChannelModel.addTitle(article.getTitle(), article.getId(), i);
+					backChannelModel.addTitle(article.getTitle(), article.getId(), i, article.getChannelIndex().get(channelName) > (Integer.MAX_VALUE/2));
 					i ++;
 				}
 			}
@@ -373,10 +386,21 @@ public class AppService {
 		index --;
 		if(this.appModel.getAppMap().containsKey(channelName)){
 			if(index > 0 && index < appModel.getAppMap().get(channelName).size()){
-				Article article = appModel.getAppMap().get(channelName).get(index);
-				appModel.setTopArticle(channelName, article.getId());
-				appModel.redeployChannelArticles(channelName);
+				//Article article = appModel.getAppMap().get(channelName).get(index);
+				appModel.setTopArticle(channelName, index);
+				//appModel.redeployChannelArticles(channelName);
 			}
+		}
+	}
+	
+	public synchronized void unSetArticleTop(String channelName, int index){
+		channelName = appModel.getChannelEn_Cn().get(channelName);
+		if(channelName == null){
+			return;
+		}
+		index --;
+		if(this.appModel.getAppMap().containsKey(channelName)){
+			appModel.unSetTopArticle(channelName, index);
 		}
 	}
 	
@@ -427,15 +451,17 @@ public class AppService {
 				css = "kuaipai.css";
 			}
 			SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd");
+			String duxq = "<div ng-app=\"readAndZan\" ng-controller=\"readAndZanCtrl\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读{{clickNum}} &nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"zanAdd(zanNum,pictureUrl)\"><img alt=\"\" src={{pictureUrl}}>{{zanNum}}</a></div></div>";
 			String html = "";
 			html += "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"zh-CN\"><head profile=\"http://gmpg.org/xfn/11\"> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> <title>";
-			html += article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/" + css + "\" type=\"text/css\" /> <script src=\"" + localhostString + "/WEB-SRC/click.js\"></script> <script src=\"" + localhostString + "/WEB-SRC/src/js/angular.min.js\"></script>";
+			html += article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/" + css + "\" type=\"text/css\" /> <script src=\"" + localhostString + "/WEB-SRC/src/js/angular.min.js\"></script> <script src=\"" + localhostString + "/WEB-SRC/click.js\"></script>";
 			html += "</head><body class=\"classic-wptouch-bg\"> " +  " <input type=\"hidden\" name=\"id\" value=" + article.getId() + "/> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">";
 			html += article.getTitle() + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">";
 			html += (article.getAuthor() == null ? "" : article.getAuthor()) + "&nbsp&nbsp" + (article.getTime() == null ? "" : format.format(article.getTime()));
 			html += "</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">";
 			html += article.getContent();
-			html += "<p>&nbsp;</p> " + "<div ng-app=\"\" ng-controller=\"urlController\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读 {{clickNum}}</div></div>" + "</div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
+			html += "<p>&nbsp;</p> " + duxq + "</div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
+//			html = "<html><head><title>MyHtml.html</title><meta charset=\"utf-8\"><script src=\"" + "http://202.115.17.218:8080/Shangbao01" + "/WEB-SRC/src/js/angular.min.js\"></script><script src=\"" + "http://202.115.17.218:8080/Shangbao01" + "/WEB-SRC/click.js\"></script></head><body><div ng-app=\"readAndZan\" ng-controller=\"readAndZanCtrl\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读{{clickNum}} &nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"zanAdd(zanNum,pictureUrl)\"><img alt=\"\" src={{pictureUrl}}>{{zanNum}}</a></div></div></body></html>";
 			return html;
 		}else{
 			//是外联文章
@@ -460,12 +486,14 @@ public class AppService {
 			public String title;
 			public long articleId;
 			public int index;
+			public boolean top;
 		}
-		public void addTitle(String articleTitle, long articleId, int index){
+		public void addTitle(String articleTitle, long articleId, int index, boolean top){
 			Title title = new Title();
 			title.title = articleTitle;
 			title.articleId = articleId;
 			title.index = index;
+			title.top = top;
 			this.content.add(title);
 		}
 		

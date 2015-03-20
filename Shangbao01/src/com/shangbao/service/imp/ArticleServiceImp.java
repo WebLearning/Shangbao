@@ -370,9 +370,9 @@ public class ArticleServiceImp implements ArticleService {
 			}
 			break;
 		case Temp:
-			targetState = ArticleState.Revocation;
+			targetState = ArticleState.Deleted;
 			if(message != null){
-				message += " 撤销";
+				message += " 删除";
 			}
 			break;
 		case Pending:

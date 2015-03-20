@@ -59,6 +59,7 @@ import com.shangbao.app.service.AppService.AppHtml;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.SingleCommend;
+import com.shangbao.service.ReadLogService;
 import com.shangbao.utils.CompressPicUtils;
 
 /**
@@ -76,6 +77,8 @@ public class AppController {
 	private AppService appService;
 	@Resource
 	private CompressPicUtils compressPicUtils;
+	@Resource
+	private ReadLogService readLogServiceImp;
 	
 	@RequestMapping(value="/addUser", method=RequestMethod.POST)
 	@ResponseBody
@@ -101,7 +104,7 @@ public class AppController {
 	@RequestMapping(value="/{phoneType}/{channelname}/{pageNo:[\\d]+}", method=RequestMethod.GET)
 	@ResponseBody
 	public ColumnPageModel getOriginal(@PathVariable("pageNo") int pageNo, @PathVariable("channelname") String channelname){
-		return appService.getArticlesFromChannel(channelname, pageNo, 10);
+		return appService.getArticlesFromChannel(channelname, pageNo, 8);
 	}
 	
 	/**
@@ -143,16 +146,53 @@ public class AppController {
 		return appService.getNewsHtml(articleId).html;
 	}
 	
+	/**
+	 * 点击数加一后返回点击数
+	 * @param articleId
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="/js/addclick/{articleId}", method=RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public int addClicks(@PathVariable("articleId") long articleId){
-		return appService.addJsClick(articleId);
+	public int addClicks(@PathVariable("articleId") long articleId, HttpServletRequest request){
+		String ip = request.getRemoteAddr();
+		int clicks = appService.addJsClick(articleId);
+		if(clicks > 0){
+			readLogServiceImp.addClick(articleId, ip);
+		}
+		return clicks;
+	}
+	
+	@RequestMapping(value="/js/getclick/{articleId}", method=RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public int getClicks(@PathVariable("articleId") long articleId){
+		return appService.getJsClick(articleId);
+	}
+	
+	@RequestMapping(value="/js/addlike/{articleId}", method=RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public int addLikes(@PathVariable("articleId") long articleId, HttpServletRequest request){
+		String ip = request.getRemoteAddr();
+		int likes = appService.addLike(articleId);
+		if(likes > 0){
+			readLogServiceImp.addLike(articleId, ip);
+		}
+		return likes;
+	}
+	
+	@RequestMapping(value="/js/getlike/{articleId}", method=RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public int getLikes(@PathVariable("articleId") long articleId){
+		return appService.getLike(articleId);
 	}
 	
 	/**
 	 * 获取新闻评论
-	 * @return
+	 * @return  
 	 */
 	@RequestMapping(value="/{phoneType}/{newsId:[\\d]+}/comment/{pageNo:[\\d]+}", method=RequestMethod.GET)
 	@ResponseBody
@@ -179,11 +219,12 @@ public class AppController {
 	//@Secured("ROLE_USER")
 	@RequestMapping(value="/{phoneType}/{newsId:[\\d]+}/comment", method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
 	public AppResponseModel sendComment(@PathVariable("newsId") Long articleId, @RequestBody SingleCommend comment){
 		AppResponseModel responseModel = new AppResponseModel();
 		if(comment.getContent() != null){
-			User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if(user != null){
+			if(!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")){
+				User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				comment.setUserId(user.getId());
 				comment.setUserName(user.getName());
 				appService.addComment(articleId, comment);
@@ -318,10 +359,11 @@ public class AppController {
 	public String uploadPictureWithoutUserId(@RequestParam(value = "file", required = true) MultipartFile file) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
 		String returnPath = "";
-		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(user == null){
+		//User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")){
 			return "request forbiden";
 		}
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		long userId = user.getId();
 		if (!file.isEmpty()) {
 			byte[] bytes;
