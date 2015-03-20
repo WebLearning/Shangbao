@@ -149,8 +149,7 @@
       <ul class="sidebar" role="tablist">
         <li class="sidebar-main">
           <a ng-href="#" ng-click="toggleSidebar()">
-            商报后台管理系统
-            <span class="menu-icon glyphicon glyphicon-transfer"></span>
+            商报后台管理系统<span class="menu-icon glyphicon glyphicon-transfer"></span>
           </a>
         </li>
         <li class="sidebar-title"><span>导航</span></li>
@@ -268,7 +267,7 @@
                 后台管理系统 / {{curPage}}
               </div>
             </div>
-            <div class="user pull-right">
+            <div class="user col-md-2 col-md-offset-7">
                 <div class="item dropdown">
                     <a ng-href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         <!--<img src="img/avatar.jpg">-->
@@ -426,8 +425,9 @@
                                                                         <span class="glyphicon glyphicon-arrow-down"></span> down
                                                                     </button>
 													            </div>
-                                                                <button type="button" class="btn btn-default btn-xs" ng-click="topGeneralViewArticle(section.ChannelEnglishName,newsItem.index)">
-                                                                    <span class="glyphicon glyphicon-plane"></span> Top
+                                                                <button type="button" class="btn btn-default btn-xs" ng-click="topGeneralViewArticle(section.ChannelEnglishName,newsItem.index,newsItem.top)">
+                                                                    <!--<span class="glyphicon glyphicon-open"></span> Top-->
+                                                                    <span ng-class="checkTop(newsItem.top)">Top</span>
                                                                 </button>
                                                             </td>
 											            </tr>
@@ -4580,8 +4580,9 @@
       //load bootstrap tool tip
       $(function () { $("[data-toggle='tooltip']").tooltip(); });
   </script>
-<script language="JavaScript">
-    javascript:window.history.forward(1);
-    console.log("heh");
-</script>
+<!--<script language="JavaScript">-->
+    <!--javascript:window.history.forward(1);-->
+
+    <!--console.log("heh");-->
+<!--</script>-->
 </body></html>

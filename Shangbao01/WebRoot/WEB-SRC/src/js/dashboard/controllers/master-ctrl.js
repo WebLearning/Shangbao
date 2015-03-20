@@ -286,8 +286,10 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+//            $scope.coverIt();
             if($scope.commentPaginationConf.currentPage>0){
                 $scope.getCommentData($scope.commentPaginationConf.currentPage);
+//                $scope.closeOver();
             }
         }
     };
@@ -1017,6 +1019,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.newGeneralViewSections=data;
             console.log($scope.newGeneralViewSections);
         })
+    };
+    //判断是否置顶------------------------------------------------------------------------------------------------------
+    $scope.checkTop=function(top){
+        if(top==true){
+            return "glyphicon glyphicon-save";
+        }else if(top==false){
+            return "glyphicon glyphicon-open";
+        }
     };
 //（7）获取快拍爬虫数据-------------------------------------------------------------------------------------------------
     $scope.crawlerPictureData=null;
@@ -2166,13 +2176,10 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 //        alert("遮罩取消");
     };
     //-----------------------------------------------------------------------------------------------------------------
-
-    //判断外链文章url是否为正确的url形式-----------
-//    $scope.checkOutSideUrl=function(outUrl){
-//        var outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test(outUrl);
-////        alert(/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test(outUrl));
-//        if(outSide=="true")
-//
-//    };
-
+    //禁止响应浏览器后退按钮------------------------------------------------------------------------------
+    $scope.forbidBack=function(){
+        javascript:window.history.forward(1);
+        console.log("forbid");
+    };
+    $scope.forbidBack();
 }]);

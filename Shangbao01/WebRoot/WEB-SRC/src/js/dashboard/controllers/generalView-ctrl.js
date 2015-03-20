@@ -83,16 +83,35 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
         });
     };
     //将文章置顶--------------------------------------------------------------------------------------------------------
-    $scope.topGeneralViewArticle=function(channelEnglishName,index){
+    $scope.urlForTop="";
+    $scope.topGeneralViewArticle=function(channelEnglishName,index,top){
         $scope.coverIt();
-        var url=$scope.projectName+'/backapp/settop/'+channelEnglishName+'/'+index;
-        //console.log(url);
-        $http.put(url).success(function(){
-            //console.log(data);
-            console.log("置顶成功");
-            $scope.getNewGeneralViewData();
-            $scope.coverIt();
-        });
+        if(top==true){
+            $scope.urlForTop=$scope.projectName+'/backapp/unsettop/'+channelEnglishName+'/'+index;
+            $http.put($scope.urlForTop).success(function(){
+                //console.log(data);
+                alert("取消置顶成功");
+                console.log("取消置顶成功");
+                $scope.getNewGeneralViewData();
+                $scope.closeOver();
+            });
+        }else if(top==false){
+            $scope.urlForTop=$scope.projectName+'/backapp/settop/'+channelEnglishName+'/'+index;
+            $http.put($scope.urlForTop).success(function(){
+                alert("置顶成功");
+                //console.log(data);
+                console.log("置顶成功");
+                $scope.getNewGeneralViewData();
+                $scope.closeOver();
+            });
+        }
+//        //console.log(url);
+//        $http.put($scope.urlForTop).success(function(){
+//            //console.log(data);
+//            console.log("置顶成功");
+//            $scope.getNewGeneralViewData();
+//            $scope.closeOver();
+//        });
     };
 //-----------------------------------------------------------------------------------------------------------------------
     //转到新建文章页面并重置sidebar的爬虫文章按钮，不然会产生点击无效的BUG---------------------------------------------
