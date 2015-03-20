@@ -34,13 +34,16 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
     $scope.backCurPending=function(){
         if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
             $scope.getPendingData($scope.pendingData.currentNo);
+            $scope.closeOver();
         }else{
             $scope.getPendingSearchData($scope.pendingData.currentNo);
+            $scope.closeOver();
         }
     };
     $scope.goPending=function()
     {
         $scope.clearArticle();
+        $scope.coverIt();
         document.getElementById("pendingArticle").className="tab-pane";
         document.getElementById("pendingTrial").className="tab-pane active";
         document.getElementById("pendingSidebarID").className="sidebar-list";

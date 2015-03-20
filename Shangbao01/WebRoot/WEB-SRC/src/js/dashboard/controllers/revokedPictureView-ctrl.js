@@ -34,13 +34,16 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
     $scope.backCurRevokedPicture=function(){
         if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
             $scope.getRevokedPictureData($scope.revokedPictureData.currentNo);
+            $scope.closeOver();
         }else{
             $scope.getRevokedPictureSearchData($scope.revokedPictureData.currentNo);
+            $scope.closeOver();
         }
     };
     $scope.goRevokedPicture=function()
     {
         $scope.clearPictureArticle();
+        $scope.coverIt();
         document.getElementById("revokedPictureView").className="tab-pane";
         document.getElementById("revokedPicture").className="tab-pane active";
         document.getElementById("revokedPictureSidebarID").className="sidebar-list";

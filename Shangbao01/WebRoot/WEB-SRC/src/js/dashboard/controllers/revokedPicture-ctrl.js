@@ -72,6 +72,9 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
         document.getElementById("revokedPicture").className="tab-pane";
         document.getElementById("revokedPictureView").className="tab-pane active";
         document.getElementById("revokedPictureSidebarID").className="sidebar-list";
+        if($scope.articleData!={}){
+            $scope.closeOver();
+        }
     };
 
     //得到文章的URL
@@ -100,6 +103,7 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
     {
         var url=$scope.getRevokedArticleUrl(articleId);
 
+        $scope.coverIt();
         $http.get(url).success(function(data) {
             $scope.transDataToArticleData(data);
         });

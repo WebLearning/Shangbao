@@ -190,6 +190,9 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
         document.getElementById("pendingPicture").className="tab-pane";
         document.getElementById("pendingPictureView").className="tab-pane active";
         document.getElementById("pendingPictureSidebarID").className="sidebar-list";
+        if($scope.articleData!={}){
+            $scope.closeOver();
+        }
     };
 
     //得到文章的URL
@@ -218,6 +221,7 @@ angular.module("Dashboard").controller("pendingPictureCtrl",["$scope","$http",fu
     {
         var url=$scope.getPendingPictureArticleUrl(articleId);
 
+        $scope.coverIt();
         $http.get(url).success(function(data) {
             $scope.transDataToArticleData(data);
         });

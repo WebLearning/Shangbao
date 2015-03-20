@@ -34,13 +34,16 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
     $scope.backCurPublished=function(){
         if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
             $scope.getPublishedData($scope.publishedData.currentNo);
+            $scope.closeOver();
         }else{
             $scope.getPublishedSearchData($scope.publishedData.currentNo);
+            $scope.closeOver();
         }
     };
     $scope.goPublished=function()
     {
         $scope.clearArticle();
+        $scope.coverIt();
         document.getElementById("publishedArticle").className="tab-pane";
         document.getElementById("published").className="tab-pane active";
         document.getElementById("publishedSidebarID").className="sidebar-list";

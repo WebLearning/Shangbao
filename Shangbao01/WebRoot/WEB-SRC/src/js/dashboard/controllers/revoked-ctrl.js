@@ -73,6 +73,9 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
         document.getElementById("revoked").className="tab-pane";
         document.getElementById("revokedArticle").className="tab-pane active";
         document.getElementById("revokedSidebarID").className="sidebar-list";
+        if($scope.articleData!={}){
+            $scope.closeOver();
+        }
     };
 
     //得到文章的URL
@@ -101,6 +104,7 @@ angular.module("Dashboard").controller("revokedCtrl", ["$scope","$http", functio
     {
         var url=$scope.getRevokedArticleUrl(articleId);
 
+        $scope.coverIt();
         $http.get(url).success(function(data) {
             $scope.transDataToArticleData(data);
         });

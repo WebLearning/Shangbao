@@ -213,6 +213,9 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
         document.getElementById("pendingTrial").className="tab-pane";
         document.getElementById("pendingArticle").className="tab-pane active";
         document.getElementById("pendingSidebarID").className="sidebar-list";
+        if($scope.articleData!={}){
+            $scope.closeOver();
+        }
     };
 
     //得到文章的URL
@@ -241,6 +244,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
     {
         var url=$scope.getPendingArticleUrl(articleId);
 
+        $scope.coverIt();
         $http.get(url).success(function(data) {
             $scope.transDataToArticleData(data);
         });

@@ -6,13 +6,16 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     $scope.backCurCrawlerPicture=function(){
         if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
             $scope.getCrawlerPictureData($scope.crawlerPictureData.currentNo);
+            $scope.closeOver();
         }else{
             $scope.getCrawlerPictureSearchData($scope.crawlerPictureData.currentNo);
+            $scope.closeOver();
         }
     };
     $scope.goCrawlerPicture=function()
     {
         $scope.clearArticle();
+        $scope.coverIt();
         document.getElementById("crawlerPictureView").className="tab-pane";
         document.getElementById("crawlerPicture").className="tab-pane active";
         document.getElementById("crawlerPictureSidebarID").className="sidebar-list";

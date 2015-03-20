@@ -6,13 +6,16 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     $scope.backCurPendingPicture=function(){
         if($scope.pendingPictureSearchData.content==""||$scope.pendingPictureSearchData.content==null){
             $scope.getPendingPictureData($scope.pendingPictureData.currentNo);
+            $scope.closeOver();
         }else{
             $scope.getPendingPictureSearchData($scope.pendingPictureData.currentNo);
+            $scope.closeOver();
         }
     };
     $scope.goPendingPicture=function()
     {
         $scope.clearArticle();
+        $scope.coverIt();
         document.getElementById("pendingPictureView").className="tab-pane";
         document.getElementById("pendingPicture").className="tab-pane active";
         document.getElementById("pendingPictureSidebarID").className="sidebar-list";

@@ -102,6 +102,7 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
         document.getElementById("generalView").className="tab-pane";
         document.getElementById("generalViewArticle").className="tab-pane active";
         document.getElementById("generalSidebarID").className="sidebar-list";
+        $scope.closeOver();
     };
 
     //得到文章的URL
@@ -131,6 +132,7 @@ angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", fun
     {
         var url=$scope.getGeneralArticleUrl(articleId);
 
+        $scope.coverIt();
         $http.get(url).success(function(data) {
 //            console.log(data);
             $scope.transDataToArticleData(data);
