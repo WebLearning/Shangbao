@@ -86,7 +86,11 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.userInfo_name=data.name;
             $scope.userInfo_duty=data.duty;
             console.log($scope.userInfo_duty);
+            $scope.newArticleData.author=$scope.userInfo_name;
             $scope.getPendingData(1);
+            $scope.getPublishedData(1);
+            $scope.getRevokedData(1);
+            $scope.getTempData(1);
         });
     };
     $scope.getCurUserName();
@@ -116,14 +120,18 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.changeCurPage = function(str)
     {
         $scope.curPage=str;
+//        $scope.getCurUserName();
         $scope.refreshChannelNames();
         $scope.getNewPictureChannelNames();
+        $scope.getSuperChannelNames();
+        $scope.getNormalChannelNames();
         $scope.getNewChannelNames();
         clearArticleData();
         $scope.getSetState();
         $scope.getCommentSetState();
         $scope.setButtonInNewArticleForPending();
         $scope.setButtonInNewArticleForPublish();
+
         //如果是点击新建文章就清除文章里的数据
         if(str=="新建"){
             clearNewArticleData();
@@ -134,13 +142,9 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }else if(str=="文章/新建"){
             clearNewArticleData();
             $scope.newArticleData.time=new Date();
-//            $scope.setButtonInNewArticleForPending();
-//            $scope.setButtonInNewArticleForPublish();
         }else if(str=="快拍成都/新建"){
             clearNewArticleData();
             $scope.newArticleData.time=new Date();
-//            $scope.setButtonInNewArticleForPending();
-//            $scope.setButtonInNewArticleForPublish();
         }else if(str=="文章/爬虫文章"){
             clearCrawlerSearchData();
             $scope.refreshCrawler();
@@ -178,7 +182,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }else if(str=="分类1/待审"){
             clearPendingSearchData_type1();
             $scope.refreshPending_type1();
-        }else if(str=="分类1/已发布"){
+        }else if(str=="投诉"){
 
         }else if(str=="分类1/已撤销"){
 
@@ -601,14 +605,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
                 $scope.urlForPublished=$scope.projectName+'/article/channel/'+$scope.userInfo_duty+'/Published/'+pageID.toString()+$scope.orderCondition;
             }
-            console.log($scope.urlForPublished);
+//            console.log($scope.urlForPublished);
             $http.get($scope.urlForPublished).success(function(data){
-                console.log(data.tileList.length);
+//                console.log(data.tileList.length);
                 if(data.pageCount>0){
                     $scope.publishedData=data;
 //                    console.log($scope.publishedData.length);
-                    console.log(data);
-                    console.log($scope.publishedData);
+//                    console.log(data);
+//                    console.log($scope.publishedData);
                     $scope.publishedPageNums=getPageNums($scope.publishedData.pageCount);
                     $scope.lastPublishedPage=$scope.publishedData.pageCount;
                     $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
@@ -773,7 +777,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 //            console.log("null userInfo_duty revoked LastPage");
         }
     };
-    $scope.getRevokedData(1);//会在生成页面的时候直接运行!
+//    $scope.getRevokedData(1);//会在生成页面的时候直接运行!
     function clearRevokedSearchData(){
         for(p in $scope.revokedSearchData){
             $scope.revokedSearchData[p]="";
@@ -907,7 +911,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 //            console.log("null userInfo_duty tempLastPage");
         }
     };
-    $scope.getTempData(1);//会在生成页面的时候直接运行!
+//    $scope.getTempData(1);//会在生成页面的时候直接运行!
     function clearTempSearchData(){
         for(p in $scope.tempSearchData){
             $scope.tempSearchData[p]="";
@@ -1637,6 +1641,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     $scope.getNewPictureChannelNames();
     $scope.refreshChannelNames=function(){
+        $scope.superChannelNames=[];
+        $scope.normalChannelNames=[];
         $scope.newChannelNames=[];
         $scope.newPictureChannelNames=[];
     };
@@ -2175,11 +2181,4 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         covershow.style.display = 'none';
 //        alert("遮罩取消");
     };
-    //-----------------------------------------------------------------------------------------------------------------
-    //禁止响应浏览器后退按钮------------------------------------------------------------------------------
-    $scope.forbidBack=function(){
-        javascript:window.history.forward(1);
-        console.log("forbid");
-    };
-    $scope.forbidBack();
 }]);

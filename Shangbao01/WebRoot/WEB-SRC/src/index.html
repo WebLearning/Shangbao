@@ -218,11 +218,25 @@
 		<li role="presentation" class="sidebar-list">
           <a ng-href="#management" role="tab" data-toggle="tab" ng-click="changeCurPage('管理')">管理 <span class="menu-icon glyphicon glyphicon-folder-open"></span></a>
         </li>
-        <li role="presentation" class="sidebar-list">
+        <li role="presentation" class="sidebar-list ">
           <a ng-href="#settings" role="tab" data-toggle="tab" ng-click="changeCurPage('设置')">设置 <span class="menu-icon glyphicon glyphicon-cog"></span></a>
         </li>
-        <li role="presentation" class="sidebar-list">
-            <a ng-href="#complaint" role="tab" data-toggle="tab" ng-click="changeCurPage('投诉')">投诉 <span class="menu-icon glyphicon glyphicon-question-sign"></span></a>
+        <li role="presentation" class="sidebar-list dropdown">
+            <!--<a ng-href="#complaint" role="tab" data-toggle="tab" ng-click="changeCurPage('投诉')">投诉 <span class="menu-icon glyphicon glyphicon-question-sign"></span></a>-->
+            <!--<a href="http://120.27.47.167:8080/shangbao02/WEB-SRC/src/show.html" target="_blank" ng-click="changeCurPage('投诉')">投诉</a>-->
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                投诉
+                <span class="menu-icon glyphicon glyphicon-question-sign"></span>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu" style="background-color:#30426A;">
+                <li role="presentation" class="sidebar-list">
+                    <a href="http://120.27.47.167:8080/shangbao02/WEB-SRC/src/show.html" target="_blank" ng-click="changeCurPage('投诉')">投诉列表<span class="menu-icon glyphicon glyphicon-tasks"></span></a>
+                </li>
+                <li role="presentation" class="sidebar-list">
+                    <a href="http://120.27.47.167:8080/shangbao02/WEB-SRC/src/tousu.html" target="_blank" ng-click="changeCurPage('投诉')">我要投诉<span class="menu-icon glyphicon glyphicon-edit"></span></a>
+                </li>
+            </ul>
         </li>
         <!--导航条结束-->
 
@@ -267,7 +281,7 @@
                 后台管理系统 / {{curPage}}
               </div>
             </div>
-            <div class="user col-md-2 col-md-offset-7">
+            <div class="user col-md-3 col-md-offset-6">
                 <div class="item dropdown">
                     <a ng-href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         <!--<img src="img/avatar.jpg">-->
@@ -380,7 +394,7 @@
                   </div>
                 </div>
                 <div class="item dropdown">
-                    <div class="page">&nbsp;</div>
+                    <div class="page">&nbsp;&nbsp;&nbsp;</div>
                     <div>
                         <ul>
                             <li>{{userInfo_name}}</li>
@@ -4563,8 +4577,10 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="complaint">
-                <div>
-                    <!--<iframe src="http://www.baidu.com"></iframe>-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <iframe src="http://localhost:8080/Shangbao01/WEB-SRC/src/index.html" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                    </div>
                 </div>
             </div>
 
