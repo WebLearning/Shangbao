@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.persistence.Id;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -15,7 +14,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import com.baidu.ueditor.define.State;
 import com.mongodb.WriteResult;
 import com.shangbao.dao.ArticleDao;
 import com.shangbao.dao.SequenceDao;

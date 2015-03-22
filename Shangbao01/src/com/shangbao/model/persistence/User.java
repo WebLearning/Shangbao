@@ -28,6 +28,7 @@ public class User implements UserDetails {
 	private String qq;
 	private String role;
 	private String duty;
+	private String pendTag;
 	private List<Long> collection = new ArrayList<>();
 	
 	public String getRole() {
@@ -41,6 +42,12 @@ public class User implements UserDetails {
 	}
 	public void setDuty(String duty) {
 		this.duty = duty;
+	}
+	public String getPendTag() {
+		return pendTag;
+	}
+	public void setPendTag(String pendTag) {
+		this.pendTag = pendTag;
 	}
 	public Long getId() {
 		return id;

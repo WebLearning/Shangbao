@@ -3,7 +3,6 @@ package com.shangbao.app.service;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -11,7 +10,6 @@ import java.util.Properties;
 import javax.annotation.Resource;
 
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.app.model.ActiveModel;
@@ -85,9 +83,9 @@ public class AppService {
 					return appChannelModel;
 				}
 				for(Channel sonChannel : sonChannels){
-					if(channelEnName.equals("kuaipai") && !sonChannel.getChannelName().startsWith("#")){
-						continue;
-					}
+//					if(channelEnName.equals("kuaipai") && !sonChannel.getChannelName().startsWith("#")){
+//						continue;
+//					}
 					List<Article> articles = appModel.getAppMap().get(sonChannel.getChannelName());
 					if(articles != null){
 						if(titleSize >= articles.size()){
@@ -451,7 +449,7 @@ public class AppService {
 				css = "kuaipai.css";
 			}
 			SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd");
-			String duxq = "<div ng-app=\"readAndZan\" ng-controller=\"readAndZanCtrl\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读{{clickNum}} &nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"zanAdd(zanNum,pictureUrl)\"><img alt=\"\" src={{pictureUrl}}>{{zanNum}}</a></div></div>";
+			String duxq = "<div ng-app=\"\" ng-controller=\"readAndZanCtrl\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读{{clickNum}} &nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"zanAdd(zanNum,pictureUrl)\"><img alt=\"\" src={{pictureUrl}}>{{zanNum}}</a></div></div>";
 			String html = "";
 			html += "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"zh-CN\"><head profile=\"http://gmpg.org/xfn/11\"> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> <title>";
 			html += article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/" + css + "\" type=\"text/css\" /> <script src=\"" + localhostString + "/WEB-SRC/src/js/angular.min.js\"></script> <script src=\"" + localhostString + "/WEB-SRC/click.js\"></script>";

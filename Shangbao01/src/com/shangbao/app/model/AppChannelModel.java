@@ -91,7 +91,7 @@ public class AppChannelModel {
 			}
 			this.summary = article.getSummary();
 			this.time = article.getTime();
-			this.clicks = article.getClicks();
+			this.clicks = article.getJs_clicks();
 			this.comments = article.getCrawlerCommendsPublish() + article.getNewsCommendsPublish();
 			indexId = id;
 			this.newsId = article.getId();

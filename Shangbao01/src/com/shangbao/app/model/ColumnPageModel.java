@@ -77,7 +77,11 @@ public class ColumnPageModel {
 			}
 			this.summary = article.getSummary();
 			this.time = article.getTime();
-			this.clicks = article.getJs_clicks();
+			if(article.getOutSideUrl() == null || article.getOutSideUrl().isEmpty()){
+				this.clicks = article.getJs_clicks() * 100 + article.getJs_clicks();
+			}else{
+				this.clicks = article.getClicks() * 100 + article.getClicks();
+			}
 			this.indexId = indexId;
 			this.newsId = newsId;
 			this.comments = article.getCrawlerCommendsPublish() + article.getNewsCommendsPublish();

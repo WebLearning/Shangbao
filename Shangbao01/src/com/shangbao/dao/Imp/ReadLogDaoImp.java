@@ -1,8 +1,11 @@
 package com.shangbao.dao.Imp;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.enterprise.inject.New;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -55,8 +58,10 @@ public class ReadLogDaoImp implements ReadLogDao{
 			update.inc("clicks", updateElement.getClickIP().size());
 		}
 		if(!updateElement.getLikeIP().isEmpty()){
+			SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
 			update.pushAll("likeIP", updateElement.getLikeIP().toArray());
 			update.inc("likes", updateElement.getLikeIP().size());
+			update.inc("dateLike." + dft.format(new Date()), updateElement.getLikeIP().size());
 		}
 		WriteResult result = mongoTemplate.updateFirst(query, update, ReadLog.class);
 		if(result.getN() > 0)
@@ -101,8 +106,10 @@ public class ReadLogDaoImp implements ReadLogDao{
 				update.inc("clicks", updateElement.getClickIP().size());
 			}
 			if(!updateElement.getLikeIP().isEmpty()){
+				SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
 				update.pushAll("likeIP", updateElement.getLikeIP().toArray());
 				update.inc("likes", updateElement.getLikeIP().size());
+				update.inc("dateLike." + dft.format(new Date()), updateElement.getLikeIP().size());
 			}
 			return mongoTemplate.findAndModify(query, update, ReadLog.class);
 		}
@@ -132,8 +139,10 @@ public class ReadLogDaoImp implements ReadLogDao{
 				update.inc("clicks", updateReadLog.getClickIP().size());
 			}
 			if(!updateReadLog.getLikeIP().isEmpty()){
+				SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
 				update.pushAll("likeIP", updateReadLog.getLikeIP().toArray());
 				update.inc("likes", updateReadLog.getLikeIP().size());
+				update.inc("dateLike." + dft.format(new Date()), updateReadLog.getLikeIP().size());
 			}
 			mongoTemplate.upsert(query, update, ReadLog.class);
 		}
