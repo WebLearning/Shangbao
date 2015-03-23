@@ -1,11 +1,8 @@
 package com.shangbao.phone.control;
 
-import java.awt.image.BufferedImage;
 import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,8 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.google.code.kaptcha.Constants;
-import com.google.code.kaptcha.Producer;
 import com.shangbao.app.model.AppResponseModel;
 import com.shangbao.app.service.UserIdentifyService;
 import com.shangbao.model.PasswdModel;

@@ -663,13 +663,15 @@ public class AppModel {
 		Update update = new Update();
 		articleMapLock.readLock().lock();
 		try{
-			if(articleMap.get(articleId) != null){
+			Article article;
+			if((article = articleMap.get(articleId)) != null){
 				synchronized (this){
 					articleMap.get(articleId).setJs_clicks(articleMap.get(articleId).getJs_clicks() + 1);
 				}
 				update.set("js_clicks", articleMap.get(articleId).getJs_clicks());
 				articleDaoImp.update(criteriaArticle, update);
-				return articleMap.get(articleId).getJs_clicks();
+				return article.getJs_clicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
+				//return articleMap.get(articleId).getJs_clicks();
 			}
 		}finally{
 			articleMapLock.readLock().unlock();
@@ -680,8 +682,11 @@ public class AppModel {
 	public int getJsClick(Long articleId){
 		articleMapLock.readLock().lock();
 		try{
-			if(articleMap.get(articleId) != null){
-				return articleMap.get(articleId).getJs_clicks();
+			Article article;
+			if((article = articleMap.get(articleId)) != null){
+				int returnNum = article.getJs_clicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
+				return returnNum;
+				//return articleMap.get(articleId).getJs_clicks();
 			}
 		}finally{
 			articleMapLock.readLock().unlock();

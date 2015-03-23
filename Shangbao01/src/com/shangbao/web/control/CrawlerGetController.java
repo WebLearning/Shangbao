@@ -179,7 +179,7 @@ public class CrawlerGetController {
 	 */
 	@RequestMapping(value="/delete/article/{articleId:[\\d]+}", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteCrawlerArticle(@PathVariable("articleId") Long id){
+	public Long deleteCrawlerArticle(@PathVariable("articleId") Long id){
 		Article article = new Article();
 		article.setId(id);
 		article.setTag(false);
@@ -189,7 +189,9 @@ public class CrawlerGetController {
 		if(articleServiceImp.find(article) != null && !articleServiceImp.find(article).isEmpty()){
 			articleServiceImp.deleteOne(article);
 			commendServiceImp.delete(commend);
+			return id;
 		}
+		return null;
 	}
 	
 	private String stringToBody(Article article){

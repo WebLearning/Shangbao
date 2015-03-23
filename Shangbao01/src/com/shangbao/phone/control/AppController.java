@@ -161,14 +161,14 @@ public class AppController {
 		if(clicks > 0){
 			readLogServiceImp.addClick(articleId, ip);
 		}
-		return clicks * 100 + clicks;
+		return clicks;
 	}
 	
 	@RequestMapping(value="/js/getclick/{articleId}", method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public int getClicks(@PathVariable("articleId") long articleId){
-		return appService.getJsClick(articleId) * 101;
+		return appService.getJsClick(articleId);
 	}
 	
 	@RequestMapping(value="/js/addlike/{articleId}", method=RequestMethod.PUT)

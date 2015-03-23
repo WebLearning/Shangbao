@@ -67,14 +67,16 @@ public class KuaipaiPKTask {
 			}
 		}
 		//取消已经置顶的文章
-		if(!oldTopArticleIds.isEmpty()){
-			for(Long oldTopId : oldTopArticleIds){
-				articleDaoImp.unSetTopArticle(pkChannelName, oldTopId);
+		if(likes > 0){
+			if(!oldTopArticleIds.isEmpty()){
+				for(Long oldTopId : oldTopArticleIds){
+					articleDaoImp.unSetTopArticle(pkChannelName, oldTopId);
+				}
 			}
-		}
-		//置顶赞最多的文章
-		if(newTopArticleId != null){
-			articleDaoImp.setTopArticle(pkChannelName, newTopArticleId);
+			//置顶赞最多的文章
+			if(newTopArticleId != null){
+				articleDaoImp.setTopArticle(pkChannelName, newTopArticleId);
+			}
 		}
 	}
 }

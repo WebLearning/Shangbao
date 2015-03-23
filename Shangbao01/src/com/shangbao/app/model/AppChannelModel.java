@@ -91,7 +91,11 @@ public class AppChannelModel {
 			}
 			this.summary = article.getSummary();
 			this.time = article.getTime();
-			this.clicks = article.getJs_clicks();
+			if(article.getOutSideUrl() == null || article.getOutSideUrl().isEmpty()){
+				this.clicks = article.getJs_clicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
+			}else{
+				this.clicks = article.getClicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
+			}
 			this.comments = article.getCrawlerCommendsPublish() + article.getNewsCommendsPublish();
 			indexId = id;
 			this.newsId = article.getId();
