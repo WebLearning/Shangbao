@@ -79,21 +79,51 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     //显示当前登录用户名------------------------------------------------------------------------------------------------
     $scope.userInfo_name="";
     $scope.userInfo_duty="";
+    $scope.userInfo_pendTag="";
     $scope.getCurUserName=function(){
         var url=$scope.projectName+"/user/userinfo";
         $http.get(url).success(function(data){
             console.log(data.name);
             $scope.userInfo_name=data.name;
             $scope.userInfo_duty=data.duty;
+            $scope.userInfo_pendTag=data.pendTag;
             console.log($scope.userInfo_duty);
-            $scope.newArticleData.author=$scope.userInfo_name;
             $scope.getPendingData(1);
             $scope.getPublishedData(1);
             $scope.getRevokedData(1);
             $scope.getTempData(1);
+            $scope.setManageComment();
+            $scope.setPendTagForPending();
         });
     };
     $scope.getCurUserName();
+    $scope.setNewArticleAuthor=function(){
+        $scope.newArticleData.author=$scope.userInfo_name;
+        $scope.newArticleData.time=new Date();
+    };
+    //设置审核权限，是否可以审核待审里的文章---------------------------------------------------------------------------
+    $scope.setPendTagForPending=function(){
+        if($scope.userInfo_pendTag=="可以审核文章"){
+            return "sidebar-list";
+        }else if($scope.userInfo_pendTag=="不可审核文章"||$scope.userInfo_pendTag==null){
+            return "sidebar-list sr-only";
+        }
+    };
+    //设置里的选择是否需要审核文章和是否需要审核评论--------------------------------------------------------------------
+    $scope.setManageComment=function(){
+        if($scope.userInfo_duty=="super"){
+            return "table table-bordered";
+        }else{
+            return "table table-bordered sr-only";
+        }
+    };
+    $scope.setAddUser=function(){
+        if($scope.userInfo_duty=="super"){
+            return "";
+        }else{
+            return "sr-only";
+        }
+    };
     //获得所有大的分类（duty）------------------------------------------------------------------------------------------
     $scope.userDuty="";
     $scope.getUserDuty=function(){
@@ -133,18 +163,13 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         $scope.setButtonInNewArticleForPublish();
 
         //如果是点击新建文章就清除文章里的数据
-        if(str=="新建"){
+        if(str=="文章/新建"){
             clearNewArticleData();
-            $scope.newArticleData.time=new Date();
-        }else if(str=="爬虫"){
-            clearCrawlerSearchData();
-            $scope.refreshCrawler();
-        }else if(str=="文章/新建"){
-            clearNewArticleData();
-            $scope.newArticleData.time=new Date();
+//            $scope.newArticleData.time=new Date();
+            $scope.setNewArticleAuthor();
         }else if(str=="快拍成都/新建"){
             clearNewArticleData();
-            $scope.newArticleData.time=new Date();
+            $scope.setNewArticleAuthor();
         }else if(str=="文章/爬虫文章"){
             clearCrawlerSearchData();
             $scope.refreshCrawler();
@@ -179,14 +204,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.refreshTempPicture();
         }else if(str=="评论"){
             $scope.refreshCommentCur();
-        }else if(str=="分类1/待审"){
-            clearPendingSearchData_type1();
-            $scope.refreshPending_type1();
         }else if(str=="投诉"){
-
-        }else if(str=="分类1/已撤销"){
-
-        }else if(str=="分类1/草稿箱"){
 
         }
     };
@@ -1753,12 +1771,21 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.addUserInfo={
         name:"",
         passwd:"",
-        duty:""
+        duty:"",
+        pendTag:""
     };
     $scope.elsePassword="";
     $scope.clearUserInfo=function(){
         $scope.addUserInfo.passwd="";
         $scope.elsePassword="";
+    };
+    $scope.PendingTag="form-group sr-only";
+    $scope.selectPendTag=function(){
+        if($scope.addUserInfo.duty=="超级管理员"){
+            $scope.PendingTag="form-group sr-only";
+        }else{
+            $scope.PendingTag="form-group";
+        }
     };
     $scope.addUserInformation1=function(){
         var url=$scope.projectName+"/user/register";
@@ -1770,24 +1797,31 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         }else{
             if($scope.addUserInfo.duty=="超级管理员"){
                 $scope.addUserInfo.duty="super";
+                $scope.addUserInfo.pendTag="可以审核文章";
                 $http.post(url,$scope.addUserInfo).success(function(){
                     alert("注册成功！");
                     $scope.clearUserInfo();
                     $scope.addUserInfo.name="";
+                    $scope.addUserInfo.pendTag="";
                     $('#addUser_1').modal('toggle');
                 });
             }else if($scope.addUserInfo.duty==""){
                 alert("请选择管理分类！");
             }else{
-                for(var i=0;i<$scope.userDuty.length;i++){
-                    if(($scope.userDuty)[i].channelName==$scope.addUserInfo.duty){
-                        $scope.addUserInfo.duty=($scope.userDuty)[i].englishName;
-                        $http.post(url,$scope.addUserInfo).success(function(){
-                            alert("注册成功！");
-                            $scope.clearUserInfo();
-                            $scope.addUserInfo.name="";
-                            $('#addUser_1').modal('toggle');
-                        });
+                if($scope.addUserInfo.pendTag==""){
+                    alert("请选择审核权限！");
+                }else{
+                    for(var i=0;i<$scope.userDuty.length;i++){
+                        if(($scope.userDuty)[i].channelName==$scope.addUserInfo.duty){
+                            $scope.addUserInfo.duty=($scope.userDuty)[i].englishName;
+                            $http.post(url,$scope.addUserInfo).success(function(){
+                                alert("注册成功！");
+                                $scope.clearUserInfo();
+                                $scope.addUserInfo.name="";
+                                $scope.addUserInfo.pendTag="";
+                                $('#addUser_1').modal('toggle');
+                            });
+                        }
                     }
                 }
             }
@@ -2172,7 +2206,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         var covershow = document.getElementById("coverShow");
         cover.style.display = 'block';
         covershow.style.display = 'block';
-        alert("遮罩");
+//        alert("遮罩");
     };
     $scope.closeOver=function(){
         var cover = document.getElementById("cover");

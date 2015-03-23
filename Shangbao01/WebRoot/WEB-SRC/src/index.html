@@ -18,6 +18,9 @@
   <link rel="stylesheet" type="text/css" href="css/themes/red.css">
   -->
 
+    <script language="JavaScript">
+        javascript:window.history.forward(1);
+    </script>
   <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
   <script type="text/javascript" src="js/angular.js"></script>
   <script type="text/javascript" src="js/angular-cookies.js"></script>
@@ -171,9 +174,9 @@
                 <li role="presentation" class="sidebar-list" id="crawlerSidebarID">
                     <a ng-href="#crawler" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/爬虫文章')">爬虫文章 <span class="menu-icon glyphicon glyphicon-save"></span></a>
                 </li>
-                <li role="presentation" class="sidebar-list" id="pendingSidebarID">
-                    <a ng-href="#pendingTrial" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>
-                </li>
+                <!--<li role="presentation" class="sidebar-list" id="pendingSidebarID">-->
+                    <!--<a ng-href="#pendingTrial" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>-->
+                <!--</li>-->
                 <li role="presentation" class="sidebar-list" id="publishedSidebarID">
                     <a ng-href="#published" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/已发布')">已发布 <span class="menu-icon glyphicon glyphicon-ok"></span></a>
                 </li>
@@ -182,6 +185,9 @@
                 </li>
                 <li role="presentation" class="sidebar-list" id="draftSidebarID">
                     <a ng-href="#draft" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
+                </li>
+                <li role="presentation" ng-class="setPendTagForPending()" id="pendingSidebarID">
+                    <a ng-href="#pendingTrial" role="tab" data-toggle="tab" ng-click="changeCurPage('文章/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>
                 </li>
             </ul>
         </li>
@@ -198,9 +204,9 @@
                   <li role="presentation" class="sidebar-list" id="crawlerPictureSidebarID">
                       <a ng-href="#crawlerPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/爬虫图片')">爬虫图片 <span class="menu-icon glyphicon glyphicon-save"></span></a>
                   </li>
-                  <li role="presentation" class="sidebar-list" id="pendingPictureSidebarID">
-                      <a ng-href="#pendingPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>
-                  </li>
+                  <!--<li role="presentation" class="sidebar-list" id="pendingPictureSidebarID">-->
+                      <!--<a ng-href="#pendingPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>-->
+                  <!--</li>-->
                   <li role="presentation" class="sidebar-list" id="publishedPictureSidebarID">
                       <a ng-href="#publishedPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/已发布')">已发布 <span class="menu-icon glyphicon glyphicon-ok"></span></a>
                   </li>
@@ -209,6 +215,9 @@
                   </li>
                   <li role="presentation" class="sidebar-list" id="draftPictureSidebarID">
                       <a ng-href="#draftPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/草稿箱')">草稿箱 <span class="menu-icon glyphicon glyphicon-briefcase"></span></a>
+                  </li>
+                  <li role="presentation" ng-class="setPendTagForPending()" id="pendingPictureSidebarID">
+                      <a ng-href="#pendingPicture" role="tab" data-toggle="tab" ng-click="changeCurPage('快拍成都/待审')">待审 <span class="menu-icon glyphicon glyphicon-repeat"></span></a>
                   </li>
               </ul>
           </li>
@@ -288,14 +297,11 @@
                         <i class="glyphicon glyphicon-bell"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li>
+                        <li ng-class="setAddUser()">
                             <a href="" data-toggle="modal" data-target="#addUser_1">添加用户</a>
                         </li>
                         <li>
                             <a href="" data-toggle="modal" data-target="#modify_passWord1">修改密码</a>
-                        </li>
-                        <li>
-                            <a href="">忘记密码</a>
                         </li>
                         <li class="divider"></li>
                         <li class="dropdown-header">
@@ -376,9 +382,20 @@
                                           <label class="col-md-3 control-label">管理分类</label>
                                           <div class="col-md-8">
                                               <form role="form">
-                                                  <select class="form-control" ng-model="addUserInfo.duty">
+                                                  <select class="form-control" ng-model="addUserInfo.duty" ng-click="selectPendTag()">
                                                       <option ng-repeat="duty in userDuty">{{duty.channelName}}</option>
                                                       <option>超级管理员</option>
+                                                  </select>
+                                              </form>
+                                          </div>
+                                      </div>
+                                      <div ng-class="PendingTag">
+                                          <label class="col-md-3 control-label">审核权限</label>
+                                          <div class="col-md-8">
+                                              <form role="form">
+                                                  <select class="form-control" ng-model="addUserInfo.pendTag">
+                                                      <option>可以审核文章</option>
+                                                      <option>不可审核文章</option>
                                                   </select>
                                               </form>
                                           </div>
@@ -2646,7 +2663,7 @@
 			<div role="tabpanel" class="tab-pane" id="settings" ng-controller="settingCtrl">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-1">
-                        <table class="table table-bordered">
+                        <table ng-class="setManageComment()">
                             <thead>
                             <tr>
                                 <th>设置是否使用标准版（需要提交审核）</th>
@@ -2677,7 +2694,7 @@
                         </table>
                     </div>
                     <div class="col-md-4">
-                        <table class="table table-bordered">
+                        <table ng-class="setManageComment()">
                             <thead>
                             <tr>
                                 <th>设置是否需要审查评论</th>

@@ -71,23 +71,32 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         $scope.calculatePictures();
         if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "||$scope.newArticleData.outSideUrl==null){
             $scope.calculateWords();
-            var jsonString=JSON.stringify($scope.newArticleData);
-            $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
-                alert("保存文章成功");
+            if($scope.newArticleData.channel.length==0){
+                alert("分类不能为空");
                 $scope.closeOver();
-            });
-            $scope.clearArticle();
+            }else if($scope.newArticleData.channel.length!=0){
+                var jsonString=JSON.stringify($scope.newArticleData);
+                $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
+                    alert("保存文章成功");
+                    $scope.closeOver();
+                });
+                $scope.clearArticle();
+            }
         }else if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
             $scope.outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.newArticleData.outSideUrl);
             if($scope.outSide){
                 $scope.newArticleData.content="";
                 $scope.calculateWords();
-                var jsonString1=JSON.stringify($scope.newArticleData);
-                $http.post($scope.projectName+'/article/newArticle',jsonString1).success(function(data) {
-                    alert("保存文章成功");
-                    $scope.closeOver();
-                });
-                $scope.clearArticle();
+                if($scope.newArticleData.channel.length==0){
+                    alert("分类不能为空！");
+                }else if($scope.newArticleData.channel.length!=0){
+                    var jsonString1=JSON.stringify($scope.newArticleData);
+                    $http.post($scope.projectName+'/article/newArticle',jsonString1).success(function(data) {
+                        alert("保存文章成功");
+                        $scope.closeOver();
+                    });
+                    $scope.clearArticle();
+                }
             }else if($scope.outSide==false){
                 alert("外链文章Url格式不对");
                 $scope.closeOver();

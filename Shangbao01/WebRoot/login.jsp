@@ -5,14 +5,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head> 
+<html lang="en">
+  <head>
+    <script language="JavaScript">
+
+        javascript:window.history.forward(1);
+
+    </script>
     <title>Log In</title>
 	<link href="/Shangbao01/WEB-SRC/src/css/bootstrap.css" rel="stylesheet">
     <link href="/Shangbao01/WEB-SRC/src/css/signin.css" rel="stylesheet">
            
     <script src="/Shangbao01/WEB-SRC/src/js/jquery-1.11.0.js"></script>
     <script src="/Shangbao01/WEB-SRC/src/js/bootstrap.js"></script>
+
   </head>
   
   <body>
@@ -33,6 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </form>
       <div  style="margin-left:37%;width:300px" >      	
       	<button class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#myModalRegisterUser" disabled="disabled">Register</button>
+        <%--<a href="../Shangbao01/WEB-SRC/src/register.html" type="button" class="btn btn-lg btn-success btn-block" target="_blank">Register</a>--%>
       </div>
 
     </div> <!-- /container -->
@@ -68,12 +75,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <p><span id="ifUserRegisterPasswordMatch"><br><br></span></p>                        
                     </div>
                     <div class="modal-footer" id="submitBtnOfUserRegister">
-                        <button type="submit" class="btn btn-default" onclick="submitRegister()" disabled="disabled">Submit</button>
+                        <%--<button type="submit" class="btn btn-default" onclick="submitRegister()" disabled="disabled">Submit</button>--%>
+                        <%--<button type="button" class="btn btn-default" ng-click="addUserInformation()">Submit</button>--%>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
             
         </div><!-- /.modal -->
-    
+
+    <%--<script language="JavaScript">--%>
+
+        <%--javascript:window.history.forward(1);--%>
+
+    <%--</script>--%>
+
   </body>
 </html>
