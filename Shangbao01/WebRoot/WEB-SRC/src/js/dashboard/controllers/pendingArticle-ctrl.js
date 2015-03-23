@@ -93,12 +93,12 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
             $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
             if($scope.outSide){
-                $scope.articleData.content="";
-                $scope.calculateWords();
                 if($scope.articleData.channel.length==0){
                     alert("分类不能为空");
                     $scope.closeOver();
                 }else if($scope.articleData.channel.length!=0){
+                    $scope.articleData.content="";
+                    $scope.calculateWords();
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
                         alert("保存文章成功");
@@ -133,12 +133,12 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
             $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
             if($scope.outSide){
-                $scope.articleData.content="";
-                $scope.calculateWords();
                 if($scope.articleData.channel.length==0){
                     alert("分类不能为空");
                     $scope.closeOver();
                 }else if($scope.articleData.channel.length!=0){
+                    $scope.articleData.content="";
+                    $scope.calculateWords();
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.put($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
                         alert("提交审核文章成功");
@@ -187,12 +187,12 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
             $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
             if($scope.outSide){
-                $scope.articleData.content="";
-                $scope.calculateWords();
                 if($scope.articleData.channel.length==0){
                     alert("分类不能为空");
                     $scope.closeOver();
                 }else if($scope.articleData.channel.length!=0){
+                    $scope.articleData.content="";
+                    $scope.calculateWords();
                     var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                     $http.put(url).success(function(){
 //                clearArticleSelections();
@@ -245,12 +245,12 @@ angular.module("Dashboard").controller("pendingArticleCtrl", ["$scope","$http", 
         }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
             $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
             if($scope.outSide){
-                $scope.articleData.content="";
-                $scope.calculateWords();
                 if($scope.articleData.channel.length==0){
                     alert("分类不能为空");
                     $scope.closeOver();
                 }else if($scope.articleData.channel.length!=0){
+                    $scope.articleData.content="";
+                    $scope.calculateWords();
                     var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
                     console.log(url);
                     $http.get(url).success(function(){

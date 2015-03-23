@@ -85,11 +85,11 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         }else if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
             $scope.outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.newArticleData.outSideUrl);
             if($scope.outSide){
-                $scope.newArticleData.content="";
-                $scope.calculateWords();
                 if($scope.newArticleData.channel.length==0){
                     alert("分类不能为空！");
                 }else if($scope.newArticleData.channel.length!=0){
+                    $scope.newArticleData.content="";
+                    $scope.calculateWords();
                     var jsonString1=JSON.stringify($scope.newArticleData);
                     $http.post($scope.projectName+'/article/newArticle',jsonString1).success(function(data) {
                         alert("保存文章成功");
@@ -124,12 +124,12 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         }else if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
             $scope.outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.newArticleData.outSideUrl);
             if($scope.outSide){
-                $scope.newArticleData.content="";
-                $scope.calculateWords();
                 if($scope.newArticleData.channel.length==0){
                     alert("分类不能为空");
                     $scope.closeOver();
                 }else if($scope.newArticleData.channel.length!=0){
+                    $scope.newArticleData.content="";
+                    $scope.calculateWords();
                     var jsonString1=JSON.stringify($scope.newArticleData);
                     $http.post(url,jsonString1).success(function(){
                         alert("提交审核成功！");
@@ -164,12 +164,12 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         }else if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
             $scope.outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.newArticleData.outSideUrl);
             if($scope.outSide){
-                $scope.newArticleData.content="";
-                $scope.calculateWords();
                 if($scope.newArticleData.channel.length==0){
                     alert("分类不能为空");
                     $scope.closeOver();
                 }else if($scope.newArticleData.channel.length!=0){
+                    $scope.newArticleData.content="";
+                    $scope.calculateWords();
                     var jsonString1=JSON.stringify($scope.newArticleData);
                     console.log(jsonString1);
                     $http.post(url,jsonString1).success(function(){
@@ -217,12 +217,12 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         }else if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
             $scope.outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.newArticleData.outSideUrl);
             if($scope.outSide){
-                $scope.newArticleData.content="";
-                $scope.calculateWords();
                 if($scope.newArticleData.channel.length==0){
                     alert("分类不能为空");
                     $scope.closeOver();
                 }else if($scope.newArticleData.channel.length!=0){
+                    $scope.newArticleData.content="";
+                    $scope.calculateWords();
                     var jsonString1=JSON.stringify($scope.newArticleData);
                     console.log(url);
                     $http.post(url,jsonString1).success(function(){
