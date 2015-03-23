@@ -76,42 +76,57 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
-        var jsonString=JSON.stringify($scope.newArticleData);
-        //console.log(jsonString);
-        $http.post($scope.projectName+'/picture/newPicture',jsonString).success(function(data) {
-//            alert("保存成功");
-            $scope.clearArticle();
-            alert("保存成功");
+        if($scope.newArticleData.channel.length==0){
+            alert("分类不能为空");
             $scope.closeOver();
-        });
+        }else if($scope.newArticleData.channel.length!=0){
+            var jsonString=JSON.stringify($scope.newArticleData);
+            //console.log(jsonString);
+            $http.post($scope.projectName+'/picture/newPicture',jsonString).success(function(data) {
+//            alert("保存成功");
+                $scope.clearArticle();
+                alert("保存成功");
+                $scope.closeOver();
+            });
+        }
     };
     $scope.pendArticleInNewPicture=function(){
         $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         var url=$scope.projectName+"/picture/newPicture/pend";
-        var jsonString=JSON.stringify($scope.newArticleData);
-        console.log(jsonString);
-        $http.post(url,jsonString).success(function(){
-//            alert("提交成功！");
-            $scope.clearArticle();
-            alert("提交成功！");
+        if($scope.newArticleData.channel.length==0){
+            alert("分类不能为空");
             $scope.closeOver();
-        });
+        }else if($scope.newArticleData.channel.length!=0){
+            var jsonString=JSON.stringify($scope.newArticleData);
+            console.log(jsonString);
+            $http.post(url,jsonString).success(function(){
+//            alert("提交成功！");
+                $scope.clearArticle();
+                alert("提交成功！");
+                $scope.closeOver();
+            });
+        }
     };
     $scope.publishedArticleInNewPicture=function(){
         $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
         var url=$scope.projectName+"/picture/newPicture/pend";
-        var jsonString=JSON.stringify($scope.newArticleData);
-        console.log(jsonString);
-        $http.post(url,jsonString).success(function(){
-//            alert("发布成功！");
-            $scope.clearArticle();
-            alert("发布成功！");
+        if($scope.newArticleData.channel.length==0){
+            alert("分类不能为空");
             $scope.closeOver();
-        });
+        }else if($scope.newArticleData.channel.length!=0){
+            var jsonString=JSON.stringify($scope.newArticleData);
+            console.log(jsonString);
+            $http.post(url,jsonString).success(function(){
+//            alert("发布成功！");
+                $scope.clearArticle();
+                alert("发布成功！");
+                $scope.closeOver();
+            });
+        }
     };
     $scope.publishArticleInNewPictureTiming=function()
     {
@@ -132,14 +147,19 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         console.log(time);
         var url=$scope.projectName+"/picture/newPicture/timingpublish/"+time;
         console.log(url);
-        var jsonString=JSON.stringify($scope.newArticleData);
-        $http.post(url,jsonString).success(function(){
-//            alert("定时成功");
-            $('#Select_TimeInNewPicture').modal('toggle');
-            $scope.clearArticle();
-            alert("定时成功");
+        if($scope.newArticleData.channel.length==0){
+            alert("分类不能为空");
             $scope.closeOver();
-        });
+        }else if($scope.newArticleData.channel.length!=0){
+            var jsonString=JSON.stringify($scope.newArticleData);
+            $http.post(url,jsonString).success(function(){
+//            alert("定时成功");
+                $('#Select_TimeInNewPicture').modal('toggle');
+                $scope.clearArticle();
+                alert("定时成功");
+                $scope.closeOver();
+            });
+        }
 //        var url=$scope.projectName+"/picture/newPicture/timingpublish/"+time;
 //        var jsonString=JSON.stringify($scope.newArticleData);
     };

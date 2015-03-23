@@ -81,25 +81,12 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
 
         if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
-            var jsonString1=JSON.stringify($scope.articleData);
-            $http.put(url1,jsonString1).success(function(data) {
-                $scope.saveStateInRevoked1=data;
-                alert("保存文章成功");
-                if($scope.saveStateInRevoked1=="true"){
-                    $http.put(url).success(function(data) {
-                        alert("转草稿箱成功");
-                        $scope.goRevoked();
-                        $scope.closeOver();
-                    });
-                }
-            });
-        }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
-            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
-            if($scope.outSide){
-                $scope.articleData.content="";
-                $scope.calculateWords();
-                var jsonString=JSON.stringify($scope.articleData);
-                $http.put(url1,jsonString).success(function(data) {
+            if($scope.articleData.channel.length==0){
+                alert("分类不能为空");
+                $scope.closeOver();
+            }else if($scope.articleData.channel.length!=0){
+                var jsonString1=JSON.stringify($scope.articleData);
+                $http.put(url1,jsonString1).success(function(data) {
                     $scope.saveStateInRevoked1=data;
                     alert("保存文章成功");
                     if($scope.saveStateInRevoked1=="true"){
@@ -110,6 +97,29 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                         });
                     }
                 });
+            }
+        }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
+            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if($scope.outSide){
+                $scope.articleData.content="";
+                $scope.calculateWords();
+                if($scope.articleData.channel.length==0){
+                    alert("分类不能为空");
+                    $scope.closeOver();
+                }else if($scope.articleData.channel.length!=0){
+                    var jsonString=JSON.stringify($scope.articleData);
+                    $http.put(url1,jsonString).success(function(data) {
+                        $scope.saveStateInRevoked1=data;
+                        alert("保存文章成功");
+                        if($scope.saveStateInRevoked1=="true"){
+                            $http.put(url).success(function(data) {
+                                alert("转草稿箱成功");
+                                $scope.goRevoked();
+                                $scope.closeOver();
+                            });
+                        }
+                    });
+                }
             }else if(!($scope.outSide)){
                 alert("外链文章Url格式不对");
                 $scope.closeOver();

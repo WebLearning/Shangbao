@@ -244,23 +244,23 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     };
 
     //获得顶级目录名----------------------------------------------------------------------------------------------------
-    $scope.newChannelNames=[];
-    $scope.getNewChannelNames=function(){
-        var url=$scope.projectName+'/channel/kuaipai/channels';
-        //console.log(url);
-        $http.get(url).success(function(data){
-            //console.log(data);
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.newChannelNames.push(data[i]);
-                }
-            }else{
-                $scope.newChannelNames=[];
-            }
-            //console.log($scope.newChannelNames);
-        });
-    };
-    $scope.getNewChannelNames();
+//    $scope.newChannelNames=[];
+//    $scope.getNewChannelNames=function(){
+//        var url=$scope.projectName+'/channel/kuaipai/channels';
+//        //console.log(url);
+//        $http.get(url).success(function(data){
+//            //console.log(data);
+//            if(data.length>0){
+//                for(i=0;i<data.length;i++){
+//                    $scope.newChannelNames.push(data[i]);
+//                }
+//            }else{
+//                $scope.newChannelNames=[];
+//            }
+//            //console.log($scope.newChannelNames);
+//        });
+//    };
+//    $scope.getNewChannelNames();
 
     //添加功能----------------------------------------------------------------------------------------------------------
     $scope.deletePictureArticleInPending=function()
@@ -278,12 +278,17 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
         $scope.coverIt();
         $scope.calculateWords();
         $scope.calculatePictures();
-       var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-       $http.put(url).success(function(){
-           alert("发布成功");
-           $scope.goPendingPicture();
-           $scope.closeOver();
-       });
+        if($scope.articleData.channel.length==0){
+            alert("分类不能为空");
+            $scope.closeOver();
+        }else if($scope.articleData.channel.length!=0){
+            var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+            $http.put(url).success(function(){
+                alert("发布成功");
+                $scope.goPendingPicture();
+                $scope.closeOver();
+            });
+        }
     };
     $scope.publishPictureArticleInPendingTiming=function()
     {
@@ -302,12 +307,17 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
         console.log(time);
         var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
         console.log(url);
-        $http.get(url).success(function(){
-            alert("定时成功");
-           $('#Select_TimePictureInPending').modal('toggle');
-            $scope.goPendingPicture();
+        if($scope.articleData.channel.length==0){
+            alert("分类不能为空");
             $scope.closeOver();
-        });
+        }else if($scope.articleData.channel.length!=0){
+            $http.get(url).success(function(){
+                alert("定时成功");
+                $('#Select_TimePictureInPending').modal('toggle');
+                $scope.goPendingPicture();
+                $scope.closeOver();
+            });
+        }
     };
     //关于上传图片的----------------------------------------------------------------------------------------------
 

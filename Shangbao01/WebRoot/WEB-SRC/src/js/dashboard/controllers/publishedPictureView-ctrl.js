@@ -63,11 +63,16 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         console.log(jsonString);
         var url=$scope.projectName+'/article/push';
         console.log(url);
-        $http.post(url,jsonString).success(function(){
-            alert("推送成功");
-            $('#send_publishedPicture').modal('toggle');
+        if($scope.articleData.channel.length==0){
+            alert("分类不能为空");
             $scope.closeOver();
-        });
+        }else if($scope.articleData.channel.length!=0){
+            $http.post(url,jsonString).success(function(){
+                alert("推送成功");
+                $('#send_publishedPicture').modal('toggle');
+                $scope.closeOver();
+            });
+        }
     };
     $scope.deletePictureArticleSelections=function()
     {
@@ -85,12 +90,17 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         $scope.calculatePictures();
         var jsonString=JSON.stringify($scope.articleData);
         console.log($scope.articleData);
-        var url1=$scope.projectName+'/picture/Published/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(){
-            alert("保存成功");
-            $scope.goPublishedPicture();
+        if($scope.articleData.channel.length==0){
+            alert("分类不能为空");
             $scope.closeOver();
-        });
+        }else if($scope.articleData.channel.length!=0){
+            var url1=$scope.projectName+'/picture/Published/1/'+$scope.articleData.id;
+            $http.put(url1,jsonString).success(function(){
+                alert("保存成功");
+                $scope.goPublishedPicture();
+                $scope.closeOver();
+            });
+        }
     };
 
     //得到字数

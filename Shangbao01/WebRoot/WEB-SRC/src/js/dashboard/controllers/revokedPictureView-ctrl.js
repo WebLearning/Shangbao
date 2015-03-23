@@ -78,22 +78,29 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
         //console.log("test new save");
         $scope.calculateWords();
         $scope.calculatePictures();
-        var jsonString=JSON.stringify($scope.articleData);
+//        var jsonString=JSON.stringify($scope.articleData);
         //console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Revocation/1/'+$scope.articleData.id;
-        $http.put(url1,jsonString).success(function(data) {
-            $scope.saveStateInRevokedPicture1=data;
-            alert("保存文章成功");
-            if($scope.saveStateInRevokedPicture1=="true"){
-                var url=$scope.projectName+"/picture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-                //console.log(url);
-                $http.put(url).success(function() {
-                    alert("转草稿箱成功");
-                    $scope.goRevokedPicture();
-                    $scope.closeOver();
-                });
-            }
-        });
+        if($scope.articleData.channel.length==0){
+            alert("分类不能为空");
+            $scope.closeOver();
+        }else if($scope.articleData.channel.length!=0){
+            var jsonString=JSON.stringify($scope.articleData);
+            $http.put(url1,jsonString).success(function(data) {
+                $scope.saveStateInRevokedPicture1=data;
+                alert("保存文章成功");
+                if($scope.saveStateInRevokedPicture1=="true"){
+                    var url=$scope.projectName+"/picture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+                    //console.log(url);
+                    $http.put(url).success(function() {
+                        alert("转草稿箱成功");
+                        $scope.goRevokedPicture();
+                        $scope.closeOver();
+                    });
+                }
+            });
+        }
+
     };
     $scope.deletePictureArticleInRevocation=function()
     {
