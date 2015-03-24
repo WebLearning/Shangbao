@@ -308,11 +308,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-//            $scope.coverIt();
+            $scope.coverIt();
             if($scope.commentPaginationConf.currentPage>0){
                 $scope.getCommentData($scope.commentPaginationConf.currentPage);
 //                $scope.closeOver();
             }
+//            $scope.closeOver();
         }
     };
     $scope.getCommentData=function(pageID)
@@ -325,10 +326,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastCommentPage=$scope.commentData.pageCount;
                 $scope.commentPaginationConf.currentPage=$scope.commentData.currentNo;
                 $scope.getLastCommentPageData($scope.lastCommentPage);
+//                console.log("test");
+                $scope.closeOver();
             }else{
                 $scope.commentData=data;
                 $scope.commentPaginationConf.currentPage=0;
                 $scope.commentPaginationConf.totalItems=0;
+//                console.log("test");
+                $scope.closeOver();
             }
         });
     };
@@ -372,6 +377,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+            $scope.coverIt();
             if($scope.crawlerPaginationConf.currentPage>0){
                 if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
                     $scope.getCrawlerData($scope.crawlerPaginationConf.currentPage);
@@ -379,6 +385,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.getCrawlerSearchData($scope.crawlerPaginationConf.currentPage);
                 }
             }
+//            $scope.closeOver();
         }
     };
     $scope.getCrawlerData=function(pageID)
@@ -391,10 +398,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastCrawlerPage=$scope.crawlerData.pageCount;
                 $scope.crawlerPaginationConf.currentPage=$scope.crawlerData.currentNo;
                 $scope.getLastCrawlerPageData($scope.lastCrawlerPage);
+//                console.log("test");
+                $scope.closeOver();
             }else{
                 $scope.crawlerData=data;
                 $scope.crawlerPaginationConf.currentPage=0;
                 $scope.crawlerPaginationConf.totalItems=0;
+//                console.log("test");
+                $scope.closeOver();
             }
         });
     };
@@ -443,10 +454,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastCrawlerPage=$scope.crawlerData.pageCount;
                 $scope.crawlerPaginationConf.currentPage=$scope.crawlerData.currentNo;
                 $scope.getLastCrawlerSearchPageData($scope.lastCrawlerPage);
+//                console.log("test");
+                $scope.closeOver();
             }else{
                 $scope.crawlerData=data;
                 $scope.crawlerPaginationConf.currentPage=0;
                 $scope.crawlerPaginationConf.totalItems=0;
+//                console.log("test");
+                $scope.closeOver();
             }
         });
     };
@@ -471,6 +486,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+            $scope.coverIt();
             if($scope.pendingPaginationConf.currentPage>0){
                 if($scope.pendingSearchData.content==""||$scope.pendingSearchData.content==null){
                     $scope.getPendingData($scope.pendingPaginationConf.currentPage);
@@ -478,6 +494,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.getPendingSearchData($scope.pendingPaginationConf.currentPage);
                 }
             }
+//            $scope.closeOver();
         }
     };
     $scope.urlForPending="";
@@ -496,10 +513,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.lastPendingPage=$scope.pendingData.pageCount;
                     $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
                     $scope.getLastPendingPageData($scope.lastPendingPage);
+//                    console.log("test");
+                    $scope.closeOver();
                 }else{
                     $scope.pendingData=data;
                     $scope.pendingPaginationConf.currentPage=0;
                     $scope.pendingPaginationConf.totalItems=0;
+//                    console.log("test");
+                    $scope.closeOver();
                 }
             });
         }else{
@@ -565,10 +586,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.lastPendingPage=$scope.pendingData.pageCount;
                     $scope.pendingPaginationConf.currentPage=$scope.pendingData.currentNo;
                     $scope.getLastPendingSearchPageData($scope.lastPendingPage);
+//                    console.log("test");
+                    $scope.closeOver();
                 }else{
                     $scope.pendingData=data;
                     $scope.pendingPaginationConf.currentPage=0;
                     $scope.pendingPaginationConf.totalItems=0;
+//                    console.log("test");
+                    $scope.closeOver();
                 }
             });
         }else{
@@ -606,6 +631,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+            $scope.coverIt();
             if($scope.publishedPaginationConf.currentPage>0){
                 if($scope.publishedSearchData.content==""||$scope.publishedSearchData.content==null){
                     $scope.getPublishedData($scope.publishedPaginationConf.currentPage);
@@ -613,6 +639,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.getPublishedSearchData($scope.publishedPaginationConf.currentPage);
                 }
             }
+//            $scope.closeOver();
         }
     };
     $scope.urlForPublished="";
@@ -635,10 +662,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.lastPublishedPage=$scope.publishedData.pageCount;
                     $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
                     $scope.getLastPublishedPageData($scope.lastPublishedPage);
+//                    console.log("test");
+                    $scope.closeOver();
                 }else{
                     $scope.publishedData=data;
                     $scope.publishedPaginationConf.currentPage=0;
                     $scope.publishedPaginationConf.totalItems=0;
+//                    console.log("test");
+                    $scope.closeOver();
                 }
             });
         }else{
@@ -703,10 +734,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.lastPublishedPage=$scope.publishedData.pageCount;
                     $scope.publishedPaginationConf.currentPage=$scope.publishedData.currentNo;
                     $scope.getLastPublishedSearchPageData($scope.lastPublishedPage);
+//                    console.log("test");
+                    $scope.closeOver();
                 }else{
                     $scope.publishedData=data;
                     $scope.publishedPaginationConf.currentPage=0;
                     $scope.publishedPaginationConf.totalItems=0;
+//                    console.log("test");
+                    $scope.closeOver();
                 }
             });
         }else{
@@ -743,6 +778,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+            $scope.coverIt();
             if($scope.revokedPaginationConf.currentPage>0){
                 if($scope.revokedSearchData.content==""||$scope.revokedSearchData.content==null){
                     $scope.getRevokedData($scope.revokedPaginationConf.currentPage);
@@ -750,6 +786,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.getRevokedSearchData($scope.revokedPaginationConf.currentPage);
                 }
             }
+//            $scope.closeOver();
         }
     };
     $scope.urlForRevoked="";
@@ -768,10 +805,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.lastRevokedPage=$scope.revokedData.pageCount;
                     $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
                     $scope.getLastRevokedPageData($scope.lastRevokedPage);
+//                    console.log("test");
+                    $scope.closeOver();
                 }else{
                     $scope.revokedData=data;
                     $scope.revokedPaginationConf.currentPage=0;
                     $scope.revokedPaginationConf.totalItems=0;
+//                    console.log("test");
+                    $scope.closeOver();
                 }
             });
         }else{
@@ -837,10 +878,14 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.lastRevokedPage=$scope.revokedData.pageCount;
                     $scope.revokedPaginationConf.currentPage=$scope.revokedData.currentNo;
                     $scope.getLastRevokedSearchPageData($scope.lastRevokedPage);
+//                    console.log("test");
+                    $scope.closeOver();
                 }else{
                     $scope.revokedData=data;
                     $scope.revokedPaginationConf.currentPage=0;
                     $scope.revokedPaginationConf.totalItems=0;
+//                    console.log("test");
+                    $scope.closeOver();
                 }
             });
         }else{
@@ -877,6 +922,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+//            $scope.coverIt();
             if($scope.tempPaginationConf.currentPage>0){
                 if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
                     $scope.getTempData($scope.tempPaginationConf.currentPage);
@@ -884,6 +930,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.getTempSearchData($scope.tempPaginationConf.currentPage);
                 }
             }
+//            $scope.closeOver();
         }
     };
     $scope.urlForTemp="";
@@ -1063,6 +1110,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+            $scope.coverIt();
             if($scope.crawlerPicturePaginationConf.currentPage>0){
                 if($scope.crawlerPictureSearchData.content==""||$scope.crawlerPictureSearchData.content==null){
                     $scope.getCrawlerPictureData($scope.crawlerPicturePaginationConf.currentPage);
@@ -1082,10 +1130,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastCrawlerPicturePage=$scope.crawlerPictureData.pageCount;
                 $scope.crawlerPicturePaginationConf.currentPage=$scope.crawlerPictureData.currentNo;
                 $scope.getLastCrawlerPicturePageData($scope.lastCrawlerPicturePage);
+//                $scope.closeOver();
             }else{
                 $scope.crawlerPictureData=data;
                 $scope.crawlerPicturePaginationConf.currentPage=0;
                 $scope.crawlerPicturePaginationConf.totalItems=0;
+                $scope.closeOver();
             }
 
         });
@@ -1096,6 +1146,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastCrawlerPicturePageData=data;
             $scope.lastCrawlerPicturePageDataLength=$scope.lastCrawlerPicturePageData.tileList.length;
             $scope.crawlerPicturePaginationConf.totalItems=(($scope.lastCrawlerPicturePageData.pageCount)-1)*20+$scope.lastCrawlerPicturePageDataLength;
+            $scope.closeOver();
         });
     };
     $scope.getCrawlerPictureData(1);//会在生成页面的时候直接运行!
@@ -1134,10 +1185,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastCrawlerPicturePage=$scope.crawlerPictureData.pageCount;
                 $scope.crawlerPicturePaginationConf.currentPage=$scope.crawlerPictureData.currentNo;
                 $scope.getLastCrawlerPictureSearchPageData($scope.lastCrawlerPicturePage);
+//                $scope.closeOver();
             }else{
                 $scope.crawlerPictureData=data;
                 $scope.crawlerPicturePaginationConf.currentPage=0;
                 $scope.crawlerPicturePaginationConf.totalItems=0;
+                $scope.closeOver();
             }
         });
     };
@@ -1147,6 +1200,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastCrawlerPicturePageData=data;
             $scope.lastCrawlerPicturePageDataLength=$scope.lastCrawlerPicturePageData.tileList.length;
             $scope.crawlerPicturePaginationConf.totalItems=(($scope.lastCrawlerPicturePageData.pageCount)-1)*20+$scope.lastCrawlerPicturePageDataLength;
+            $scope.closeOver();
         });
     };
 //(8)获取快拍待审数据---------------------------------------------------------------------------------------------------
@@ -1162,6 +1216,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+            $scope.coverIt();
             if($scope.pendingPicturePaginationConf.currentPage>0){
                 if($scope.pendingPictureSearchData.content==""||$scope.pendingPictureSearchData.content==null){
                     $scope.getPendingPictureData($scope.pendingPicturePaginationConf.currentPage);
@@ -1180,10 +1235,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastPendingPicturePage=$scope.pendingPictureData.pageCount;
                 $scope.pendingPicturePaginationConf.currentPage=$scope.pendingPictureData.currentNo;
                 $scope.getLastPendingPicturePageData($scope.lastPendingPicturePage);
+//                $scope.closeOver();
             }else{
                 $scope.pendingPictureData=data;
                 $scope.pendingPicturePaginationConf.currentPage=0;
                 $scope.pendingPicturePaginationConf.totalItems=0;
+                $scope.closeOver();
             }
         });
     };
@@ -1193,6 +1250,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastPendingPicturePageData=data;
             $scope.lastPendingPicturePageDataLength=$scope.lastPendingPicturePageData.tileList.length;
             $scope.pendingPicturePaginationConf.totalItems=(($scope.lastPendingPicturePageData.pageCount)-1)*20+$scope.lastPendingPicturePageDataLength;
+            $scope.closeOver();
         });
     };
     $scope.getPendingPictureData(1);//生成待审页面时即产生第一页数据
@@ -1232,10 +1290,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastPendingPicturePage=$scope.pendingPictureData.pageCount;
                 $scope.pendingPicturePaginationConf.currentPage=$scope.pendingPictureData.currentNo;
                 $scope.getLastPendingPictureSearchPageData($scope.lastPendingPicturePage);
+//                $scope.closeOver();
             }else{
                 $scope.pendingPictureData=data;
                 $scope.pendingPicturePaginationConf.currentPage=0;
                 $scope.pendingPicturePaginationConf.totalItems=0;
+                $scope.closeOver();
             }
         });
     };
@@ -1245,6 +1305,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastPendingPicturePageData=data;
             $scope.lastPendingPicturePageDataLength=$scope.lastPendingPicturePageData.tileList.length;
             $scope.pendingPicturePaginationConf.totalItems=(($scope.lastPendingPicturePageData.pageCount)-1)*20+$scope.lastPendingPicturePageDataLength;
+            $scope.closeOver();
         });
     };
 //(9)获取快拍已发布-----------------------------------------------------------------------------------------------------
@@ -1260,6 +1321,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+            $scope.coverIt();
             if($scope.publishedPicturePaginationConf.currentPage>0){
                 if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
                     $scope.getPublishedPictureData($scope.publishedPicturePaginationConf.currentPage);
@@ -1278,10 +1340,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastPublishedPicturePage=$scope.publishedPictureData.pageCount;
                 $scope.publishedPicturePaginationConf.currentPage=$scope.publishedPictureData.currentNo;
                 $scope.getLastPublishedPicturePageData($scope.lastPublishedPicturePage);
+//                $scope.closeOver();
             }else{
                 $scope.publishedPictureData=data;
                 $scope.publishedPicturePaginationConf.currentPage=0;
                 $scope.publishedPicturePaginationConf.totalItems=0;
+                $scope.closeOver();
             }
         });
     };
@@ -1291,6 +1355,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastPublishedPicturePageData=data;
             $scope.lastPublishedPicturePageDataLength=$scope.lastPublishedPicturePageData.tileList.length;
             $scope.publishedPicturePaginationConf.totalItems=(($scope.lastPublishedPicturePageData.pageCount)-1)*20+$scope.lastPublishedPicturePageDataLength;
+            $scope.closeOver();
         });
     };
     $scope.getPublishedPictureData(1);//在点击已发布文章时，直接生成第一页内容
@@ -1332,10 +1397,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastPublishedPicturePage=$scope.publishedPictureData.pageCount;
                 $scope.publishedPicturePaginationConf.currentPage=$scope.publishedPictureData.currentNo;
                 $scope.getLastPublishedPictureSearchPageData($scope.lastPublishedPicturePage);
+//                $scope.closeOver();
             }else{
                 $scope.publishedPictureData=data;
                 $scope.publishedPicturePaginationConf.currentPage=0;
                 $scope.publishedPicturePaginationConf.totalItems=0;
+                $scope.closeOver();
             }
         });
     };
@@ -1345,6 +1412,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastPublishedPicturePageData=data;
             $scope.lastPublishedPicturePageDataLength=$scope.lastPublishedPicturePageData.tileList.length;
             $scope.publishedPicturePaginationConf.totalItems=(($scope.lastPublishedPicturePageData.pageCount)-1)*20+$scope.lastPublishedPicturePageDataLength;
+            $scope.closeOver();
         });
     };
 //（10）获取快拍已撤销--------------------------------------------------------------------------------------------------
@@ -1360,6 +1428,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+            $scope.coverIt();
             if($scope.revokedPicturePaginationConf.currentPage>0){
                 if($scope.revokedPictureSearchData.content==""||$scope.revokedPictureSearchData.content==null){
                     $scope.getRevokedPictureData($scope.revokedPicturePaginationConf.currentPage);
@@ -1379,10 +1448,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastRevokedPicturePage=$scope.revokedPictureData.pageCount;
                 $scope.revokedPicturePaginationConf.currentPage=$scope.revokedPictureData.currentNo;
                 $scope.getLastRevokedPicturePageData($scope.lastRevokedPicturePage);
+//                $scope.closeOver();
             }else{
                 $scope.revokedPictureData=data;
                 $scope.revokedPicturePaginationConf.currentPage=0;
                 $scope.revokedPicturePaginationConf.totalItems=0;
+                $scope.closeOver();
             }
         });
     };
@@ -1392,6 +1463,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastRevokedPicturePageData=data;
             $scope.lastRevokedPicturePageDataLength=$scope.lastRevokedPicturePageData.tileList.length;
             $scope.revokedPicturePaginationConf.totalItems=(($scope.lastRevokedPicturePageData.pageCount)-1)*20+$scope.lastRevokedPicturePageDataLength;
+            $scope.closeOver();
         });
     };
     $scope.getRevokedPictureData(1);//会在生成页面的时候直接运行!
@@ -1431,10 +1503,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastRevokedPicturePage=$scope.revokedPictureData.pageCount;
                 $scope.revokedPicturePaginationConf.currentPage=$scope.revokedPictureData.currentNo;
                 $scope.getLastRevokedPictureSearchPageData($scope.lastRevokedPicturePage);
+//                $scope.closeOver();
             }else{
                 $scope.revokedPictureData=data;
                 $scope.revokedPicturePaginationConf.currentPage=0;
                 $scope.revokedPicturePaginationConf.totalItems=0;
+                $scope.closeOver();
             }
         });
     };
@@ -1444,6 +1518,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastRevokedPicturePageData=data;
             $scope.lastRevokedPicturePageDataLength=$scope.lastRevokedPicturePageData.tileList.length;
             $scope.revokedPicturePaginationConf.totalItems=(($scope.lastRevokedPicturePageData.pageCount)-1)*20+$scope.lastRevokedPicturePageDataLength;
+            $scope.closeOver();
         });
     };
 //（11）获取快拍草稿箱数据----------------------------------------------------------------------------------------------
@@ -1459,6 +1534,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
+            $scope.coverIt();
             if($scope.tempPicturePaginationConf.currentPage>0){
                 if($scope.tempPictureSearchData.content==""||$scope.tempPictureSearchData.content==null){
                     $scope.getTempPictureData($scope.tempPicturePaginationConf.currentPage);
@@ -1478,10 +1554,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastTempPicturePage=$scope.tempPictureData.pageCount;
                 $scope.tempPicturePaginationConf.currentPage=$scope.tempPictureData.currentNo;
                 $scope.getLastTempPicturePageData($scope.lastTempPicturePage);
+//                $scope.closeOver();
             }else{
                 $scope.tempPictureData=data;
                 $scope.tempPicturePaginationConf.currentPage=0;
                 $scope.tempPicturePaginationConf.totalItems=0;
+                $scope.closeOver();
             }
         });
     };
@@ -1491,6 +1569,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastTempPicturePageData=data;
             $scope.lastTempPicturePageDataLength=$scope.lastTempPicturePageData.tileList.length;
             $scope.tempPicturePaginationConf.totalItems=(($scope.lastTempPicturePageData.pageCount)-1)*20+$scope.lastTempPicturePageDataLength;
+            $scope.closeOver();
         });
     };
     $scope.getTempPictureData(1);//会在生成页面的时候直接运行!
@@ -1530,10 +1609,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastTempPicturePage=$scope.tempPictureData.pageCount;
                 $scope.tempPicturePaginationConf.currentPage=$scope.tempPictureData.currentNo;
                 $scope.getLastTempPictureSearchPageData($scope.lastTempPicturePage);
+//                $scope.closeOver();
             }else{
                 $scope.tempPictureData=data;
                 $scope.tempPicturePaginationConf.currentPage=0;
                 $scope.tempPicturePaginationConf.totalItems=0;
+                $scope.closeOver();
             }
         });
     };
@@ -1543,6 +1624,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.lastTempPicturePageData=data;
             $scope.lastTempPicturePageDataLength=$scope.lastTempPicturePageData.tileList.length;
             $scope.tempPicturePaginationConf.totalItems=(($scope.lastTempPicturePageData.pageCount)-1)*20+$scope.lastTempPicturePageDataLength;
+            $scope.closeOver();
         });
     };
 
@@ -1781,7 +1863,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
     $scope.PendingTag="form-group sr-only";
     $scope.selectPendTag=function(){
-        if($scope.addUserInfo.duty=="超级管理员"){
+        if($scope.addUserInfo.duty=="超级管理员"||$scope.addUserInfo.duty==""){
             $scope.PendingTag="form-group sr-only";
         }else{
             $scope.PendingTag="form-group";
@@ -2207,6 +2289,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         cover.style.display = 'block';
         covershow.style.display = 'block';
 //        alert("遮罩");
+//        console.log("zhezhao");
     };
     $scope.closeOver=function(){
         var cover = document.getElementById("cover");
@@ -2214,5 +2297,6 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         cover.style.display = 'none';
         covershow.style.display = 'none';
 //        alert("遮罩取消");
+//        console.log("cancle");
     };
 }]);

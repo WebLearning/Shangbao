@@ -37,10 +37,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <input name="j_password" type="password" class="form-control" placeholder="Password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>                
       </form>
-      <div  style="margin-left:37%;width:300px" >      	
-      	<button class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#myModalRegisterUser" disabled="disabled">Register</button>
-        <%--<a href="../Shangbao01/WEB-SRC/src/register.html" type="button" class="btn btn-lg btn-success btn-block" target="_blank">Register</a>--%>
-      </div>
+      <%--<div  style="margin-left:37%;width:300px" >      	--%>
+      	<%--<button class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#myModalRegisterUser" disabled="disabled">Register</button>--%>
+        <%--&lt;%&ndash;<a href="../Shangbao01/WEB-SRC/src/register.html" type="button" class="btn btn-lg btn-success btn-block" target="_blank">Register</a>&ndash;%&gt;--%>
+      <%--</div>--%>
 
     </div> <!-- /container -->
     
