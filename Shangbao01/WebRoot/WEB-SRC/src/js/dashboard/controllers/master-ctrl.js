@@ -1860,6 +1860,9 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.clearUserInfo=function(){
         $scope.addUserInfo.passwd="";
         $scope.elsePassword="";
+        $scope.addUserInfo.duty="";
+        $scope.addUserInfo.name="";
+        $scope.addUserInfo.pendTag="";
     };
     $scope.PendingTag="form-group sr-only";
     $scope.selectPendTag=function(){
@@ -1883,8 +1886,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $http.post(url,$scope.addUserInfo).success(function(){
                     alert("注册成功！");
                     $scope.clearUserInfo();
-                    $scope.addUserInfo.name="";
-                    $scope.addUserInfo.pendTag="";
+//                    $scope.addUserInfo.name="";
+//                    $scope.addUserInfo.pendTag="";
                     $('#addUser_1').modal('toggle');
                 });
             }else if($scope.addUserInfo.duty==""){
@@ -1899,9 +1902,10 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                             $http.post(url,$scope.addUserInfo).success(function(){
                                 alert("注册成功！");
                                 $scope.clearUserInfo();
-                                $scope.addUserInfo.name="";
-                                $scope.addUserInfo.pendTag="";
+//                                $scope.addUserInfo.name="";
+//                                $scope.addUserInfo.pendTag="";
                                 $('#addUser_1').modal('toggle');
+//                                $scope.PendingTag="form-group sr-only";
                             });
                         }
                     }
