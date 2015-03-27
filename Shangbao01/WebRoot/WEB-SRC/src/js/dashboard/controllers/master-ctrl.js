@@ -1777,9 +1777,11 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 console.log($scope.selectSetStates);
             }
         }
+        $scope.coverIt();
         var url=$scope.projectName+"/setting/settag/article/"+$scope.selectSetStates;
         $http.get(url).success(function(){
             alert("设置成功");
+            $scope.closeOver();
         });
     };
     //设置审查评论的状态------------------------------------------------------------------------------------------------
@@ -1810,9 +1812,11 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 console.log($scope.selectSetCommentStates);
             }
         }
+        $scope.coverIt();
         var url=$scope.projectName+"/setting/settag/comment/"+$scope.selectSetCommentStates;
         $http.get(url).success(function(){
             alert("设置成功");
+            $scope.closeOver();
         });
     };
     //文章新建添加按钮--------------------------------------------------------------------------------------------------

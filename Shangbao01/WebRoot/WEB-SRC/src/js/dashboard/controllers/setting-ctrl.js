@@ -88,11 +88,13 @@ angular.module("Dashboard").controller("settingCtrl", ["$scope","$http", functio
     };
     $scope.deleteApp=function(id){
         var url=$scope.projectName+"/channel/startpictures/deleteall";
+        $scope.coverIt();
         $scope.deleteId.id=id;
         console.log($scope.deleteId);
         $http.post(url,$scope.deleteId).success(function(){
             alert("删除成功");
             $scope.getPicData();
+            $scope.closeOver();
         });
     };
     //上传app图片-------------------------------------------------------------------------------------------------------
