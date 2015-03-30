@@ -384,6 +384,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }else{
                     $scope.getCrawlerSearchData($scope.crawlerPaginationConf.currentPage);
                 }
+            }else{
+                $scope.closeOver();
             }
 //            $scope.closeOver();
         }
@@ -493,6 +495,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }else{
                     $scope.getPendingSearchData($scope.pendingPaginationConf.currentPage);
                 }
+            }else{
+                $scope.closeOver();
             }
 //            $scope.closeOver();
         }
@@ -638,6 +642,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }else{
                     $scope.getPublishedSearchData($scope.publishedPaginationConf.currentPage);
                 }
+            }else{
+                $scope.closeOver();
             }
 //            $scope.closeOver();
         }
@@ -785,6 +791,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }else{
                     $scope.getRevokedSearchData($scope.revokedPaginationConf.currentPage);
                 }
+            }else{
+                $scope.closeOver();
             }
 //            $scope.closeOver();
         }
@@ -929,6 +937,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }else{
                     $scope.getTempSearchData($scope.tempPaginationConf.currentPage);
                 }
+            }else{
+                $scope.closeOver();
             }
 //            $scope.closeOver();
         }
@@ -1117,6 +1127,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }else{
                     $scope.getCrawlerPictureSearchData($scope.crawlerPicturePaginationConf.currentPage);
                 }
+            }else{
+                $scope.closeOver();
             }
         }
     };
@@ -1223,6 +1235,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }else{
                     $scope.getPendingPictureSearchData($scope.pendingPicturePaginationConf.currentPage);
                 }
+            }else{
+                $scope.closeOver();
             }
         }
     };
@@ -1328,6 +1342,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }else{
                     $scope.getPublishedPictureSearchData($scope.publishedPicturePaginationConf.currentPage);
                 }
+            }else{
+                $scope.closeOver();
             }
         }
     };
@@ -1435,6 +1451,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }else{
                     $scope.getRevokedPictureSearchData($scope.revokedPicturePaginationConf.currentPage);
                 }
+            }else{
+                $scope.closeOver();
             }
         }
     };
@@ -1541,6 +1559,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 }else{
                     $scope.getTempPictureSearchData($scope.tempPicturePaginationConf.currentPage);
                 }
+            }else{
+                $scope.closeOver();
             }
         }
     };
