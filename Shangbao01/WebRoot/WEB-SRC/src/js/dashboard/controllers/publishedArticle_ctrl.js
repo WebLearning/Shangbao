@@ -77,11 +77,16 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         message:"",
         articleId:null
     };
+    $scope.clearSendMessageData=function(){
+        $scope.sendMessageData.message="";
+        $scope.sendMessageData.articleId=null;
+    };
     $scope.assignValueMessage=function(){
 //        $scope.valueMessage.Message=$scope.articleData.title;
         var inputMessageid=document.getElementById("inputMessage_published");
         inputMessageid.value=$scope.articleData.title;
         inputMessageid.setAttribute("value",inputMessageid.value);
+        $scope.sendMessageData.message=$scope.articleData.title;
     };
     $scope.sendMessage=function(){
         $scope.coverIt();
@@ -100,6 +105,7 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
             $http.post(url,jsonString).success(function(){
                 alert("推送成功");
                 $('#send_published').modal('toggle');
+                $scope.clearSendMessageData();
                 $scope.closeOver();
             });
         }

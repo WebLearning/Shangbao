@@ -47,11 +47,16 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         message:"",
         articleId:null
     };
+    $scope.clearSendPictureMessageData=function(){
+        $scope.sendPictureMessageData.message="";
+        $scope.sendPictureMessageData.articleId=null;
+    };
     $scope.assignPictureValueMessage=function(){
 //        $scope.valueMessage.Message=$scope.articleData.title;
         var inputMessageid=document.getElementById("inputMessage_publishedPicture");
         inputMessageid.value=$scope.articleData.title;
         inputMessageid.setAttribute("value",inputMessageid.value);
+        $scope.sendPictureMessageData.message=$scope.articleData.title;
     };
     $scope.sendPictureMessage=function(){
 //        console.log($scope.articleData.id);
@@ -70,6 +75,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
             $http.post(url,jsonString).success(function(){
                 alert("推送成功");
                 $('#send_publishedPicture').modal('toggle');
+                $scope.clearSendPictureMessageData();
                 $scope.closeOver();
             });
         }
