@@ -19,10 +19,12 @@ import com.shangbao.dao.ArticleDao;
 import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Channel;
+import com.shangbao.model.persistence.Commend;
 import com.shangbao.model.show.Page;
 import com.shangbao.model.show.TitleList;
 import com.shangbao.service.ArticleService;
 import com.shangbao.service.ChannelService;
+import com.shangbao.service.CommendService;
 import com.shangbao.service.PendTagService;
 
 @Service
@@ -34,6 +36,8 @@ public class ArticleServiceImp implements ArticleService {
 	private PendTagService pendTagServiceImp;
 	@Resource
 	private ChannelService channelServiceImp;
+	@Resource
+	private CommendService commendServiceImp;
 	
 	public ArticleDao getArticleDaoImp() {
 		return articleDaoImp;
@@ -404,6 +408,11 @@ public class ArticleServiceImp implements ArticleService {
 				articleDaoImp.setState(targetState, criteriaArticle);
 				if(message != null){
 					articleDaoImp.addMessage(message, criteriaArticle);
+				}
+				if(targetState.equals(ArticleState.Deleted)){
+					Commend commend = new Commend();
+					commend.setArticleId(id);
+					commendServiceImp.delete(commend);
 				}
 			}
 		}

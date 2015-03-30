@@ -1,35 +1,47 @@
 package com.shangbao.app.service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class AppPushService {
+	
 	private RestTemplate restTemplate;
 	private String url = "https://api.jpush.cn/v3/push";
 	private String appKey;
 	private String masterSecret;
 	private String encoded;
 	
-	public AppPushService(){
+	@Autowired
+	public AppPushService(@Qualifier("restTemplate") RestTemplate restTemplateT) {
 		Properties props = new Properties();
 		try {
 			props=PropertiesLoaderUtils.loadAllProperties("config.properties");
@@ -40,15 +52,45 @@ public class AppPushService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		restTemplate = new RestTemplate();
+		restTemplate = restTemplateT;
 		endcode();
 		addHeader("Authorization", "Basic " + encoded);
 	}
 	
-	public void push(String message, long newsId){
-		String result = restTemplate.postForObject(url, getJson(message, newsId), String.class);
-		//getJson();
+	public void push1(String message, long newsId){
+		String result = "";
+		try {
+			result = restTemplate.postForObject(url, getJson(message, newsId), String.class);
+		} catch (RestClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(result);
+	}
+	
+	public void push(String message, long newsId){
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		HttpPost post = new HttpPost(url);
+		try {
+			StringEntity s = new StringEntity(getJson(message, newsId), HTTP.UTF_8);
+			System.out.println(s);
+			s.setContentEncoding("utf-8");
+			s.setContentType("application/json");
+			post.addHeader("Authorization", "Basic " + encoded);
+			post.setEntity(s);
+			HttpResponse response = httpclient.execute(post);
+			System.out.println(EntityUtils.toString(response.getEntity()));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private String getJson(String alert, long newsId){

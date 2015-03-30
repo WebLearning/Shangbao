@@ -89,12 +89,12 @@ public class AppModel {
 		redeployChannelArticles(channelNames);
 		
 		//打印
-		for(String key : appMap.keySet()){
-			System.out.println("key: " + key + "  value: ");
-			for(Article article : appMap.get(key)){
-				System.out.println("   " + article.getId() + "  " + article.getChannelIndex());
-			}
-		}
+//		for(String key : appMap.keySet()){
+//			System.out.println("key: " + key + "  value: ");
+//			for(Article article : appMap.get(key)){
+//				System.out.println("   " + article.getId() + "  " + article.getChannelIndex());
+//			}
+//		}
 		
 		//初始化commends
 		Article criteriaArticle = new Article();
@@ -110,9 +110,9 @@ public class AppModel {
 		//初始化channelModels channelEn_Cn activities
 		redeployChannels();
 		//打印
-		for(String key : channelEn_Cn.keySet()){
-			System.out.println("key: " + key + "  value: " + channelEn_Cn.get(key));
-		}
+//		for(String key : channelEn_Cn.keySet()){
+//			System.out.println("key: " + key + "  value: " + channelEn_Cn.get(key));
+//		}
 	}
 	
 	public List<Channel> getChannelOrdered(){

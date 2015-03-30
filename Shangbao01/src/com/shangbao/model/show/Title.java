@@ -42,7 +42,7 @@ public class Title {
 		setCrawlerCommends(article.getCrawlerCommends());
 		setCrawlerCommendsPublish(article.getCrawlerCommendsPublish());
 		setCrawlerCommendsUnpublish(article.getCrawlerCommendsUnpublish());
-		setClicks(article.getClicks());
+		//setClicks(article.getClicks());
 		setFrom(article.getFrom());
 		setSummary(article.getSummary());
 		setTime(article.getTime());
@@ -50,7 +50,8 @@ public class Title {
 		setArticleId(article.getId());
 		setChannel(article.getChannel());
 		setActivity(article.getActivity());
-		setClicks(article.getClicks());
+		setClicks(article.getJs_clicks());
+		setLikes(article.getLikes());
 		if(article.getPictures() > 0){
 			setPictures(article.getPictures());
 		}else{
