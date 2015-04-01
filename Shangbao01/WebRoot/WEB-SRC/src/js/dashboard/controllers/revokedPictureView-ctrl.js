@@ -293,6 +293,11 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
+        $scope.clearIframeContentInRevokedPic();
+    };
+
+    $scope.clearIframeContentInRevokedPic=function(){
+        document.getElementById("myPictureIFrameID_revoked").contentDocument.body.innerHTML="";
     };
 
     $scope.getPicUrl=function()

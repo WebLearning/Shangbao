@@ -342,6 +342,11 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         $scope.pushPicUrl(url);
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
+        $scope.clearIframeContentInPic();
+    };
+
+    $scope.clearIframeContentInPic=function(){
+        document.getElementById("myPictureIFrameID").contentDocument.body.innerHTML="";
     };
 
     $scope.getPicUrl=function()

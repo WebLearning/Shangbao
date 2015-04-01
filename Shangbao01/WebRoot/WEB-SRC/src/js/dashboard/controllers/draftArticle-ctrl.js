@@ -459,8 +459,12 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
+        $scope.clearIframeContentInDraft();
     };
 
+    $scope.clearIframeContentInDraft=function(){
+        document.getElementById("myIFrameID_draft").contentDocument.body.innerHTML="";
+    };
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myIFrameID_draft").contentDocument.body.innerHTML;

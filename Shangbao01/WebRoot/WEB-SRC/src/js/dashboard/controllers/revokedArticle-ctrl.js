@@ -299,8 +299,12 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
+        $scope.clearIframeContentInRevoked();
     };
 
+    $scope.clearIframeContentInRevoked=function(){
+        document.getElementById("myIFrameID_revoked").contentDocument.body.innerHTML="";
+    };
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myIFrameID_revoked").contentDocument.body.innerHTML;

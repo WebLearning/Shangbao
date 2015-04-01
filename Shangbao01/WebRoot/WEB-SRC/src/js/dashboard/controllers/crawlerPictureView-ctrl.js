@@ -353,8 +353,12 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
+        $scope.clearIframeContentInCrawlerPic();
     };
 
+    $scope.clearIframeContentInCrawlerPic=function(){
+        document.getElementById("myPictureIFrameID_crawler").contentDocument.body.innerHTML="";
+    };
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myPictureIFrameID_crawler").contentDocument.body.innerHTML;

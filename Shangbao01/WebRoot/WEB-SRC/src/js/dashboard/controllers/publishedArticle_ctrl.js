@@ -320,8 +320,12 @@ angular.module("Dashboard").controller("publishedArticleCtrl", ["$scope","$http"
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
+        $scope.clearIframeContentInPublished();
     };
 
+    $scope.clearIframeContentInPublished=function(){
+        document.getElementById("myIFrameID_published").contentDocument.body.innerHTML="";
+    };
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myIFrameID_published").contentDocument.body.innerHTML;

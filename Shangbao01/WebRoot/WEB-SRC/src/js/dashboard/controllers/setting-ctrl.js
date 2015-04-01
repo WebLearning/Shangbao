@@ -185,6 +185,7 @@ angular.module("Dashboard").controller("settingCtrl", ["$scope","$http", functio
         $scope.testAdd();
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
+        $scope.clearIframeContentInSetting();
 //        }else if(($scope.addOnePictureData.id=="iphone5s")&&($scope.final_width==1136)&&($scope.final_height==640)){
 //            $scope.pushPicUrl(url);
 //            $scope.testAdd();
@@ -193,6 +194,10 @@ angular.module("Dashboard").controller("settingCtrl", ["$scope","$http", functio
 //        }else{
 //                alert("上传图片不合格")
 //            }
+    };
+
+    $scope.clearIframeContentInSetting=function(){
+        document.getElementById("myIFrameID_addAppPic").contentDocument.body.innerHTML="";
     };
     $scope.getPicUrl=function()
     {

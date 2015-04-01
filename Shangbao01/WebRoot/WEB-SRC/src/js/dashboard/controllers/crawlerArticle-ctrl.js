@@ -475,8 +475,12 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
+        $scope.clearIframeContentInCrawler();
     };
 
+    $scope.clearIframeContentInCrawler=function(){
+        document.getElementById("myIFrameID_crawler").contentDocument.body.innerHTML="";
+    };
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myIFrameID_crawler").contentDocument.body.innerHTML;

@@ -403,8 +403,12 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
+        $scope.clearIframeContent();
     };
 
+    $scope.clearIframeContent=function(){
+        document.getElementById("myIFrameID").contentDocument.body.innerHTML="";
+    };
     $scope.getPicUrl=function()
     {
         var url=document.getElementById("myIFrameID").contentDocument.body.innerHTML;

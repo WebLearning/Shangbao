@@ -287,8 +287,12 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
         $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
+        $scope.clearIframeContentInPublishedPic();
     };
 
+    $scope.clearIframeContentInPublishedPic=function(){
+        document.getElementById("myPictureIFrameID_published").contentDocument.body.innerHTML="";
+    };
     $scope.getPicUrl=function()
     {
         var url = document.getElementById("myPictureIFrameID_published").contentDocument.body.innerHTML;

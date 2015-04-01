@@ -560,7 +560,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)" disabled><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -675,7 +675,8 @@
                                     <div class="col-md-2" ng-repeat="picUrl in newArticleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <!--<img ng-src="{{picUrl}}" style="width: 70px;height: 80px">-->
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -709,8 +710,8 @@
                         <p>&nbsp;</p>
                         <p>&nbsp;</p>
                         <!-- Modal add picture  -->
-                        <div class="modal fade" id="myModal_addIMG" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
+                        <div class="modal fade bs-example-modal-lg" id="myModal_addIMG" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -728,7 +729,7 @@
                                             </div>
                                         </div>
                                         <!-- <iframe name="myIFrame" id="myIFrameID" style="display: none"></iframe> -->
-                                        <iframe name="myIFrame" id="myIFrameID"></iframe>
+                                        <iframe name="myIFrame" id="myIFrameID" width="80%" scrolling="auto"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalFooterID">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -981,7 +982,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -1052,7 +1053,7 @@
                                             </div>
                                         </div>
                                         <!--<iframe name="myIFrame_crawler" id="myIFrameID_crawler" style="display: none"></iframe>-->
-                                        <iframe name="myIFrame_crawler" id="myIFrameID_crawler"></iframe>
+                                        <iframe name="myIFrame_crawler" id="myIFrameID_crawler" width="500px" scrolling="auto"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalFooterID_crawler">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -1284,7 +1285,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)" disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -1503,7 +1504,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -1571,7 +1572,7 @@
                                             </div>
                                         </div>
                                         <!--<iframe name="myIFrame_crawler" id="myIFrameID_crawler" style="display: none"></iframe>-->
-                                        <iframe name="myIFrame_published" id="myIFrameID_published"></iframe>
+                                        <iframe name="myIFrame_published" id="myIFrameID_published" width="500px" scrolling="auto"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalFooterID_published">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -1909,7 +1910,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -1959,7 +1960,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <iframe name="myIFrame_revoked" id="myIFrameID_revoked" style="display: none"></iframe>
+                                        <iframe name="myIFrame_revoked" id="myIFrameID_revoked" width="500px" scrolling="auto"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalFooterID_revoked">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -2195,7 +2196,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -2247,7 +2248,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <iframe name="myIFrame_draft" id="myIFrameID_draft" style="display: none"></iframe>
+                                        <iframe name="myIFrame_draft" id="myIFrameID_draft" width="500px" scrolling="auto"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalFooterID_draft">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -2782,7 +2783,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <iframe name="myIFrame_addAppPic" id="myIFrameID_addAppPic"></iframe>
+                                        <iframe name="myIFrame_addAppPic" id="myIFrameID_addAppPic" scrolling="auto" width="500px"></iframe>
                                         <!--<iframe name="myIFrame_addAppPic" id="myIFrameID_addAppPic" style="display: none"></iframe>-->
                                     </div>
                                     <div class="modal-footer" id="modalFooterID_addAppPic">
@@ -2919,7 +2920,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in newArticleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -2965,7 +2966,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <iframe name="myPictureIFrame" id="myPictureIFrameID"></iframe>
+                                        <iframe name="myPictureIFrame" id="myPictureIFrameID" scrolling="auto" width="500px"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalPictureFooterID">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -3234,7 +3235,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -3281,7 +3282,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <iframe name="myPictureIFrame_crawler" id="myPictureIFrameID_crawler"></iframe>
+                                        <iframe name="myPictureIFrame_crawler" id="myPictureIFrameID_crawler" width="500px" scrolling="auto"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalPictureFooterID_crawler">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -3558,7 +3559,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"disabled><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -3755,7 +3756,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -3815,7 +3816,7 @@
                                             </div>
                                         </div>
                                         <!--<iframe name="myIFrame_crawler" id="myIFrameID_crawler" style="display: none"></iframe>-->
-                                        <iframe name="myPictureIFrame_published" id="myPictureIFrameID_published"></iframe>
+                                        <iframe name="myPictureIFrame_published" id="myPictureIFrameID_published" scrolling="auto" width="500px"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalPictureFooterID_published">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -4154,7 +4155,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -4198,7 +4199,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <iframe name="myPictureIFrame_revoked" id="myPictureIFrameID_revoked" style="display: none"></iframe>
+                                        <iframe name="myPictureIFrame_revoked" id="myPictureIFrameID_revoked" width="500px" scrolling="auto"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalPictureFooterID_revoked">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -4456,7 +4457,7 @@
                                     <div class="col-md-2" ng-repeat="picUrl in articleData.picturesUrl track by $index">
                                         <div class="thumbnail">
                                             <button type="button" class="close" ng-click="deletePicUrl($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <img ng-src="{{picUrl}}" style="width: 70px;height: 80px">
+                                            <img ng-src="{{picUrl}}" style="max-height: 80px">
                                             <button type="button" class="close" ng-click="addPictureToEditor(picUrl)"><span aria-hidden="true">&plus;</span></button>
                                         </div>
                                     </div>
@@ -4502,7 +4503,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <iframe name="myPictureIFrame_draft" id="myPictureIFrameID_draft" style="display: none"></iframe>
+                                        <iframe name="myPictureIFrame_draft" id="myPictureIFrameID_draft" width="500px" scrolling="auto"></iframe>
                                     </div>
                                     <div class="modal-footer" id="modalPictureFooterID_draft">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
