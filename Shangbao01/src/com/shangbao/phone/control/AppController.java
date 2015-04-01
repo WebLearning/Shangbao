@@ -288,6 +288,7 @@ public class AppController {
 			User user = (User)context.getAuthentication().getPrincipal();
 			article.setUid(user.getUid());
 			article.setAuthor(user.getName());
+			article.setFrom("商报网友");
 			List<String> logs = new ArrayList<>();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
 			logs.add(sdf.format(new Date()) + "" + user.getUid() + " " + user.getName() + " 创建");

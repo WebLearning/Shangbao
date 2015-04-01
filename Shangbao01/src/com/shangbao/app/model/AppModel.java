@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +18,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +31,6 @@ import com.shangbao.model.CommendState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.persistence.Commend;
-import com.shangbao.model.persistence.CrawlerCommend;
 import com.shangbao.model.persistence.NewsCommend;
 import com.shangbao.model.persistence.StartPictures;
 import com.shangbao.model.show.SingleCommend;
@@ -696,7 +692,15 @@ public class AppModel {
 	
 	public void postPictures(Article pictureArticle){
 		pictureArticle.setTag(true);
-		pictureArticle.setState(ArticleState.Temp);
+		pictureArticle.addChannel("快拍PK");
+		String content = "";
+		if(!pictureArticle.getPicturesUrl().isEmpty()){
+			for(String url : pictureArticle.getPicturesUrl()){
+				content = "<p style=\"text-align:center\"><img src=\"" + url + "\"/></p>";
+			}
+		}
+		pictureArticle.setContent(content);
+		pictureArticle.setState(ArticleState.Published);
 		articleDaoImp.insert(pictureArticle);
 	}
 	

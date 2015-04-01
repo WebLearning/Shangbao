@@ -88,12 +88,19 @@ public class AppAuthController {
 			User criteriaUser = new User();
 			criteriaUser.setPhone(user.getPhone());
 			if(userServiceImp.findOne(criteriaUser) == null){
-				if(userIdentifyService.addUser(user)){
-					appResponseModel.setResultCode(1);
-					appResponseModel.setResultMsg("Register Success");
+				User criteriaUser2 = new User();
+				criteriaUser2.setName(user.getName());
+				if(userServiceImp.findOne(criteriaUser2) == null){
+					if(userIdentifyService.addUser(user)){
+						appResponseModel.setResultCode(1);
+						appResponseModel.setResultMsg("Register Success");
+					}else{
+						appResponseModel.setResultCode(0);
+						appResponseModel.setResultMsg("Register Failed");
+					}
 				}else{
 					appResponseModel.setResultCode(0);
-					appResponseModel.setResultMsg("Register Failed");
+					appResponseModel.setResultMsg("Name Rejisted");
 				}
 			}else{
 				appResponseModel.setResultCode(0);
@@ -127,12 +134,19 @@ public class AppAuthController {
 				User criteriaUser = new User();
 				criteriaUser.setPhone(user.getPhone());
 				if(userServiceImp.findOne(criteriaUser) == null){
-					if(userIdentifyService.addUser(user)){
-						appResponseModel.setResultCode(1);
-						appResponseModel.setResultMsg("Register Success");
+					User criteriaUser2 = new User();
+					criteriaUser2.setName(user.getName());
+					if(userServiceImp.findOne(criteriaUser2) == null){
+						if(userIdentifyService.addUser(user)){
+							appResponseModel.setResultCode(1);
+							appResponseModel.setResultMsg("Register Success");
+						}else{
+							appResponseModel.setResultCode(0);
+							appResponseModel.setResultMsg("Register Failed");
+						}
 					}else{
 						appResponseModel.setResultCode(0);
-						appResponseModel.setResultMsg("Register Failed");
+						appResponseModel.setResultMsg("Name Rejisted");
 					}
 				}else{
 					appResponseModel.setResultCode(0);

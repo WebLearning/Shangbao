@@ -2,14 +2,13 @@ package com.shangbao.app.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
@@ -95,15 +94,15 @@ public class AppPushService {
 	
 	private String getJson(String alert, long newsId){
 		String json = "";
-		Map<String, Object> map = new HashedMap();
+		Map<String, Object> map = new HashMap<>();
 		map.put("platform", "all");
 		map.put("audience", "all");
 		
-		Map<String, Object> notification = new HashedMap();
-		Map<String, Object> ios = new HashedMap();
-		Map<String, Object> android = new HashedMap();
-		Map<String, Object> extras = new HashedMap();
-		Map<String, Object> options = new HashedMap();
+		Map<String, Object> notification = new HashMap<>();
+		Map<String, Object> ios = new HashMap<>();
+		Map<String, Object> android = new HashMap<>();
+		Map<String, Object> extras = new HashMap<>();
+		Map<String, Object> options = new HashMap<>();
 		
 		ios.put("alert", alert);
 		android.put("alert", alert);

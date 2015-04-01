@@ -70,8 +70,11 @@ public class AppUserController {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		SecurityContext context = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
 		User user = (User)context.getAuthentication().getPrincipal();
-		user.setPasswd("");
-		return user;
+		User criteriaUser = new User();
+		criteriaUser.setId(user.getId());
+		User returnUser = userServiceImp.findOne(criteriaUser);
+		returnUser.setPasswd("");
+		return returnUser;
 	}
 
 	/**
@@ -324,6 +327,7 @@ public class AppUserController {
 		String localhostString = null; //当前主机的地址
 		String filePath = null; // 存储用户头像图片的绝对路径
 		String simFilePath = null; // 存储用户头像压缩图片的绝对路径
+		String fileType = null;
 		byte[] bytes;
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(!file.isEmpty()){
@@ -334,6 +338,7 @@ public class AppUserController {
 				localhostString = props.getProperty("localhost");
 				filePath = props.getProperty("pictureDir") + File.separator +  "userPic" + File.separator + user.getId() + File.separator + "avatar";
 				simFilePath = filePath + File.separator + "sim";
+				fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 				Path path = Paths.get(filePath);
 				Path simPath = Paths.get(simFilePath);
 				if(Files.notExists(path)){
@@ -342,13 +347,13 @@ public class AppUserController {
 				if(Files.notExists(simPath)){
 					Files.createDirectories(simPath);
 				}
-				FileOutputStream fos = new FileOutputStream(filePath + File.separator + "avatar");
+				FileOutputStream fos = new FileOutputStream(filePath + File.separator + "avatar" + fileType);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + "avatar"),
-														 new File(simFilePath + File.separator + "avatar"),
-														 60, 60, 0.8, false);
-				returnUrl = (localhostString + simFilePath.split("Shangbao01")[1] + File.separator + "avatar").replaceAll("\\\\", "/");
+				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + "avatar" + fileType),
+														 new File(simFilePath + File.separator + "avatar" + fileType),
+														 160, 160, 0.8, false);
+				returnUrl = (localhostString + simFilePath.split("Shangbao01")[1] + File.separator + "avatar" + fileType).replaceAll("\\\\", "/");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

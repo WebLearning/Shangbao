@@ -13,6 +13,7 @@ import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.Page;
 import com.shangbao.model.show.TitleList;
 
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;  
 import org.springframework.data.mongodb.core.query.Query;  
@@ -174,7 +175,9 @@ public class UserDaoImp implements UserDao {
     }
     
     public User findAndModify(User criteriaUser, Update update){
-    	return mongoTemplate.findAndModify(getQuery(criteriaUser), update, User.class);
+    	FindAndModifyOptions options = new FindAndModifyOptions();
+	    options.returnNew(true);
+    	return mongoTemplate.findAndModify(getQuery(criteriaUser), update, options, User.class);
     }
       
     /** 

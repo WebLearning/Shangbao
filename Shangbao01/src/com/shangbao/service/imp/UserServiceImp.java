@@ -42,7 +42,9 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public User findOne(User user) {
-		if(userDaoImp.find(user).isEmpty())
+		List<User> findList = null;
+		findList = userDaoImp.find(user);
+		if(findList.isEmpty() || findList == null)
 			return null;
 		return userDaoImp.find(user).get(0);
 	}
@@ -126,7 +128,11 @@ public class UserServiceImp implements UserService {
 		if(updateUser.getBirthday() != null){
 			update.set("birthday", updateUser.getBirthday());
 		}
-		return userDaoImp.findAndModify(criteriaUser, update);
+		User user = new User();
+		user.setName(criteriaUser.getName());
+		user.setId(criteriaUser.getId());
+		user.setUid(criteriaUser.getUid());
+		return userDaoImp.findAndModify(user, update);
 	}
 
 }
