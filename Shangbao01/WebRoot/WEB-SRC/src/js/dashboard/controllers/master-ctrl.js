@@ -11,10 +11,10 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 
     //IP和projectName的全局变量
-    $scope.projectName="http://192.168.1.149:8080/Shangbao01";
-    $scope.projectActionName="http://192.168.1.149:8080/Shangbao01/article/upload";
-    $scope.projectPicActionName="http://192.168.1.149:8080/Shangbao01/picture/upload";
-    $scope.addAppPicActionName="http://192.168.1.149:8080/Shangbao01/channel/uploadstartpicture";
+    $scope.projectName="http://localhost:8080/Shangbao01";
+    $scope.projectActionName="http://localhost:8080/Shangbao01/article/upload";
+    $scope.projectPicActionName="http://localhost:8080/Shangbao01/picture/upload";
+    $scope.addAppPicActionName="http://localhost:8080/Shangbao01/channel/uploadstartpicture";
 
     $scope.articleData={
         activity:"" ,
