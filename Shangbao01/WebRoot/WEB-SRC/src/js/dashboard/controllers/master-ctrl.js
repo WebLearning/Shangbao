@@ -88,10 +88,10 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.userInfo_duty=data.duty;
             $scope.userInfo_pendTag=data.pendTag;
             console.log($scope.userInfo_duty);
-            $scope.getPendingData(1);
-            $scope.getPublishedData(1);
-            $scope.getRevokedData(1);
-            $scope.getTempData(1);
+//            $scope.getPendingData(1);
+//            $scope.getPublishedData(1);
+//            $scope.getRevokedData(1);
+//            $scope.getTempData(1);
             $scope.setManageComment();
             $scope.setPendTagForPending();
         });
@@ -345,7 +345,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.commentPaginationConf.totalItems=(($scope.latCommentPageData.pageCount)-1)*20+$scope.lastCommentPageDataLength;
         });
     };
-    $scope.getCommentData(1);//会在生成页面的时候直接运行!
+//    $scope.getCommentData(1);//会在生成页面的时候直接运行!
     $scope.refreshComment=function()
     {
         $scope.orderCondition="/time/desc";
@@ -419,7 +419,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.crawlerPaginationConf.totalItems=(($scope.lastCrawlerPageData.pageCount)-1)*20+$scope.lastCrawlerPageDataLength;
         });
     };
-    $scope.getCrawlerData(1);//会在生成页面的时候直接运行!
+//    $scope.getCrawlerData(1);//会在生成页面的时候直接运行!
     function clearCrawlerSearchData(){
         for(p in $scope.crawlerSearchData){
             $scope.crawlerSearchData[p]="";
@@ -1161,7 +1161,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.closeOver();
         });
     };
-    $scope.getCrawlerPictureData(1);//会在生成页面的时候直接运行!
+//    $scope.getCrawlerPictureData(1);//会在生成页面的时候直接运行!
     function clearCrawlerPitureSearchData(){
         for(p in $scope.crawlerPictureSearchData){
             $scope.crawlerPictureSearchData[p]="";
@@ -1267,7 +1267,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.closeOver();
         });
     };
-    $scope.getPendingPictureData(1);//生成待审页面时即产生第一页数据
+//    $scope.getPendingPictureData(1);//生成待审页面时即产生第一页数据
     function clearPendingPictureSearchData(){
         for(p in $scope.pendingPictureSearchData){
             $scope.pendingPictureSearchData[p]="";
@@ -1374,7 +1374,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.closeOver();
         });
     };
-    $scope.getPublishedPictureData(1);//在点击已发布文章时，直接生成第一页内容
+//    $scope.getPublishedPictureData(1);//在点击已发布文章时，直接生成第一页内容
     function clearPublishedPictureSearchData(){
         for(p in $scope.publishedPictureSearchData){
             $scope.publishedPictureSearchData[p]="";
@@ -1484,7 +1484,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.closeOver();
         });
     };
-    $scope.getRevokedPictureData(1);//会在生成页面的时候直接运行!
+//    $scope.getRevokedPictureData(1);//会在生成页面的时候直接运行!
     function clearRevokedPictureSearchData(){
         for(p in $scope.revokedPictureSearchData){
             $scope.revokedPictureSearchData[p]="";
@@ -1592,7 +1592,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.closeOver();
         });
     };
-    $scope.getTempPictureData(1);//会在生成页面的时候直接运行!
+//    $scope.getTempPictureData(1);//会在生成页面的时候直接运行!
     function clearTempPictureSearchData(){
         for(p in $scope.tempPictureSearchData){
             $scope.tempPictureSearchData[p]="";
@@ -1649,13 +1649,6 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 
     //-----------------------------------
-
-//    $scope.runFunction=function(){
-//        if($scope.userInfo_duty=="super"){
-//            $scope.getPendingData(1);
-//        }
-//    };
-//    $scope.runFunction();
 //(12)获取分类(文章）----------------------------------------------------------------------------------------------------------
     $scope.superChannelNames=[];
     $scope.normalChannelNames=[];
