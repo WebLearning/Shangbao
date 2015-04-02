@@ -2,13 +2,6 @@
 
 angular.module("Dashboard").controller("generalViewCtrl", ["$scope","$http", function ($scope, $http) {
 
-    $scope.testData=function()
-    {
-        console.log("test data");
-        $http.get('http://localhost:8080/Shangbao01/backapp/all').success(function(data){
-            console.log(data);
-        });
-    };
 //    $scope.refreshGeneralView=function(){
 //        var url=$scope.projectName+'/backapp/refresh';
 //        //console.log(url);

@@ -1,15 +1,6 @@
 angular.module("Dashboard").controller("settingCtrl", ["$scope","$http", function ($scope,$http) {
 
     //设置app打开图片---------------------------------------------------------------------------------------------------
-    $scope.picDataTest=[
-        {id:"iphone6",pictureUrls:["http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d0aad372921.jpg",
-            "http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d03bcf57422.jpg",
-            "http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d0a8ec736ee.jpg"]},
-        {id:"iphone4",pictureUrls:["http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d03bcf57422.jpg",
-            "http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d0aad372921.jpg"]},
-        {id:"iphone5",pictureUrls:["http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d0aad372921.jpg",
-            "http://localhost:8080/Shangbao01/WEB-SRC/picture/2015-02-03/sim/54d03bcf57422.jpg"]}
-    ];
     $scope.picData=null;
     $scope.getPicData=function(){
         var url=$scope.projectName+"/channel/startpictures";

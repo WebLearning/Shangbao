@@ -2,31 +2,6 @@
  *NewPicture controller
  */
 angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", function ($scope,$http) {
-
-    $scope.recvData={
-        activity: null,
-        author: "杨一",
-        channel: ["原创","本地","热门"],
-        channelIndex: null,
-        clicks: null,
-        content: "据了解",
-        crawlerCommends: null,
-        crawlerCommendsPublish: null,
-        from: "成都商报",
-        keyWord: ["成绵乐","动车组","救援演练"],
-        level: "1等",
-        likes: null,
-        newsCommends: null,
-        newsCommendsPublish: null,
-        picturesUrl: ["http://localhost:8080/Shangbao01/WEB-SRC/src/img/spiderMan.jpg","http://localhost:8080/Shangbao01/WEB-SRC/src/img/shitMan.jpg"],
-        subTitle: "即将进入",
-        summary: "摘要：成绵乐",
-        tag: null,
-        time: new Date(),
-        title: "成绵乐",
-        titlePicUrl: null,
-        words: null
-    };
     $scope.channelNames=[
         {channelName:'国内'},
         {channelName:'商报原创'},
@@ -34,27 +9,6 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         {channelName:'娱乐'}
     ];
     //获得顶级目录名----------------------------------------------------------------------------------------------------
-    $scope.getEditorContent=function()
-    {
-        //导入数据
-        for(p in $scope.newArticleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
-                for(i in $scope.recvData[p]){
-                    $scope.newArticleData[p][i]=$scope.recvData[p][i];
-                }
-            }else{
-                $scope.newArticleData[p]=$scope.recvData[p];
-            }
-        }
-    };
-
-    $scope.testLog=function()
-    {
-        $scope.calculateWords();
-        $scope.calculatePictures();
-//        console.log($scope.recvData);
-        console.log($scope.newArticleData);
-    };
 
     //footer的3个按钮的操作
     $scope.clearArticle=function()
