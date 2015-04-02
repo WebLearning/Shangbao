@@ -110,7 +110,7 @@
 		<task:scheduled ref="kuaipaiPKTask" method="findTopArticle"
 			cron="0 55 23 * * ?" />
 		<task:scheduled ref="kuaipaiDSTask" method="method"
-			cron="0 55 23 * * ?"/>	
+			cron="0 5 0 * * ?"/>	
 	</task:scheduled-tasks>
 
 </beans>

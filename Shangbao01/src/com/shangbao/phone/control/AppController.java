@@ -17,6 +17,7 @@ import java.util.Random;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,16 +46,12 @@ import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.shangbao.app.model.ActiveModel;
 import com.shangbao.app.model.AppChannelModel;
-import com.shangbao.app.model.AppModel;
 import com.shangbao.app.model.AppPictureModel;
 import com.shangbao.app.model.AppResponseModel;
 import com.shangbao.app.model.ColumnPageModel;
-import com.shangbao.app.model.CommentModel;
 import com.shangbao.app.model.CommentPageModel;
 import com.shangbao.app.model.FrontPageModel;
-import com.shangbao.app.model.OriginalPageModel;
 import com.shangbao.app.service.AppService;
-import com.shangbao.app.service.AppService.AppHtml;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.SingleCommend;
@@ -92,8 +88,10 @@ public class AppController {
 	 */
 	@RequestMapping(value="/{phoneType}/start", method=RequestMethod.GET)
 	@ResponseBody
-	public FrontPageModel getStartPage(@PathVariable("phoneType") String phoneType){
-		
+	public FrontPageModel getStartPage(@PathVariable("phoneType") String phoneType, HttpServletResponse response){
+		Cookie cookie = new Cookie("APP", "CDSB_APP");
+		cookie.setPath("/shangbao02/");
+		response.addCookie(cookie);
 		return appService.getChannels(phoneType);
 	}
 	
@@ -113,7 +111,10 @@ public class AppController {
 	 */
 	@RequestMapping(value="/{phoneType}/{channelName:[a-z,A-Z]+}", method=RequestMethod.GET)
 	@ResponseBody
-	public AppChannelModel getChannelContent(@PathVariable("channelName") String channelName){
+	public AppChannelModel getChannelContent(@PathVariable("channelName") String channelName, HttpServletResponse response){
+		Cookie cookie = new Cookie("APP", "CDSB_APP");
+		cookie.setPath("/shangbao02/");
+		response.addCookie(cookie);
 		if(channelName.equals("kuaipai")){
 			return appService.getChannelModel("kuaipai", 1);
 		}

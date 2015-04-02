@@ -64,6 +64,7 @@ public class KuaipaiDSTask {
 		
 		String author = "";
 		Article articleDS = new Article();
+		boolean first = true;
 		for(Article article : articles){
 			if(article.getAuthor().equals(author) && author != ""){
 				String content = articleDS.getContent();
@@ -74,10 +75,14 @@ public class KuaipaiDSTask {
 				}
 			}else{
 				author = article.getAuthor();
-				articleDaoImp.insert(articleDS);
+				if(! first){
+					articleDaoImp.insert(articleDS);
+					articleDS = new Article();
+					first = false;
+				}
 				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 				articleDS = new Article();
-				articleDS.setTitle(article.getAuthor() + "在" + format.format(new Date()) + "的图集");
+				articleDS.setTitle(article.getAuthor() + "在" + format.format(oldDate) + "的图集");
 				articleDS.setTime(new Date());
 				articleDS.setAuthor(article.getAuthor());
 				articleDS.setUid(article.getUid());
@@ -90,5 +95,6 @@ public class KuaipaiDSTask {
 				}
 			}
 		}
+		articleDaoImp.insert(articleDS);
 	}
 }
