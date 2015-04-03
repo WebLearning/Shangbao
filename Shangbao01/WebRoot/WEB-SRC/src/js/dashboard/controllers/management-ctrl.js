@@ -81,18 +81,29 @@ angular.module("Dashboard").controller("managementCtrl",["$scope","$http",functi
         var url=$scope.projectName+'/channel/'+ulrfyChannelState($scope.newChannelDataState);//Father|Son|Activity
         //console.log(url);
         //console.log($scope.newChannelData);
-        $http.post(url,$scope.newChannelData).success(function(data){
-            if(data=="OK"){
-                alert("添加成功");
-                $('#myModal_newChannel').modal('toggle');
-                $scope.clearNewChannel();
-                $scope.refreshManagePage();
+        if(($scope.newChannelData.englishName).length!=0){
+            reg=/^[a-zA-Z]+$/;
+            if(!reg.test($scope.newChannelData.englishName)){
+                alert("英文名称不符合规则，请重新输入！（只能输入字母且不含空格或者下划线）");
                 $scope.closeOver();
             }else{
-                alert("添加失败");
-                $scope.closeOver();
+                $http.post(url,$scope.newChannelData).success(function(data){
+                    if(data=="OK"){
+                        alert("添加成功");
+                        $('#myModal_newChannel').modal('toggle');
+                        $scope.clearNewChannel();
+                        $scope.refreshManagePage();
+                        $scope.closeOver();
+                    }else{
+                        alert("添加失败");
+                        $scope.closeOver();
+                    }
+                });
             }
-        });
+        }else{
+            alert("英文名称不能为空！");
+            $scope.closeOver();
+        }
     };
 
     function ulrfyChannelState(state){

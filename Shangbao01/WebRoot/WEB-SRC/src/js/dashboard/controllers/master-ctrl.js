@@ -88,10 +88,12 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.userInfo_duty=data.duty;
             $scope.userInfo_pendTag=data.pendTag;
             console.log($scope.userInfo_duty);
+//            $scope.getCrawlerData(1);
 //            $scope.getPendingData(1);
 //            $scope.getPublishedData(1);
 //            $scope.getRevokedData(1);
 //            $scope.getTempData(1);
+//            $scope.getCommentData(1);
             $scope.setManageComment();
             $scope.setPendTagForPending();
         });
@@ -312,14 +314,20 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             if($scope.commentPaginationConf.currentPage>0){
                 $scope.getCommentData($scope.commentPaginationConf.currentPage);
 //                $scope.closeOver();
+            }else{
+                $scope.closeOver();
             }
 //            $scope.closeOver();
         }
     };
+    $scope.urlForCommend="";
     $scope.getCommentData=function(pageID)
     {
-        var url=$scope.projectName+'/commend/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
+        if($scope.userInfo_duty!=""){
+            $scope.urlForCommend=$scope.projectName+'/commend/'+pageID.toString()+$scope.orderCondition;
+        }
+//        var url=$scope.projectName+'/commend/'+pageID.toString()+$scope.orderCondition;
+        $http.get($scope.urlForCommend).success(function(data){
             if(data.pageCount>0){
                 $scope.commentData=data;
                 $scope.commentPageNums=getPageNums($scope.commentData.pageCount);
@@ -337,15 +345,18 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         });
     };
+    $scope.urlForCommendLast="";
     $scope.getLastCommentPageData=function(lastPage){
-        var url=$scope.projectName+'/commend/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
+        if($scope.userInfo_duty!=""){
+            $scope.urlForCommendLast=$scope.projectName+'/commend/'+lastPage+$scope.orderCondition;
+        }
+//        var url=$scope.projectName+'/commend/'+lastPage+$scope.orderCondition;
+        $http.get($scope.urlForCommendLast).success(function(data){
             $scope.latCommentPageData=data;
             $scope.lastCommentPageDataLength=$scope.latCommentPageData.commendList.length;
             $scope.commentPaginationConf.totalItems=(($scope.latCommentPageData.pageCount)-1)*20+$scope.lastCommentPageDataLength;
         });
     };
-//    $scope.getCommentData(1);//会在生成页面的时候直接运行!
     $scope.refreshComment=function()
     {
         $scope.orderCondition="/time/desc";
@@ -390,36 +401,55 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 //            $scope.closeOver();
         }
     };
+    $scope.urlForCrawler="";
     $scope.getCrawlerData=function(pageID)
     {
-        var url=$scope.projectName+'/article/Crawler/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.crawlerData=data;
-                $scope.crawlerPageNums=getPageNums($scope.crawlerData.pageCount);
-                $scope.lastCrawlerPage=$scope.crawlerData.pageCount;
-                $scope.crawlerPaginationConf.currentPage=$scope.crawlerData.currentNo;
-                $scope.getLastCrawlerPageData($scope.lastCrawlerPage);
-//                console.log("test");
-                $scope.closeOver();
-            }else{
-                $scope.crawlerData=data;
-                $scope.crawlerPaginationConf.currentPage=0;
-                $scope.crawlerPaginationConf.totalItems=0;
-//                console.log("test");
-                $scope.closeOver();
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForCrawler=$scope.projectName+'/article/Crawler/'+pageID.toString()+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")){
+                $scope.urlForCrawler=$scope.projectName+'/article/Crawler/'+pageID.toString()+$scope.orderCondition;
             }
-        });
+            $http.get($scope.urlForCrawler).success(function(data){
+                if(data.pageCount>0){
+                    $scope.crawlerData=data;
+                    $scope.crawlerPageNums=getPageNums($scope.crawlerData.pageCount);
+                    $scope.lastCrawlerPage=$scope.crawlerData.pageCount;
+                    $scope.crawlerPaginationConf.currentPage=$scope.crawlerData.currentNo;
+                    $scope.getLastCrawlerPageData($scope.lastCrawlerPage);
+//                console.log("test");
+                    $scope.closeOver();
+                }else{
+                    $scope.crawlerData=data;
+                    $scope.crawlerPaginationConf.currentPage=0;
+                    $scope.crawlerPaginationConf.totalItems=0;
+//                console.log("test");
+                    $scope.closeOver();
+                }
+            });
+        }else{
+
+        }
     };
+    $scope.urlForCrawlerLast="";
     $scope.getLastCrawlerPageData=function(lastPage){
-        var url=$scope.projectName+'/article/Crawler/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastCrawlerPageData=data;
-            $scope.lastCrawlerPageDataLength=$scope.lastCrawlerPageData.tileList.length;
-            $scope.crawlerPaginationConf.totalItems=(($scope.lastCrawlerPageData.pageCount)-1)*20+$scope.lastCrawlerPageDataLength;
-        });
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForCrawlerLast=$scope.projectName+'/article/Crawler/'+lastPage+$scope.orderCondition;
+            }else if((($scope.userInfo_duty)!="kuaipai")&&(($scope.userInfo_duty)!="super")) {
+                $scope.urlForCrawlerLast = $scope.projectName + '/article/Crawler/' + lastPage + $scope.orderCondition;
+            }
+            //        $scope.urlForCrawlerLast=$scope.projectName+'/article/Crawler/'+lastPage+$scope.orderCondition;
+            $http.get($scope.urlForCrawlerLast).success(function(data){
+                $scope.lastCrawlerPageData=data;
+                $scope.lastCrawlerPageDataLength=$scope.lastCrawlerPageData.tileList.length;
+                $scope.crawlerPaginationConf.totalItems=(($scope.lastCrawlerPageData.pageCount)-1)*20+$scope.lastCrawlerPageDataLength;
+            });
+        }else{
+
+        }
     };
-//    $scope.getCrawlerData(1);//会在生成页面的时候直接运行!
+
     function clearCrawlerSearchData(){
         for(p in $scope.crawlerSearchData){
             $scope.crawlerSearchData[p]="";
@@ -548,7 +578,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 //            console.log("null userInfo_duty pending LastPage");
         }
     };
-//    $scope.getPendingData(1);//生成待审页面时即产生第一页数据
+
     function clearPendingSearchData(){
         for(p in $scope.pendingSearchData){
             $scope.pendingSearchData[p]="";
@@ -699,7 +729,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 //            console.log("null userInfo_duty published LastPage");
         }
     };
-//    $scope.getPublishedData(1);//在点击已发布文章时，直接生成第一页内容
+
     function clearPublishedSearchData(){
         for(p in $scope.publishedSearchData){
             $scope.publishedSearchData[p]="";
@@ -844,7 +874,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 //            console.log("null userInfo_duty revoked LastPage");
         }
     };
-//    $scope.getRevokedData(1);//会在生成页面的时候直接运行!
+
     function clearRevokedSearchData(){
         for(p in $scope.revokedSearchData){
             $scope.revokedSearchData[p]="";
@@ -930,7 +960,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         perPageOptions: [10, 20, 30, 40, 50],
         rememberPerPage: 'perPageItems',
         onChange: function(){
-//            $scope.coverIt();
+            $scope.coverIt();
             if($scope.tempPaginationConf.currentPage>0){
                 if($scope.tempSearchData.content==""||$scope.tempSearchData.content==null){
                     $scope.getTempData($scope.tempPaginationConf.currentPage);
@@ -963,6 +993,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.tempData=data;
                     $scope.tempPaginationConf.currentPage=0;
                     $scope.tempPaginationConf.totalItems=0;
+                    $scope.closeOver();
                 }
             });
         }else{
@@ -981,12 +1012,13 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastTempPageData=data;
                 $scope.lastTempPageDataLength=$scope.lastTempPageData.tileList.length;
                 $scope.tempPaginationConf.totalItems=(($scope.lastTempPageData.pageCount)-1)*20+$scope.lastTempPageDataLength;
+                $scope.closeOver();
             });
         }else{
 //            console.log("null userInfo_duty tempLastPage");
         }
     };
-//    $scope.getTempData(1);//会在生成页面的时候直接运行!
+
     function clearTempSearchData(){
         for(p in $scope.tempSearchData){
             $scope.tempSearchData[p]="";
@@ -1033,6 +1065,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                     $scope.tempData=data;
                     $scope.tempPaginationConf.currentPage=0;
                     $scope.tempPaginationConf.totalItems=0;
+                    $scope.closeOver();
                 }
             });
         }else{
@@ -1051,6 +1084,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
                 $scope.lastTempPageData=data;
                 $scope.lastTempPageDataLength=$scope.lastTempPageData.tileList.length;
                 $scope.tempPaginationConf.totalItems=(($scope.lastTempPageData.pageCount)-1)*20+$scope.lastTempPageDataLength;
+                $scope.closeOver();
             });
         }else{
 //            console.log("null userInfo_duty Temp searchLastPage");
@@ -1132,36 +1166,54 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
+    $scope.urlForPicCrawler="";
     $scope.getCrawlerPictureData=function(pageID)
     {
-        var url=$scope.projectName+'/picture/Crawler/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.crawlerPictureData=data;
-                $scope.crawlerPicturePageNums=getPageNums($scope.crawlerPictureData.pageCount);
-                $scope.lastCrawlerPicturePage=$scope.crawlerPictureData.pageCount;
-                $scope.crawlerPicturePaginationConf.currentPage=$scope.crawlerPictureData.currentNo;
-                $scope.getLastCrawlerPicturePageData($scope.lastCrawlerPicturePage);
-//                $scope.closeOver();
-            }else{
-                $scope.crawlerPictureData=data;
-                $scope.crawlerPicturePaginationConf.currentPage=0;
-                $scope.crawlerPicturePaginationConf.totalItems=0;
-                $scope.closeOver();
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPicCrawler=$scope.projectName+'/picture/Crawler/'+pageID.toString()+$scope.orderCondition;
+            }else if($scope.userInfo_duty=="kuaipai"){
+                $scope.urlForPicCrawler=$scope.projectName+'/picture/Crawler/'+pageID.toString()+$scope.orderCondition;
             }
+            $http.get($scope.urlForPicCrawler).success(function(data){
+                if(data.pageCount>0){
+                    $scope.crawlerPictureData=data;
+                    $scope.crawlerPicturePageNums=getPageNums($scope.crawlerPictureData.pageCount);
+                    $scope.lastCrawlerPicturePage=$scope.crawlerPictureData.pageCount;
+                    $scope.crawlerPicturePaginationConf.currentPage=$scope.crawlerPictureData.currentNo;
+                    $scope.getLastCrawlerPicturePageData($scope.lastCrawlerPicturePage);
+//                $scope.closeOver();
+                }else{
+                    $scope.crawlerPictureData=data;
+                    $scope.crawlerPicturePaginationConf.currentPage=0;
+                    $scope.crawlerPicturePaginationConf.totalItems=0;
+                    $scope.closeOver();
+                }
+            });
+        }else{
 
-        });
+        }
     };
+    $scope.urlForPicCrawlerLast="";
     $scope.getLastCrawlerPicturePageData=function(lastPage){
-        var url=$scope.projectName+'/picture/Crawler/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastCrawlerPicturePageData=data;
-            $scope.lastCrawlerPicturePageDataLength=$scope.lastCrawlerPicturePageData.tileList.length;
-            $scope.crawlerPicturePaginationConf.totalItems=(($scope.lastCrawlerPicturePageData.pageCount)-1)*20+$scope.lastCrawlerPicturePageDataLength;
-            $scope.closeOver();
-        });
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPicCrawlerLast=$scope.projectName+'/picture/Crawler/'+lastPage+$scope.orderCondition;
+            }else if($scope.userInfo_duty=="kuaipai"){
+                $scope.urlForPicCrawlerLast=$scope.projectName+'/picture/Crawler/'+lastPage+$scope.orderCondition;
+            }
+            $http.get($scope.urlForPicCrawlerLast).success(function(data){
+                $scope.lastCrawlerPicturePageData=data;
+                $scope.lastCrawlerPicturePageDataLength=$scope.lastCrawlerPicturePageData.tileList.length;
+                $scope.crawlerPicturePaginationConf.totalItems=(($scope.lastCrawlerPicturePageData.pageCount)-1)*20+$scope.lastCrawlerPicturePageDataLength;
+                $scope.closeOver();
+            });
+        }else{
+
+        }
+
     };
-//    $scope.getCrawlerPictureData(1);//会在生成页面的时候直接运行!
+
     function clearCrawlerPitureSearchData(){
         for(p in $scope.crawlerPictureSearchData){
             $scope.crawlerPictureSearchData[p]="";
@@ -1240,34 +1292,50 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
+    $scope.urlForPicPending="";
     $scope.getPendingPictureData=function(pageID){
-        var url=$scope.projectName+'/picture/Pending/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.pendingPictureData=data;
-                $scope.pendingPicturePageNums=getPageNums($scope.pendingPictureData.pageCount);
-                $scope.lastPendingPicturePage=$scope.pendingPictureData.pageCount;
-                $scope.pendingPicturePaginationConf.currentPage=$scope.pendingPictureData.currentNo;
-                $scope.getLastPendingPicturePageData($scope.lastPendingPicturePage);
-//                $scope.closeOver();
-            }else{
-                $scope.pendingPictureData=data;
-                $scope.pendingPicturePaginationConf.currentPage=0;
-                $scope.pendingPicturePaginationConf.totalItems=0;
-                $scope.closeOver();
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPicPending=$scope.projectName+'/picture/Pending/'+pageID.toString()+$scope.orderCondition;
+            }else if($scope.userInfo_duty=="kuaipai"){
+                $scope.urlForPicPending=$scope.projectName+'/picture/Pending/'+pageID.toString()+$scope.orderCondition;
             }
-        });
+            $http.get($scope.urlForPicPending).success(function(data){
+                if(data.pageCount>0){
+                    $scope.pendingPictureData=data;
+                    $scope.pendingPicturePageNums=getPageNums($scope.pendingPictureData.pageCount);
+                    $scope.lastPendingPicturePage=$scope.pendingPictureData.pageCount;
+                    $scope.pendingPicturePaginationConf.currentPage=$scope.pendingPictureData.currentNo;
+                    $scope.getLastPendingPicturePageData($scope.lastPendingPicturePage);
+//                $scope.closeOver();
+                }else{
+                    $scope.pendingPictureData=data;
+                    $scope.pendingPicturePaginationConf.currentPage=0;
+                    $scope.pendingPicturePaginationConf.totalItems=0;
+                    $scope.closeOver();
+                }
+            });
+        }else{
+
+        }
     };
+    $scope.urlForPicPendingLast="";
     $scope.getLastPendingPicturePageData=function(lastPage){
-        var url=$scope.projectName+'/picture/Pending/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastPendingPicturePageData=data;
-            $scope.lastPendingPicturePageDataLength=$scope.lastPendingPicturePageData.tileList.length;
-            $scope.pendingPicturePaginationConf.totalItems=(($scope.lastPendingPicturePageData.pageCount)-1)*20+$scope.lastPendingPicturePageDataLength;
-            $scope.closeOver();
-        });
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPicPendingLast=$scope.projectName+'/picture/Pending/'+lastPage+$scope.orderCondition;
+            }else if($scope.userInfo_duty=="kuaipai"){
+                $scope.urlForPicPendingLast=$scope.projectName+'/picture/Pending/'+lastPage+$scope.orderCondition;
+            }
+            $http.get($scope.urlForPicPendingLast).success(function(data){
+                $scope.lastPendingPicturePageData=data;
+                $scope.lastPendingPicturePageDataLength=$scope.lastPendingPicturePageData.tileList.length;
+                $scope.pendingPicturePaginationConf.totalItems=(($scope.lastPendingPicturePageData.pageCount)-1)*20+$scope.lastPendingPicturePageDataLength;
+                $scope.closeOver();
+            });
+        }else{ }
     };
-//    $scope.getPendingPictureData(1);//生成待审页面时即产生第一页数据
+
     function clearPendingPictureSearchData(){
         for(p in $scope.pendingPictureSearchData){
             $scope.pendingPictureSearchData[p]="";
@@ -1347,34 +1415,48 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
+    $scope.urlForPicPublished="";
     $scope.getPublishedPictureData=function(pageID){
-        var url=$scope.projectName+'/picture/Published/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.publishedPictureData=data;
-                $scope.publishePicturePageNums=getPageNums($scope.publishedPictureData.pageCount);
-                $scope.lastPublishedPicturePage=$scope.publishedPictureData.pageCount;
-                $scope.publishedPicturePaginationConf.currentPage=$scope.publishedPictureData.currentNo;
-                $scope.getLastPublishedPicturePageData($scope.lastPublishedPicturePage);
-//                $scope.closeOver();
-            }else{
-                $scope.publishedPictureData=data;
-                $scope.publishedPicturePaginationConf.currentPage=0;
-                $scope.publishedPicturePaginationConf.totalItems=0;
-                $scope.closeOver();
+        if($scope.userInfo_duty!=""){
+            if($scope.userInfo_duty=="super"){
+                $scope.urlForPicPublished=$scope.projectName+'/picture/Published/'+pageID.toString()+$scope.orderCondition;
+            }else if($scope.userInfo_duty=="kuaipai"){
+                $scope.urlForPicPublished=$scope.projectName+'/picture/Published/'+pageID.toString()+$scope.orderCondition;
             }
-        });
+            $http.get($scope.urlForPicPublished).success(function(data){
+                if(data.pageCount>0){
+                    $scope.publishedPictureData=data;
+                    $scope.publishePicturePageNums=getPageNums($scope.publishedPictureData.pageCount);
+                    $scope.lastPublishedPicturePage=$scope.publishedPictureData.pageCount;
+                    $scope.publishedPicturePaginationConf.currentPage=$scope.publishedPictureData.currentNo;
+                    $scope.getLastPublishedPicturePageData($scope.lastPublishedPicturePage);
+//                $scope.closeOver();
+                }else{
+                    $scope.publishedPictureData=data;
+                    $scope.publishedPicturePaginationConf.currentPage=0;
+                    $scope.publishedPicturePaginationConf.totalItems=0;
+                    $scope.closeOver();
+                }
+            });
+        }else{ }
     };
+    $scope.urlForPicPublishedLast="";
     $scope.getLastPublishedPicturePageData=function(lastPage){
-        var url=$scope.projectName+'/picture/Published/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastPublishedPicturePageData=data;
-            $scope.lastPublishedPicturePageDataLength=$scope.lastPublishedPicturePageData.tileList.length;
-            $scope.publishedPicturePaginationConf.totalItems=(($scope.lastPublishedPicturePageData.pageCount)-1)*20+$scope.lastPublishedPicturePageDataLength;
-            $scope.closeOver();
-        });
+        if($scope.userInfo_duty!="") {
+            if ($scope.userInfo_duty == "super") {
+                $scope.urlForPicPublishedLast =$scope.projectName+'/picture/Published/'+lastPage+$scope.orderCondition;
+            } else if ($scope.userInfo_duty == "kuaipai") {
+                $scope.urlForPicPublishedLast =$scope.projectName+'/picture/Published/'+lastPage+$scope.orderCondition;
+            }
+            $http.get($scope.urlForPicPublishedLast).success(function(data){
+                $scope.lastPublishedPicturePageData=data;
+                $scope.lastPublishedPicturePageDataLength=$scope.lastPublishedPicturePageData.tileList.length;
+                $scope.publishedPicturePaginationConf.totalItems=(($scope.lastPublishedPicturePageData.pageCount)-1)*20+$scope.lastPublishedPicturePageDataLength;
+                $scope.closeOver();
+            });
+        }else{}
     };
-//    $scope.getPublishedPictureData(1);//在点击已发布文章时，直接生成第一页内容
+
     function clearPublishedPictureSearchData(){
         for(p in $scope.publishedPictureSearchData){
             $scope.publishedPictureSearchData[p]="";
@@ -1456,35 +1538,50 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
+    $scope.urlForPicRevoked="";
     $scope.getRevokedPictureData=function(pageID)
     {
-        var url=$scope.projectName+'/picture/Revocation/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.revokedPictureData=data;
-                $scope.revokedPicturePageNums=getPageNums($scope.revokedPictureData.pageCount);
-                $scope.lastRevokedPicturePage=$scope.revokedPictureData.pageCount;
-                $scope.revokedPicturePaginationConf.currentPage=$scope.revokedPictureData.currentNo;
-                $scope.getLastRevokedPicturePageData($scope.lastRevokedPicturePage);
-//                $scope.closeOver();
-            }else{
-                $scope.revokedPictureData=data;
-                $scope.revokedPicturePaginationConf.currentPage=0;
-                $scope.revokedPicturePaginationConf.totalItems=0;
-                $scope.closeOver();
+        if($scope.userInfo_duty!="") {
+            if ($scope.userInfo_duty == "super") {
+                $scope.urlForPicRevoked =$scope.projectName+'/picture/Revocation/'+pageID.toString()+$scope.orderCondition;
+            } else if ($scope.userInfo_duty == "kuaipai") {
+                $scope.urlForPicRevoked =$scope.projectName+'/picture/Revocation/'+pageID.toString()+$scope.orderCondition;
             }
-        });
+            $http.get($scope.urlForPicRevoked).success(function(data){
+                if(data.pageCount>0){
+                    $scope.revokedPictureData=data;
+                    $scope.revokedPicturePageNums=getPageNums($scope.revokedPictureData.pageCount);
+                    $scope.lastRevokedPicturePage=$scope.revokedPictureData.pageCount;
+                    $scope.revokedPicturePaginationConf.currentPage=$scope.revokedPictureData.currentNo;
+                    $scope.getLastRevokedPicturePageData($scope.lastRevokedPicturePage);
+//                $scope.closeOver();
+                }else{
+                    $scope.revokedPictureData=data;
+                    $scope.revokedPicturePaginationConf.currentPage=0;
+                    $scope.revokedPicturePaginationConf.totalItems=0;
+                    $scope.closeOver();
+                }
+            });
+        }else{}
+
     };
+    $scope.urlForPicRevokedLast="";
     $scope.getLastRevokedPicturePageData=function(lastPage){
-        var url=$scope.projectName+'/picture/Revocation/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastRevokedPicturePageData=data;
-            $scope.lastRevokedPicturePageDataLength=$scope.lastRevokedPicturePageData.tileList.length;
-            $scope.revokedPicturePaginationConf.totalItems=(($scope.lastRevokedPicturePageData.pageCount)-1)*20+$scope.lastRevokedPicturePageDataLength;
-            $scope.closeOver();
-        });
+        if($scope.userInfo_duty!="") {
+            if ($scope.userInfo_duty == "super") {
+                $scope.urlForPicRevokedLast =$scope.projectName+'/picture/Revocation/'+lastPage+$scope.orderCondition;
+            } else if ($scope.userInfo_duty == "kuaipai") {
+                $scope.urlForPicRevokedLast =$scope.projectName+'/picture/Revocation/'+lastPage+$scope.orderCondition;
+            }
+            $http.get($scope.urlForPicRevokedLast).success(function(data){
+                $scope.lastRevokedPicturePageData=data;
+                $scope.lastRevokedPicturePageDataLength=$scope.lastRevokedPicturePageData.tileList.length;
+                $scope.revokedPicturePaginationConf.totalItems=(($scope.lastRevokedPicturePageData.pageCount)-1)*20+$scope.lastRevokedPicturePageDataLength;
+                $scope.closeOver();
+            });
+        }else{ }
     };
-//    $scope.getRevokedPictureData(1);//会在生成页面的时候直接运行!
+
     function clearRevokedPictureSearchData(){
         for(p in $scope.revokedPictureSearchData){
             $scope.revokedPictureSearchData[p]="";
@@ -1564,35 +1661,49 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             }
         }
     };
+    $scope.urlForPicTemp="";
     $scope.getTempPictureData=function(pageID)
     {
-        var url=$scope.projectName+'/picture/Temp/'+pageID.toString()+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            if(data.pageCount>0){
-                $scope.tempPictureData=data;
-                $scope.tempPicturePageNums=getPageNums($scope.tempPictureData.pageCount);
-                $scope.lastTempPicturePage=$scope.tempPictureData.pageCount;
-                $scope.tempPicturePaginationConf.currentPage=$scope.tempPictureData.currentNo;
-                $scope.getLastTempPicturePageData($scope.lastTempPicturePage);
-//                $scope.closeOver();
-            }else{
-                $scope.tempPictureData=data;
-                $scope.tempPicturePaginationConf.currentPage=0;
-                $scope.tempPicturePaginationConf.totalItems=0;
-                $scope.closeOver();
+        if($scope.userInfo_duty!="") {
+            if ($scope.userInfo_duty == "super") {
+                $scope.urlForPicTemp = $scope.projectName+'/picture/Temp/'+pageID.toString()+$scope.orderCondition;
+            } else if ($scope.userInfo_duty == "kuaipai") {
+                $scope.urlForPicTemp =$scope.projectName+'/picture/Temp/'+pageID.toString()+$scope.orderCondition;
             }
-        });
+            $http.get($scope.urlForPicTemp).success(function(data){
+                if(data.pageCount>0){
+                    $scope.tempPictureData=data;
+                    $scope.tempPicturePageNums=getPageNums($scope.tempPictureData.pageCount);
+                    $scope.lastTempPicturePage=$scope.tempPictureData.pageCount;
+                    $scope.tempPicturePaginationConf.currentPage=$scope.tempPictureData.currentNo;
+                    $scope.getLastTempPicturePageData($scope.lastTempPicturePage);
+//                $scope.closeOver();
+                }else{
+                    $scope.tempPictureData=data;
+                    $scope.tempPicturePaginationConf.currentPage=0;
+                    $scope.tempPicturePaginationConf.totalItems=0;
+                    $scope.closeOver();
+                }
+            });
+        }else{}
     };
+    $scope.urlForPicTempLast="";
     $scope.getLastTempPicturePageData=function(lastPage){
-        var url=$scope.projectName+'/picture/Temp/'+lastPage+$scope.orderCondition;
-        $http.get(url).success(function(data){
-            $scope.lastTempPicturePageData=data;
-            $scope.lastTempPicturePageDataLength=$scope.lastTempPicturePageData.tileList.length;
-            $scope.tempPicturePaginationConf.totalItems=(($scope.lastTempPicturePageData.pageCount)-1)*20+$scope.lastTempPicturePageDataLength;
-            $scope.closeOver();
-        });
+        if($scope.userInfo_duty!="") {
+            if ($scope.userInfo_duty == "super") {
+                $scope.urlForPicTempLast = $scope.projectName + '/picture/Temp/' + lastPage + $scope.orderCondition;
+            } else if ($scope.userInfo_duty == "kuaipai") {
+                $scope.urlForPicTempLast = $scope.projectName + '/picture/Temp/' + lastPage + $scope.orderCondition;
+            }
+            $http.get($scope.urlForPicTempLast).success(function(data){
+                $scope.lastTempPicturePageData=data;
+                $scope.lastTempPicturePageDataLength=$scope.lastTempPicturePageData.tileList.length;
+                $scope.tempPicturePaginationConf.totalItems=(($scope.lastTempPicturePageData.pageCount)-1)*20+$scope.lastTempPicturePageDataLength;
+                $scope.closeOver();
+            });
+        }else{}
     };
-//    $scope.getTempPictureData(1);//会在生成页面的时候直接运行!
+
     function clearTempPictureSearchData(){
         for(p in $scope.tempPictureSearchData){
             $scope.tempPictureSearchData[p]="";
@@ -1654,80 +1765,92 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.normalChannelNames=[];
     $scope.newChannelNames=[];
     $scope.getSuperChannelNames=function(){
-        var url=$scope.projectName+'/channel/channels';
-        $http.get(url).success(function(data){
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    if(data[i].englishName!="kuaipai"){
-                        $scope.checkFirstChannelForSuper(data[i]);
+        if($scope.userInfo_duty!=""){
+            var url=$scope.projectName+'/channel/channels';
+            $http.get(url).success(function(data){
+                if(data.length>0){
+                    for(i=0;i<data.length;i++){
+                        if(data[i].englishName!="kuaipai"){
+                            $scope.checkFirstChannelForSuper(data[i]);
+                        }
                     }
+                }else{
+                    $scope.superChannelNames=[];
                 }
-            }else{
-                $scope.superChannelNames=[];
-            }
-        });
+            });
+        }
     };
-    $scope.getSuperChannelNames();
+//    $scope.getSuperChannelNames();
     //判断是否有次级目录-------------------------------------------------------------------------------------------------
     $scope.checkFirstChannelForSuper=function(channelData){
-        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
-        $http.get(url).success(function (data) {
-            if(data.length>0){
-                $scope.getSecondChannelNamesForSuper(channelData.englishName);
-            }else{
-                $scope.superChannelNames.push(channelData);
-            }
-        });
+        if($scope.userInfo_duty!=""){
+            var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
+            $http.get(url).success(function (data) {
+                if(data.length>0){
+                    $scope.getSecondChannelNamesForSuper(channelData.englishName);
+                }else{
+                    $scope.superChannelNames.push(channelData);
+                }
+            });
+        }
     };
     //获得次级目录名----------------------------------------------------------------------------------------------------
     $scope.getSecondChannelNamesForSuper=function(channelName){
-        var url=$scope.projectName+'/channel/'+channelName+'/channels';
-        $http.get(url).success(function(data){
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.superChannelNames.push(data[i]);
+        if($scope.userInfo_duty!=""){
+            var url=$scope.projectName+'/channel/'+channelName+'/channels';
+            $http.get(url).success(function(data){
+                if(data.length>0){
+                    for(i=0;i<data.length;i++){
+                        $scope.superChannelNames.push(data[i]);
+                    }
                 }
-            }
-        });
+            });
+        }
     };
     //根据duty判断是否有次级目录-------------------------------------------------------------------------------------------------
     $scope.checkFirstChannelForNormal=function(channelData){
-        var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
-        $http.get(url).success(function (data) {
-            if(data.length>0){
-                $scope.getSecondChannelNamesForNormal(channelData.englishName);
-            }else{
-                $scope.normalChannelNames.push(channelData);
-            }
-        });
+        if($scope.userInfo_duty!=""){
+            var url=$scope.projectName+'/channel/'+channelData.englishName+'/channels';
+            $http.get(url).success(function (data) {
+                if(data.length>0){
+                    $scope.getSecondChannelNamesForNormal(channelData.englishName);
+                }else{
+                    $scope.normalChannelNames.push(channelData);
+                }
+            });
+        }
     };
     //根据duty获得次级目录名----------------------------------------------------------------------------------------------------
     $scope.getSecondChannelNamesForNormal=function(channelName){
-        var url=$scope.projectName+'/channel/'+channelName+'/channels';
-        $http.get(url).success(function(data){
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.normalChannelNames.push(data[i]);
+        if($scope.userInfo_duty!=""){
+            var url=$scope.projectName+'/channel/'+channelName+'/channels';
+            $http.get(url).success(function(data){
+                if(data.length>0){
+                    for(i=0;i<data.length;i++){
+                        $scope.normalChannelNames.push(data[i]);
+                    }
                 }
-            }
-        });
+            });
+        }
     };
     //根据duty获得分类--------------------------------------------------------------------------------------------------
     $scope.getNormalChannelNames=function(){
-        var url=$scope.projectName+'/channel/channels';
-        $http.get(url).success(function(data){
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    if(data[i].englishName==$scope.userInfo_duty){
-                        $scope.checkFirstChannelForNormal(data[i]);
+        if($scope.userInfo_duty!=""){
+            var url=$scope.projectName+'/channel/channels';
+            $http.get(url).success(function(data){
+                if(data.length>0){
+                    for(i=0;i<data.length;i++){
+                        if(data[i].englishName==$scope.userInfo_duty){
+                            $scope.checkFirstChannelForNormal(data[i]);
+                        }
                     }
+                }else{
+                    $scope.normalChannelNames=[];
                 }
-            }else{
-                $scope.normalChannelNames=[];
-            }
-        });
+            });
+        }
     };
-    $scope.getNormalChannelNames();
+//    $scope.getNormalChannelNames();
     $scope.getNewChannelNames=function(){
         if($scope.userInfo_duty=="super"){
 //            $scope.getSuperChannelNames();
@@ -1737,22 +1860,24 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
             $scope.newChannelNames=$scope.normalChannelNames;
         }
     };
-    $scope.getNewChannelNames();
+//    $scope.getNewChannelNames();
 //(13)获取分类和活动（快拍）--------------------------------------------------------------------------------------------
     $scope.newPictureChannelNames=[];
     $scope.getNewPictureChannelNames=function(){
-        var url=$scope.projectName+'/channel/kuaipai/channels';
-        $http.get(url).success(function(data){
-            if(data.length>0){
-                for(i=0;i<data.length;i++){
-                    $scope.newPictureChannelNames.push(data[i]);
+        if($scope.userInfo_duty!=""){
+            var url=$scope.projectName+'/channel/kuaipai/channels';
+            $http.get(url).success(function(data){
+                if(data.length>0){
+                    for(i=0;i<data.length;i++){
+                        $scope.newPictureChannelNames.push(data[i]);
+                    }
+                }else{
+                    $scope.newPictureChannelNames=[];
                 }
-            }else{
-                $scope.newPictureChannelNames=[];
-            }
-        });
+            });
+        }
     };
-    $scope.getNewPictureChannelNames();
+//    $scope.getNewPictureChannelNames();
     $scope.refreshChannelNames=function(){
         $scope.superChannelNames=[];
         $scope.normalChannelNames=[];
