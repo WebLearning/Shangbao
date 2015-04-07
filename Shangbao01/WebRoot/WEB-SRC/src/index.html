@@ -2528,21 +2528,21 @@
                                         <th>序号</th>
                                         <th>模块名称</th>
                                         <th>模块内容</th>
-                                        <th>操作</th>
+                                        <!--<th>操作</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="x in appNames">
-                                        <td>{{x.channelIndex}}</td>
-                                        <td>{{x.channelName}}</td>
+                                        <td style="width: 20%">{{x.channelIndex}}</td>
+                                        <td style="width: 20%">{{x.channelName}}</td>
                                         <!--<td ng-init="y=">-->
-                                        <td>
+                                        <td style="width: 60%">
                                             <table class="table table-bordered">
                                                 <tbody>
                                                 <tr ng-repeat="z in getModelNames(modelNamesSet,x.englishName)">
-                                                    <td>{{z.channelIndex}}</td>
-                                                    <td>{{z.channelName}}</td>
-                                                    <td>
+                                                    <td style="width: 20%">{{z.channelIndex}}</td>
+                                                    <td style="width: 20%">{{z.channelName}}</td>
+                                                    <td style="width: 60%">
                                                         <!--<a href="">修改</a>-->
                                                         <!--/-->
                                                         <a href="" ng-click="deleteChannel(z.channelName,z.englishName,'Son')">删除</a>
@@ -2555,15 +2555,15 @@
                                                 </tbody>
                                             </table>
                                         </td>
-                                        <td>
-                                            <!--<a href="">修改</a>-->
+                                        <!--<td>-->
+                                            <!--&lt;!&ndash;<a href="">修改</a>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;/&ndash;&gt;-->
+                                            <!--<a href="" ng-click="deleteChannel(x.channelName,x.englishName,'Father')">删除</a>-->
                                             <!--/-->
-                                            <a href="" ng-click="deleteChannel(x.channelName,x.englishName,'Father')">删除</a>
-                                            /
-                                            <a href="" ng-click="upMove('top',x.state,x.channelIndex)">上移</a>
-                                            /
-                                            <a href="" ng-click="downMove('top',x.state,x.channelIndex)">下移</a>
-                                        </td>
+                                            <!--<a href="" ng-click="upMove('top',x.state,x.channelIndex)">上移</a>-->
+                                            <!--/-->
+                                            <!--<a href="" ng-click="downMove('top',x.state,x.channelIndex)">下移</a>-->
+                                        <!--</td>-->
                                     </tr>
                                     </tbody>
 

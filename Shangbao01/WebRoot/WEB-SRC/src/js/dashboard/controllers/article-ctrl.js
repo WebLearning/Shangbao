@@ -40,6 +40,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             if($scope.outSide){
                 if($scope.newArticleData.channel.length==0){
                     alert("分类不能为空！");
+                    $scope.closeOver();
                 }else if($scope.newArticleData.channel.length!=0){
                     $scope.newArticleData.content="";
                     $scope.calculateWords();

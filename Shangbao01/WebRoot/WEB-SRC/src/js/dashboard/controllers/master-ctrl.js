@@ -1128,6 +1128,7 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     $scope.getNewGeneralViewData();
     $scope.refreshGeneralView=function(){
         var url=$scope.projectName+'/backapp/refresh';
+        $scope.newGeneralViewSections=null;
         $http.get(url).success(function(data){
             $scope.newGeneralViewSections=data;
             console.log($scope.newGeneralViewSections);
