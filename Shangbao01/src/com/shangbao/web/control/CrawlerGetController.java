@@ -82,6 +82,7 @@ public class CrawlerGetController {
 		if(!commend.getCommendList().isEmpty() && commend.getCommendList().get(1).getCommendId() == null){
 			int count = commend.getCommendList().size();
 			for(int i = 0; i < count; i ++){
+				commend.getCommendList().get(i).setUserName("网络小伙伴");
 				commend.getCommendList().get(i).setCommendId(new SimpleDateFormat("yyyyMMddHHmm").format(new Date()) + "" + (int)(Math.random()*100) + "" + (int)(Math.random()*100));
 			}
 		}
@@ -179,6 +180,7 @@ public class CrawlerGetController {
 	 */
 	@RequestMapping(value="/delete/article/{articleId:[\\d]+}", method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
 	public Long deleteCrawlerArticle(@PathVariable("articleId") Long id){
 		Article article = new Article();
 		article.setId(id);

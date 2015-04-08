@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,8 @@ public class AppAuthController {
 	private UserIdentifyService userIdentifyService;
 	@Resource
 	private UserService userServiceImp;
+	@Resource
+	private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping(value="/login/{username}/{passwd}", method=RequestMethod.GET)
 	@ResponseBody
@@ -232,7 +235,7 @@ public class AppAuthController {
 	}
 	
 	/**
-	 * 重置密码
+	 * 忘记密码后重置密码
 	 * @param request
 	 * @param passwdModel
 	 * @return
@@ -257,8 +260,8 @@ public class AppAuthController {
 					return appResponseModel;
 				}else{
 					user.setPasswd(passwdModel.getNewPasswd());
-					if(!userIdentifyService.updateUser(user)){
-						userServiceImp.updatePasswd(user, user.getPasswd(), passwdModel.getNewPasswd());
+					if(userIdentifyService.updateUser(user)){
+						userServiceImp.updatePasswd(user, user.getPasswd(), passwordEncoder.encodePassword(passwdModel.getNewPasswd(), null));
 						appResponseModel.setResultCode(1);
 						appResponseModel.setResultMsg("SUCCESS");
 					}else{
@@ -274,7 +277,16 @@ public class AppAuthController {
 			}
 		}else{
 			appResponseModel.setResultCode(0);
-			appResponseModel.setResultMsg("param error");
+			if(phoneNum == null){
+				appResponseModel.setResultMsg("phone num empty");
+			}
+			if(passwdModel.getNewPasswd() == null){
+				appResponseModel.setResultMsg("new passwd empty");
+			}
+			if(passwdModel.getOldPasswd() == null){
+				appResponseModel.setResultMsg("identify num empty");
+			}
+			//appResponseModel.setResultMsg("param error");
 			request.getSession().removeAttribute("PHONE_TEXT");
 			request.getSession().removeAttribute("PHONE_NUM");
 		}

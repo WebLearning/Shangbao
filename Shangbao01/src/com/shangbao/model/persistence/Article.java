@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.shangbao.model.ArticleState;
@@ -23,6 +24,7 @@ public class Article {
 	private String title;//标题
 	private String subTitle;//副标题
 	private List<String> keyWord = new ArrayList<String>();//关键字
+	@Indexed
 	private Date time;//时间
 	private String titlePicUrl;//标题图片url
 	private List<String> picturesUrl = new ArrayList<String>();//图片url
@@ -30,15 +32,19 @@ public class Article {
 	private List<String> channel = new ArrayList<String>();//所属栏目
 	private String activity; //所属活动
 	private String level;//等级
+	@Indexed
 	private int words;//字数
 	private int pictures;//图片数量
+	@Indexed
 	private int newsCommends;//商报评论数
 	private int newsCommendsPublish;//商报评论发表数
 	private int newsCommendsUnpublish;//商报评论未发表
+	@Indexed
 	private int crawlerCommends;//爬虫评论数
 	private int crawlerCommendsPublish;//爬虫评论发表数
 	private int crawlerCommendsUnpublish;//爬虫评论未发表数
 	private int clicks;//点击数
+	@Indexed
 	private int js_clicks;//前端统计的点击数
 	private int likes;//点赞数
 	private String from;//来源
