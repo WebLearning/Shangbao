@@ -108,7 +108,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 var jsonString1=JSON.stringify($scope.articleData);
                 $http.put(url1,jsonString1).success(function(data) {
                     $scope.saveStateInDraft1=data;
-                    alert("保存文章成功");
+//                    alert("保存文章成功");
                     if($scope.saveStateInDraft1=="true"){
                         $http.put(url).success(function(){
                             $scope.goDraft();
@@ -131,7 +131,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.put(url1,jsonString).success(function(data) {
                         $scope.saveStateInDraft1=data;
-                        alert("保存文章成功");
+//                        alert("保存文章成功");
                         if($scope.saveStateInDraft1=="true"){
                             $http.put(url).success(function(){
                                 $scope.goDraft();
@@ -164,7 +164,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 var jsonString1=JSON.stringify($scope.articleData);
                 $http.put(url1,jsonString1).success(function(data) {
                     $scope.saveStateInDraft2=data;
-                    alert("保存文章成功");
+//                    alert("保存文章成功");
                     if($scope.saveStateInDraft2=="true"){
                         $http.put(url).success(function(){
                             $scope.goDraft();
@@ -187,7 +187,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.put(url1,jsonString).success(function(data) {
                         $scope.saveStateInDraft2=data;
-                        alert("保存文章成功");
+//                        alert("保存文章成功");
                         if($scope.saveStateInDraft2=="true"){
                             $http.put(url).success(function(){
                                 $scope.goDraft();
@@ -230,7 +230,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 var jsonString1=JSON.stringify($scope.articleData);
                 $http.put(url1,jsonString1).success(function(data) {
                     $scope.saveStateInDraft3=data;
-                    alert("保存文章成功");
+//                    alert("保存文章成功");
                     if($scope.saveStateInDraft3=="true"){
                         console.log(url);
                         $http.get(url).success(function(){
@@ -255,7 +255,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.put(url1,jsonString).success(function(data) {
                         $scope.saveStateInDraft3=data;
-                        alert("保存文章成功");
+//                        alert("保存文章成功");
                         if($scope.saveStateInDraft3=="true"){
                             console.log(url);
                             $http.get(url).success(function(){

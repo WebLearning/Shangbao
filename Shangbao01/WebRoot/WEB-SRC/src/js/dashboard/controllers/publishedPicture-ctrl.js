@@ -373,8 +373,8 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
         if($scope.articleSelectionsUrl==""){
             alert("未选取文章");
         }else{
-            if (confirm("确定撤销选中的文章吗？")==true)
-            {
+//            if (confirm("确定撤销选中的文章吗？")==true)
+//            {
                 var url=$scope.projectName+"/picture/Published/"+($scope.publishedPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
@@ -382,7 +382,7 @@ angular.module("Dashboard").controller("publishedPictureCtrl",["$scope","$http",
                     alert("撤销成功");
                     $scope.closeOver();
                 });
-            }
+//            }
         }
     };
     //查看修改记录------------------------------------------------------------------------------------------------------

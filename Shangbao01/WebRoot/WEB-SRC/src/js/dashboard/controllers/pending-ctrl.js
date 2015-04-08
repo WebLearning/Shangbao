@@ -337,8 +337,8 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
             alert("未选取文章");
             $scope.closeOver();
         }else{
-            if (confirm("确定撤销选中的文章吗？")==true)
-            {
+//            if (confirm("确定撤销选中的文章吗？")==true)
+//            {
                 var url=$scope.projectName+"/article/Pending/"+($scope.pendingData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
@@ -346,7 +346,7 @@ angular.module("Dashboard").controller("pendingCtrl",["$scope","$http",function(
                     alert("撤销成功");
                     $scope.closeOver();
                 });
-            }
+//            }
         }
     };
 //立刻发布--------------------------------------------------------------------------------------------------------

@@ -89,7 +89,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             $http.put(url1,jsonString).success(function(data) {
                 $scope.saveStateInDraftPic1=data;
                 console.log(data);
-                alert("保存文章成功");
+//                alert("保存文章成功");
                 var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 if($scope.saveStateInDraftPic1=="true"){
                     $http.put(url).success(function(){
@@ -128,7 +128,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             var url1=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
             $http.put(url1,jsonString).success(function(data) {
                 $scope.saveStateInDraftPic2=data;
-                alert("保存文章成功");
+//                alert("保存文章成功");
                 var url=$scope.projectName+"/picture/Temp/"+($scope.tempPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
                 console.log(url);
                 if($scope.saveStateInDraftPic2=="true"){

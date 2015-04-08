@@ -211,8 +211,8 @@ angular.module("Dashboard").controller("publishedCommentDetailsCtrl", ["$scope",
         if($scope.commentSelectionsUrlInPub==""){
             alert("未选取评论");
         }else{
-            if (confirm("确定删除选中的评论吗？")==true)
-            {
+//            if (confirm("确定删除选中的评论吗？")==true)
+//            {
                 var url=$scope.commentDetailsUrlInPublishedFor+'/'+$scope.commentSelectionsUrlInPub;
                 console.log(url);
                 $http.delete(url).success(function(){
@@ -220,7 +220,7 @@ angular.module("Dashboard").controller("publishedCommentDetailsCtrl", ["$scope",
                     $scope.getCommentDetailDataInPublished($scope.commentDetailDataInPublished.currentNo);
                     alert("删除成功");
                 });
-            }
+//            }
         }
     };
 

@@ -55,7 +55,7 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
             var jsonString=JSON.stringify($scope.articleData);
             $http.put(url1,jsonString).success(function(data) {
                 $scope.saveStateInRevokedPicture1=data;
-                alert("保存文章成功");
+//                alert("保存文章成功");
                 if($scope.saveStateInRevokedPicture1=="true"){
                     var url=$scope.projectName+"/picture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                     //console.log(url);
@@ -72,14 +72,14 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
     $scope.deletePictureArticleInRevocation=function()
     {
         $scope.coverIt();
-            if (confirm("确定删除选中的文章吗？")==true) {
+//            if (confirm("确定删除选中的文章吗？")==true) {
                 var url = $scope.projectName + "/picture/Revocation/" + ($scope.revokedPictureData.currentNo).toString() + "/statechange/" + $scope.articleData.id;
                 $http.delete(url).success(function () {
                     alert("删除成功");
                     $scope.goRevokedPicture();
                     $scope.closeOver();
                 });
-            }
+//            }
     };
 
     //得到字数

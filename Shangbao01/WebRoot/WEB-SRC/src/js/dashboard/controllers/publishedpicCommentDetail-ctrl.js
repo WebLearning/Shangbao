@@ -210,8 +210,8 @@ angular.module("Dashboard").controller("publishedPicCommentDetailsCtrl", ["$scop
         if($scope.commentSelectionsUrlInPubPic==""){
             alert("未选取评论");
         }else{
-            if (confirm("确定删除选中的评论吗？")==true)
-            {
+//            if (confirm("确定删除选中的评论吗？")==true)
+//            {
                 var url=$scope.commentDetailsUrlInPublishedPicFor+'/'+$scope.commentSelectionsUrlInPubPic;
                 console.log(url);
                 $http.delete(url).success(function(){
@@ -219,7 +219,7 @@ angular.module("Dashboard").controller("publishedPicCommentDetailsCtrl", ["$scop
                     $scope.getCommentDetailDataInPublishedPic($scope.commentDetailDataInPublishedPic.currentNo);
                     alert("删除成功");
                 });
-            }
+//            }
         }
     };
 

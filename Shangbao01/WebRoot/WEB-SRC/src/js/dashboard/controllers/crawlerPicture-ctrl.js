@@ -204,8 +204,8 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
             alert("未选取文章");
             $scope.closeOver();
         }else{
-            if (confirm("确定删除选中的文章吗？")==true)
-            {
+//            if (confirm("确定删除选中的文章吗？")==true)
+//            {
                 var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
@@ -213,7 +213,7 @@ angular.module("Dashboard").controller("crawlerPictureCtrl", ["$scope","$http", 
                     alert("删除成功");
                     $scope.closeOver();
                 });
-            }
+//            }
         }
     };
 

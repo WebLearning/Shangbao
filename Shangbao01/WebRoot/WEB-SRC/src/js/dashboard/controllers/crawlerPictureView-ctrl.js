@@ -48,15 +48,15 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     $scope.deleteArticleInCrawlerPicture=function()
     {
         $scope.coverIt();
-            if (confirm("确定删除选中的文章吗？")==true)
-            {
+//            if (confirm("确定删除选中的文章吗？")==true)
+//            {
                 var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.delete(url).success(function(){
                     $scope.goCrawlerPicture();
                     alert("删除成功");
                     $scope.closeOver();
                 });
-            }
+//            }
     };
     //快拍爬虫保存在本状态----------------------------------------------------------------------------------
     $scope.saveInCrawlerLocal=function(){
@@ -96,7 +96,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
             $http.put(url1,jsonString).success(function(data) {
                 $scope.saveStateInCrawlerPic1=data;
-                alert("保存文章成功");
+//                alert("保存文章成功");
                 if($scope.saveStateInCrawlerPic1=="true"){
                     var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                     //console.log(url);
@@ -125,7 +125,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
             $http.put(url1,jsonString).success(function(data){
                 $scope.saveStateInCrawlerPic2=data;
-                alert("保存");
+//                alert("保存");
                 if($scope.saveStateInCrawlerPic2=="true"){
                     var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                     $http.put(url).success(function(){
@@ -163,7 +163,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
             $http.put(url1,jsonString).success(function(data){
                 $scope.saveStateInCrawlerPic3=data;
-                alert("保存");
+//                alert("保存");
                 if($scope.saveStateInCrawlerPic3=="true"){
                     var url=$scope.projectName+"/picture/Crawler/"+($scope.crawlerPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
                     console.log(url);

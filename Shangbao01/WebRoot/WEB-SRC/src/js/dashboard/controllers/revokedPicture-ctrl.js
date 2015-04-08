@@ -207,8 +207,8 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
             alert("未选取文章");
             $scope.closeOver();
         }else{
-            if (confirm("确定删除选中的文章吗？")==true)
-            {
+//            if (confirm("确定删除选中的文章吗？")==true)
+//            {
                 var url=$scope.projectName+"/picture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleSelectionsUrl;
                 $http.delete(url).success(function(){
                     clearArticleSelections();
@@ -216,7 +216,7 @@ angular.module("Dashboard").controller("revokedPictureCtrl",["$scope","$http",fu
                     alert("删除成功");
                     $scope.closeOver();
                 });
-            }
+//            }
         }
     };
 

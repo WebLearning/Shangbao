@@ -55,7 +55,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                 var jsonString1=JSON.stringify($scope.articleData);
                 $http.put(url1,jsonString1).success(function(data) {
                     $scope.saveStateInRevoked1=data;
-                    alert("保存文章成功");
+//                    alert("保存文章成功");
                     if($scope.saveStateInRevoked1=="true"){
                         $http.put(url).success(function(data) {
                             alert("转草稿箱成功");
@@ -78,7 +78,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.put(url1,jsonString).success(function(data) {
                         $scope.saveStateInRevoked1=data;
-                        alert("保存文章成功");
+//                        alert("保存文章成功");
                         if($scope.saveStateInRevoked1=="true"){
                             $http.put(url).success(function(data) {
                                 alert("转草稿箱成功");
@@ -97,8 +97,8 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
     $scope.deleteArticleInRevoked=function()
     {
         $scope.coverIt();
-            if (confirm("确定删除选中的文章吗？")==true)
-            {
+//            if (confirm("确定删除选中的文章吗？")==true)
+//            {
                 var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.delete(url).success(function(){
 //                    clearArticleSelections();
@@ -106,7 +106,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                     alert("删除成功");
                     $scope.closeOver();
                 });
-            }
+//            }
     };
 
     //得到字数
