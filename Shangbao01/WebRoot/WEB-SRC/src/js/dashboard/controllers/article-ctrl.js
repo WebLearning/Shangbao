@@ -325,6 +325,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     //上传图片
     $scope.uploadImg=function()
     {
+//        $scope.coverIt();
         document.form_newArticle.action=$scope.projectActionName;
         console.log(document.form_newArticle.action);
         $('#myUploadImgForm').submit();

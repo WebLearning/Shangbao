@@ -51,6 +51,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                 alert("分类不能为空");
                 $scope.closeOver();
             }else if($scope.articleData.channel.length!=0){
+                $scope.articleData.time=new Date();
                 var jsonString1=JSON.stringify($scope.articleData);
                 $http.put(url1,jsonString1).success(function(data) {
                     $scope.saveStateInRevoked1=data;
@@ -72,6 +73,7 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                     $scope.closeOver();
                 }else if($scope.articleData.channel.length!=0){
                     $scope.articleData.content="";
+                    $scope.articleData.time=new Date();
                     $scope.calculateWords();
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.put(url1,jsonString).success(function(data) {

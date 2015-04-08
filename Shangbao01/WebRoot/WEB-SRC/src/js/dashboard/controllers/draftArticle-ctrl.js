@@ -49,6 +49,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 alert("分类不能为空");
                 $scope.closeOver();
             }else if($scope.articleData.channel.length!=0){
+                $scope.articleData.time=new Date();
                 var jsonString1=JSON.stringify($scope.articleData);
                 $http.put(url,jsonString1).success(function(data) {
                     $scope.goDraft();
@@ -64,6 +65,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                     $scope.closeOver();
                 }else if($scope.articleData.channel.length!=0){
                     $scope.articleData.content="";
+                    $scope.articleData.time=new Date();
                     $scope.calculateWords();
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.put(url,jsonString).success(function(data) {
@@ -102,6 +104,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 alert("分类不能为空");
                 $scope.closeOver();
             }else if($scope.articleData.channel.length!=0){
+                $scope.articleData.time=new Date();
                 var jsonString1=JSON.stringify($scope.articleData);
                 $http.put(url1,jsonString1).success(function(data) {
                     $scope.saveStateInDraft1=data;
@@ -123,6 +126,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                     $scope.closeOver();
                 }else if($scope.articleData.channel.length!=0){
                     $scope.articleData.content="";
+                    $scope.articleData.time=new Date();
                     $scope.calculateWords();
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.put(url1,jsonString).success(function(data) {
@@ -156,6 +160,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 alert("分类不能为空");
                 $scope.closeOver();
             }else if($scope.articleData.channel.length!=0){
+                $scope.articleData.time=new Date();
                 var jsonString1=JSON.stringify($scope.articleData);
                 $http.put(url1,jsonString1).success(function(data) {
                     $scope.saveStateInDraft2=data;
@@ -177,6 +182,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                     $scope.closeOver();
                 }else if($scope.articleData.channel.length!=0){
                     $scope.articleData.content="";
+                    $scope.articleData.time=new Date();
                     $scope.calculateWords();
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.put(url1,jsonString).success(function(data) {
@@ -220,6 +226,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                 alert("分类不能为空");
                 $scope.closeOver();
             }else if($scope.articleData.channel.length!=0){
+                $scope.articleData.time=new Date();
                 var jsonString1=JSON.stringify($scope.articleData);
                 $http.put(url1,jsonString1).success(function(data) {
                     $scope.saveStateInDraft3=data;
@@ -242,6 +249,7 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                     alert("分类不能为空");
                     $scope.closeOver();
                 }else if($scope.articleData.channel.length!=0){
+                    $scope.articleData.time=new Date();
                     $scope.articleData.content="";
                     $scope.calculateWords();
                     var jsonString=JSON.stringify($scope.articleData);

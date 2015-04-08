@@ -67,6 +67,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.articleData.channel.length!=0){
+            $scope.articleData.time=new Date();
             var jsonString=JSON.stringify($scope.articleData);
             var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
             $http.put(url1,jsonString).success(function(data){
@@ -90,6 +91,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.articleData.channel.length!=0){
+            $scope.articleData.time=new Date();
             var jsonString=JSON.stringify($scope.articleData);
             var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
             $http.put(url1,jsonString).success(function(data) {
@@ -117,6 +119,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.articleData.channel.length!=0){
+            $scope.articleData.time=new Date();
             var jsonString=JSON.stringify($scope.articleData);
             console.log($scope.articleData);
             var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;
@@ -154,6 +157,7 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.articleData.channel.length!=0){
+            $scope.articleData.time=new Date();
             var jsonString=JSON.stringify($scope.articleData);
             console.log($scope.articleData);
             var url1=$scope.projectName+'/picture/Crawler/1/'+$scope.articleData.id;

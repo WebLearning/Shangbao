@@ -51,6 +51,7 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.articleData.channel.length!=0){
+            $scope.articleData.time=new Date();
             var jsonString=JSON.stringify($scope.articleData);
             $http.put(url1,jsonString).success(function(data) {
                 $scope.saveStateInRevokedPicture1=data;

@@ -48,6 +48,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.articleData.channel.length!=0){
+            $scope.articleData.time=new Date();
             var jsonString=JSON.stringify($scope.articleData);
             //console.log($scope.articleData);
             var url=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
@@ -81,6 +82,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.articleData.channel.length!=0){
+            $scope.articleData.time=new Date();
             var jsonString=JSON.stringify($scope.articleData);
             //console.log($scope.articleData);
             var url1=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
@@ -120,6 +122,7 @@ angular.module("Dashboard").controller("draftPictureViewCtrl", ["$scope","$http"
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.articleData.channel.length!=0){
+            $scope.articleData.time=new Date();
             var jsonString=JSON.stringify($scope.articleData);
             //console.log($scope.articleData);
             var url1=$scope.projectName+'/picture/Temp/1/'+$scope.articleData.id;
