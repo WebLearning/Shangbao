@@ -256,9 +256,20 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     //上传图片
     $scope.uploadImg=function()
     {
+        $scope.coverIt();
         document.form_publishedPicture.action=$scope.projectActionName;
         $('#myPictureUploadImgForm_published').submit();
         $scope.enableConfirmButton();
+        $scope.upUrl=document.getElementById("myPictureIFrameID_published").contentDocument.body.innerHTML;
+        var out=setInterval(f,200);
+        function f(){
+            if($scope.upUrl!=""){
+                $scope.closeOver();
+                clearTimeout(out);
+            }else{
+                $scope.upUrl=document.getElementById("myPictureIFrameID_published").contentDocument.body.innerHTML;
+            }
+        }
     };
 
     //确认按钮的改变（主要）

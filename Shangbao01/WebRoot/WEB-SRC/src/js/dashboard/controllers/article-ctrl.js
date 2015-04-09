@@ -325,11 +325,21 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     //上传图片
     $scope.uploadImg=function()
     {
-//        $scope.coverIt();
+        $scope.coverIt();
         document.form_newArticle.action=$scope.projectActionName;
         console.log(document.form_newArticle.action);
         $('#myUploadImgForm').submit();
         $scope.enableConfirmButton();
+        $scope.upUrl=document.getElementById("myIFrameID").contentDocument.body.innerHTML;
+        var out=setInterval(f,200);
+        function f(){
+            if($scope.upUrl!=""){
+                $scope.closeOver();
+                clearTimeout(out);
+            }else{
+                $scope.upUrl=document.getElementById("myIFrameID").contentDocument.body.innerHTML;
+            }
+        }
     };
 
     //确认按钮的改变（主要）

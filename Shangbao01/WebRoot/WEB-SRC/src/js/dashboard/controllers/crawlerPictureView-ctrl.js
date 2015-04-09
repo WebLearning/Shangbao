@@ -326,9 +326,20 @@ angular.module("Dashboard").controller("crawlerPictureViewCtrl",["$scope","$http
     //上传图片
     $scope.uploadImg=function()
     {
+        $scope.coverIt();
         document.form_crawlerPicture.action=$scope.projectPicActionName;
         $('#myPictureUploadImgForm_crawler').submit();
         $scope.enableConfirmButton();
+        $scope.upUrl=document.getElementById("myPictureIFrameID_crawler").contentDocument.body.innerHTML;
+        var out=setInterval(f,200);
+        function f(){
+            if($scope.upUrl!=""){
+                $scope.closeOver();
+                clearTimeout(out);
+            }else{
+                $scope.upUrl=document.getElementById("myPictureIFrameID_crawler").contentDocument.body.innerHTML;
+            }
+        }
     };
 
     //确认按钮的改变（主要）

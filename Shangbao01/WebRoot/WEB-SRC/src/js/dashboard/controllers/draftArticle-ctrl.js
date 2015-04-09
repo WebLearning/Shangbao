@@ -402,9 +402,20 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
     //上传图片
     $scope.uploadImg=function()
     {
+        $scope.coverIt();
         document.form_draft.action=$scope.projectActionName;
         $('#myUploadImgForm_draft').submit();
         $scope.enableConfirmButton();
+        $scope.upUrl=document.getElementById("myIFrameID_draft").contentDocument.body.innerHTML;
+        var out=setInterval(f,200);
+        function f(){
+            if($scope.upUrl!=""){
+                $scope.closeOver();
+                clearTimeout(out);
+            }else{
+                $scope.upUrl=document.getElementById("myIFrameID_draft").contentDocument.body.innerHTML;
+            }
+        }
     };
 
     //确认按钮的改变（主要）
