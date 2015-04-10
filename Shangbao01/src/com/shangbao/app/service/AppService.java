@@ -462,9 +462,9 @@ public class AppService {
 			String duxq = "<div ng-app=\"\" ng-controller=\"readAndZanCtrl\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读{{clickNum}} &nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"zanAdd(zanNum,pictureUrl)\"><img alt=\"\" src={{pictureUrl}}>{{zanNum}}</a></div></div>";
 			StringBuilder html = new StringBuilder();
 			html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"zh-CN\"><head profile=\"http://gmpg.org/xfn/11\"> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><meta name=\"viewport\" content=\"width=device-width\" /> <title>");
-			html.append(article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/" + css + "\" type=\"text/css\" /> <script src=\"" + localhostString + "/WEB-SRC/src/js/angular.min.js\"></script> <script src=\"" + localhostString + "/WEB-SRC/click.js\"></script>");
+			html.append(article.getTitle().replace("\\n", "") +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/" + css + "\" type=\"text/css\" /> <script src=\"" + localhostString + "/WEB-SRC/src/js/angular.min.js\"></script> <script src=\"" + localhostString + "/WEB-SRC/click.js\"></script>");
 			html.append("</head><body class=\"classic-wptouch-bg\"> " +  " <input type=\"hidden\" name=\"id\" value=" + article.getId() + "/> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">");
-			html.append(article.getTitle() + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">");
+			html.append(article.getTitle().replace("\\n", "<br/>") + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">");
 			html.append((article.getAuthor() == null ? "" : article.getAuthor()) + "&nbsp&nbsp" + (article.getTime() == null ? "" : format.format(article.getTime())));
 			html.append("</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">");
 			html.append(addHerf(article.getContent()));

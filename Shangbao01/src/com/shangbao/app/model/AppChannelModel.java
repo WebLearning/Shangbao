@@ -72,7 +72,7 @@ public class AppChannelModel {
 		public AppTitle(){	
 		}
 		public AppTitle(Article article, Integer id){
-			this.title = article.getTitle();
+			this.title = article.getTitle().replace("\\n", "\n");
 			this.author = article.getAuthor();
 			//this.picUrl = article.getPicturesUrl();
 			if(article.getPicturesUrl() != null && !article.getPicturesUrl().isEmpty()){

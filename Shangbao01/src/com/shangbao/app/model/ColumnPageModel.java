@@ -58,7 +58,7 @@ public class ColumnPageModel {
 		}
 		
 		public NewsTitle(Article article, Integer indexId, Long newsId){
-			this.title = article.getTitle();
+			this.title = article.getTitle().replace("\\n", "\n");
 			this.author = article.getAuthor();
 			//this.picUrl = article.getPicturesUrl();
 			if(article.getPicturesUrl() != null && !article.getPicturesUrl().isEmpty()){
