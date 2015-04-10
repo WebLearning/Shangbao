@@ -21,7 +21,6 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -220,20 +219,20 @@ public class AppUserController {
 			}
 			if(!userServiceImp.updatePasswd(user, oldPasswd, newPasswd)){
 				model.setResultCode(0);
-				model.setResultMsg("OldPasswd error");
+				model.setResultMsg("密码错误");
 				return model;
 			}
 			if(!userIdentifyService.updateUser(updateUser)){
 				model.setResultCode(0);
-				model.setResultMsg("Very Bad Thing");
+				model.setResultMsg("修改失败，请重试");
 				return model;
 			}
 			model.setResultCode(1);
-			model.setResultMsg("SUCCESS");
+			model.setResultMsg("修改成功");
 			return model;
 		}
 		model.setResultCode(0);
-		model.setResultMsg("Param error");
+		model.setResultMsg("未登录");
 		return model;
 	}
 	

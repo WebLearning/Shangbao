@@ -76,11 +76,13 @@ public class ColumnPageModel {
 				}
 			}
 			this.summary = article.getSummary();
-			this.time = article.getTime();
+			this.time = article.getTime() == null ? new Date() : article.getTime();
 			if(article.getOutSideUrl() == null || article.getOutSideUrl().isEmpty()){
-				this.clicks = article.getJs_clicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
+//				this.clicks = article.getJs_clicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
+				this.clicks = article.getJs_clicks();
 			}else{
-				this.clicks = article.getClicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
+//				this.clicks = article.getClicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
+				this.clicks = article.getClicks();
 			}
 			this.indexId = indexId;
 			this.newsId = newsId;

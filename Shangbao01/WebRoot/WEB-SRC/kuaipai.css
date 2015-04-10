@@ -1182,11 +1182,12 @@ a.sh2 {
 }
 
 #singlentry {
-	line-height: 150%;
 	color: #333;
 	display: block;
 	overflow: hidden;
-	font-size: 15px;
+	font: 20px Helvetica;
+	font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", sans-serif;
+	line-height: 30px;
 }
 
 #singlentry p{

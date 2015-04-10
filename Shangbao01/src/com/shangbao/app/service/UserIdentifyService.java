@@ -253,7 +253,7 @@ public class UserIdentifyService {
 	}
 	
 	public String identifyUserPhone(String userPhone){
-		int code = (int)(Math.random() * 1000000);
+		int code = (int)((Math.random()*9 + 1) * 100000);
 		String content = code + " 请不要把验证码泄露给其他人，如非本人操作，可不用理会！ 【成都商报】";
 		String responseCode = messageService.mt(userPhone, content, "", "", code + "");
 		if(responseCode.equals(code + "")){

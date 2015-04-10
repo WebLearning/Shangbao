@@ -7,7 +7,9 @@ import java.util.List;
 
 
 
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,8 +20,10 @@ public class User implements UserDetails {
 	@Id
 	private Long id;
 	private Long uid;
+	@Indexed
 	private String name;
 	private String passwd;
+	@Indexed
 	private String phone;
 	private String avatar;//头像
 	private String email;

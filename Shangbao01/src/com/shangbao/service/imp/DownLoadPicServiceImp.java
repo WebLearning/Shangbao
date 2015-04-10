@@ -173,9 +173,9 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 					}
 				}
 				List<String> localUrls = downloadPic(urls);
-				for(String urlString : localUrls){
-					System.out.println(urlString);
-				}
+//				for(String urlString : localUrls){
+//					System.out.println(urlString);
+//				}
 				Article article = new Article();
 				article.setUid(Long.parseLong(title.uid));
 				article.setPicturesUrl(localUrls);
@@ -184,6 +184,11 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 				article.setTag(true);//是图片新闻
 				article.setState(ArticleState.Crawler);
 				article.setAuthor(title.nickname);
+				StringBuilder content = new StringBuilder();
+				for(String picUrl : localUrls){
+					content.append("<p style=\"text-align:center\"><img src=\"" + picUrl + "\"/></p>");
+				}
+				article.setContent(content.toString());
 				articleServiceImp.add(article);
 			}
 		}

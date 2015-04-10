@@ -666,8 +666,8 @@ public class AppModel {
 				}
 				update.set("js_clicks", articleMap.get(articleId).getJs_clicks());
 				articleDaoImp.update(criteriaArticle, update);
-				return article.getJs_clicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
-				//return articleMap.get(articleId).getJs_clicks();
+				//return article.getJs_clicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
+				return articleMap.get(articleId).getJs_clicks();
 			}
 		}finally{
 			articleMapLock.readLock().unlock();
@@ -681,8 +681,8 @@ public class AppModel {
 			Article article;
 			if((article = articleMap.get(articleId)) != null){
 				int returnNum = article.getJs_clicks() * 100 + (int)((new Date().getTime() - article.getTime().getTime())/60000);
-				return returnNum;
-				//return articleMap.get(articleId).getJs_clicks();
+//				return returnNum;
+				return articleMap.get(articleId).getJs_clicks();
 			}
 		}finally{
 			articleMapLock.readLock().unlock();
@@ -693,13 +693,13 @@ public class AppModel {
 	public void postPictures(Article pictureArticle){
 		pictureArticle.setTag(true);
 		pictureArticle.addChannel("快拍PK");
-		String content = "";
+		StringBuilder content = new StringBuilder();
 		if(!pictureArticle.getPicturesUrl().isEmpty()){
 			for(String url : pictureArticle.getPicturesUrl()){
-				content = "<p style=\"text-align:center\"><img src=\"" + url + "\"/></p>";
+				content.append("<p style=\"text-align:center\"><img src=\"" + url + "\"/></p>");
 			}
 		}
-		pictureArticle.setContent(content);
+		pictureArticle.setContent(content.toString());
 		pictureArticle.setState(ArticleState.Published);
 		articleDaoImp.insert(pictureArticle);
 	}

@@ -52,6 +52,7 @@ import com.shangbao.app.model.ColumnPageModel;
 import com.shangbao.app.model.CommentPageModel;
 import com.shangbao.app.model.FrontPageModel;
 import com.shangbao.app.service.AppService;
+import com.shangbao.model.PhoneInfo;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.User;
 import com.shangbao.model.show.SingleCommend;
@@ -76,11 +77,34 @@ public class AppController {
 	@Resource
 	private ReadLogService readLogServiceImp;
 	
-	@RequestMapping(value="/addUser", method=RequestMethod.POST)
+	@RequestMapping(value="/phoneinfo", method=RequestMethod.POST)
 	@ResponseBody
-	public String testPost(@RequestParam("phone") String phone, @RequestParam("psw") String psw){
-		System.out.println(phone);
-		return "get it";
+	public PhoneInfo getPhonInfo(@RequestBody PhoneInfo phoneinfo, HttpServletResponse response){
+		if(phoneinfo.getUdid() != null){
+			Cookie cookie = new Cookie("UDID", phoneinfo.getUdid());
+			cookie.setPath("/");
+			response.addCookie(cookie);
+			phoneinfo.setMessage("SUCCESS");
+			return phoneinfo;
+		}else{
+			PhoneInfo returnInfo = new PhoneInfo();
+			returnInfo.setMessage("UDID IS EMPTY");
+			return returnInfo;
+		}
+	}
+	
+	@RequestMapping(value="/phoneinfo/test", method=RequestMethod.GET)
+	@ResponseBody
+	public String testDomain(HttpServletResponse response){
+		Cookie cookie = new Cookie("UDID", "sdfsdfsdfsdfdsfds");
+		//cookie.setPath("/");
+		cookie.setDomain(".baidu.com");
+		cookie.setMaxAge(99999999);
+		response.addCookie(cookie);
+		Cookie cookie2 = new Cookie("ttt", "sdfsdfdsf");
+		cookie2.setMaxAge(99999999);
+		response.addCookie(cookie2);
+		return "Success";
 	}
 	
 	/**

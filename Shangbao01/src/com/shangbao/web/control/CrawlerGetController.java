@@ -199,16 +199,16 @@ public class CrawlerGetController {
 	private String stringToBody(Article article){
 		String body = "";
 		if(article.getSummary() != null && !article.getSummary().isEmpty()){
-			body += "<p style=\"text-indent: 2em;\"><em>" + article.getSummary() + "</em></p>"; 
+			body += "<p style=\"text-indent:\"><em>" + article.getSummary() + "</em></p>"; 
 		}
 		if(article.getContent() != null && !article.getContent().isEmpty()){
 			List<String> pictureUrls = article.getPicturesUrl();
 			if(pictureUrls != null && !pictureUrls.isEmpty()){
-				body += "<p style=\"text-align: center;\"><img src=" + pictureUrls.get(0) + " width=\"330\" height=\"220\"></p>";
+				body += "<p style=\"text-align: center;\"><img src=" + pictureUrls.get(0) + " width=\"330\"></p>";
 			}
 			String [] parms = article.getContent().split("\n");
 			for(String parm : parms){
-				body += "<p style=\"text-indent: 2em;\">" + parm + "</p>";
+				body += "<p style=\"text-indent:\">" + parm + "</p>";
 			}
 		}
 		return body;

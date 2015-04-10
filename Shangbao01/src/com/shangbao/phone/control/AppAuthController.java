@@ -67,10 +67,10 @@ public class AppAuthController {
 		}
 		if(userDetails != null){
 			appResponseModel.setResultCode(1);
-			appResponseModel.setResultMsg("Login Success");
+			appResponseModel.setResultMsg("登录成功");
 		}else{
 			appResponseModel.setResultCode(0);
-			appResponseModel.setResultMsg("Login Failed");
+			appResponseModel.setResultMsg("登录失败");
 		}
 		return appResponseModel;
 	}
@@ -82,11 +82,15 @@ public class AppAuthController {
 	 */
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	@ResponseBody
-	public AppResponseModel register(@RequestBody User user){
+	public AppResponseModel register(@RequestBody User user, HttpServletRequest request){
 		AppResponseModel appResponseModel = new AppResponseModel();
+		String phoneNum = (String)request.getSession().getAttribute("PHONE_NUM");
 		if(user.getPhone() == null){
 			appResponseModel.setResultCode(0);
-			appResponseModel.setResultMsg("Null Phone Num");
+			appResponseModel.setResultMsg("手机号不能为空");
+		}else if(!user.getPhone().equals(phoneNum)){
+			appResponseModel.setResultCode(0);
+			appResponseModel.setResultMsg("手机号与接收验证码手机不同");
 		}else{
 			User criteriaUser = new User();
 			criteriaUser.setPhone(user.getPhone());
@@ -96,18 +100,18 @@ public class AppAuthController {
 				if(userServiceImp.findOne(criteriaUser2) == null){
 					if(userIdentifyService.addUser(user)){
 						appResponseModel.setResultCode(1);
-						appResponseModel.setResultMsg("Register Success");
+						appResponseModel.setResultMsg("注册成功");
 					}else{
 						appResponseModel.setResultCode(0);
-						appResponseModel.setResultMsg("Register Failed");
+						appResponseModel.setResultMsg("注册失败");
 					}
 				}else{
 					appResponseModel.setResultCode(0);
-					appResponseModel.setResultMsg("Name Rejisted");
+					appResponseModel.setResultMsg("用户名已注册");
 				}
 			}else{
 				appResponseModel.setResultCode(0);
-				appResponseModel.setResultMsg("Phone Num Rejisted");
+				appResponseModel.setResultMsg("手机号已注册");
 			}
 		}
 		return appResponseModel;
@@ -126,13 +130,17 @@ public class AppAuthController {
 	public AppResponseModel registerSession(@RequestBody User user, HttpServletRequest request, @PathVariable("phonetext") String phoneText){
 		AppResponseModel appResponseModel = new AppResponseModel();
 		String text = (String)request.getSession().getAttribute("PHONE_TEXT");
+		String phoneNum = (String)request.getSession().getAttribute("PHONE_NUM");
 		if(!text.equals(phoneText)){
 			appResponseModel.setResultCode(0);
-			appResponseModel.setResultMsg("Wrong code");
+			appResponseModel.setResultMsg("验证码不正确");
 		}else{
 			if(user.getPhone() == null){
 				appResponseModel.setResultCode(0);
-				appResponseModel.setResultMsg("Null Phone Num");
+				appResponseModel.setResultMsg("手机号为空");
+			}else if(!user.getPhone().equals(phoneNum)){
+				appResponseModel.setResultCode(0);
+				appResponseModel.setResultMsg("手机号与接收验证码手机不同");
 			}else{
 				User criteriaUser = new User();
 				criteriaUser.setPhone(user.getPhone());
@@ -142,18 +150,18 @@ public class AppAuthController {
 					if(userServiceImp.findOne(criteriaUser2) == null){
 						if(userIdentifyService.addUser(user)){
 							appResponseModel.setResultCode(1);
-							appResponseModel.setResultMsg("Register Success");
+							appResponseModel.setResultMsg("注册成功");
 						}else{
 							appResponseModel.setResultCode(0);
-							appResponseModel.setResultMsg("Register Failed");
+							appResponseModel.setResultMsg("注册失败");
 						}
 					}else{
 						appResponseModel.setResultCode(0);
-						appResponseModel.setResultMsg("Name Rejisted");
+						appResponseModel.setResultMsg("用户名已注册");
 					}
 				}else{
 					appResponseModel.setResultCode(0);
-					appResponseModel.setResultMsg("Phone Num Rejisted");
+					appResponseModel.setResultMsg("手机号已注册");
 				}
 			}
 		}
@@ -199,12 +207,13 @@ public class AppAuthController {
 		User user = userServiceImp.findOne(criteriaUser);
 		if(user != null){
 			appResponseModel.setResultCode(0);
-			appResponseModel.setResultMsg("Phone has been rejisted");
+			appResponseModel.setResultMsg("手机号已注册");
 			return appResponseModel;
 		}
 		String code = userIdentifyService.identifyUserPhone(phoneNum);
 		if(code != null){
 			request.getSession().setAttribute("PHONE_TEXT", code);
+			request.getSession().setAttribute("PHONE_NUM", phoneNum);
 			appResponseModel.setResultCode(1);
 			appResponseModel.setResultMsg(code);
 		}
@@ -226,10 +235,10 @@ public class AppAuthController {
 			request.getSession().setAttribute("PHONE_TEXT", code);
 			request.getSession().setAttribute("PHONE_NUM", phoneNum);
 			appResponseModel.setResultCode(1);
-			appResponseModel.setResultMsg("message sended");
+			appResponseModel.setResultMsg("验证码已发送");
 		}else{
 			appResponseModel.setResultCode(0);
-			appResponseModel.setResultMsg("error");
+			appResponseModel.setResultMsg("请重试");
 		}
 		return appResponseModel;
 	}
@@ -254,7 +263,7 @@ public class AppAuthController {
 				User user = userServiceImp.findOne(criteriaUser);
 				if(user == null){
 					appResponseModel.setResultCode(0);
-					appResponseModel.setResultMsg("User Not Found");
+					appResponseModel.setResultMsg("用户不存在");
 					request.getSession().removeAttribute("PHONE_TEXT");
 					request.getSession().removeAttribute("PHONE_NUM");
 					return appResponseModel;
@@ -263,28 +272,28 @@ public class AppAuthController {
 					if(userIdentifyService.updateUser(user)){
 						userServiceImp.updatePasswd(user, user.getPasswd(), passwordEncoder.encodePassword(passwdModel.getNewPasswd(), null));
 						appResponseModel.setResultCode(1);
-						appResponseModel.setResultMsg("SUCCESS");
+						appResponseModel.setResultMsg("成功");
 					}else{
 						appResponseModel.setResultCode(0);
-						appResponseModel.setResultMsg("ERROR");
+						appResponseModel.setResultMsg("错误");
 					}
 				}
 			}else{
 				appResponseModel.setResultCode(0);
-				appResponseModel.setResultMsg("wrong identify code");
+				appResponseModel.setResultMsg("验证码错误");
 				request.getSession().removeAttribute("PHONE_TEXT");
 				request.getSession().removeAttribute("PHONE_NUM");
 			}
 		}else{
 			appResponseModel.setResultCode(0);
 			if(phoneNum == null){
-				appResponseModel.setResultMsg("phone num empty");
+				appResponseModel.setResultMsg("手机号不能为空");
 			}
 			if(passwdModel.getNewPasswd() == null){
-				appResponseModel.setResultMsg("new passwd empty");
+				appResponseModel.setResultMsg("密码不能为空");
 			}
 			if(passwdModel.getOldPasswd() == null){
-				appResponseModel.setResultMsg("identify num empty");
+				appResponseModel.setResultMsg("验证码不能为空");
 			}
 			//appResponseModel.setResultMsg("param error");
 			request.getSession().removeAttribute("PHONE_TEXT");

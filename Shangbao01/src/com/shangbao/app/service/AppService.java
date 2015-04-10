@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -83,9 +85,17 @@ public class AppService {
 					return appChannelModel;
 				}
 				for(Channel sonChannel : sonChannels){
-//					if(channelEnName.equals("kuaipai") && !sonChannel.getChannelName().startsWith("#")){
-//						continue;
-//					}
+					if(sonChannel.getChannelName().equals("爬虫新闻") || sonChannel.getChannelName().equals("本地")){
+						List<Article> articles = appModel.getAppMap().get(sonChannel.getChannelName());
+						if(articles != null){
+							if(20 >= articles.size()){
+								appChannelModel.addColumn(sonChannel.getChannelName(), sonChannel.getEnglishName(), articles.subList(0, articles.size()));
+							}else{
+								appChannelModel.addColumn(sonChannel.getChannelName(), sonChannel.getEnglishName(), articles.subList(0, 20));
+							}
+						}
+						continue;
+					}
 					List<Article> articles = appModel.getAppMap().get(sonChannel.getChannelName());
 					if(articles != null){
 						if(titleSize >= articles.size()){
@@ -167,14 +177,14 @@ public class AppService {
 			}else{
 				Article articleInMongo = articleServiceImp.findOne(articleId);
 				if(articleInMongo != null){
-					appModel.getArticleMap().put(articleId, articleInMongo);
+					//appModel.getArticleMap().put(articleId, articleInMongo);
 					//appHtml.html = articleInMongo.getContent();
 					appHtml.html = articleToHtml(articleInMongo);
 //					appHtml.articleId = articleId;
 //					Update update = new Update();
 //					update.inc("clicks", 1);
 //					articleDaoImp.update(articleInMongo, update);
-					appModel.addClick(articleId);
+					//appModel.addClick(articleId);
 					return appHtml;
 				}
 			}
@@ -450,27 +460,40 @@ public class AppService {
 			}
 			SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd");
 			String duxq = "<div ng-app=\"\" ng-controller=\"readAndZanCtrl\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读{{clickNum}} &nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"zanAdd(zanNum,pictureUrl)\"><img alt=\"\" src={{pictureUrl}}>{{zanNum}}</a></div></div>";
-			String html = "";
-			html += "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"zh-CN\"><head profile=\"http://gmpg.org/xfn/11\"> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /> <title>";
-			html += article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/" + css + "\" type=\"text/css\" /> <script src=\"" + localhostString + "/WEB-SRC/src/js/angular.min.js\"></script> <script src=\"" + localhostString + "/WEB-SRC/click.js\"></script>";
-			html += "</head><body class=\"classic-wptouch-bg\"> " +  " <input type=\"hidden\" name=\"id\" value=" + article.getId() + "/> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">";
-			html += article.getTitle() + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">";
-			html += (article.getAuthor() == null ? "" : article.getAuthor()) + "&nbsp&nbsp" + (article.getTime() == null ? "" : format.format(article.getTime()));
-			html += "</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">";
-			html += article.getContent();
-			html += "<p>&nbsp;</p> " + duxq + "</div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>";
+			StringBuilder html = new StringBuilder();
+			html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"zh-CN\"><head profile=\"http://gmpg.org/xfn/11\"> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><meta name=\"viewport\" content=\"width=device-width\" /> <title>");
+			html.append(article.getTitle() +"  | 成都商报新闻客户端</title>" + "<link rel=\"stylesheet\" href=\"" + localhostString + "/WEB-SRC/" + css + "\" type=\"text/css\" /> <script src=\"" + localhostString + "/WEB-SRC/src/js/angular.min.js\"></script> <script src=\"" + localhostString + "/WEB-SRC/click.js\"></script>");
+			html.append("</head><body class=\"classic-wptouch-bg\"> " +  " <input type=\"hidden\" name=\"id\" value=" + article.getId() + "/> <div class=\"content single\"> <div class=\"post\"> <a class=\"sh2\">");
+			html.append(article.getTitle() + "</a><div style=\"font-size:15px; padding: 5px 0;\"></div><div class=\"single-post-meta-top\">");
+			html.append((article.getAuthor() == null ? "" : article.getAuthor()) + "&nbsp&nbsp" + (article.getTime() == null ? "" : format.format(article.getTime())));
+			html.append("</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"left-justified\">");
+			html.append(addHerf(article.getContent()));
+			html.append("<p>&nbsp;</p> " + duxq + "</div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>");
 //			html = "<html><head><title>MyHtml.html</title><meta charset=\"utf-8\"><script src=\"" + "http://202.115.17.218:8080/Shangbao01" + "/WEB-SRC/src/js/angular.min.js\"></script><script src=\"" + "http://202.115.17.218:8080/Shangbao01" + "/WEB-SRC/click.js\"></script></head><body><div ng-app=\"readAndZan\" ng-controller=\"readAndZanCtrl\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读{{clickNum}} &nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"zanAdd(zanNum,pictureUrl)\"><img alt=\"\" src={{pictureUrl}}>{{zanNum}}</a></div></div></body></html>";
-			return html;
+			return html.toString();
 		}else{
 			//是外联文章
-			String html = "";
-			html += "<html><head><title></title></head><body>";
-			html += "<script language=\"javascript\">document.location = \"";
-			html +=	(article.getOutSideUrl().startsWith("http://") || article.getOutSideUrl().startsWith("https://")) ? article.getOutSideUrl() : ("http://" + article.getOutSideUrl());
-			html += "\"</script></body></html>";
-			System.out.println(html);
-			return html;
+			StringBuilder html = new StringBuilder();
+			html.append("<html><head><title></title></head><body>");
+			html.append("<script language=\"javascript\">document.location = \"");
+			html.append((article.getOutSideUrl().startsWith("http://") || article.getOutSideUrl().startsWith("https://")) ? article.getOutSideUrl() : ("http://" + article.getOutSideUrl()));
+			html.append("\"</script></body></html>");
+			//System.out.println(html);
+			return html.toString();
 		}
+	}
+	
+	private String addHerf(String content){
+		StringBuilder sBuilder = new StringBuilder(content);
+		Pattern pat = Pattern.compile("(?:<img.*?src=)((\".*?\")*)(?:[^>]*?>)");  
+		Matcher matcher = pat.matcher(sBuilder);
+		while(matcher.find()){
+			StringBuilder img = new StringBuilder(matcher.group());
+			StringBuilder src = new StringBuilder(matcher.group(1));
+			StringBuilder replaceString = new StringBuilder("<a href=" + src + ">" + img + "</a>");
+			content = content.replace(img, replaceString);
+		}
+		return content;
 	}
 
 	/**

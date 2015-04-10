@@ -25,6 +25,7 @@ import com.shangbao.model.show.TitleList;
 import com.shangbao.service.ArticleService;
 import com.shangbao.service.ChannelService;
 import com.shangbao.service.CommendService;
+import com.shangbao.service.ImageService;
 import com.shangbao.service.PendTagService;
 
 @Service
@@ -38,6 +39,8 @@ public class ArticleServiceImp implements ArticleService {
 	private ChannelService channelServiceImp;
 	@Resource
 	private CommendService commendServiceImp;
+	@Resource
+	private ImageService imageServiceImp;
 	
 	public ArticleDao getArticleDaoImp() {
 		return articleDaoImp;
@@ -414,6 +417,7 @@ public class ArticleServiceImp implements ArticleService {
 					commend.setArticleId(id);
 					commendServiceImp.delete(commend);
 				}
+				
 			}
 		}
 	}

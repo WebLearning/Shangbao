@@ -102,6 +102,38 @@ public class ChannelController {
 		return this.channelServiceImp.addChannel(channel);
 	}
 	
+	@RequestMapping(value="/admin/addall", method = RequestMethod.GET)
+	@ResponseBody
+	public String finalAddChannels(){
+		if(channelServiceImp.findAllFatherChannels() == null || channelServiceImp.findAllFatherChannels().isEmpty()){
+			Channel channel1 = new Channel();
+			channel1.setChannelName("爬虫");
+			channel1.setEnglishName("pacong");
+			channel1.setState(ChannelState.Father);
+			channelServiceImp.addChannel(channel1);
+			Channel channel2 = new Channel();
+			channel2.setChannelName("要闻");
+			channel2.setEnglishName("yaowen");
+			channel2.setState(ChannelState.Father);
+			channelServiceImp.addChannel(channel2);
+			Channel channel3 = new Channel();
+			channel3.setChannelName("投诉");
+			channel3.setEnglishName("tousu");
+			channel3.setState(ChannelState.Father);
+			channelServiceImp.addChannel(channel3);
+			Channel channel4 = new Channel();
+			channel4.setChannelName("活动");
+			channel4.setEnglishName("huodong");
+			channel4.setState(ChannelState.Father);
+			channelServiceImp.addChannel(channel4);
+			Channel channel5 = new Channel();
+			channel5.setChannelName("快拍");
+			channel5.setEnglishName("kuaipai");
+			channel5.setState(ChannelState.Father);
+			channelServiceImp.addChannel(channel5);
+		}
+		return "OK";
+	}
 	
 	
 	/**
