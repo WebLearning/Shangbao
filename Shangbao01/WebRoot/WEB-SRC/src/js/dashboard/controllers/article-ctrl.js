@@ -28,6 +28,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
                 alert("分类不能为空");
                 $scope.closeOver();
             }else if($scope.newArticleData.channel.length!=0){
+                $scope.newArticleData.time=new Date();
                 var jsonString=JSON.stringify($scope.newArticleData);
                 $http.post($scope.projectName+'/article/newArticle',jsonString).success(function(data) {
                     alert("保存文章成功");
@@ -43,6 +44,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
                     $scope.closeOver();
                 }else if($scope.newArticleData.channel.length!=0){
                     $scope.newArticleData.content="";
+                    $scope.newArticleData.time=new Date();
                     $scope.calculateWords();
                     var jsonString1=JSON.stringify($scope.newArticleData);
                     $http.post($scope.projectName+'/article/newArticle',jsonString1).success(function(data) {
@@ -68,6 +70,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
                 alert("分类不能为空");
                 $scope.closeOver();
             }else if($scope.newArticleData.channel.length!=0){
+                $scope.newArticleData.time=new Date();
                 var jsonString=JSON.stringify($scope.newArticleData);
                 $http.post(url,jsonString).success(function(){
                     alert("提交审核成功！");
@@ -83,6 +86,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
                     $scope.closeOver();
                 }else if($scope.newArticleData.channel.length!=0){
                     $scope.newArticleData.content="";
+                    $scope.newArticleData.time=new Date();
                     $scope.calculateWords();
                     var jsonString1=JSON.stringify($scope.newArticleData);
                     $http.post(url,jsonString1).success(function(){
@@ -107,7 +111,9 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
                 alert("分类不能为空");
                 $scope.closeOver();
             }else if($scope.newArticleData.channel.length!=0){
+                $scope.newArticleData.time=new Date();
                 var jsonString=JSON.stringify($scope.newArticleData);
+//                jsonString=eval('('+jsonString+')');
                 console.log(jsonString);
                 $http.post(url,jsonString).success(function(){
                     alert("发送成功！");
@@ -122,6 +128,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
                     alert("分类不能为空");
                     $scope.closeOver();
                 }else if($scope.newArticleData.channel.length!=0){
+                    $scope.newArticleData.time=new Date();
                     $scope.newArticleData.content="";
                     $scope.calculateWords();
                     var jsonString1=JSON.stringify($scope.newArticleData);
@@ -159,6 +166,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
                 alert("分类不能为空");
                 $scope.closeOver();
             }else if($scope.newArticleData.channel.length!=0){
+                $scope.newArticleData.time=new Date();
                 var jsonString=JSON.stringify($scope.newArticleData);
                 console.log(url);
                 $http.post(url,jsonString).success(function(){
@@ -175,6 +183,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
                     alert("分类不能为空");
                     $scope.closeOver();
                 }else if($scope.newArticleData.channel.length!=0){
+                    $scope.newArticleData.time=new Date();
                     $scope.newArticleData.content="";
                     $scope.calculateWords();
                     var jsonString1=JSON.stringify($scope.newArticleData);
@@ -255,10 +264,43 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
             $('#myModal_addChannel').modal('toggle');
         }
     };
+    function test(str){
+
+//        var tc = document.getElementById("newArticle_textarea");
+//        var tc=document.getElementById("newArticle_ueditor");
+//        var tclen = $scope.newArticleData.content.length;
+//        tc.focus();
+        UE.getEditor('newArticle_ueditor').focus();
+        UE.getEditor('newArticle_ueditor').execCommand('inserthtml',str);
+//        if(typeof document.selection != "undefined")
+//        {
+//            document.selection.createRange().text = str;
+//        }
+//        else
+//        {
+//            $scope.newArticleData.content = $scope.newArticleData.content.substr(0,tc.selectionStart)+str+$scope.newArticleData.content.substring(tc.selectionStart,tclen);
+//        }
+    }
     $scope.addPictureToEditor=function(picUrl){
         //console.log(picUrl);
+//        var funcName='<img src="'+picUrl+'">';
+//        var funcName=picUrl;
+//        UE.getEditor('newArticle_editor').setContent('{'+picUrl+'}',true);
+//        UE.getEditor('editor').setContent('{'+picUrl+'}',true);
+//        UE.getEditor('editor').focus();
+//        UE.getEditor('editor').execCommand('inserthtml','{'+picUrl+'}');
         var text='<img src="'+picUrl+'">';
-        $scope.newArticleData.content=text+$scope.newArticleData.content;
+//        test(text);
+//        function CheckScopeBeforeApply() {
+//            if(!($scope.$phase)) {
+//                $scope.$apply();
+//            }
+//        }
+//        UE.getEditor('newArticle_ueditor').focus();
+//        UE.getEditor('newArticle_ueditor').execCommand('inserthtml',text);
+//        UE.getEditor('newArticle_ueditor').setContent($scope.newArticleData.content+text,true);
+//        setTimeout(function(){ $scope.$apply(); });
+        $scope.newArticleData.content=$scope.newArticleData.content+text;
 //        $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
     //关于上传图片----------------------------------------------------------------------------------------------
@@ -365,7 +407,7 @@ angular.module("Dashboard").controller("articleCtrl", ["$scope","$http", functio
     {
         var url = $scope.getPicUrl();
         $scope.pushPicUrl(url);
-        $scope.addImgToEditorContent(url);
+//        $scope.addImgToEditorContent(url);
         $scope.turnOffUploadModal();
         $scope.deletePreviewFrame();
         $scope.clearIframeContent();

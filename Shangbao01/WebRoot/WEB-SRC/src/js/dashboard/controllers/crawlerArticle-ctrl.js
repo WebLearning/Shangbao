@@ -4,6 +4,21 @@
 
 angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", function ($scope,$http) {
 
+    //设置预览url
+    $scope.setYulanInCrawler=function(id,content){
+        console.log(id);
+        console.log($scope.articleData.id);
+        if(content==""){
+            alert("内容为空，不可预览！");
+            var iFrameElem1 = document.getElementById('iframe_yulanInCrAr');
+            iFrameElem1.src="";
+            $('#yulan_crawlerArticle').modal('toggle');
+        }else{
+            var iFrameElem = document.getElementById('iframe_yulanInCrAr');
+            iFrameElem.src=$scope.projectName+"/app/ios/articledetail/"+id;
+        }
+    };
+
     $scope.backCurCrawler=function(){
         if($scope.crawlerSearchData.content==""||$scope.crawlerSearchData.content==null){
             $scope.getCrawlerData($scope.crawlerData.currentNo);
@@ -327,7 +342,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     $scope.addPictureToEditor=function(picUrl){
         //console.log(picUrl);
         var text='<img src="'+picUrl+'">';
-        $scope.articleData.content=text+$scope.articleData.content;
+        $scope.articleData.content=$scope.articleData.content+text;
 //        $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 
@@ -482,7 +497,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     //添加图片到ueditor内容
     $scope.addImgToEditorContent=function(url){
         var text='<img src="'+url+'">';
-        $scope.articleData.content=text+$scope.articleData.content;
+        $scope.articleData.content=$scope.articleData.content+text;
         $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 

@@ -34,6 +34,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.newArticleData.channel.length!=0){
+            $scope.newArticleData.time=new Date();
             var jsonString=JSON.stringify($scope.newArticleData);
             //console.log(jsonString);
             $http.post($scope.projectName+'/picture/newPicture',jsonString).success(function(data) {
@@ -53,6 +54,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.newArticleData.channel.length!=0){
+            $scope.newArticleData.time=new Date();
             var jsonString=JSON.stringify($scope.newArticleData);
             console.log(jsonString);
             $http.post(url,jsonString).success(function(){
@@ -72,6 +74,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.newArticleData.channel.length!=0){
+            $scope.newArticleData.time=new Date();
             var jsonString=JSON.stringify($scope.newArticleData);
             console.log(jsonString);
             $http.post(url,jsonString).success(function(){
@@ -105,6 +108,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
             alert("分类不能为空");
             $scope.closeOver();
         }else if($scope.newArticleData.channel.length!=0){
+            $scope.newArticleData.time=new Date();
             var jsonString=JSON.stringify($scope.newArticleData);
             $http.post(url,jsonString).success(function(){
 //            alert("定时成功");
@@ -198,7 +202,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     $scope.addPictureToEditor=function(picUrl){
         //console.log(picUrl);
         var text='<img src="'+picUrl+'">';
-        $scope.newArticleData.content=text+$scope.newArticleData.content;
+        $scope.newArticleData.content=$scope.newArticleData.content+text;
 //        $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 
@@ -330,7 +334,7 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
     //添加图片到ueditor内容
     $scope.addImgToEditorContent=function(url){
         var text='<img src="'+url+'">';
-        $scope.newArticleData.content=text+$scope.newArticleData.content;
+        $scope.newArticleData.content=$scope.newArticleData.content+text;
         $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 

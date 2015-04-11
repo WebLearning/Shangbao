@@ -3,6 +3,19 @@
  */
 angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$http",function($scope,$http){
 
+    $scope.setYulanInPubPic=function(id,content){
+        console.log(id);
+        console.log($scope.articleData.id);
+        if(content==""){
+            alert("内容为空，不可预览！");
+            var iFrameElem1 = document.getElementById('iframe_yulanInPubPicAr');
+            iFrameElem1.src="";
+            $('#yulan_publishedPicAr').modal('toggle');
+        }else{
+            var iFrameElem = document.getElementById('iframe_yulanInPubPicAr');
+            iFrameElem.src=$scope.projectName+"/app/ios/articledetail/"+id;
+        }
+    };
     $scope.backCurPublishedPicture=function(){
         if($scope.publishedPictureSearchData.content==""||$scope.publishedPictureSearchData.content==null){
             $scope.getPublishedPictureData($scope.publishedPictureData.currentNo);
@@ -150,7 +163,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     $scope.addPictureToEditor=function(picUrl){
         //console.log(picUrl);
         var text='<img src="'+picUrl+'">';
-        $scope.articleData.content=text+$scope.articleData.content;
+        $scope.articleData.content=$scope.articleData.content+text;
 //        $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 
@@ -320,7 +333,7 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     //添加图片到ueditor内容
     $scope.addImgToEditorContent=function(url){
         var text='<img src="'+url+'">';
-        $scope.articleData.content=text+$scope.articleData.content;
+        $scope.articleData.content=$scope.articleData.content+text;
         $scope.$apply();//相当于刷新一下scope 不然内容加不上
     };
 

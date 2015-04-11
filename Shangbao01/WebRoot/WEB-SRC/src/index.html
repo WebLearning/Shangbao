@@ -479,6 +479,18 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goGeneral()"><span class="glyphicon glyphicon-chevron-left"></span> </button>
                     </div>
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_generalArticle" ng-click="setYulanInGeneral(articleData.id,articleData.content)">预览</button>
+                    </div>
+                    <div class="modal fade" id="yulan_generalArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInGeneralAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
@@ -693,9 +705,9 @@
                             </div>
                             <div class="panel panel-success">
                                 <div class="panel-body">
-                                    <div style="z-index: 1" class="ueditor" ng-model="newArticleData.content" ></div>
+                                    <div style="z-index: 1" class="ueditor" ng-model="newArticleData.content" id="newArticle_ueditor"></div>
                                     <br>
-                                    <textarea class="form-control" rows="5" ng-model="newArticleData.content"></textarea>
+                                    <textarea id="newArticle_textarea" class="form-control" rows="5" ng-model="newArticleData.content"></textarea>
                                 </div>
                             </div>
                             <div class="pull-right">
@@ -895,11 +907,20 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goCrawler()"><span class="glyphicon glyphicon-chevron-left"></span> </button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>
+                    <!--<div class="col-md-2 col-md-offset-2">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>-->
+                    <!--</div>-->
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_crawlerArticle" ng-click="setYulanInCrawler(articleData.id,articleData.content)">预览</button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="testLog()"> test</button>
+                    <div class="modal fade" id="yulan_crawlerArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInCrAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -1200,11 +1221,17 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goPending()"><span class="glyphicon glyphicon-chevron-left"></span> </button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_pendingAr" ng-click="setYulanInPending(articleData.id,articleData.content)">预览</button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="testLog()"> test</button>
+                    <div class="modal fade" id="yulan_pendingAr" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInPeAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -1417,11 +1444,23 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goPublished()"><span class="glyphicon glyphicon-chevron-left"></span> </button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>
+                    <!--<div class="col-md-2 col-md-offset-2">-->
+                        <!--<button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-2 col-md-offset-2">-->
+                        <!--<button type="button" class="btn btn-info" ng-click="testLog()"> test</button>-->
+                    <!--</div>-->
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_publishedArticle" ng-click="setYulanInPublished(articleData.id,articleData.content)">预览</button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="testLog()"> test</button>
+                    <div class="modal fade" id="yulan_publishedArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInPubAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -1823,11 +1862,17 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goRevoked()"><span class="glyphicon glyphicon-chevron-left"></span> </button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_revokedAr" ng-click="setYulanInRevoked(articleData.id,articleData.content)">预览</button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="testLog()"> test</button>
+                    <div class="modal fade" id="yulan_revokedAr" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInReAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -2109,11 +2154,17 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goDraft()"><span class="glyphicon glyphicon-chevron-left"></span> </button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_draftAr" ng-click="setYulanInDraft(articleData.id,articleData.content)">预览</button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="testLog()"> test</button>
+                    <div class="modal fade" id="yulan_draftAr" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInDrAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -3153,11 +3204,17 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goCrawlerPicture()"><span class="glyphicon glyphicon-chevron-left"></span> </button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="getEditorContent()">get data</button>
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_crawlerPicAr" ng-click="setYulanInCraPic(articleData.id,articleData.content)">预览</button>
                     </div>
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                    <div class="modal fade" id="yulan_crawlerPicAr" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInCrawlerPicAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -3469,8 +3526,17 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goPendingPicture()"><span class="glyphicon glyphicon-chevron-left"></span></button>
                     </div>
-                    <div class="col-md-2 col-md-offset-5">
-                        <button type="button" class="btn btn-success" ng-click="testLog()">test</button>
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_pendPicAr" ng-click="setYulanInPendPic(articleData.id,articleData.content)">预览</button>
+                    </div>
+                    <div class="modal fade" id="yulan_pendPicAr" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInPendPicAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -3679,6 +3745,18 @@
                 <div class="row">
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-md btn-info" ng-click="goPublishedPicture()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                    </div>
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_publishedPicAr" ng-click="setYulanInPubPic(articleData.id,articleData.content)">预览</button>
+                    </div>
+                    <div class="modal fade" id="yulan_publishedPicAr" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInPubPicAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -4065,6 +4143,18 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goRevokedPicture()"><span class="glyphicon glyphicon-chevron-left"></span></button>
                     </div>
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_revokedPicAr" ng-click="setYulanInRevPic(articleData.id,articleData.content)">预览</button>
+                    </div>
+                    <div class="modal fade" id="yulan_revokedPicAr" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInRevPicAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
@@ -4366,6 +4456,18 @@
                 <div class="row">
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goDraftPicture()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                    </div>
+                    <div class="col-md-2 col-md-offset-6">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_draftPicAr" ng-click="setYulanInDraPic(articleData.id,articleData.content)">预览</button>
+                    </div>
+                    <div class="modal fade" id="yulan_draftPicAr" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <iframe id="iframe_yulanInDraPicAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
