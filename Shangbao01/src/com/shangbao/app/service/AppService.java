@@ -85,7 +85,7 @@ public class AppService {
 					return appChannelModel;
 				}
 				for(Channel sonChannel : sonChannels){
-					if(sonChannel.getChannelName().equals("爬虫新闻") || sonChannel.getChannelName().equals("本地")){
+					if(sonChannel.getChannelName().equals("爬虫滚动") || sonChannel.getChannelName().equals("本地滚动")){
 						List<Article> articles = appModel.getAppMap().get(sonChannel.getChannelName());
 						if(articles != null){
 							if(20 >= articles.size()){
@@ -455,9 +455,9 @@ public class AppService {
 				e.printStackTrace();
 			}
 			String css = "app.css";
-			if(article.isTag()){
-				css = "kuaipai.css";
-			}
+//			if(article.isTag()){
+//				css = "kuaipai.css";
+//			}
 			SimpleDateFormat format = new SimpleDateFormat("yyy-MM-dd");
 			String duxq = "<div ng-app=\"\" ng-controller=\"readAndZanCtrl\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读{{clickNum}} &nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"zanAdd(zanNum,pictureUrl)\"><img alt=\"\" src={{pictureUrl}}>{{zanNum}}</a></div></div>";
 			StringBuilder html = new StringBuilder();
@@ -484,6 +484,9 @@ public class AppService {
 	}
 	
 	private String addHerf(String content){
+		if(content == null){
+			return "";
+		}
 		StringBuilder sBuilder = new StringBuilder(content);
 		Pattern pat = Pattern.compile("(?:<img.*?src=)((\".*?\")*)(?:[^>]*?>)");  
 		Matcher matcher = pat.matcher(sBuilder);

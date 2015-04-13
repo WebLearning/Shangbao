@@ -1,12 +1,23 @@
 package com.shangbao.task;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.shangbao.dao.ArticleDao;
@@ -16,6 +27,7 @@ import com.shangbao.model.ArticleState;
 import com.shangbao.model.persistence.Article;
 import com.shangbao.model.persistence.Channel;
 import com.shangbao.model.persistence.ReadLog;
+import com.shangbao.utils.CompressPicUtils;
 
 @Service
 public class KuaipaiPKTask {
@@ -25,6 +37,10 @@ public class KuaipaiPKTask {
 	private ChannelDao channelDaoImp;
 	@Resource
 	private ArticleDao articleDaoImp;
+	@Resource
+	private MongoTemplate mongoTemplate;
+	@Resource
+	private CompressPicUtils compressPicUtils;
 	
 	private String pkChannelName = "快拍PK";
 	
@@ -40,20 +56,41 @@ public class KuaipaiPKTask {
 		if(channels.isEmpty() || channels == null){
 			return;
 		}
+		
 		//获取当前发布的快拍pk的所有文章
-		Article criteriaArticle = new Article();
-		criteriaArticle.setState(ArticleState.Published);
-		criteriaArticle.addChannel(pkChannelName);
-		List<Article> pkArticles = articleDaoImp.find(criteriaArticle);
+		
+		Calendar calendar = Calendar.getInstance(); //得到日历
+		calendar.setTime(new Date());//把当前时间赋给日历
+		calendar.add(Calendar.DAY_OF_MONTH, -1);  //设置为前一天
+		Date oldDate = calendar.getTime();
+		Query query = new Query();
+		query.addCriteria(Criteria.where("tag").is(true));
+		query.addCriteria(Criteria.where("channel").is("快拍PK"));
+		query.addCriteria(Criteria.where("from").is("商报网友"));
+		query.addCriteria(Criteria.where("state").is(ArticleState.Published));
+		query.addCriteria(Criteria.where("time").gt(oldDate));
+		query.with(new Sort("author"));
+		List<Article> pkArticles = mongoTemplate.find(query, Article.class);
 		if(pkArticles.isEmpty() || pkArticles == null){
 			return;
+		}
+		
+		Article criteriaArticle = new Article();
+		criteriaArticle.setTag(true);
+		criteriaArticle.addChannel("快拍pk");
+		criteriaArticle.setState(ArticleState.Published);
+		List<Article> publishedArticles = articleDaoImp.find(criteriaArticle);
+		for(Article article : publishedArticles){
+			if(article.getChannelIndex().get(pkChannelName) > (Integer.MAX_VALUE / 2)){
+				oldTopArticleIds.add(article.getId());
+			}
 		}
 		//找到今日点赞最多的文章
 		int likes = 0;
 		for(Article article : pkArticles){
-			if(article.getChannelIndex().get(pkChannelName) > (Integer.MAX_VALUE / 2)){
-				oldTopArticleIds.add(article.getId());
-			}
+//			if(article.getChannelIndex().get(pkChannelName) > (Integer.MAX_VALUE / 2)){
+//				oldTopArticleIds.add(article.getId());
+//			}
 			ReadLog criteriaReadLog = new ReadLog();
 			criteriaReadLog.setId(article.getId());
 			List<ReadLog> readLogs = readLogDaoImp.find(criteriaReadLog);
@@ -76,6 +113,34 @@ public class KuaipaiPKTask {
 			//置顶赞最多的文章
 			if(newTopArticleId != null){
 				articleDaoImp.setTopArticle(pkChannelName, newTopArticleId);
+				
+				//画个皇冠
+//				Article topArticle = articleDaoImp.findById(newTopArticleId);
+//				if(topArticle != null){
+//					List<String> picUrls = topArticle.getPicturesUrl();
+//					if(!picUrls.isEmpty() && picUrls != null){
+//						String pic = picUrls.get(0);
+//						String simPic = pic.replace("/mid/", "/sim/");
+//						String simPath = pic.substring(pic.indexOf("picture/"));
+//						String picDicPath = "D:\\apache-tomcat\\webapps\\Shangbao01\\WEB-SRC\\picture";
+//						String waterMark = ".." + File.separator + "webapps" + File.separator + "Shangbao01" + File.separator + "WEB-SRC" + File.separator + "watermark.png";
+//						if(Files.notExists(Paths.get(waterMark))){
+//							return;
+//						}
+//						try {
+//							Properties props = PropertiesLoaderUtils.loadAllProperties("config.properties");
+//							picDicPath = props.getProperty("pictureDir");
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//						simPath.replace("/", File.separator);
+//						String filePath = picDicPath.substring(0, picDicPath.indexOf("picture")) + simPath;
+//						if(Files.exists(Paths.get(filePath))){
+//							compressPicUtils.setWaterMark(new File(filePath), new File(filePath), new File(waterMark), 0.9f);
+//						}
+//					}
+//				}
 			}
 		}
 	}

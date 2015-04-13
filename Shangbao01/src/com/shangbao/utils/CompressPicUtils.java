@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
+
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 
@@ -223,7 +224,7 @@ public class CompressPicUtils {
 					}
 					Thumbnails.of(inputFile)
 					  .size(newWidth, newHeight)
-					  .watermark(Positions.BOTTOM_CENTER, ImageIO.read(waterMark), 0.5f)
+					  .watermark(Positions.TOP_RIGHT, ImageIO.read(waterMark), 0.5f)
 					  .outputQuality(outputQutity)
 					  .toFile(outputFile);
 					return true;
@@ -239,5 +240,27 @@ public class CompressPicUtils {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public boolean setWaterMark(File inputFile, File outputFile, File waterMark, Float outputQuality){
+		if (!inputFile.exists() || !waterMark.exists()) {
+			return false;
+		}
+		Image img;
+		try {
+			img = ImageIO.read(inputFile);
+			if (img.getWidth(null) == -1) {
+				return false;
+			}
+			Thumbnails.of(inputFile)
+					.watermark(Positions.TOP_RIGHT,ImageIO.read(waterMark), 0.9f)
+					.size(img.getWidth(null), img.getHeight(null))
+					.outputQuality(outputQuality)
+					.toFile(outputFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 }

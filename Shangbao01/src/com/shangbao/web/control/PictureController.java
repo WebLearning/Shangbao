@@ -417,7 +417,11 @@ public class PictureController {
 				fos.write(bytes); // 写入文件
 				fos.close();
 				//压缩 800 * ？
-				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathMid + File.separator + fileName), 800, 0, 0.5 ,true);
+				if(fileName.endsWith(".gif")){
+					Files.copy(new File(filePath + File.separator + fileName).toPath(), new File(filePathMid + File.separator + fileName).toPath());
+				}else{
+					compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathMid + File.separator + fileName), 800, 0, 0.8 ,true);
+				}
 				//压缩 200 * 150
 				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathSim + File.separator + fileName), 200, 150, 0.8 ,true);
 				returnString = path.toString().split("Shangbao01")[1] + File.separator + "mid" + File.separator + fileName;

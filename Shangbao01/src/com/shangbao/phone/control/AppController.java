@@ -96,15 +96,11 @@ public class AppController {
 	@RequestMapping(value="/phoneinfo/test", method=RequestMethod.GET)
 	@ResponseBody
 	public String testDomain(HttpServletResponse response){
-		Cookie cookie = new Cookie("UDID", "sdfsdfsdfsdfdsfds");
-		//cookie.setPath("/");
-		cookie.setDomain(".baidu.com");
-		cookie.setMaxAge(99999999);
+		Cookie cookie = new Cookie("kuayu", "OK");
+		cookie.setPath("/");
+		cookie.setDomain("120.27.47.167");
 		response.addCookie(cookie);
-		Cookie cookie2 = new Cookie("ttt", "sdfsdfdsf");
-		cookie2.setMaxAge(99999999);
-		response.addCookie(cookie2);
-		return "Success";
+		return "OK";
 	}
 	
 	/**

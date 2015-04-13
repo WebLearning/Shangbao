@@ -698,6 +698,7 @@ public class AppModel {
 			for(String url : pictureArticle.getPicturesUrl()){
 				content.append("<p style=\"text-align:center\"><img src=\"" + url + "\"/></p>");
 			}
+			content.append("<p style=\"text-indent:\">" + pictureArticle.getSummary() + "</p>");
 		}
 		pictureArticle.setContent(content.toString());
 		pictureArticle.setState(ArticleState.Published);

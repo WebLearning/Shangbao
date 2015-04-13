@@ -78,8 +78,8 @@ public class KuaipaiDSTask {
 				if(! first){
 					articleDaoImp.insert(articleDS);
 					articleDS = new Article();
-					first = false;
 				}
+				first = false;
 				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 				articleDS = new Article();
 				articleDS.setTitle(article.getAuthor() + "在" + format.format(oldDate) + "的图集");

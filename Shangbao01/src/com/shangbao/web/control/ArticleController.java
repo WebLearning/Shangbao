@@ -440,7 +440,12 @@ public class ArticleController {
 				fos.close();
 				//compressPicUtils.compress(new File(filePath + File.separator + fileName), new File(filePathSim + File.separator + fileName), 200, 150, 0.5);
 				//压缩800 * ？
-				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathMid + File.separator + fileName), 800, 0, 0.5, true);
+				if(fileName.endsWith(".gif")){
+					//拷贝成中图
+					Files.copy(new File(filePath + File.separator + fileName).toPath(), new File(filePathMid + File.separator + fileName).toPath());
+				}else{
+					compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathMid + File.separator + fileName), 800, 0, 0.8, true);
+				}
 				//压缩200 * 150
 				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathSim + File.separator + fileName), 200, 150, 0.8, true);
 				returnString = path.toString().split("Shangbao01")[1] + File.separator + "mid"  + File.separator + fileName;
