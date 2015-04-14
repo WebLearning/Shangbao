@@ -643,7 +643,16 @@ public class ArticleDaoImp implements ArticleDao {
 		query.addCriteria(Criteria.where("tag").is(tag));
 		if (state.equals(ArticleState.Crawler) && !tag && words.matches("\\d+")) {
 //			query.addCriteria(new Criteria().andOperator(Criteria.where("level").regex(Pattern.compile("\\d{" + words.length() + "}")), Criteria.where("level").gt(words)));
-			query.addCriteria(Criteria.where("level").gt(words.length() == 1 ? "0" + words : words));
+//			query.addCriteria(Criteria.where("level").gt(words.length() == 1 ? "0" + words : words));
+			if(words.length() == 1){
+//				query.addCriteria(Criteria.where("level").gt)
+			}else if(words.length() == 2){
+				query.addCriteria(Criteria.where("level").gt(words));
+				query.addCriteria(Criteria.where("level").regex(Pattern.compile("\\d{2}")));
+			}else if(words.equals("100")){
+				query.addCriteria(Criteria.where("level").is("100"));
+			}
+			System.out.println(query.getQueryObject());
 		} else {
 			query.addCriteria(new Criteria().orOperator(
 					Criteria.where("content").regex(words),

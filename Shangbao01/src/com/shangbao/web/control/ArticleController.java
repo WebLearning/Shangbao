@@ -60,16 +60,16 @@ public class ArticleController {
 	 * @param article
 	 */
 	@RequestMapping(value = "/newArticle", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public long add(@RequestBody Article article) {
+	public Article add(@RequestBody Article article) {
 		article.setState(ArticleState.Temp);
 		String message = getLog("创建");
 		if(message != null){
 			article.getLogs().add(message);
 		}
 		long id = articleServiceImp.addGetId(article);
-		return id;
+		article.setId(id);
+		return article;
 	}
 
 	/**
@@ -78,9 +78,8 @@ public class ArticleController {
 	 * @param article
 	 */
 	@RequestMapping(value = "/newArticle/pend", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	public long addPending(@RequestBody Article article){
+	public Article addPending(@RequestBody Article article){
 		if(pendTagServiceImp.isTag("article")){
 			article.setState(ArticleState.Pending);
 			String message = getLog("新建并提交审核");
@@ -95,7 +94,8 @@ public class ArticleController {
 			}
 		}
 //		articleServiceImp.add(article);
-		return articleServiceImp.addGetId(article);
+		article.setId(articleServiceImp.addGetId(article));
+		return article;
 	}
 	
 	/**
