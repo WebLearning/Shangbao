@@ -98,7 +98,7 @@ public class AppController {
 	public String testDomain(HttpServletResponse response){
 		Cookie cookie = new Cookie("kuayu", "OK");
 		cookie.setPath("/");
-		cookie.setDomain("120.27.47.167");
+		//cookie.setDomain("120.27.47.167");
 		response.addCookie(cookie);
 		return "OK";
 	}
@@ -110,7 +110,7 @@ public class AppController {
 	@ResponseBody
 	public FrontPageModel getStartPage(@PathVariable("phoneType") String phoneType, HttpServletResponse response){
 		Cookie cookie = new Cookie("APP", "CDSB_APP");
-		cookie.setPath("/shangbao02/");
+		cookie.setPath("/");
 		response.addCookie(cookie);
 		return appService.getChannels(phoneType);
 	}
@@ -133,7 +133,7 @@ public class AppController {
 	@ResponseBody
 	public AppChannelModel getChannelContent(@PathVariable("channelName") String channelName, HttpServletResponse response){
 		Cookie cookie = new Cookie("APP", "CDSB_APP");
-		cookie.setPath("/shangbao02/");
+		cookie.setPath("/");
 		response.addCookie(cookie);
 		if(channelName.equals("kuaipai")){
 			return appService.getChannelModel("kuaipai", 1);

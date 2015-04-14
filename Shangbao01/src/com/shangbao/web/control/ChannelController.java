@@ -77,7 +77,7 @@ public class ChannelController {
 	@RequestMapping(value="/{fatherChannelName}/channels", method=RequestMethod.GET)
 	@ResponseBody
 	public List<Channel> getSonChannel(@PathVariable("fatherChannelName") String fatherChannelName){
-		System.out.println(fatherChannelName);
+//		System.out.println(fatherChannelName);
 		return channelServiceImp.findAllSonChannels(fatherChannelName);
 	}
 	
@@ -288,7 +288,7 @@ public class ChannelController {
 				fos.write(bytes); // 写入文件
 				fos.close();
 				returnString = path.toString().split("Shangbao01")[1] + File.separator + fileName;
-				System.out.println(returnString);
+//				System.out.println(returnString);
 				return localhostString + returnString.replaceAll("\\\\", "/");
 			}
 		} catch (IOException e1) {

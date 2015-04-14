@@ -425,7 +425,7 @@ public class PictureController {
 				//压缩 200 * 150
 				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathSim + File.separator + fileName), 200, 150, 0.8 ,true);
 				returnString = path.toString().split("Shangbao01")[1] + File.separator + "mid" + File.separator + fileName;
-				System.out.println(returnString);
+//				System.out.println(returnString);
 				return localhostString + returnString.replaceAll("\\\\", "/");
 			}
 		} catch (IOException e1) {

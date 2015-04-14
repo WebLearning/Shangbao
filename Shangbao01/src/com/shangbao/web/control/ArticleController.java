@@ -61,13 +61,15 @@ public class ArticleController {
 	 */
 	@RequestMapping(value = "/newArticle", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void add(@RequestBody Article article) {
+	@ResponseBody
+	public Long add(@RequestBody Article article) {
 		article.setState(ArticleState.Temp);
 		String message = getLog("创建");
 		if(message != null){
 			article.getLogs().add(message);
 		}
-		articleServiceImp.add(article);
+//		articleServiceImp.add(article);
+		return articleServiceImp.addGetId(article);
 	}
 
 	/**
@@ -77,7 +79,8 @@ public class ArticleController {
 	 */
 	@RequestMapping(value = "/newArticle/pend", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void addPending(@RequestBody Article article){
+	@ResponseBody
+	public Long addPending(@RequestBody Article article){
 		if(pendTagServiceImp.isTag("article")){
 			article.setState(ArticleState.Pending);
 			String message = getLog("新建并提交审核");
@@ -91,7 +94,8 @@ public class ArticleController {
 				article.getLogs().add(message);
 			}
 		}
-		articleServiceImp.add(article);
+//		articleServiceImp.add(article);
+		return articleServiceImp.addGetId(article);
 	}
 	
 	/**
@@ -449,7 +453,7 @@ public class ArticleController {
 				//压缩200 * 150
 				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + fileName), new File(filePathSim + File.separator + fileName), 200, 150, 0.8, true);
 				returnString = path.toString().split("Shangbao01")[1] + File.separator + "mid"  + File.separator + fileName;
-				System.out.println(returnString);
+//				System.out.println(returnString);
 				return localhostString + returnString.replaceAll("\\\\", "/");
 			}
 		} catch (IOException e1) {

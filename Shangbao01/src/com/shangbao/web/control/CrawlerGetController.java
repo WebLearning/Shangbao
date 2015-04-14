@@ -37,6 +37,7 @@ import com.shangbao.model.persistence.NewsCommend;
 import com.shangbao.model.show.SingleCommend;
 import com.shangbao.service.ArticleService;
 import com.shangbao.service.CommendService;
+import com.shangbao.service.ImageService;
 import com.shangbao.utils.CompressPicUtils;
 
 @Controller
@@ -48,6 +49,8 @@ public class CrawlerGetController {
 	private CommendService commendServiceImp;
 	@Resource
 	private CompressPicUtils compressPicUtils;
+	@Resource
+	private ImageService imageServiceImp;
 	
 	/**
 	 * 接收上传的一篇爬虫新闻 返回新闻的id
@@ -101,7 +104,7 @@ public class CrawlerGetController {
 	public String uploadPicture(@RequestParam(value = "file", required = true) MultipartFile file) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmm");
 		String returnPath = "";
-		System.out.println("upload done!");
+//		System.out.println("upload done!");
 		if (!file.isEmpty()) {
 			byte[] bytes;
 			String fileName = sdf.format(new Date()) + file.getSize();
@@ -134,7 +137,7 @@ public class CrawlerGetController {
 				//压缩 200 * 150
 				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileURLSim + File.separator + fileNameString), 200, 150, 0.8, true);
 				returnPath = returnPath + path.toString().split("Shangbao01")[1] + File.separator + "mid" + File.separator + fileNameString;
-				System.out.println(returnPath.replaceAll("\\\\", "/"));
+//				System.out.println(returnPath.replaceAll("\\\\", "/"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -188,9 +191,11 @@ public class CrawlerGetController {
 		article.setState(ArticleState.Crawler);
 		Commend commend = new Commend();
 		commend.setArticleId(id);
-		if(articleServiceImp.find(article) != null && !articleServiceImp.find(article).isEmpty()){
+		List<Article> deleteArticles = articleServiceImp.find(article);
+		if(deleteArticles != null && !deleteArticles.isEmpty()){
 			articleServiceImp.deleteOne(article);
 			commendServiceImp.delete(commend);
+			imageServiceImp.deleteImage(deleteArticles.get(0));
 			return id;
 		}
 		return null;
