@@ -290,24 +290,44 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
     $scope.publishPictureArticleInPending=function()
     {
         $scope.coverIt();
-        $scope.calculateWords();
         $scope.calculatePictures();
-        if($scope.articleData.channel.length==0){
-            alert("分类不能为空");
-            $scope.closeOver();
-        }else if($scope.articleData.channel.length!=0){
-            var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-            $http.put(url).success(function(){
-                alert("发布成功");
-                $scope.goPendingPicture();
+        var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl == null){
+            $scope.calculateWords();
+            if($scope.articleData.channel.length==0){
+                alert("分类不能为空");
                 $scope.closeOver();
-            });
+            }else if($scope.articleData.channel.length!=0){
+                $http.put(url).success(function(){
+                    alert("发布成功");
+                    $scope.goPendingPicture();
+                    $scope.closeOver();
+                });
+            }
+        }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
+            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if($scope.outSide){
+                if($scope.articleData.channel.length==0){
+                    alert("分类不能为空");
+                    $scope.closeOver();
+                }else if($scope.articleData.channel.length!=0){
+                    $scope.articleData.content="";
+                    $scope.calculateWords();
+                    $http.put(url).success(function(){
+                        alert("发布成功");
+                        $scope.goPendingPicture();
+                        $scope.closeOver();
+                    });
+                }
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
+            }
         }
     };
     $scope.publishPictureArticleInPendingTiming=function()
     {
         $scope.coverIt();
-        $scope.calculateWords();
         $scope.calculatePictures();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
@@ -321,16 +341,40 @@ angular.module("Dashboard").controller("pendingPictureViewCtrl",["$scope","$http
         console.log(time);
         var url=$scope.projectName+"/picture/Pending/"+($scope.pendingPictureData.currentNo).toString()+"/timingpublish/"+$scope.articleData.id+"/"+time;
         console.log(url);
-        if($scope.articleData.channel.length==0){
-            alert("分类不能为空");
-            $scope.closeOver();
-        }else if($scope.articleData.channel.length!=0){
-            $http.get(url).success(function(){
-                alert("定时成功");
-                $('#Select_TimePictureInPending').modal('toggle');
-                $scope.goPendingPicture();
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl == null){
+            $scope.calculateWords();
+            if($scope.articleData.channel.length==0){
+                alert("分类不能为空");
                 $scope.closeOver();
-            });
+            }else if($scope.articleData.channel.length!=0){
+                $http.get(url).success(function(){
+                    alert("定时成功");
+                    $('#Select_TimePictureInPending').modal('toggle');
+                    $scope.goPendingPicture();
+                    $scope.closeOver();
+                });
+            }
+        }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
+            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if($scope.outSide){
+                if($scope.articleData.channel.length==0){
+                    alert("分类不能为空");
+                    $scope.closeOver();
+                }else if($scope.articleData.channel.length!=0){
+                    $scope.articleData.content="";
+                    $scope.calculateWords();
+                    console.log(url);
+                    $http.get(url).success(function(){
+                        alert("定时成功");
+                        $('#Select_TimePictureInPending').modal('toggle');
+                        $scope.goPendingPicture();
+                        $scope.closeOver();
+                    });
+                }
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
+            }
         }
     };
     //关于上传图片的----------------------------------------------------------------------------------------------

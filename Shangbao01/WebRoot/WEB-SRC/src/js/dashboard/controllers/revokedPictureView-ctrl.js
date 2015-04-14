@@ -54,45 +54,66 @@ angular.module("Dashboard").controller("revokedPictureViewCtrl", ["$scope","$htt
     $scope.saveStateInRevokedPicture1="";
     $scope.savePictureArticle=function(){
         $scope.coverIt();
-        //console.log("test new save");
-        $scope.calculateWords();
         $scope.calculatePictures();
-//        var jsonString=JSON.stringify($scope.articleData);
-        //console.log($scope.articleData);
         var url1=$scope.projectName+'/picture/Revocation/1/'+$scope.articleData.id;
-        if($scope.articleData.channel.length==0){
-            alert("分类不能为空");
-            $scope.closeOver();
-        }else if($scope.articleData.channel.length!=0){
-            $scope.articleData.time=new Date();
-            var jsonString=JSON.stringify($scope.articleData);
-            $http.put(url1,jsonString).success(function(data) {
-                $scope.saveStateInRevokedPicture1=data;
-//                alert("保存文章成功");
-                if($scope.saveStateInRevokedPicture1=="true"){
-                    var url=$scope.projectName+"/picture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-                    //console.log(url);
-                    $http.put(url).success(function() {
-                        alert("转草稿箱成功");
-                        $scope.goRevokedPicture();
-                        $scope.closeOver();
+        var url=$scope.projectName+"/picture/Revocation/"+($scope.revokedPictureData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
+            $scope.calculateWords();
+            if($scope.articleData.channel.length==0){
+                alert("分类不能为空");
+                $scope.closeOver();
+            }else if($scope.articleData.channel.length!=0){
+                $scope.articleData.time=new Date();
+                var jsonString1=JSON.stringify($scope.articleData);
+                $http.put(url1,jsonString1).success(function(data) {
+                    $scope.saveStateInRevokedPicture1=data;
+                    if($scope.saveStateInRevokedPicture1=="true"){
+                        $http.put(url).success(function() {
+                            alert("转草稿箱成功");
+                            $scope.goRevokedPicture();
+                            $scope.closeOver();
+                        });
+                    }
+                });
+            }
+        }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
+            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if($scope.outSide){
+                if($scope.articleData.channel.length==0){
+                    alert("分类不能为空");
+                    $scope.closeOver();
+                }else if($scope.articleData.channel.length!=0){
+                    $scope.articleData.content="";
+                    $scope.articleData.time=new Date();
+                    $scope.calculateWords();
+                    var jsonString=JSON.stringify($scope.articleData);
+                    $http.put(url1,jsonString).success(function(data) {
+                        $scope.saveStateInRevoked1=data;
+                        if($scope.saveStateInRevoked1=="true"){
+                            $http.put(url).success(function() {
+                                alert("转草稿箱成功");
+                                $scope.goRevokedPicture();
+                                $scope.closeOver();
+                            });
+                        }
                     });
                 }
-            });
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
+            }
         }
 
     };
     $scope.deletePictureArticleInRevocation=function()
     {
         $scope.coverIt();
-//            if (confirm("确定删除选中的文章吗？")==true) {
                 var url = $scope.projectName + "/picture/Revocation/" + ($scope.revokedPictureData.currentNo).toString() + "/statechange/" + $scope.articleData.id;
                 $http.delete(url).success(function () {
                     alert("删除成功");
                     $scope.goRevokedPicture();
                     $scope.closeOver();
                 });
-//            }
     };
 
     //得到字数

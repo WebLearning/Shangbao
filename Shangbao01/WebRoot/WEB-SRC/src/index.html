@@ -119,6 +119,20 @@
             background:#878787;
             opacity: 0.6;
         }
+        #yulan_coverShow{
+            display: none;
+            position: fixed;
+            z-index: 3002;
+            top:30%;
+            left:50%;
+            border:1px solid #878787;
+            width:350px;
+            height:600px;
+            margin-left:-150px;
+            margin-top:-150px;
+            background:#ffffff;
+            /*opacity: 0.6;*/
+        }
     </style>
 </head>
 <body ng-controller="MasterCtrl">
@@ -142,6 +156,16 @@
                     <p>Loading...</p>
                 </div>
             </td>
+        </tr>
+    </table>
+</div>
+<div id="yulan_coverShow">
+    <table align="center" border="0" width="100%" cellspacing="0" cellpadding="0" style="border-collapse: collapse; height: 600px; min-height: 100px;" bgcolor="#ffffff">
+        <tr>
+            <iframe id="iframe_preview" src="" height="600px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
+        </tr>
+        <tr>
+            <button type="button" class="btn btn-default pull-right" ng-click="closePreview()">取消预览</button>
         </tr>
     </table>
 </div>
@@ -486,7 +510,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInGeneralAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInGeneralAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -599,14 +623,6 @@
                 </div>
             </div>
 			<div role="tabpanel" class="tab-pane" id="newArticle" ng-controller="articleCtrl">
-                <!--<div class="row">-->
-                    <!--<div class="col-md-2 col-md-offset-2">-->
-                        <!--<button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-2 col-md-offset-2">-->
-                        <!--<button type="button" class="btn btn-success" ng-click="testLog()"> test</button>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <form class="form-horizontal" role="form">
@@ -917,7 +933,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInCrAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInCrAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -1228,7 +1244,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInPeAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInPeAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -1444,20 +1460,15 @@
                     <div class="col-md-2 col-md-offset-1">
                         <button type="button" class="btn btn-info" ng-click="goPublished()"><span class="glyphicon glyphicon-chevron-left"></span> </button>
                     </div>
-                    <!--<div class="col-md-2 col-md-offset-2">-->
-                        <!--<button type="button" class="btn btn-success" ng-click="getEditorContent()"> get data</button>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-2 col-md-offset-2">-->
-                        <!--<button type="button" class="btn btn-info" ng-click="testLog()"> test</button>-->
-                    <!--</div>-->
                     <div class="col-md-2 col-md-offset-6">
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#yulan_publishedArticle" ng-click="setYulanInPublished(articleData.id,articleData.content)">预览</button>
+                        <!--<button type="button" class="btn btn-info" ng-click="setPreview(articleData.id,articleData.content)">预览</button>-->
                     </div>
                     <div class="modal fade" id="yulan_publishedArticle" tabindex="-1" role="dialog" aria-labelledby="myModalLable" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInPubAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInPubAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -1869,7 +1880,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInReAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInReAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -2161,7 +2172,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInDrAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInDrAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -2608,8 +2619,8 @@
                                             </table>
                                         </td>
                                         <!--<td>-->
-                                            <!--&lt;!&ndash;<a href="">修改</a>&ndash;&gt;-->
-                                            <!--&lt;!&ndash;/&ndash;&gt;-->
+                                            <!--<!--<a href="">修改</a>-->-->
+                                            <!--<!--/-->-->
                                             <!--<a href="" ng-click="deleteChannel(x.channelName,x.englishName,'Father')">删除</a>-->
                                             <!--/-->
                                             <!--<a href="" ng-click="upMove('top',x.state,x.channelIndex)">上移</a>-->
@@ -2874,14 +2885,6 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="newPicture" ng-controller="newPictureCtrl">
-                <!--<div class="row">-->
-                    <!--<div class="col-md-2 col-md-offset-2">-->
-                        <!--<button type="button" class="btn btn-success" ng-click="getEditorContent()">get data</button>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-2 col-md-offset-2">-->
-                        <!--<button type="button" class="btn btn-success" ng-click="testLog()">test</button>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <form class="form-horizontal" role="form">
@@ -2979,6 +2982,12 @@
                                     <div class="col-md-2">
                                         <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addIMG">添加图片</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="newArticleData.outSideUrl" >
                                 </div>
                             </div>
                             <div class="panel panel-success">
@@ -3211,7 +3220,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInCrawlerPicAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInCrawlerPicAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -3300,6 +3309,12 @@
                                     <div class="col-md-2">
                                         <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addIMG_crawler">添加图片</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" >
                                 </div>
                             </div>
                             <div class="panel panel-success">
@@ -3533,7 +3548,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInPendPicAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInPendPicAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -3632,6 +3647,12 @@
                                     <div class="col-md-2">
                                         <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myModal_addIMG_pending"disabled>添加图片</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" >
                                 </div>
                             </div>
                             <div class="panel panel-success">
@@ -3753,7 +3774,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInPubPicAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInPubPicAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -3842,6 +3863,12 @@
                                     <div class="col-md-2">
                                         <button class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addIMG_published">添加图片</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" >
                                 </div>
                             </div>
                             <div class="panel panel-success">
@@ -4150,7 +4177,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInRevPicAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInRevPicAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -4253,6 +4280,12 @@
                                     <div class="col-md-2">
                                         <button type="button" class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addIMG_revoked">添加图片</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" >
                                 </div>
                             </div>
                             <div class="panel panel-success">
@@ -4464,7 +4497,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    <iframe id="iframe_yulanInDraPicAr" src="" height="1000px" width="100%" style="margin-top: 15px"></iframe>
+                                    <iframe id="iframe_yulanInDraPicAr" src="" height="1000px" width="100%" style="margin-top: 15px" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -4567,6 +4600,12 @@
                                     <div class="col-md-2">
                                         <button type="button" class="btn btn-md btn-default" data-toggle="modal" data-target="#myPictureModal_addIMG_draft">添加图片</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">外链文章</label>
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="如果是外链文章，请输入外链文章URL" ng-model="articleData.outSideUrl" >
                                 </div>
                             </div>
                             <div class="panel panel-success">

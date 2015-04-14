@@ -65,8 +65,8 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
             }else if($scope.articleData.channel.length!=0){
                 $scope.articleData.time=new Date();
                 var jsonString1=JSON.stringify($scope.articleData);
-                $http.put(url,jsonString1).success(function(data) {
-                    $scope.goDraft();
+                $http.put(url,jsonString1).success(function() {
+//                    $scope.goDraft();
                     alert("保存文章成功");
                     $scope.closeOver();
                 });
@@ -82,8 +82,8 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
                     $scope.articleData.time=new Date();
                     $scope.calculateWords();
                     var jsonString=JSON.stringify($scope.articleData);
-                    $http.put(url,jsonString).success(function(data) {
-                        $scope.goDraft();
+                    $http.put(url,jsonString).success(function() {
+//                        $scope.goDraft();
                         alert("保存文章成功");
                         $scope.closeOver();
                     });
@@ -99,7 +99,6 @@ angular.module("Dashboard").controller("draftArticleCtrl", ["$scope","$http", fu
         $scope.coverIt();
         var url=$scope.projectName+"/article/Temp/"+($scope.tempData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
         $http.delete(url).success(function(){
-//            alert("删除成功");
             $scope.goDraft();
             alert("删除成功");
             $scope.closeOver();

@@ -28,67 +28,140 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
 
     $scope.saveArticle=function(){
         $scope.coverIt();
-        $scope.calculateWords();
-        $scope.calculatePictures();
-        if($scope.newArticleData.channel.length==0){
-            alert("分类不能为空");
-            $scope.closeOver();
-        }else if($scope.newArticleData.channel.length!=0){
-            $scope.newArticleData.time=new Date();
-            var jsonString=JSON.stringify($scope.newArticleData);
-            //console.log(jsonString);
-            $http.post($scope.projectName+'/picture/newPicture',jsonString).success(function(data) {
-//            alert("保存成功");
-                $scope.clearArticle();
-                alert("保存成功");
+        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "||$scope.newArticleData.outSideUrl==null){
+            $scope.calculateWords();
+            $scope.calculatePictures();
+            if($scope.newArticleData.channel.length==0){
+                alert("分类不能为空");
                 $scope.closeOver();
-            });
+            }else if($scope.newArticleData.channel.length!=0){
+                $scope.newArticleData.time=new Date();
+                var jsonString=JSON.stringify($scope.newArticleData);
+                //console.log(jsonString);
+                $http.post($scope.projectName+'/picture/newPicture',jsonString).success(function(data) {
+//            alert("保存成功");
+                    $scope.clearArticle();
+                    alert("保存成功");
+                    $scope.closeOver();
+                });
+            }
+        }else if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
+            $scope.outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.newArticleData.outSideUrl);
+            if($scope.outSide){
+                if($scope.newArticleData.channel.length==0){
+                    alert("分类不能为空！");
+                    $scope.closeOver();
+                }else if($scope.newArticleData.channel.length!=0){
+                    $scope.newArticleData.content="";
+                    $scope.newArticleData.time=new Date();
+                    $scope.calculateWords();
+                    var jsonString1=JSON.stringify($scope.newArticleData);
+                    $http.post($scope.projectName+'/picture/newPicture',jsonString1).success(function(data) {
+                        alert("保存文章成功");
+                        $scope.closeOver();
+                    });
+                    $scope.clearArticle();
+                }
+            }else if($scope.outSide==false){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
+            }
         }
+
     };
     $scope.pendArticleInNewPicture=function(){
         $scope.coverIt();
-        $scope.calculateWords();
+//        $scope.calculateWords();
         $scope.calculatePictures();
         var url=$scope.projectName+"/picture/newPicture/pend";
-        if($scope.newArticleData.channel.length==0){
-            alert("分类不能为空");
-            $scope.closeOver();
-        }else if($scope.newArticleData.channel.length!=0){
-            $scope.newArticleData.time=new Date();
-            var jsonString=JSON.stringify($scope.newArticleData);
-            console.log(jsonString);
-            $http.post(url,jsonString).success(function(){
-//            alert("提交成功！");
-                $scope.clearArticle();
-                alert("提交成功！");
+        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "||$scope.newArticleData.outSideUrl==null){
+            if($scope.newArticleData.channel.length==0){
+                alert("分类不能为空");
                 $scope.closeOver();
-            });
+            }else if($scope.newArticleData.channel.length!=0){
+                $scope.newArticleData.time=new Date();
+                var jsonString=JSON.stringify($scope.newArticleData);
+                console.log(jsonString);
+                $http.post(url,jsonString).success(function(){
+//            alert("提交成功！");
+                    $scope.clearArticle();
+                    alert("提交成功！");
+                    $scope.closeOver();
+                });
+            }
+        }else if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
+            $scope.outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.newArticleData.outSideUrl);
+            if($scope.outSide){
+                if($scope.newArticleData.channel.length==0){
+                    alert("分类不能为空");
+                    $scope.closeOver();
+                }else if($scope.newArticleData.channel.length!=0){
+                    $scope.newArticleData.content="";
+                    $scope.newArticleData.time=new Date();
+                    $scope.calculateWords();
+                    var jsonString1=JSON.stringify($scope.newArticleData);
+                    $http.post(url,jsonString1).success(function(){
+                        alert("提交审核成功！");
+                        $scope.clearArticle();
+                        $scope.closeOver();
+                    });
+                }
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
+            }
         }
+
     };
     $scope.publishedArticleInNewPicture=function(){
         $scope.coverIt();
-        $scope.calculateWords();
+//        $scope.calculateWords();
         $scope.calculatePictures();
         var url=$scope.projectName+"/picture/newPicture/pend";
-        if($scope.newArticleData.channel.length==0){
-            alert("分类不能为空");
-            $scope.closeOver();
-        }else if($scope.newArticleData.channel.length!=0){
-            $scope.newArticleData.time=new Date();
-            var jsonString=JSON.stringify($scope.newArticleData);
-            console.log(jsonString);
-            $http.post(url,jsonString).success(function(){
-//            alert("发布成功！");
-                $scope.clearArticle();
-                alert("发布成功！");
+        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "||$scope.newArticleData.outSideUrl==null){
+            if($scope.newArticleData.channel.length==0){
+                alert("分类不能为空");
                 $scope.closeOver();
-            });
+            }else if($scope.newArticleData.channel.length!=0){
+                $scope.newArticleData.time=new Date();
+                var jsonString=JSON.stringify($scope.newArticleData);
+                console.log(jsonString);
+                $http.post(url,jsonString).success(function(){
+//            alert("发布成功！");
+                    $scope.clearArticle();
+                    alert("发布成功！");
+                    $scope.closeOver();
+                });
+            }
+        }else if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
+            $scope.outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.newArticleData.outSideUrl);
+            if($scope.outSide){
+                if($scope.newArticleData.channel.length==0){
+                    alert("分类不能为空");
+                    $scope.closeOver();
+                }else if($scope.newArticleData.channel.length!=0){
+                    $scope.newArticleData.time=new Date();
+                    $scope.newArticleData.content="";
+                    $scope.calculateWords();
+                    var jsonString1=JSON.stringify($scope.newArticleData);
+                    console.log(jsonString1);
+                    $http.post(url,jsonString1).success(function(){
+                        alert("发送成功！");
+                        $scope.clearArticle();
+                        $scope.closeOver();
+                    });
+                }
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
+            }
         }
+
     };
     $scope.publishArticleInNewPictureTiming=function()
     {
         $scope.coverIt();
-        $scope.calculateWords();
+//        $scope.calculateWords();
         $scope.calculatePictures();
         var myDate=new Date();
         var myDateTime=myDate.getTime();
@@ -104,22 +177,45 @@ angular.module("Dashboard").controller("newPictureCtrl", ["$scope","$http", func
         console.log(time);
         var url=$scope.projectName+"/picture/newPicture/timingpublish/"+time;
         console.log(url);
-        if($scope.newArticleData.channel.length==0){
-            alert("分类不能为空");
-            $scope.closeOver();
-        }else if($scope.newArticleData.channel.length!=0){
-            $scope.newArticleData.time=new Date();
-            var jsonString=JSON.stringify($scope.newArticleData);
-            $http.post(url,jsonString).success(function(){
-//            alert("定时成功");
-                $('#Select_TimeInNewPicture').modal('toggle');
-                $scope.clearArticle();
-                alert("定时成功");
+        if($scope.newArticleData.outSideUrl==""||$scope.newArticleData.outSideUrl==" "||$scope.newArticleData.outSideUrl==null){
+            if($scope.newArticleData.channel.length==0){
+                alert("分类不能为空");
                 $scope.closeOver();
-            });
+            }else if($scope.newArticleData.channel.length!=0){
+                $scope.newArticleData.time=new Date();
+                var jsonString=JSON.stringify($scope.newArticleData);
+                $http.post(url,jsonString).success(function(){
+//            alert("定时成功");
+                    $('#Select_TimeInNewPicture').modal('toggle');
+                    $scope.clearArticle();
+                    alert("定时成功");
+                    $scope.closeOver();
+                });
+            }
+        }else if($scope.newArticleData.outSideUrl!=""||$scope.newArticleData.outSideUrl!=null||$scope.newArticleData.outSideUrl!=" "){
+            $scope.outSide=/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.newArticleData.outSideUrl);
+            if($scope.outSide){
+                if($scope.newArticleData.channel.length==0){
+                    alert("分类不能为空");
+                    $scope.closeOver();
+                }else if($scope.newArticleData.channel.length!=0){
+                    $scope.newArticleData.time=new Date();
+                    $scope.newArticleData.content="";
+                    $scope.calculateWords();
+                    var jsonString1=JSON.stringify($scope.newArticleData);
+                    console.log(url);
+                    $http.post(url,jsonString1).success(function(){
+                        alert("定时成功");
+                        $('#Select_TimeInNewPicture').modal('toggle');
+                        $scope.clearArticle();
+                        $scope.closeOver();
+                    });
+                }
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
+            }
         }
-//        var url=$scope.projectName+"/picture/newPicture/timingpublish/"+time;
-//        var jsonString=JSON.stringify($scope.newArticleData);
     };
 
 

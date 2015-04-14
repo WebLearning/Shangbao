@@ -105,21 +105,45 @@ angular.module("Dashboard").controller("publishedPictureViewCtrl",["$scope","$ht
     };
     $scope.saveArticleInPublished=function(){
         $scope.coverIt();
-        $scope.calculateWords();
         $scope.calculatePictures();
-        var jsonString=JSON.stringify($scope.articleData);
-        console.log($scope.articleData);
-        if($scope.articleData.channel.length==0){
-            alert("分类不能为空");
-            $scope.closeOver();
-        }else if($scope.articleData.channel.length!=0){
-            var url1=$scope.projectName+'/picture/Published/1/'+$scope.articleData.id;
-            $http.put(url1,jsonString).success(function(){
-                alert("保存成功");
-                $scope.goPublishedPicture();
+        var url1=$scope.projectName+'/picture/Published/1/'+$scope.articleData.id;
+        if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "|| $scope.articleData.outSideUrl == null){
+            console.log($scope.articleData);
+            if($scope.articleData.channel.length==0){
+                alert("分类不能为空");
                 $scope.closeOver();
-            });
+            }else if($scope.articleData.channel.length!=0){
+                $scope.calculateWords();
+                var jsonString1=JSON.stringify($scope.articleData);
+                $http.put(url1,jsonString1).success(function(){
+                    alert("保存成功");
+//                    $scope.goPublishedPicture();
+                    $scope.closeOver();
+                });
+            }
+        }else if($scope.articleData.outSideUrl != "" || $scope.articleData.outSideUrl != null || $scope.articleData.outSideUrl != " "){
+            $scope.outSide = /^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\"\"])*$/.test($scope.articleData.outSideUrl);
+            if($scope.outSide){
+                if($scope.articleData.channel.length==0){
+                    alert("分类不能为空");
+                    $scope.closeOver();
+                }else if($scope.articleData.channel.length!=0){
+                    $scope.articleData.content="";
+                    $scope.calculateWords();
+                    var jsonString=JSON.stringify($scope.articleData);
+                    console.log($scope.articleData);
+                    $http.put(url1,jsonString).success(function(){
+                        alert("保存成功");
+//                        $scope.goPublishedPicture();
+                        $scope.closeOver();
+                    });
+                }
+            }else if(!($scope.outSide)){
+                alert("外链文章Url格式不对");
+                $scope.closeOver();
+            }
         }
+
     };
 
     //得到字数

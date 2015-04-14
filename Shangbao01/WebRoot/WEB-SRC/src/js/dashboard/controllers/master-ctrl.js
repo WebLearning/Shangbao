@@ -2446,4 +2446,25 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
 //        alert("遮罩取消");
 //        console.log("cancle");
     };
+    $scope.setPreview=function(id,content){
+        var cover = document.getElementById("cover");
+        var covershow = document.getElementById("yulan_coverShow");
+        cover.style.display = 'block';
+        covershow.style.display = 'block';
+        if(content==""){
+            alert("内容为空，不可预览！");
+            var iFrameElem1 = document.getElementById('iframe_preview');
+            iFrameElem1.src="";
+//            $('#yulan_publishedArticle').modal('toggle');
+        }else{
+            var iFrameElem = document.getElementById('iframe_preview');
+            iFrameElem.src=$scope.projectName+"/app/ios/articledetail/"+id;
+        }
+    };
+    $scope.closePreview=function(){
+        var cover = document.getElementById("cover");
+        var covershow = document.getElementById("yulan_coverShow");
+        cover.style.display = 'none';
+        covershow.style.display = 'none';
+    };
 }]);

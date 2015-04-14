@@ -58,7 +58,6 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
         $scope.calculatePictures();
         var url1=$scope.projectName+'/article/Revocation/1/'+$scope.articleData.id;
         var url=$scope.projectName+"/article/Revocation/"+($scope.revokedData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
-
         if($scope.articleData.outSideUrl==""||$scope.articleData.outSideUrl==" "||$scope.articleData.outSideUrl==null){
             $scope.calculateWords();
             if($scope.articleData.channel.length==0){
@@ -69,7 +68,6 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                 var jsonString1=JSON.stringify($scope.articleData);
                 $http.put(url1,jsonString1).success(function(data) {
                     $scope.saveStateInRevoked1=data;
-//                    alert("保存文章成功");
                     if($scope.saveStateInRevoked1=="true"){
                         $http.put(url).success(function(data) {
                             alert("转草稿箱成功");
@@ -92,9 +90,8 @@ angular.module("Dashboard").controller("revokedArticleCtrl", ["$scope","$http", 
                     var jsonString=JSON.stringify($scope.articleData);
                     $http.put(url1,jsonString).success(function(data) {
                         $scope.saveStateInRevoked1=data;
-//                        alert("保存文章成功");
                         if($scope.saveStateInRevoked1=="true"){
-                            $http.put(url).success(function(data) {
+                            $http.put(url).success(function() {
                                 alert("转草稿箱成功");
                                 $scope.goRevoked();
                                 $scope.closeOver();

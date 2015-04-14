@@ -57,15 +57,12 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
     $scope.deleteArticleInCrawler=function()
     {
         $scope.coverIt();
-            if (confirm("确定删除选中的文章吗？")==true)
-            {
                 var url=$scope.projectName+"/article/Crawler/"+($scope.crawlerData.currentNo).toString()+"/statechange/"+$scope.articleData.id;
                 $http.delete(url).success(function(){
                     $scope.goCrawler();
                     alert("删除成功");
                     $scope.closeOver();
                 });
-            }
     };
     //保存在本状态-----------------------------------------------------------------------------------------------------
     $scope.saveArticleLocal=function(){
@@ -83,7 +80,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
                 console.log($scope.articleData);
                 $http.put(url1,jsonString).success(function(data){
                     if(data=="true"){
-                        $scope.goCrawler();
+//                        $scope.goCrawler();
                         alert("保存成功");
                         $scope.closeOver();
                     }
@@ -103,7 +100,7 @@ angular.module("Dashboard").controller("crawlerArticleCtrl", ["$scope","$http", 
                     console.log($scope.articleData);
                     $http.put(url1,jsonString1).success(function(data){
                         if(data=="true"){
-                            $scope.goCrawler();
+//                            $scope.goCrawler();
                             alert("保存成功");
                             $scope.closeOver();
                         }
