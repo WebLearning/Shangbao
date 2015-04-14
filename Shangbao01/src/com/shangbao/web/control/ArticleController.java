@@ -68,8 +68,9 @@ public class ArticleController {
 			article.getLogs().add(message);
 		}
 		long id = articleServiceImp.addGetId(article);
-		article.setId(id);
-		return article;
+		Article temp = new Article();
+		temp.setId(id);
+		return temp;
 	}
 
 	/**
@@ -94,7 +95,8 @@ public class ArticleController {
 			}
 		}
 //		articleServiceImp.add(article);
-		article.setId(articleServiceImp.addGetId(article));
+		Article temp = new Article();
+		temp.setId(articleServiceImp.addGetId(article));
 		return article;
 	}
 	
