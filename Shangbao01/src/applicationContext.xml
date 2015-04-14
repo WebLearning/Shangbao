@@ -42,6 +42,7 @@
 		<constructor-arg ref="rememberMeServices"></constructor-arg>
 	</bean>
 
+	<bean id="myUserDetailService" class="com.shangbao.web.service.MyUserDetailService"></bean>
 
 	<bean
 		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"
