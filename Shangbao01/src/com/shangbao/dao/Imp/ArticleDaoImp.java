@@ -580,7 +580,16 @@ public class ArticleDaoImp implements ArticleDao {
 		query.addCriteria(Criteria.where("state").is(state.toString()));
 		query.addCriteria(Criteria.where("tag").is(tag));
 		if (state.equals(ArticleState.Crawler) && !tag && words.matches("\\d+")) {
-			query.addCriteria(new Criteria().andOperator(Criteria.where("level").regex(Pattern.compile("\\d{" + words.length() + "}")), Criteria.where("level").gt(words)));
+			if(words.length() == 1){
+				query.addCriteria(new Criteria().orOperator(
+								new Criteria().andOperator(Criteria.where("level").regex(Pattern.compile("\\d{1}")),Criteria.where("level").gt(words)),
+								Criteria.where("level").is("100"),
+								Criteria.where("level").regex(Pattern.compile("\\d{2}"))));
+			}else if(words.length() == 2){
+				query.addCriteria(new Criteria().orOperator(new Criteria().andOperator(Criteria.where("level").regex(Pattern.compile("\\d{2}")), Criteria.where("level").gt(words)), Criteria.where("level").is("100")));
+			}else if(words.equals("100")){
+				query.addCriteria(Criteria.where("level").is("100"));
+			}
 		} else {
 			query.addCriteria(Criteria.where("title").regex(words));
 			query.addCriteria(Criteria.where("content").regex(words));
@@ -597,7 +606,16 @@ public class ArticleDaoImp implements ArticleDao {
 		query.addCriteria(Criteria.where("state").is(state.toString()));
 		query.addCriteria(Criteria.where("tag").is(tag));
 		if (state.equals(ArticleState.Crawler) && !tag && words.matches("\\d+")) {
-			query.addCriteria(new Criteria().andOperator(Criteria.where("level").regex(Pattern.compile("\\d{" + words.length() + "}")), Criteria.where("level").gt(words)));
+			if(words.length() == 1){
+				query.addCriteria(new Criteria().orOperator(
+								new Criteria().andOperator(Criteria.where("level").regex(Pattern.compile("\\d{1}")),Criteria.where("level").gt(words)),
+								Criteria.where("level").is("100"),
+								Criteria.where("level").regex(Pattern.compile("\\d{2}"))));
+			}else if(words.length() == 2){
+				query.addCriteria(new Criteria().orOperator(new Criteria().andOperator(Criteria.where("level").regex(Pattern.compile("\\d{2}")), Criteria.where("level").gt(words)), Criteria.where("level").is("100")));
+			}else if(words.equals("100")){
+				query.addCriteria(Criteria.where("level").is("100"));
+			}
 		} else {
 			query.addCriteria(new Criteria().orOperator(
 					Criteria.where("content").regex(words),
@@ -642,17 +660,16 @@ public class ArticleDaoImp implements ArticleDao {
 		query.addCriteria(Criteria.where("state").is(state.toString()));
 		query.addCriteria(Criteria.where("tag").is(tag));
 		if (state.equals(ArticleState.Crawler) && !tag && words.matches("\\d+")) {
-//			query.addCriteria(new Criteria().andOperator(Criteria.where("level").regex(Pattern.compile("\\d{" + words.length() + "}")), Criteria.where("level").gt(words)));
-//			query.addCriteria(Criteria.where("level").gt(words.length() == 1 ? "0" + words : words));
 			if(words.length() == 1){
-//				query.addCriteria(Criteria.where("level").gt)
+				query.addCriteria(new Criteria().orOperator(
+								new Criteria().andOperator(Criteria.where("level").regex(Pattern.compile("\\d{1}")),Criteria.where("level").gt(words)),
+								Criteria.where("level").is("100"),
+								Criteria.where("level").regex(Pattern.compile("\\d{2}"))));
 			}else if(words.length() == 2){
-				query.addCriteria(Criteria.where("level").gt(words));
-				query.addCriteria(Criteria.where("level").regex(Pattern.compile("\\d{2}")));
+				query.addCriteria(new Criteria().orOperator(new Criteria().andOperator(Criteria.where("level").regex(Pattern.compile("\\d{2}")), Criteria.where("level").gt(words)), Criteria.where("level").is("100")));
 			}else if(words.equals("100")){
 				query.addCriteria(Criteria.where("level").is("100"));
 			}
-			System.out.println(query.getQueryObject());
 		} else {
 			query.addCriteria(new Criteria().orOperator(
 					Criteria.where("content").regex(words),
