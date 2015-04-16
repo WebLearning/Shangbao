@@ -487,7 +487,6 @@ public class AppService {
 			html.append("</div><div style=\"margin-top:10px; border-top:1px solid #d8d8d8; height:1px; background-color:#fff;\"></div> <div id=\"singlentry\" class=\"full-justified\">");
 			html.append(addHerf(article.getContent()));
 			html.append("<p>&nbsp;</p> " + duxq + "</div></div></div> <div id=\"footer\"><p>成都商报</p></div></body></html>");
-//			html = "<html><head><title>MyHtml.html</title><meta charset=\"utf-8\"><script src=\"" + "http://202.115.17.218:8080/Shangbao01" + "/WEB-SRC/src/js/angular.min.js\"></script><script src=\"" + "http://202.115.17.218:8080/Shangbao01" + "/WEB-SRC/click.js\"></script></head><body><div ng-app=\"readAndZan\" ng-controller=\"readAndZanCtrl\"><div data-ng-init=\"load()\"></div><div class=\"single-post-meta-top\">阅读{{clickNum}} &nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"zanAdd(zanNum,pictureUrl)\"><img alt=\"\" src={{pictureUrl}}>{{zanNum}}</a></div></div></body></html>";
 			return html.toString();
 		}else{
 			//是外联文章
