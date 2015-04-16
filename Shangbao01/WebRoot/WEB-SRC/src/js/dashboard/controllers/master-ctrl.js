@@ -51,7 +51,8 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     };
 
     $scope.newArticleData={
-        activity:null ,
+//        activity:null ,
+        activity:"",
         author: "",
         channel: [],
         channelIndex: null,
@@ -59,20 +60,26 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
         content: "",
         crawlerCommends: null,
         crawlerCommendsPublish: null,
+        crawlerCommendsUnpublish:null,
         from: "",
+        id: null,
         keyWord: [],
         level: null,
         likes: null,
         newsCommends: null,
         newsCommendsPublish: null,
+        newsCommendsUnpublish:null,
         picturesUrl: [],
+        logs:[],
         subTitle: "",
         summary: "",
+        state:null,
         tag: null,
         time: "",
         title: "",
         outSideUrl:"",
         titlePicUrl: null,
+        js_clicks:null,
         words: null,
         pictures:null
     };
@@ -226,11 +233,11 @@ angular.module("Dashboard", ["ng.ueditor","tm.pagination"]).controller("MasterCt
     }
     function clearNewArticleData(){
         for(p in $scope.newArticleData){
-            if(p=="keyWord"||p=="channel"||p=="picturesUrl"){
+            if(p=="keyWord"||p=="channel"||p=="picturesUrl"||p=="logs"){
                 $scope.newArticleData[p]=[];
             }else if(p=="words"){
                 $scope.newArticleData[p]=0;
-            }else if(p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"||p=="outSideUrl"){
+            }else if(p=="activity"||p=="author"||p=="title"||p=="content"||p=="from"||p=="subTitle"||p=="summary"||p=="time"||p=="outSideUrl"){
                 $scope.newArticleData[p]="";
             }else{
                 $scope.newArticleData[p]=null;
