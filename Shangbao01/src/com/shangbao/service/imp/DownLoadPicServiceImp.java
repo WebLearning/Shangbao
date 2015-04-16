@@ -72,7 +72,7 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 		if(!props.getProperty("localhost").isEmpty()){
 			localHost = props.getProperty("localhost");
 		}else{
-			localHost = "http://localhost:8080/Shangbao01";
+			localHost = "http://localhost:8080/cdsb";
 		}
 	}
 	
@@ -254,11 +254,11 @@ public class DownLoadPicServiceImp implements DownLoadPicService {
 					new FileOutputStream(localPicDir + File.separator + dateString + File.separator +
 							singlePicUrl.substring(singlePicUrl.lastIndexOf("/")))) {	
 				fos.write(bytes); 
-				returnUrl = localPicDir.split("Shangbao01")[1] + File.separator + dateString
+				returnUrl = localPicDir.split("cdsb")[1] + File.separator + dateString
 						 + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"));
-				returnMid = localPicDir.split("Shangbao01")[1] + File.separator + dateString + File.separator + "mid"
+				returnMid = localPicDir.split("cdsb")[1] + File.separator + dateString + File.separator + "mid"
 						 + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"));
-				returnSim = localPicDir.split("Shangbao01")[1] + File.separator + dateString + File.separator + "sim"
+				returnSim = localPicDir.split("cdsb")[1] + File.separator + dateString + File.separator + "sim"
 						 + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"));
 //				compressPicUtils.compressPic(new File(path.toFile().getAbsolutePath() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))), 
 //											 new File(pathSim.toFile().getAbsoluteFile() + File.separator + singlePicUrl.substring(singlePicUrl.lastIndexOf("/"))),

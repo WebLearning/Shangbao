@@ -352,7 +352,7 @@ public class AppUserController {
 				compressPicUtils.compressByThumbnailator(new File(filePath + File.separator + "avatar" + fileType),
 														 new File(simFilePath + File.separator + "avatar" + fileType),
 														 160, 160, 0.9, true);
-				returnUrl = (localhostString + simFilePath.split("Shangbao01")[1] + File.separator + "avatar" + fileType).replaceAll("\\\\", "/");
+				returnUrl = (localhostString + simFilePath.split("cdsb")[1] + File.separator + "avatar" + fileType).replaceAll("\\\\", "/");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

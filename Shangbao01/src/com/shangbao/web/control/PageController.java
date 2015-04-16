@@ -9,5 +9,10 @@ public class PageController {
 	@RequestMapping(value="/houtai")
 	public String MainPage(){
 		return "login";
-	}	
+	}
+	
+	@RequestMapping(value="/")
+	public String defaultPage(){
+		return "login";
+	}
 }

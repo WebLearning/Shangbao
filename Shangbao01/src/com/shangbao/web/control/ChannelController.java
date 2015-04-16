@@ -287,7 +287,7 @@ public class ChannelController {
 				FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName);
 				fos.write(bytes); // 写入文件
 				fos.close();
-				returnString = path.toString().split("Shangbao01")[1] + File.separator + fileName;
+				returnString = path.toString().split("cdsb")[1] + File.separator + fileName;
 //				System.out.println(returnString);
 				return localhostString + returnString.replaceAll("\\\\", "/");
 			}

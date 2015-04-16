@@ -136,7 +136,7 @@ public class CrawlerGetController {
 				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileURLMid + File.separator + fileNameString), 800, 0, 0.5, true);
 				//压缩 200 * 150
 				compressPicUtils.compressByThumbnailator(new File(fileURL + File.separator + fileNameString), new File(fileURLSim + File.separator + fileNameString), 200, 150, 0.8, true);
-				returnPath = returnPath + path.toString().split("Shangbao01")[1] + File.separator + "mid" + File.separator + fileNameString;
+				returnPath = returnPath + path.toString().split("cdsb")[1] + File.separator + "mid" + File.separator + fileNameString;
 //				System.out.println(returnPath.replaceAll("\\\\", "/"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
