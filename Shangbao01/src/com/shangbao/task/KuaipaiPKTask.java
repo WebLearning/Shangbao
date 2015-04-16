@@ -42,7 +42,7 @@ public class KuaipaiPKTask {
 	@Resource
 	private CompressPicUtils compressPicUtils;
 	
-	private String pkChannelName = "快拍PK";
+	private String pkChannelName = "PK台";
 	
 	public void findTopArticle(){
 		Long newTopArticleId = null;
@@ -65,7 +65,7 @@ public class KuaipaiPKTask {
 		Date oldDate = calendar.getTime();
 		Query query = new Query();
 		query.addCriteria(Criteria.where("tag").is(true));
-		query.addCriteria(Criteria.where("channel").is("快拍PK"));
+		query.addCriteria(Criteria.where("channel").is(pkChannelName));
 		query.addCriteria(Criteria.where("from").is("商报网友"));
 		query.addCriteria(Criteria.where("state").is(ArticleState.Published));
 		query.addCriteria(Criteria.where("time").gt(oldDate));
@@ -77,7 +77,7 @@ public class KuaipaiPKTask {
 		
 		Article criteriaArticle = new Article();
 		criteriaArticle.setTag(true);
-		criteriaArticle.addChannel("快拍pk");
+		criteriaArticle.addChannel(pkChannelName);
 		criteriaArticle.setState(ArticleState.Published);
 		List<Article> publishedArticles = articleDaoImp.find(criteriaArticle);
 		for(Article article : publishedArticles){

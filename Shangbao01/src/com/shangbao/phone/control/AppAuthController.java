@@ -94,10 +94,11 @@ public class AppAuthController {
 		}else{
 			User criteriaUser = new User();
 			criteriaUser.setPhone(user.getPhone());
-			if(userServiceImp.findOne(criteriaUser) == null){
+			int tag = userIdentifyService.remoteUserExist(user);
+			if(userServiceImp.findOne(criteriaUser) == null || tag == 1){
 				User criteriaUser2 = new User();
 				criteriaUser2.setName(user.getName());
-				if(userServiceImp.findOne(criteriaUser2) == null){
+				if(userServiceImp.findOne(criteriaUser2) == null || tag == 2){
 					if(userIdentifyService.addUser(user)){
 						appResponseModel.setResultCode(1);
 						appResponseModel.setResultMsg("注册成功");
@@ -144,10 +145,11 @@ public class AppAuthController {
 			}else{
 				User criteriaUser = new User();
 				criteriaUser.setPhone(user.getPhone());
-				if(userServiceImp.findOne(criteriaUser) == null){
+				int tag = userIdentifyService.remoteUserExist(user);
+				if(userServiceImp.findOne(criteriaUser) == null || tag == 1){
 					User criteriaUser2 = new User();
 					criteriaUser2.setName(user.getName());
-					if(userServiceImp.findOne(criteriaUser2) == null){
+					if(userServiceImp.findOne(criteriaUser2) == null || tag == 2){
 						if(userIdentifyService.addUser(user)){
 							appResponseModel.setResultCode(1);
 							appResponseModel.setResultMsg("注册成功");
@@ -221,7 +223,7 @@ public class AppAuthController {
 	}
 	
 	/**
-	 * 找回密码时发送手机验证码
+	 * 重置密码时发送手机验证码
 	 * @param phoneNum
 	 * @param request
 	 * @return
@@ -255,18 +257,31 @@ public class AppAuthController {
 		AppResponseModel appResponseModel = new AppResponseModel();
 		String phoneText = (String)request.getSession().getAttribute("PHONE_TEXT");
 		String phoneNum = (String)request.getSession().getAttribute("PHONE_NUM");
+//		String phoneText = "123321";
+//		String phoneNum = "13699491752";
 		if(phoneNum != null && passwdModel.getOldPasswd() != null && passwdModel.getNewPasswd() != null){
 			if(phoneText.equals(passwdModel.getOldPasswd())){
 				//设置新的密码
 				User criteriaUser = new User();
 				criteriaUser.setPhone(phoneNum);
 				User user = userServiceImp.findOne(criteriaUser);
-				if(user == null){
+				int tag = userIdentifyService.remoteUserExist(criteriaUser);
+				if(user == null && tag != 0){
 					appResponseModel.setResultCode(0);
 					appResponseModel.setResultMsg("用户不存在");
 					request.getSession().removeAttribute("PHONE_TEXT");
 					request.getSession().removeAttribute("PHONE_NUM");
 					return appResponseModel;
+				}else if(user == null && tag == 0){
+					//表示本地数据库中没有，但是商报的数据库中有
+					User userWithoutPw = userIdentifyService.getRemoteUserWithoutPW(phoneNum);
+					userWithoutPw.setPasswd(passwdModel.getNewPasswd());
+					if(userIdentifyService.updateUser(userWithoutPw)){
+						userWithoutPw.setPasswd(passwordEncoder.encodePassword(passwdModel.getNewPasswd(), null));
+						userServiceImp.addUser(userWithoutPw);
+						appResponseModel.setResultCode(1);
+						appResponseModel.setResultMsg("成功");
+					}
 				}else{
 					user.setPasswd(passwdModel.getNewPasswd());
 					if(userIdentifyService.updateUser(user)){

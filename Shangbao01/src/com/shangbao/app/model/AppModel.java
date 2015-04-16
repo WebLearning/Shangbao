@@ -692,7 +692,7 @@ public class AppModel {
 	
 	public void postPictures(Article pictureArticle){
 		pictureArticle.setTag(true);
-		pictureArticle.addChannel("快拍PK");
+		pictureArticle.addChannel("PK台");
 		StringBuilder content = new StringBuilder();
 		if(!pictureArticle.getPicturesUrl().isEmpty()){
 			for(String url : pictureArticle.getPicturesUrl()){

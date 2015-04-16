@@ -376,33 +376,10 @@ public class ArticleDaoImp implements ArticleDao {
 						}
 						update.set("channelIndex." + channel, index);
 					}
-					// if(articleList == null || articleList.isEmpty()){
-					// //这篇文章是该栏目第一个文章
-					// update.set("channelIndex." + channel, 1);
-					// }else
-					// if(!articleList.get(0).getChannelIndex().get(channel).equals(Integer.MAX_VALUE)){
-					// //该栏目已经有文章,但无置顶文章
-					// int index = 1;
-					// if(articleList.get(0).getChannelIndex().get(channel) !=
-					// null){
-					// index = articleList.get(0).getChannelIndex().get(channel)
-					// + 1;
-					// }
-					// update.set("channelIndex." + channel, index);
-					// }else{
-					// //有置顶文章
-					// if(articleList.get(1) == null){
-					// update.set("channelIndex." + channel, 1);
-					// }else{
-					// update.set("channelIndex." + channel,
-					// articleList.get(1).getChannelIndex().get(channel) + 1);
-					// }
-					// }
 				}
 			}
 		}
-		// System.out.println(query.getQueryObject());
-		// System.out.println(update.getUpdateObject());
+		
 		WriteResult result = mongoTemplate.updateFirst(query, update,
 				Article.class);
 	}

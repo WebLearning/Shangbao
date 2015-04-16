@@ -33,7 +33,7 @@ public class KuaipaiDSTask {
 	@Resource
 	private ArticleDao articleDaoImp;
 	
-	private String channelName = "快拍大师";
+	private String channelName = "大师拍";
 	
 	public void method(){
 		Channel criteriaChannel = new Channel();
@@ -52,7 +52,7 @@ public class KuaipaiDSTask {
 		//查找当日上传的快拍pk的图片
 		Query query = new Query();
 		query.addCriteria(Criteria.where("tag").is(true));
-		query.addCriteria(Criteria.where("channel").is("快拍PK"));
+		query.addCriteria(Criteria.where("channel").is("PK台"));
 		query.addCriteria(Criteria.where("from").is("商报网友"));
 		query.addCriteria(Criteria.where("state").is(ArticleState.Published));
 		query.addCriteria(Criteria.where("time").gt(oldDate));

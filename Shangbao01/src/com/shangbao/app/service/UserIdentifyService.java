@@ -252,6 +252,61 @@ public class UserIdentifyService {
 		return null;
 	}
 	
+	public int remoteUserExist(User user){
+		int tag = 0;
+		if(user.getPhone() != null && user.getPhone() != ""){
+			String result = restTemplate.getForObject(remoteUrl + "isExists/" + user.getPhone() + "/" + 1, String.class);
+			if(result.length() < 56){
+				tag = 1;
+			}
+		}
+		if(user.getName() != null && user.getName() != ""){
+			String result = restTemplate.getForObject(remoteUrl + "isExists/" + user.getName() + "/" + 2, String.class);
+			if(result.length() < 56){
+				tag = 2;
+			}
+		}
+		return tag;
+	}
+	
+	public User getRemoteUserWithoutPW(String phoneNum){
+		String result = restTemplate.getForObject(remoteUrl + "isExists/" + phoneNum + "/1", String.class);
+		if(result.startsWith("{\"ResultCode\":1,\"ResultMsg\":\"userExist fail\"")){
+			return null;
+		}
+		ObjectMapper mapper = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.enableDefaultTyping();
+		ResponseModel model;
+		try {
+			model = mapper.readValue(result, ResponseModel.class);
+			if(model.getResultMsg().equals("userExist fail")){
+				return null;
+			}else{
+				UserInfo userInfo = model.getData();
+				return userInfo.toUser();
+			}
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public boolean deleteRemoteUser(Long uid){
+		String result = restTemplate.getForObject(remoteUrl + "deleteUser/" + uid.toString(), String.class);
+		if(result.startsWith("{\"ResultCode\":0,")){
+			return true;
+		}
+		return false;
+	}
+	
 	public String identifyUserPhone(String userPhone){
 		int code = (int)((Math.random()*9 + 1) * 100000);
 		String content = code + " 请不要把验证码泄露给其他人，如非本人操作，可不用理会！ 【成都商报】";

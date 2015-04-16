@@ -106,8 +106,10 @@ public class UserServiceImp implements UserService {
 			String newPasswd) {
 		User user = userDaoImp.findById(criteriaUser.getId());
 		if(user != null && user.getPasswd().equals(oldPasswd)){
-			user.setPasswd(newPasswd);
-			userDaoImp.save(user);
+			Update update = new Update();
+			update.set("passwd", newPasswd);
+//			userDaoImp.save(user);
+			userDaoImp.findAndModify(user, update);
 			return true;
 		}
 		return false;

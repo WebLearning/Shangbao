@@ -1,5 +1,9 @@
 package com.shangbao.remotemodel;
 
+import java.util.Date;
+
+import com.shangbao.model.persistence.User;
+
 public class UserInfo {
 	private String uid;
 	private String phone;
@@ -78,5 +82,32 @@ public class UserInfo {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-
+	public User toUser(){
+		User user = new User();
+		if(avatar != null){
+			user.setAvatar(avatar);
+		}
+		if(birthday != null && birthday != ""){
+			user.setBirthday(new Date(Long.parseLong(birthday) * 1000));
+		}
+		if(uid != null){
+			user.setUid(Long.parseLong(uid));
+		}
+		if(phone != null){
+			user.setPhone(phone);
+		}
+		if(email != null){
+			user.setEmail(email);
+		}
+		if(sex != null){
+			user.setSex(Integer.parseInt(sex));
+		}
+		if(qq != null && qq != ""){
+			user.setQq(qq);
+		}
+		if(nickname != null){
+			user.setName(nickname);
+		}
+		return user;
+	}
 }

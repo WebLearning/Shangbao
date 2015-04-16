@@ -37,7 +37,21 @@ public class AppService {
 	private ArticleDao articleDaoImp;
 	
 	private final String appUrlPrefix = "/{phoneType}/";
+	private String localhost;
 	
+	public AppService(){
+		localhost = "http://www.cdsb.mobi/";
+		Properties props;
+		try {
+			props = PropertiesLoaderUtils.loadAllProperties("config.properties");
+			if(!props.getProperty("localhost").isEmpty()){
+				localhost = props.getProperty("localhost");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * 获取app顶级栏目信息
@@ -85,7 +99,7 @@ public class AppService {
 					return appChannelModel;
 				}
 				for(Channel sonChannel : sonChannels){
-					if(sonChannel.getChannelName().equals("爬虫滚动") || sonChannel.getChannelName().equals("本地滚动")){
+					if(sonChannel.getChannelName().equals("爬虫滚动") || sonChannel.getChannelName().equals("成都滚动")){
 						List<Article> articles = appModel.getAppMap().get(sonChannel.getChannelName());
 						if(articles != null){
 							if(20 >= articles.size()){
@@ -299,6 +313,9 @@ public class AppService {
 					int i = 1;
 					for(Article article : articles){
 						String articleTitle = article.getTitle();
+						if(article.getChannelIndex().isEmpty() || !article.getChannelIndex().containsKey(channelChName)){
+							continue;
+						}
 						backChannelModel.addTitle(articleTitle, article.getId(), i, article.getChannelIndex().get(channelChName) > (Integer.MAX_VALUE/2));
 						i ++;
 						if(i >= 30)
@@ -494,6 +511,9 @@ public class AppService {
 		while(matcher.find()){
 			StringBuilder img = new StringBuilder(matcher.group());
 			StringBuilder src = new StringBuilder(matcher.group(1));
+			if(!src.toString().contains(localhost)){
+				continue;
+			}
 			StringBuilder replaceString = new StringBuilder("<a href=" + src + ">" + img + "</a>");
 			content = content.replace(img, replaceString);
 		}
