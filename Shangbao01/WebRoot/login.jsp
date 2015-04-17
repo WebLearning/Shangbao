@@ -13,16 +13,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     </script>
     <title>Log In</title>
-	<link href="/Shangbao01/WEB-SRC/src/css/bootstrap.css" rel="stylesheet">
-    <link href="/Shangbao01/WEB-SRC/src/css/signin.css" rel="stylesheet">
+	<link href="/cdsb/WEB-SRC/src/css/bootstrap.css" rel="stylesheet">
+    <link href="/cdsb/WEB-SRC/src/css/signin.css" rel="stylesheet">
            
-    <script src="/Shangbao01/WEB-SRC/src/js/jquery-1.11.0.js"></script>
-    <script src="/Shangbao01/WEB-SRC/src/js/bootstrap.js"></script>
+    <script src="/cdsb/WEB-SRC/src/js/jquery-1.11.0.js"></script>
+    <script src="/cdsb/WEB-SRC/src/js/bootstrap.js"></script>
 
   </head>
   
   <body>
-    <!-- <form action="/Shangbao01/j_spring_security_check" method="post">
+    <!-- <form action="/cdsb/j_spring_security_check" method="post">
     	用户：<input type="text" name="j_username"/><br/>
     	密码：<input type="password" name="j_password"/><br/>
     	<input type="submit" value="登录"/>
@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div class="container">
 
-      <form class="form-signin" action="/Shangbao01/j_spring_security_check" method="post" role="form">
+      <form class="form-signin" action="/cdsb/j_spring_security_check" method="post" role="form">
         <h2 class="form-signin-heading">Please sign in</h2>
         <input name="j_username" type="text" class="form-control" placeholder="User name" required autofocus>
         <input name="j_password" type="password" class="form-control" placeholder="Password" required>
@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </form>
       <%--<div  style="margin-left:37%;width:300px" >      	--%>
       	<%--<button class="btn btn-lg btn-success btn-block" data-toggle="modal" data-target="#myModalRegisterUser" disabled="disabled">Register</button>--%>
-        <%--&lt;%&ndash;<a href="../Shangbao01/WEB-SRC/src/register.html" type="button" class="btn btn-lg btn-success btn-block" target="_blank">Register</a>&ndash;%&gt;--%>
+        <%--&lt;%&ndash;<a href="../cdsb/WEB-SRC/src/register.html" type="button" class="btn btn-lg btn-success btn-block" target="_blank">Register</a>&ndash;%&gt;--%>
       <%--</div>--%>
 
     </div> <!-- /container -->
